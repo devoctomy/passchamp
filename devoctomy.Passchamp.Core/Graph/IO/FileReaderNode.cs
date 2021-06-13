@@ -30,7 +30,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            Output["Bytes"].Value = await System.IO.File.ReadAllBytesAsync(
+            Bytes.Value = await System.IO.File.ReadAllBytesAsync(
                 FileName.Value as string,
                 cancellationToken);
 
