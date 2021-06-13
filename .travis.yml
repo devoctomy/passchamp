@@ -5,6 +5,7 @@ mono: none
 script:
 - choco install dotnet-5.0-sdk
 - choco install codecov
+- dotnet restore
 - dotnet build -c Release
 - dotnet test --filter "FullyQualifiedName~UnitTests" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../coverage" -p:MergeWith="../coverage.json" -c Release --no-build devoctomy.Passchamp.sln
 - codecov -f "coverage.opencover.xml" -t 4f55f528-7e57-4619-b864-e10d93cc7226
