@@ -3,7 +3,7 @@ language: csharp
 mono: none
 
 script:
-- choco install dotnetcore-sdk
+- choco install dotnet-5.0-sdk
 - choco install codecov
 - dotnet build -c Release
 - dotnet test --filter "FullyQualifiedName~UnitTests" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../coverage" -p:MergeWith="../coverage.json" -c Release --no-build devoctomy.Passchamp.sln
