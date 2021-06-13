@@ -8,7 +8,7 @@ namespace devoctomy.Passchamp.Core.Graph
     {
         private string _startKey = string.Empty;
 
-        public Dictionary<string, NodeBase> Nodes { get; }
+        public Dictionary<string, INode> Nodes { get; }
         public string StartKey
         { 
             get
@@ -27,21 +27,21 @@ namespace devoctomy.Passchamp.Core.Graph
         }
 
         public Graph(
-            Dictionary<string, NodeBase> nodes,
+            Dictionary<string, INode> nodes,
             string startKey)
         {
             Nodes = nodes;
             StartKey = startKey;
         }
 
-        public T GetNode<T>(string key) where T : NodeBase
+        public T GetNode<T>(string key) where T : INode
         {
-            return Nodes.ContainsKey(key) ? (T)Nodes[key] : null;
+            return Nodes.ContainsKey(key) ? (T)Nodes[key] : default(T);
         }
 
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            await GetNode<NodeBase>(StartKey).Execute(
+            await GetNode<INode>(StartKey).Execute(
                 this,
                 cancellationToken);
         }

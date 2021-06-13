@@ -32,7 +32,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         public override async Task Execute(
-            Graph graph,
+            IGraph graph,
             CancellationToken cancellationToken)
         {
             using var rng = RandomNumberGenerator.Create();

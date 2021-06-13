@@ -31,7 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph.Console
         }
 
         public override async Task Execute(
-            Graph graph,
+            IGraph graph,
             CancellationToken cancellationToken)
         {
             System.Console.WriteLine(Prompt.Value as string);

@@ -1,6 +1,6 @@
 namespace devoctomy.Passchamp.Core.Graph
 {
-    public class DataPin
+    public class DataPin : IDataPin
     {
         public object Value { get; set; }
 

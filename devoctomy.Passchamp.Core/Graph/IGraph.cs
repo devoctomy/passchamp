@@ -9,9 +9,9 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public interface IGraph
     {
-        Dictionary<string, NodeBase> Nodes { get; }
+        Dictionary<string, INode> Nodes { get; }
         string StartKey { get; }
-        T GetNode<T>(string key) where T : NodeBase;
+        T GetNode<T>(string key) where T : INode;
         Task ExecuteAsync(CancellationToken cancellationToken);
     }
 }

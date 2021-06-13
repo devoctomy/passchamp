@@ -31,7 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph.Text
         }
 
         public override async Task Execute(
-            Graph graph,
+            IGraph graph,
             CancellationToken cancellationToken)
         {
             EncodedBytes.Value = System.Text.Encoding.UTF8.GetBytes(PlainText.Value as string);

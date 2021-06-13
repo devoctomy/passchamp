@@ -55,7 +55,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         public override async Task Execute(
-            Graph graph,
+            IGraph graph,
             CancellationToken cancellationToken)
         {
             using var crypto = new System.Security.Cryptography.Rfc2898DeriveBytes(

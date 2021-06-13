@@ -30,7 +30,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
         }
 
         public override async Task Execute(
-            Graph graph,
+            IGraph graph,
             CancellationToken cancellationToken)
         {
             var inputData = InputData.Value as byte[];

@@ -73,7 +73,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
         }
 
         public override async Task Execute(
-            Graph graph,
+            IGraph graph,
             CancellationToken cancellationToken)
         {
             var allParts = new List<byte[]>();

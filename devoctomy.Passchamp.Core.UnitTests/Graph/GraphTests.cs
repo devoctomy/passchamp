@@ -13,10 +13,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public void GivenNodes_AndStartKey_WhenConstruct_ThenNodesPresent_AndStartKeySet()
         {
             // Arrange
-            var nodes = new Dictionary<string, NodeBase>
+            var nodes = new Dictionary<string, INode>
             {
-                { "node1", new NodeBase() },
-                { "node2", new NodeBase() }
+                { "node1", Mock.Of<INode>() },
+                { "node2", Mock.Of<INode>() }
             };
             var startKey = "node1";
 
@@ -26,8 +26,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 startKey);
 
             // Assert
-            Assert.NotNull(sut.GetNode<NodeBase>("node1"));
-            Assert.NotNull(sut.GetNode<NodeBase>("node2"));
+            Assert.NotNull(sut.GetNode<INode>("node1"));
+            Assert.NotNull(sut.GetNode<INode>("node2"));
             Assert.Equal(startKey, sut.StartKey);
         }
 
@@ -35,10 +35,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public void GivenNodes_AndUnknownStartKey_WhenConstruct_ThenKeyNotFoundExceptionThrown()
         {
             // Arrange
-            var nodes = new Dictionary<string, NodeBase>
+            var nodes = new Dictionary<string, INode>
             {
-                { "node1", new NodeBase() },
-                { "node2", new NodeBase() }
+                { "node1", Mock.Of<INode>() },
+                { "node2", Mock.Of<INode>() }
             };
             var startKey = "node3";
 
@@ -55,11 +55,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public async Task GivenGraph_WhenExecute_ThenStartNodeExecuted_AndCancellationTokenUsed()
         {
             // Arrange
-            var node1 = new Mock<NodeBase>();
-            var nodes = new Dictionary<string, NodeBase>
+            var node1 = new Mock<INode>();
+            var nodes = new Dictionary<string, INode>
             {
                 { "node1", node1.Object },
-                { "node2", new NodeBase() }
+                { "node2", Mock.Of<INode>() }
             };
             var startKey = "node1";
             var sut = new Core.Graph.Graph(
