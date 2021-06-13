@@ -59,10 +59,10 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             CancellationToken cancellationToken)
         {
             using var crypto = new System.Security.Cryptography.Rfc2898DeriveBytes(
-                Password.Value as string,
-                Salt.Value as byte[]);
+                Password.GetValue<string>(),
+                Salt.GetValue<byte[]>());
 
-            Key.Value = crypto.GetBytes((int)KeyLength.Value);
+            Key.Value = crypto.GetBytes(KeyLength.GetValue<int>());
 
             await ExecuteNext(
                 graph,

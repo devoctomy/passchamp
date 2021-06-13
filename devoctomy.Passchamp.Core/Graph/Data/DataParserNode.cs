@@ -29,7 +29,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
             set
             {
-                var sections = value.Value as List<DataParserSection>;
+                var sections = value.GetValue<List<DataParserSection>>();
                 foreach(var curSection in sections)
                 {
                     _sectionValues.Add(
@@ -45,13 +45,13 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             CancellationToken cancellationToken)
         {
             var values = new Dictionary<string, byte[]>();
-            foreach(var curSection in Sections.Value as List<DataParserSection>)
+            foreach(var curSection in Sections.GetValue<List<DataParserSection>>())
             {
-                var start = curSection.Start.GetIndex(((byte[])Bytes.Value).Length);
-                var end = curSection.End.GetIndex(((byte[])Bytes.Value).Length);
+                var start = curSection.Start.GetIndex(Bytes.GetValue<byte[]>().Length);
+                var end = curSection.End.GetIndex(Bytes.GetValue<byte[]>().Length);
                 var value = new byte[end - start];
                 Array.ConstrainedCopy(
-                    ((byte[])Bytes.Value),
+                    Bytes.GetValue<byte[]>(),
                     start,
                     value,
                     0,

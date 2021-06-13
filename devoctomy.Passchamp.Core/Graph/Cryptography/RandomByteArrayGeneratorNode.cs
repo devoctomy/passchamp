@@ -36,7 +36,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             CancellationToken cancellationToken)
         {
             using var rng = RandomNumberGenerator.Create();
-            var randomBytes = new byte[(int)Length.Value];
+            var randomBytes = new byte[Length.GetValue<int>()];
             rng.GetBytes(randomBytes);
             RandomBytes.Value = randomBytes;
 

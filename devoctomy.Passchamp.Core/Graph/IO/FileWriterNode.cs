@@ -33,9 +33,9 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            var inputData = InputData.Value as byte[];
+            var inputData = InputData.GetValue<byte[]>();
             await System.IO.File.WriteAllBytesAsync(
-                FileName.Value as string,
+                FileName.GetValue<string>(),
                 inputData,
                 cancellationToken);
 

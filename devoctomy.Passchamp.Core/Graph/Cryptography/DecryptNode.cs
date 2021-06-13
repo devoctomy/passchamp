@@ -61,12 +61,12 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             CancellationToken cancellationToken)
         {
             using var crypto = Aes.Create("AesManaged");
-            crypto.IV = Iv.Value as byte[];
-            var key = Key.Value as byte[];
+            crypto.IV = Iv.GetValue<byte[]>();
+            var key = Key.GetValue<byte[]>();
             crypto.KeySize = key.Length * 4;
-            crypto.Key = Key.Value as byte[];
+            crypto.Key = Key.GetValue<byte[]>();
 
-            using var memoryStream = new MemoryStream(Cipher.Value as byte[]);
+            using var memoryStream = new MemoryStream(Cipher.GetValue<byte[]>());
             using var cryptoStream = new CryptoStream(
                 memoryStream,
                 crypto.CreateDecryptor(),

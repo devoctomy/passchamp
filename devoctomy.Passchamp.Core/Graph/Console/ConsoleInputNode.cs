@@ -34,7 +34,7 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            System.Console.WriteLine(Prompt.Value as string);
+            System.Console.WriteLine(Prompt.GetValue<string>());
             InputLine.Value = System.Console.ReadLine();
 
             await ExecuteNext(

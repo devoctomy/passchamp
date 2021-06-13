@@ -31,7 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             CancellationToken cancellationToken)
         {
             Bytes.Value = await System.IO.File.ReadAllBytesAsync(
-                FileName.Value as string,
+                FileName.GetValue<string>(),
                 cancellationToken);
 
             await ExecuteNext(

@@ -34,7 +34,7 @@ namespace devoctomy.Passchamp.Core.Graph.Text
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            PlainText.Value = System.Text.Encoding.UTF8.GetString(EncodedBytes.Value as byte[]);
+            PlainText.Value = System.Text.Encoding.UTF8.GetString(EncodedBytes.GetValue<byte[]>());
 
             await ExecuteNext(
                 graph,
