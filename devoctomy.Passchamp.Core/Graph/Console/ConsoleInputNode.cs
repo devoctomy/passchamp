@@ -1,0 +1,45 @@
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+namespace devoctomy.Passchamp.Core.Graph.Console
+{
+    public class ConsoleInputNode : NodeBase
+    {
+        public DataPin Prompt
+        {
+            get
+            {
+                return Input["Prompt"];
+            }
+            set
+            {
+                Input["Prompt"] = value;
+            }
+        }
+
+        public DataPin InputLine
+        {
+            get
+            {
+                PrepareOutputDataPin("InputLine");
+                return Output["InputLine"];
+            }
+            set
+            {
+                Output["InputLine"] = value;
+            }
+        }
+
+        public override async Task Execute(
+            Graph graph,
+            CancellationToken cancellationToken)
+        {
+            System.Console.WriteLine(Prompt.Value as string);
+            InputLine.Value = System.Console.ReadLine();
+
+            await ExecuteNext(
+                graph,
+                cancellationToken);
+        }
+    }
+}
