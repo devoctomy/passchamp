@@ -3,13 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "devoctomy.Passchamp", "devoctomy.Passchamp\devoctomy.Passchamp.csproj", "{5E0E1D6B-53EE-41B8-B4E7-D36D9B1EECEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp", "devoctomy.Passchamp\devoctomy.Passchamp.csproj", "{5E0E1D6B-53EE-41B8-B4E7-D36D9B1EECEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "devoctomy.Passchamp.Core", "devoctomy.Passchamp.Core\devoctomy.Passchamp.Core.csproj", "{5BACFDD5-F9AC-4778-B19F-7775DC0438B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.Core", "devoctomy.Passchamp.Core\devoctomy.Passchamp.Core.csproj", "{5BACFDD5-F9AC-4778-B19F-7775DC0438B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Tests", "Unit Tests", "{AACF6A9E-DE7D-432D-8985-730FE1F0248D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "devoctomy.Passchamp.Core.UnitTests", "devoctomy.Passchamp.Core.UnitTests\devoctomy.Passchamp.Core.UnitTests.csproj", "{FB094D48-0B24-4C21-8939-47F7CF63883E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.Core.UnitTests", "devoctomy.Passchamp.Core.UnitTests\devoctomy.Passchamp.Core.UnitTests.csproj", "{FB094D48-0B24-4C21-8939-47F7CF63883E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F1B0A3CD-2B6C-47E1-B623-682A60FD1AB4}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
