@@ -5,6 +5,13 @@ namespace devoctomy.Passchamp.Core.Graph.Console
 {
     public class ConsoleInputNode : NodeBase
     {
+        private readonly ISystemConsole _systemConsole;
+
+        public ConsoleInputNode(ISystemConsole systemConsole)
+        {
+            _systemConsole = systemConsole;
+        }
+
         public IDataPin Prompt
         {
             get
@@ -23,18 +30,14 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             {
                 return GetInput("InputLine");
             }
-            set
-            {
-                Output["InputLine"] = value;
-            }
         }
 
         public override async Task Execute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            System.Console.WriteLine(Prompt.GetValue<string>());
-            InputLine.Value = System.Console.ReadLine();
+            _systemConsole.WriteLine(Prompt.GetValue<string>());
+            InputLine.Value = _systemConsole.ReadLine();
 
             await ExecuteNext(
                 graph,
