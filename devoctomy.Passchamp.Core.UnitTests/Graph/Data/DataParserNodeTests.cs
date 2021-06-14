@@ -1,10 +1,7 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Data;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,7 +17,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
             var expectedJoinedArray = new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
             var sut = new DataParserNode
             {
-                Bytes = new Core.Graph.DataPin(new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }),
+                Bytes = new DataPin(new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }),
                 Sections = new DataPin(new List<DataParserSection>
                 {
                     new DataParserSection

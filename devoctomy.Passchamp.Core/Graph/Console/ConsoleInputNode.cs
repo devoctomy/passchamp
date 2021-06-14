@@ -5,11 +5,11 @@ namespace devoctomy.Passchamp.Core.Graph.Console
 {
     public class ConsoleInputNode : NodeBase
     {
-        public DataPin Prompt
+        public IDataPin Prompt
         {
             get
             {
-                return Input["Prompt"];
+                return GetInput("Prompt");                
             }
             set
             {
@@ -17,12 +17,11 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             }
         }
 
-        public DataPin InputLine
+        public IDataPin InputLine
         {
             get
             {
-                PrepareOutputDataPin("InputLine");
-                return Output["InputLine"];
+                return GetInput("InputLine");
             }
             set
             {

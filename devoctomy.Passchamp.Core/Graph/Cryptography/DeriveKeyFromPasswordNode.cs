@@ -5,11 +5,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class DeriveKeyFromPasswordNode : NodeBase
     {
-        public DataPin Password
+        public IDataPin Password
         {
             get
             {
-                return Input["Password"];
+                return GetInput("Password");
             }
             set
             {
@@ -17,11 +17,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public DataPin Salt
+        public IDataPin Salt
         {
             get
             {
-                return Input["Salt"];
+                return GetInput("Salt");
             }
             set
             {
@@ -29,11 +29,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public DataPin KeyLength
+        public IDataPin KeyLength
         {
             get
             {
-                return Input["KeyLength"];
+                return GetInput("KeyLength");
             }
             set
             {
@@ -41,16 +41,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public DataPin Key
+        public IDataPin Key
         {
             get
             {
-                PrepareOutputDataPin("Key");
-                return Output["Key"];
-            }
-            set
-            {
-                Output["Key"] = value;
+                return GetOutput("Key");
             }
         }
 

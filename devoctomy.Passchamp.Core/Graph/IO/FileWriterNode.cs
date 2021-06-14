@@ -5,11 +5,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
 {
     public class FileWriterNode : NodeBase
     {
-        public DataPin InputData
+        public IDataPin InputData
         {
             get
             {
-                return Input["InputData"];
+                return GetInput("InputData");
             }
             set
             {
@@ -17,11 +17,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
-        public DataPin FileName
+        public IDataPin FileName
         {
             get
             {
-                return Input["FileName"];
+                return GetInput("FileName");
             }
             set
             {

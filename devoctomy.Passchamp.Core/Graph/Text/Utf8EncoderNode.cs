@@ -5,11 +5,11 @@ namespace devoctomy.Passchamp.Core.Graph.Text
 {
     public class Utf8EncoderNode : NodeBase
     {
-        public DataPin PlainText
+        public IDataPin PlainText
         {
             get
             {
-                return Input["PlainText"];
+                return GetInput("PlainText");
             }
             set
             {
@@ -17,16 +17,11 @@ namespace devoctomy.Passchamp.Core.Graph.Text
             }
         }
 
-        public DataPin EncodedBytes
+        public IDataPin EncodedBytes
         {
             get
             {
-                PrepareOutputDataPin("EncodedBytes");
-                return Output["EncodedBytes"];
-            }
-            set
-            {
-                Output["EncodedBytes"] = value;
+                return GetOutput("EncodedBytes");
             }
         }
 

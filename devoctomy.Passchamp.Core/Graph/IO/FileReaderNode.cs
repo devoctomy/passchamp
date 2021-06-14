@@ -5,11 +5,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
 {
     public class FileReaderNode : NodeBase
     {
-        public DataPin FileName
+        public IDataPin FileName
         {
             get
             {
-                return Input["FileName"];
+                return GetInput("FileName");
             }
             set
             {
@@ -17,12 +17,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
-        public DataPin Bytes
+        public IDataPin Bytes
         {
             get
             {
-                PrepareOutputDataPin("Bytes");
-                return Output["Bytes"];
+                return GetOutput("Bytes");
             }
         }
 

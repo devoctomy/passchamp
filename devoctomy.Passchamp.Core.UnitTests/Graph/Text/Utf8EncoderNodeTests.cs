@@ -16,7 +16,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Text
             var expectedEncodedBytes = new byte[] { 0x48, 0x65, 0x6c, 0x6c, 0x6f };
             var sut = new Utf8EncoderNode
             {
-                PlainText = new Core.Graph.DataPin("Hello"),
+                PlainText = new DataPin("Hello"),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

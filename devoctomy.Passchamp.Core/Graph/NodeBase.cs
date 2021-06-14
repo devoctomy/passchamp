@@ -6,8 +6,8 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public class NodeBase : INode
     {
-        public Dictionary<string, DataPin> Input { get; } = new Dictionary<string, DataPin>();
-        public Dictionary<string, DataPin> Output { get; } = new Dictionary<string, DataPin>();
+        public Dictionary<string, IDataPin> Input { get; } = new Dictionary<string, IDataPin>();
+        public Dictionary<string, IDataPin> Output { get; } = new Dictionary<string, IDataPin>();
         public string NextKey { get; set; }
 
         public virtual async Task Execute(
@@ -49,6 +49,18 @@ namespace devoctomy.Passchamp.Core.Graph
                     graph,
                     cancellationToken);
             }
+        }
+
+        public IDataPin GetInput(string key)
+        {
+            PrepareInputDataPin(key);
+            return Input[key];
+        }
+
+        public IDataPin GetOutput(string key)
+        {
+            PrepareOutputDataPin(key);
+            return Output[key];
         }
     }
 }

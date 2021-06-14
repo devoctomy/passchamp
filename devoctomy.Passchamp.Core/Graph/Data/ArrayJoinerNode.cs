@@ -7,12 +7,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
 {
     public class ArrayJoinerNode : NodeBase
     {
-        public DataPin Part1
+        public IDataPin Part1
         {
             get
             {
-                PrepareInputDataPin("Part1");
-                return Input["Part1"];
+                return GetInput("Part1");
             }
             set
             {
@@ -20,12 +19,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        public DataPin Part2
+        public IDataPin Part2
         {
             get
             {
-                PrepareInputDataPin("Part2");
-                return Input["Part2"];
+                return GetInput("Part2");
             }
             set
             {
@@ -33,12 +31,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        public DataPin Part3
+        public IDataPin Part3
         {
             get
             {
-                PrepareInputDataPin("Part3");
-                return Input["Part3"];
+                return GetInput("Part3");
             }
             set
             {
@@ -46,12 +43,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        public DataPin Part4
+        public IDataPin Part4
         {
             get
             {
-                PrepareInputDataPin("Part4");
-                return Input["Part4"];
+                return GetInput("Part4");
             }
             set
             {
@@ -59,16 +55,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        public DataPin JoinedOutput
+        public IDataPin JoinedOutput
         {
             get
             {
-                PrepareOutputDataPin("JoinedOutput");
-                return Output["JoinedOutput"];
-            }
-            set
-            {
-                Output["JoinedOutput"] = value;
+                return GetOutput("JoinedOutput");
             }
         }
 

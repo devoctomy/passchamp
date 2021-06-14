@@ -6,8 +6,8 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public interface INode
     {
-        Dictionary<string, DataPin> Input { get; }
-        Dictionary<string, DataPin> Output { get; }
+        Dictionary<string, IDataPin> Input { get; }
+        Dictionary<string, IDataPin> Output { get; }
         Task Execute(
             IGraph graph,
             CancellationToken cancellationToken);
@@ -16,6 +16,7 @@ namespace devoctomy.Passchamp.Core.Graph
         Task ExecuteNext(
             IGraph graph,
             CancellationToken cancellationToken);
-
+        IDataPin GetInput(string key);
+        IDataPin GetOutput(string key);
     }
 }

@@ -7,11 +7,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class EncryptNode : NodeBase
     {
-        public DataPin PlainTextBytes
+        public IDataPin PlainTextBytes
         {
             get
             {
-                return Input["PlainTextBytes"];
+                return GetInput("PlainTextBytes");
             }
             set
             {
@@ -19,11 +19,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public DataPin Iv
+        public IDataPin Iv
         {
             get
             {
-                return Input["Iv"];
+                return GetInput("Iv");
             }
             set
             {
@@ -31,11 +31,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public DataPin Key
+        public IDataPin Key
         {
             get
             {
-                return Input["Key"];
+                return GetInput("Key");
             }
             set
             {
@@ -43,16 +43,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public DataPin EncryptedBytes
+        public IDataPin EncryptedBytes
         {
             get
             {
-                PrepareOutputDataPin("EncryptedBytes");
-                return Output["EncryptedBytes"];
-            }
-            set
-            {
-                Output["EncryptedBytes"] = value;
+                return GetOutput("EncryptedBytes");
             }
         }
 

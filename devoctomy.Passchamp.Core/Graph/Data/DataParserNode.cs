@@ -9,10 +9,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
     {
         private Dictionary<string, DataPin> _sectionValues = new Dictionary<string, DataPin>();
 
-        public DataPin Bytes
+        public IDataPin Bytes
         {
             get
             {
+                PrepareInputDataPin("Bytes");
                 return Input["Bytes"];
             }
             set
@@ -21,10 +22,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        public DataPin Sections
+        public IDataPin Sections
         {
             get
             {
+                PrepareInputDataPin("Sections");
                 return Input["Sections"];
             }
             set
