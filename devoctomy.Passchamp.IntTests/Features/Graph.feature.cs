@@ -83,8 +83,8 @@ namespace devoctomy.Passchamp.IntTests.Features
         [Xunit.SkippableTheoryAttribute(DisplayName="Encrypt string using a password")]
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "Encrypt string using a password")]
-        [Xunit.InlineDataAttribute("saltgenerator", "16", "ivgenerator", "16", "derivekey", "123", "32", "encoder", "encrypt", "joiner", new string[0])]
-        public virtual void EncryptStringUsingAPassword(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string[] exampleTags)
+        [Xunit.InlineDataAttribute("saltgenerator", "16", "ivgenerator", "16", "derivekey", "123", "32", "Hello World!", "encoder", "encrypt", "joiner", new string[0])]
+        public virtual void EncryptStringUsingAPassword(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string plainText, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -95,6 +95,7 @@ namespace devoctomy.Passchamp.IntTests.Features
             argumentsOfScenario.Add("DeriveKeyNodeName", deriveKeyNodeName);
             argumentsOfScenario.Add("Password", password);
             argumentsOfScenario.Add("KeyLength", keyLength);
+            argumentsOfScenario.Add("PlainText", plainText);
             argumentsOfScenario.Add("Utf8EncoderNodeName", utf8EncoderNodeName);
             argumentsOfScenario.Add("EncryptNodeName", encryptNodeName);
             argumentsOfScenario.Add("JoinerNodeName", joinerNodeName);
@@ -120,31 +121,55 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 6
- testRunner.Given(string.Format("RandomByteGeneratorNode named {0} with a length of {1} and NextKey of {2}", saltGeneratorNodeName, saltLength, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("A new dictionary of nodes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 7
- testRunner.And(string.Format("RandomByteGeneratorNode named {0} with a length of {1}  and NextKey of {2}", ivGeneratorNodeName, ivLength, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("RandomByteGeneratorNode named {0} with a length of {1} and NextKey of {2}", saltGeneratorNodeName, saltLength, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 8
+ testRunner.And(string.Format("RandomByteGeneratorNode named {0} with a length of {1}  and NextKey of {2}", ivGeneratorNodeName, ivLength, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 9
  testRunner.And(string.Format("DeriveKeyFromPasswordNode named {0} with a password of {1} and key length of {2} " +
                             "and NextKey of {3}", deriveKeyNodeName, password, keyLength, utf8EncoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 9
- testRunner.And(string.Format("Utf8EncoderNode named {0} and NextKey of {1}", utf8EncoderNodeName, encryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
 #line 10
- testRunner.And(string.Format("EncryptNode named {0} and NextKey of {1}", encryptNodeName, joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("Utf8EncoderNode named {0} with plain text of {1} and NextKey of {2}", utf8EncoderNodeName, plainText, encryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 11
- testRunner.And(string.Format("ArrayJoinerNode named {0}", joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("EncryptNode named {0} and NextKey of {1}", encryptNodeName, joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.And(string.Format("A new graph with a start node named {0}", saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("ArrayJoinerNode named {0}", joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
- testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And(string.Format("node {0} input pin Salt connected to node {1} output pin RandomBytes", deriveKeyNodeName, saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 14
+ testRunner.And(string.Format("node {0} input pin PlainTextBytes connected to node {1} output pin EncodedBytes", encryptNodeName, utf8EncoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 15
+ testRunner.And(string.Format("node {0} input pin Iv connected to node {1} output pin RandomBytes", encryptNodeName, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 16
+ testRunner.And(string.Format("node {0} input pin Key connected to node {1} output pin Key", encryptNodeName, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 17
+ testRunner.And(string.Format("node {0} input pin Part1 connected to node {1} output pin RandomBytes", joinerNodeName, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 18
+ testRunner.And(string.Format("node {0} input pin Part2 connected to node {1} output pin EncryptedBytes", joinerNodeName, encryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 19
+ testRunner.And(string.Format("node {0} input pin Part3 connected to node {1} output pin RandomBytes", joinerNodeName, saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 20
+ testRunner.And(string.Format("All nodes added to a new graph with a start node named {0}", saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 21
+ testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 22
  testRunner.Then("Something", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

@@ -3,6 +3,8 @@ using devoctomy.Passchamp.Core.Graph.Cryptography;
 using devoctomy.Passchamp.Core.Graph.Data;
 using devoctomy.Passchamp.Core.Graph.Text;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using TechTalk.SpecFlow;
 
 namespace devoctomy.Passchamp.IntTests.Steps
@@ -24,7 +26,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
             _scenarioContext.Set(nodes, "Nodes");
         }
 
-        [Given(@"A new graph with a start node named (.*)")]
+        [Given(@"All nodes added to a new graph with a start node named (.*)")]
         public void GivenANewGraphWithAStartNodeNamed(string startNode)
         {
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
@@ -67,16 +69,17 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodes.Add(name, node);
         }
 
-        [Given(@"Utf8EncoderNode named (.*) and NextKey of (.*)")]
+        [Given(@"Utf8EncoderNode named (.*) with plain text of (.*) and NextKey of (.*)")]
         public void GivenUtfEncoderNodeNamed(
             string name,
+            string plainText,
             string nextKey)
         {
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
             var node = new Utf8EncoderNode
             {
-                PlainText = new DataPin("Hello World!"),
+                PlainText = new DataPin(plainText),
                 NextKey = nextKey,
             };
 
@@ -92,7 +95,6 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new EncryptNode
             {
-                PlainTextBytes = ((Utf8EncoderNode)nodes["encoder"]).EncodedBytes,
                 NextKey = nextKey,
             };
 
@@ -114,10 +116,25 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodes.Add(name, node);
         }
 
-        [When(@"Execute graph")]
-        public void WhenExecuteGraph()
+        [Given(@"node (.*) input pin (.*) connected to node (.*) output pin (.*)")]
+        public void GivenNodeInputPinPlainTextBytesConnectedToNodeOutputPinEncodedBytes(
+            string nodeAName,
+            string pinAName,
+            string nodeBName,
+            string pinBName)
         {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+            var nodeA = nodes[nodeAName];
+            var nodeB = nodes[nodeBName];
+            nodeA.Input[pinAName] = nodeB.GetOutput(pinBName);
+        }
 
+
+        [When(@"Execute graph")]
+        public async Task WhenExecuteGraph()
+        {
+            var graph = _scenarioContext.Get<Graph>("Graph");
+            await graph.ExecuteAsync(CancellationToken.None);
         }
 
         [Then(@"Something")]
