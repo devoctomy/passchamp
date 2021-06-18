@@ -9,6 +9,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Data\DontDeleteMe.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\DontDeleteMe.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="JunitXml.TestLogger" Version="2.1.32" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
     <PackageReference Include="SpecFlow" Version="3.4.14" />

@@ -9,6 +9,7 @@ namespace devoctomy.Passchamp.Core.Graph
         private string _startKey = string.Empty;
 
         public Dictionary<string, INode> Nodes { get; }
+        public int ExecutedNodeCount { get; set; }
         public string StartKey
         { 
             get

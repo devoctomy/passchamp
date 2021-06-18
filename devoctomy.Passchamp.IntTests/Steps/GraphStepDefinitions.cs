@@ -1,11 +1,15 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Cryptography;
 using devoctomy.Passchamp.Core.Graph.Data;
+using devoctomy.Passchamp.Core.Graph.IO;
 using devoctomy.Passchamp.Core.Graph.Text;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using Xunit;
 
 namespace devoctomy.Passchamp.IntTests.Steps
 {
@@ -101,8 +105,10 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodes.Add(name, node);
         }
 
-        [Given(@"ArrayJoinerNode named (.*)")]
-        public void GivenArrayJoinerNodeNamed(string name)
+        [Given(@"ArrayJoinerNode named (.*) and NextKey of (.*)")]
+        public void GivenArrayJoinerNodeNamed(
+            string name,
+            string nextKey)
         {
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
@@ -111,12 +117,79 @@ namespace devoctomy.Passchamp.IntTests.Steps
                 Part1 = null,
                 Part2 = null,
                 Part3 = null,
+                NextKey = nextKey,
             };
 
             nodes.Add(name, node);
         }
 
-        [Given(@"node (.*) input pin (.*) connected to node (.*) output pin (.*)")]
+        [Given(@"FileWriterNode named (.*) with a filename of (.*)")]
+        public void GivenFileWriterNodeNamedWithAFilenameOf(
+            string name,
+            string fileName)
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+            var node = new FileWriterNode
+            {
+                FileName = new DataPin(fileName),
+            };
+
+            nodes.Add(name, node);
+        }
+
+        [Given(@"FileReaderNode named (.*) with a filename of (.*) and NextKey of (.*)")]
+        public void GivenFileReaderNodeNamedWithAFilenameOf(
+            string name,
+            string fileName,
+            string nextKey)
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+            var node = new FileReaderNode
+            {
+                FileName = new DataPin(fileName),
+                NextKey = nextKey,
+            };
+
+            nodes.Add(name, node);
+        }
+
+        [Given(@"DataParserNode named (.*) with parser sections of (.*)")]
+        public void GivenDataParserNodeNamed(
+            string name,
+            string parserSections)
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+            var allSections = new List<DataParserSection>();
+            var sections = parserSections.Split(';');
+            foreach (var curSection in sections)
+            {
+                var curSectionParts = curSection.Split(',');
+                var startOffset = curSectionParts[1].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+                var startValue = int.Parse(curSectionParts[1].TrimStart('~'));
+                var endOffset = curSectionParts[2].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+                var endValue = int.Parse(curSectionParts[2].TrimStart('~'));
+
+                var section = new DataParserSection
+                {
+                    Key = curSectionParts[0],
+                    Start = new ArrayLocation(startOffset, startValue),
+                    End = new ArrayLocation(endOffset, endValue),
+                };
+                allSections.Add(section);
+            }
+
+            var node = new DataParserNode
+            {
+                Sections = new DataPin(allSections),
+            };
+
+            nodes.Add(name, node);
+        }
+
+        [Given(@"Node (.*) input pin (.*) connected to node (.*) output pin (.*)")]
         public void GivenNodeInputPinPlainTextBytesConnectedToNodeOutputPinEncodedBytes(
             string nodeAName,
             string pinAName,
@@ -129,12 +202,28 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodeA.Input[pinAName] = nodeB.GetOutput(pinBName);
         }
 
-
         [When(@"Execute graph")]
         public async Task WhenExecuteGraph()
         {
             var graph = _scenarioContext.Get<Graph>("Graph");
             await graph.ExecuteAsync(CancellationToken.None);
+        }
+
+        [Then(@"Output file (.*) created of (.*) bytes in length")]
+        public void ThenOutputFileCreatedOfBytesInLength(
+            string fileName,
+            int length)
+        {
+            var file = new FileInfo(fileName);
+            Assert.True(file.Exists);
+            Assert.Equal(length, file.Length);
+        }
+
+        [Then(@"All nodes executed")]
+        public void ThenAllNodesExecuted()
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+            Assert.True(nodes.All(x => x.Value.Executed));
         }
 
         [Then(@"Something")]

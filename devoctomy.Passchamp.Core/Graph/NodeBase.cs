@@ -9,6 +9,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public Dictionary<string, IDataPin> Input { get; } = new Dictionary<string, IDataPin>();
         public Dictionary<string, IDataPin> Output { get; } = new Dictionary<string, IDataPin>();
         public string NextKey { get; set; }
+        public bool Executed { get; protected set; }
 
         public virtual async Task Execute(
             IGraph graph,
@@ -37,6 +38,7 @@ namespace devoctomy.Passchamp.Core.Graph
             IGraph graph,
             CancellationToken cancellationToken)
         {
+            Executed = true;
             if(string.IsNullOrEmpty(NextKey))
             {
                 return;

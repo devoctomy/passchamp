@@ -8,6 +8,7 @@ namespace devoctomy.Passchamp.Core.Graph
     {
         Dictionary<string, IDataPin> Input { get; }
         Dictionary<string, IDataPin> Output { get; }
+        public bool Executed { get; }
         Task Execute(
             IGraph graph,
             CancellationToken cancellationToken);
