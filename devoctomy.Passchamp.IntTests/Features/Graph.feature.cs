@@ -190,8 +190,8 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableTheoryAttribute(DisplayName="02) Decrypt file using a password to correct plain text")]
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "02) Decrypt file using a password to correct plain text")]
-        [Xunit.InlineDataAttribute("reader", "data/test.dat", "parser", "Iv,0,16;Cipher,16,~0;Salt,~16,~0", new string[0])]
-        public virtual void _02DecryptFileUsingAPasswordToCorrectPlainText(string fileReaderNodeName, string fileName, string dataParserNodeName, string parserSections, string[] exampleTags)
+        [Xunit.InlineDataAttribute("reader", "data/test.dat", "parser", "Iv,0,16;Cipher,16,~0;Salt,~16,~0", "decrypt", new string[0])]
+        public virtual void _02DecryptFileUsingAPasswordToCorrectPlainText(string fileReaderNodeName, string fileName, string dataParserNodeName, string parserSections, string decryptNodeName, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -199,6 +199,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("FileName", fileName);
             argumentsOfScenario.Add("DataParserNodeName", dataParserNodeName);
             argumentsOfScenario.Add("ParserSections", parserSections);
+            argumentsOfScenario.Add("DecryptNodeName", decryptNodeName);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Decrypt file using a password to correct plain text", null, tagsOfScenario, argumentsOfScenario);
 #line 32
 this.ScenarioInitialize(scenarioInfo);
@@ -227,18 +228,24 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("FileReaderNode named {0} with a filename of {1} and NextKey of {2}", fileReaderNodeName, fileName, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 35
- testRunner.And(string.Format("DataParserNode named {0} with parser sections of {1}", dataParserNodeName, parserSections), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("DataParserNode named {0} with parser sections of {1} and NextKey of {2}", dataParserNodeName, parserSections, decryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 36
- testRunner.And(string.Format("All nodes added to a new graph with a start node named {0}", fileReaderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("DecryptNode named {0}", decryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 37
- testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And(string.Format("Node {0} input pin Bytes connected to node {1} output pin Bytes", dataParserNodeName, fileReaderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 38
- testRunner.Then("Something", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And(string.Format("All nodes added to a new graph with a start node named {0}", fileReaderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 39
+ testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 40
+ testRunner.Then("Something", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+#line 41
  testRunner.And("All nodes executed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }

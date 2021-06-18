@@ -42,7 +42,8 @@ namespace devoctomy.Passchamp.Core.Graph
 
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
-            await GetNode<INode>(StartKey).Execute(
+            var startNode = GetNode<INode>(StartKey);
+            await startNode.Execute(
                 this,
                 cancellationToken);
         }

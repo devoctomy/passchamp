@@ -155,10 +155,11 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodes.Add(name, node);
         }
 
-        [Given(@"DataParserNode named (.*) with parser sections of (.*)")]
+        [Given(@"DataParserNode named (.*) with parser sections of (.*) and NextKey of (.*)")]
         public void GivenDataParserNodeNamed(
             string name,
-            string parserSections)
+            string parserSections,
+            string nextKey)
         {
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
@@ -184,6 +185,19 @@ namespace devoctomy.Passchamp.IntTests.Steps
             var node = new DataParserNode
             {
                 Sections = new DataPin(allSections),
+                NextKey = nextKey,
+            };
+
+            nodes.Add(name, node);
+        }
+
+        [Given(@"DecryptNode named (.*)")]
+        public void GivenDecryptNodeNamed(string name)
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+            var node = new DecryptNode
+            {
             };
 
             nodes.Add(name, node);

@@ -32,7 +32,8 @@ Scenario: 01) Encrypt string using a password and write to disk
 Scenario: 02) Decrypt file using a password to correct plain text
 	Given A new dictionary of nodes
 	And FileReaderNode named <FileReaderNodeName> with a filename of <FileName> and NextKey of <DataParserNodeName>
-	And DataParserNode named <DataParserNodeName> with parser sections of <ParserSections>
+	And DataParserNode named <DataParserNodeName> with parser sections of <ParserSections> and NextKey of <DecryptNodeName>
+	And DecryptNode named <DecryptNodeName>
 	And Node <DataParserNodeName> input pin Bytes connected to node <FileReaderNodeName> output pin Bytes
 	And All nodes added to a new graph with a start node named <FileReaderNodeName>
 	When Execute graph
@@ -41,5 +42,5 @@ Scenario: 02) Decrypt file using a password to correct plain text
 
 	Examples:
 
-	| FileReaderNodeName | FileName      | DataParserNodeName | ParserSections                   |
-	| reader             | data/test.dat | parser             | Iv,0,16;Cipher,16,~0;Salt,~16,~0 |
+	| FileReaderNodeName | FileName      | DataParserNodeName | ParserSections                   | DecryptNodeName |
+	| reader             | data/test.dat | parser             | Iv,0,16;Cipher,16,~0;Salt,~16,~0 | decrypt         |
