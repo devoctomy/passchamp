@@ -59,11 +59,11 @@ namespace devoctomy.Passchamp.Core.Graph
             }
         }
 
-        protected virtual async Task DoExecute(
+        protected virtual Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            //Do nothing
+            return Task.CompletedTask;
         }
 
         public IDataPin GetInput(string key)

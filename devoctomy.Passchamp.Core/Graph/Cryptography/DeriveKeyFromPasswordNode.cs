@@ -49,7 +49,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        protected override async Task DoExecute(
+        protected override Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -58,6 +58,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
                 Salt.GetValue<byte[]>());
 
             Key.Value = crypto.GetBytes(KeyLength.GetValue<int>());
+            return Task.CompletedTask;
         }
     }
 }

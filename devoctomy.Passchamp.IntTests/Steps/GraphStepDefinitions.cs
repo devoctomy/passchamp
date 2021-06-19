@@ -1,13 +1,13 @@
-﻿using devoctomy.Passchamp.Core.Graph;
-using devoctomy.Passchamp.Core.Graph.Cryptography;
-using devoctomy.Passchamp.Core.Graph.Data;
-using devoctomy.Passchamp.Core.Graph.IO;
-using devoctomy.Passchamp.Core.Graph.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Cryptography;
+using devoctomy.Passchamp.Core.Graph.Data;
+using devoctomy.Passchamp.Core.Graph.IO;
+using devoctomy.Passchamp.Core.Graph.Text;
 using TechTalk.SpecFlow;
 using Xunit;
 
@@ -248,12 +248,11 @@ namespace devoctomy.Passchamp.IntTests.Steps
         public async Task WhenExecuteGraph()
         {
             var graph = _scenarioContext.Get<Graph>("Graph");
-            var allNodes = graph.Nodes.ToList();
             await graph.ExecuteAsync(CancellationToken.None);
         }
 
         [Then(@"Output file (.*) created of (.*) bytes in length")]
-        public void ThenOutputFileCreatedOfBytesInLength(
+        public static void ThenOutputFileCreatedOfBytesInLength(
             string fileName,
             int length)
         {

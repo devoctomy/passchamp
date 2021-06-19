@@ -70,8 +70,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             var plainText = PlainTextBytes.GetValue<byte[]>();
             await cryptoStream.WriteAsync(
                 plainText,
-                0,
-                plainText.Length,
                 cancellationToken);
             await cryptoStream.FlushFinalBlockAsync(cancellationToken);
             cryptoStream.Close();
