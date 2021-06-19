@@ -13,7 +13,6 @@ namespace devoctomy.Passchamp.Core.Graph
 
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public Dictionary<string, INode> Nodes { get; }
-        public int ExecutedNodeCount { get; set; }
         public string StartKey
         { 
             get

@@ -52,14 +52,18 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         }
 
         [Fact]
-        public async Task GivenGraph_WhenExecute_ThenStartNodeExecuted_AndCancellationTokenUsed()
+        public async Task GivenGraph_WhenExecute_ThenExecutionOrderIsCorrect()
         {
             // Arrange
-            var node1 = new Mock<INode>();
+            var node1 = new NodeBase()
+            {
+                NextKey = "node2"
+            };
+            var node2 = new NodeBase();
             var nodes = new Dictionary<string, INode>
             {
-                { "node1", node1.Object },
-                { "node2", Mock.Of<INode>() }
+                { "node1", node1 },
+                { "node2", node2 }
             };
             var startKey = "node1";
             var sut = new Core.Graph.Graph(
@@ -67,17 +71,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 startKey);
             var cancellationTokenSource = new CancellationTokenSource();
 
-            node1.Setup(x => x.Execute(
-                It.IsAny<Core.Graph.Graph>(),
-                It.IsAny<CancellationToken>()));
-
             // Act
             await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
-            node1.Verify(x => x.Execute(
-                It.Is<Core.Graph.Graph>(x => x == sut),
-                It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
+            Assert.Equal("node1,node2", string.Join(",", sut.ExecutionOrder));
         }
     }
 }
