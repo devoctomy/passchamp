@@ -191,12 +191,27 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodes.Add(name, node);
         }
 
-        [Given(@"DecryptNode named (.*)")]
-        public void GivenDecryptNodeNamed(string name)
+        [Given(@"DecryptNode named (.*) and NextKey of (.*)")]
+        public void GivenDecryptNodeNamed(
+            string name,
+            string nextKey)
         {
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
             var node = new DecryptNode
+            {
+                NextKey = nextKey,
+            };
+
+            nodes.Add(name, node);
+        }
+
+        [Given(@"Utf8DecoderNode named (.*)")]
+        public void GivenUtf8DecoderNodeNamed(string name)
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+            var node = new Utf8DecoderNode
             {
             };
 
@@ -204,7 +219,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
         }
 
         [Given(@"Node (.*) input pin (.*) connected to node (.*) output pin (.*)")]
-        public void GivenNodeInputPinPlainTextBytesConnectedToNodeOutputPinEncodedBytes(
+        public void GivenNodeInputPinConnectedToNodeOutputPin(
             string nodeAName,
             string pinAName,
             string nodeBName,
@@ -216,10 +231,24 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodeA.Input[pinAName] = nodeB.GetOutput(pinBName);
         }
 
+        [Given(@"Node (.*) input pin (.*) connected to DataParserNode (.*) section (.*) value")]
+        public void GivenNodeInputPinConnectedToDataParserNodeSectionValue(
+            string nodeAName,
+            string pinAName,
+            string dataParserNodeName,
+            string sectionKey)
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+            var nodeA = nodes[nodeAName];
+            var nodeB = nodes[dataParserNodeName] as DataParserNode;
+            nodeA.Input[pinAName] = nodeB.GetSectionValue(sectionKey);
+        }
+
         [When(@"Execute graph")]
         public async Task WhenExecuteGraph()
         {
             var graph = _scenarioContext.Get<Graph>("Graph");
+            var allNodes = graph.Nodes.ToList();
             await graph.ExecuteAsync(CancellationToken.None);
         }
 
@@ -240,9 +269,16 @@ namespace devoctomy.Passchamp.IntTests.Steps
             Assert.True(nodes.All(x => x.Value.Executed));
         }
 
-        [Then(@"Something")]
-        public void ThenSomething()
+
+        [Then(@"Node (.*) output pin (.*) equals string (.*)")]
+        public void ThenNodeOutputPinEqualsString(
+            string nodeName,
+            string pinName,
+            string stringValue)
         {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+            var node = nodes[nodeName];
+            Assert.Equal(stringValue, node.Output[pinName].GetValue<string>());
         }
     }
 }

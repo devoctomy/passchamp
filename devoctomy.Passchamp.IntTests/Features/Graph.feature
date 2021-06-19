@@ -32,15 +32,22 @@ Scenario: 01) Encrypt string using a password and write to disk
 Scenario: 02) Decrypt file using a password to correct plain text
 	Given A new dictionary of nodes
 	And FileReaderNode named <FileReaderNodeName> with a filename of <FileName> and NextKey of <DataParserNodeName>
-	And DataParserNode named <DataParserNodeName> with parser sections of <ParserSections> and NextKey of <DecryptNodeName>
-	And DecryptNode named <DecryptNodeName>
+	And DataParserNode named <DataParserNodeName> with parser sections of <ParserSections> and NextKey of <DeriveKeyNodeName>
+	And DeriveKeyFromPasswordNode named <DeriveKeyNodeName> with a password of <Password> and key length of <KeyLength> and NextKey of <DecryptNodeName>
+	And DecryptNode named <DecryptNodeName> and NextKey of <DecoderNodeName>
+	And Utf8DecoderNode named <DecoderNodeName>
 	And Node <DataParserNodeName> input pin Bytes connected to node <FileReaderNodeName> output pin Bytes
+	And Node <DeriveKeyNodeName> input pin <SaltSectionKey> connected to DataParserNode <DataParserNodeName> section <SaltSectionKey> value
+	And Node <DecryptNodeName> input pin <IvSectionKey> connected to DataParserNode <DataParserNodeName> section <IvSectionKey> value
+	And Node <DecryptNodeName> input pin <CipherSectionKey> connected to DataParserNode <DataParserNodeName> section <CipherSectionKey> value
+	And Node <DecryptNodeName> input pin Key connected to node <DeriveKeyNodeName> output pin Key
+	And Node <DecoderNodeName> input pin EncodedBytes connected to node <DecryptNodeName> output pin DecryptedBytes
 	And All nodes added to a new graph with a start node named <FileReaderNodeName>
 	When Execute graph
-	Then Something
+	Then Node <DecoderNodeName> output pin PlainText equals string <PlainText>
 	And All nodes executed
 
 	Examples:
 
-	| FileReaderNodeName | FileName      | DataParserNodeName | ParserSections                   | DecryptNodeName |
-	| reader             | data/test.dat | parser             | Iv,0,16;Cipher,16,~0;Salt,~16,~0 | decrypt         |
+	| FileReaderNodeName | FileName      | DataParserNodeName | ParserSections                    | DeriveKeyNodeName | Password | KeyLength | DecryptNodeName | IvSectionKey | CipherSectionKey | SaltSectionKey | DecoderNodeName | PlainText    |
+	| reader             | data/test.dat | parser             | Iv,0,16;Cipher,16,~16;Salt,~16,~0 | derivekey         | 123      | 32        | decrypt         | Iv           | Cipher           | Salt           | decode          | Hello World! |
