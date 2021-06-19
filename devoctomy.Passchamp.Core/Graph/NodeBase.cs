@@ -31,6 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph
             IGraph graph,
             CancellationToken cancellationToken)
         {
+            graph.BeforeExecute(this);
             await DoExecute(
                 graph,
                 cancellationToken);

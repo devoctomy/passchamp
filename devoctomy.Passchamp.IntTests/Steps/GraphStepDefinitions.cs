@@ -269,6 +269,13 @@ namespace devoctomy.Passchamp.IntTests.Steps
             Assert.True(nodes.All(x => x.Value.Executed));
         }
 
+        [Then(@"All all nodes executed in correct order of (.*)")]
+        public void ThenAllNodesExecutedInCorrectOrder(string expectedOrder)
+        {
+            var graph = _scenarioContext.Get<Graph>("Graph");
+            var order = string.Join(",", graph.ExecutionOrder.ToArray());
+            Assert.Equal(expectedOrder, order);
+        }
 
         [Then(@"Node (.*) output pin (.*) equals string (.*)")]
         public void ThenNodeOutputPinEqualsString(
