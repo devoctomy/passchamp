@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Graph.Data;
+using System;
 using Xunit;
 
 namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
@@ -26,6 +27,21 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
 
             // Assert
             Assert.Equal(expectedIndex, result);
+        }
+
+        [Fact]
+        public void GiveInvalidOffset_WhenGetIndex_ThenNotImplementedExceptionThrown()
+        {
+            // Arrange
+            var sut = new ArrayLocation(
+                (Offset)100,
+                0);
+
+            // Act & Assert
+            Assert.ThrowsAny<NotImplementedException>(() =>
+            {
+                sut.GetIndex(0);
+            });
         }
     }
 }
