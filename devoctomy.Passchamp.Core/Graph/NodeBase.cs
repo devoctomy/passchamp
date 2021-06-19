@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,13 +11,6 @@ namespace devoctomy.Passchamp.Core.Graph
         public Dictionary<string, IDataPin> Output { get; } = new Dictionary<string, IDataPin>();
         public string NextKey { get; set; }
         public bool Executed { get; protected set; }
-
-        public virtual async Task Execute(
-            IGraph graph,
-            CancellationToken cancellationToken)
-        {
-            await ExecuteNext(graph, cancellationToken);
-        }
 
         public void PrepareInputDataPin(string key)
         {
@@ -32,6 +26,17 @@ namespace devoctomy.Passchamp.Core.Graph
             {
                 Output.Add(key, new DataPin(null));
             }
+        }
+        public async Task Execute(
+            IGraph graph,
+            CancellationToken cancellationToken)
+        {
+            await DoExecute(
+                graph,
+                cancellationToken);
+            await ExecuteNext(
+                graph,
+                cancellationToken);
         }
 
         public async Task ExecuteNext(
@@ -51,6 +56,13 @@ namespace devoctomy.Passchamp.Core.Graph
                     graph,
                     cancellationToken);
             }
+        }
+
+        protected virtual async Task DoExecute(
+            IGraph graph,
+            CancellationToken cancellationToken)
+        {
+            //Do nothing
         }
 
         public IDataPin GetInput(string key)

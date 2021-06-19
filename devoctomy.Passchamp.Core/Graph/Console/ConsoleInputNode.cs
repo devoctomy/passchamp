@@ -32,16 +32,12 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             }
         }
 
-        public override async Task Execute(
+        protected override async Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
             _systemConsole.WriteLine(Prompt.GetValue<string>());
             InputLine.Value = _systemConsole.ReadLine();
-
-            await ExecuteNext(
-                graph,
-                cancellationToken);
         }
     }
 }

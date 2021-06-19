@@ -29,7 +29,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
-        public override async Task Execute(
+        protected override async Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -37,10 +37,6 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             await System.IO.File.WriteAllBytesAsync(
                 FileName.GetValue<string>(),
                 inputData,
-                cancellationToken);
-
-            await ExecuteNext(
-                graph,
                 cancellationToken);
         }
     }

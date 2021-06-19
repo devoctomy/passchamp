@@ -63,7 +63,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        public override async Task Execute(
+        protected override async Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -73,10 +73,6 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             if (Part3.Value != null) allParts.Add(Part3.GetValue<byte[]>());
             if (Part4.Value != null) allParts.Add(Part4.GetValue<byte[]>());
             JoinedOutput.Value = allParts.SelectMany(x => x).ToArray();
-
-            await ExecuteNext(
-                graph,
-                cancellationToken);
         }
     }
 }

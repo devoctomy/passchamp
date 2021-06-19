@@ -26,7 +26,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public override async Task Execute(
+        protected override async Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -34,10 +34,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             var randomBytes = new byte[Length.GetValue<int>()];
             rng.GetBytes(randomBytes);
             RandomBytes.Value = randomBytes;
-
-            await ExecuteNext(
-                graph,
-                cancellationToken);
         }
     }
 }

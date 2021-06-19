@@ -51,7 +51,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        public override async Task Execute(
+        protected override async Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -77,10 +77,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             cryptoStream.Close();
 
             EncryptedBytes.Value = memoryStream.ToArray();
-
-            await ExecuteNext(
-                graph,
-                cancellationToken);
         }
     }
 }

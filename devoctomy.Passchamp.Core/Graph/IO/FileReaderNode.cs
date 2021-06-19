@@ -25,16 +25,12 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
-        public override async Task Execute(
+        protected override async Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
             Bytes.Value = await System.IO.File.ReadAllBytesAsync(
                 FileName.GetValue<string>(),
-                cancellationToken);
-
-            await ExecuteNext(
-                graph,
                 cancellationToken);
         }
     }
