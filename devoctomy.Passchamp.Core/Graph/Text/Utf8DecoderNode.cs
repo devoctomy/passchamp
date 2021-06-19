@@ -25,11 +25,12 @@ namespace devoctomy.Passchamp.Core.Graph.Text
             }
         }
 
-        protected override async Task DoExecute(
+        protected override Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
             PlainText.Value = System.Text.Encoding.UTF8.GetString(EncodedBytes.GetValue<byte[]>());
+            return Task.CompletedTask;
         }
     }
 }

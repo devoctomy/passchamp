@@ -42,7 +42,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        protected override async Task DoExecute(
+        protected override Task DoExecute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -60,6 +60,8 @@ namespace devoctomy.Passchamp.Core.Graph.Data
                     value.Length);
                 GetSectionValue(curSection.Key).Value = value;
             }
+
+            return Task.CompletedTask;
         }
 
         public DataPin GetSectionValue(string key)
