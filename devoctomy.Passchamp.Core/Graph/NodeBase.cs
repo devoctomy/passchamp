@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -46,7 +45,7 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             if (validate && !_outputPinNames.Contains(key))
             {
-                throw new KeyNotFoundException($"Input pin with the key name '{key}' not found on node type {GetType().Name}.");
+                throw new KeyNotFoundException($"Output pin with the key name '{key}' not found on node type {GetType().Name}.");
             }
 
             if (!Output.ContainsKey(key))
