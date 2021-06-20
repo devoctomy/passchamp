@@ -15,7 +15,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
 
         // TODO Pass in pin values
         [Theory]
-        [InlineData("Data/complexgraph1.json", "test.dat")]
+        [InlineData("Data/complexgraph1.json", "Output/test.dat")]
         public async Task GivenJsonDataStream_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndGraphExecutes_AndOutputFileCreated(
             string fileName,
             string outputFileName)
