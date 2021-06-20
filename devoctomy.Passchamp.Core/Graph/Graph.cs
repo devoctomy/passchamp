@@ -1,3 +1,4 @@
+using devoctomy.Passchamp.Core.Graph.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -45,6 +46,35 @@ namespace devoctomy.Passchamp.Core.Graph
             StartKey = startKey;
         }
 
+        private void PreparePins()
+        {
+            foreach(var curNode in Nodes.Values)
+            {
+                foreach(var curInputPinKey in curNode.Input.Keys.ToArray())
+                {
+                    var curInputPinValue = curNode.Input[curInputPinKey];
+                    if(curInputPinValue != null &&
+                        curInputPinValue.Value != null &&
+                        curInputPinValue.Value.GetType() == typeof(DataPinIntermediateValue))
+                    {
+                        var intermediateValue = curInputPinValue.Value as DataPinIntermediateValue;
+                        var path = intermediateValue.Value.Split('.');
+                        if(path[0] == "Pins")
+                        {
+                            curNode.Input[curInputPinKey] = Pins[path[1]];
+                        }
+                        else
+                        {
+                            var mapFromNode = Nodes[path[0]];
+                            mapFromNode.PrepareOutputDataPin(path[1]);
+                            var nodeOutPin = mapFromNode.Output[path[1]];
+                            curNode.Input[curInputPinKey] = nodeOutPin;
+                        }
+                    }
+                }
+            }
+        }
+
         public T GetNode<T>(string key) where T : INode
         {
             return Nodes.ContainsKey(key) ? (T)Nodes[key] : default;
@@ -53,6 +83,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             _executionOrder.Clear();
+            PreparePins();
             var startNode = GetNode<INode>(StartKey);
             await startNode.Execute(
                 this,

@@ -1,0 +1,1 @@
+﻿This file is needed to maintain existence of data directory.

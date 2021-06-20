@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Data\DontDeleteMe.txt">
+    <Content Include="Output\DontDeleteMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -37,6 +37,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\devoctomy.Passchamp.Core\devoctomy.Passchamp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

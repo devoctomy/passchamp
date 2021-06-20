@@ -3,7 +3,7 @@
     {
       "Key": "Password",
       "Type": "String",
-      "Value": null
+      "Value": "Password123"
     },
     {
       "Key": "KeyLength",
@@ -11,14 +11,24 @@
       "Value": 32
     },
     {
+      "Key": "SaltLength",
+      "Type": "Int",
+      "Value": 16
+    },
+    {
+      "Key": "IvLength",
+      "Type": "Int",
+      "Value": 16
+    },
+    {
       "Key": "PlainText",
       "Type": "String",
-      "Value": null
+      "Value": "HelloWorld"
     },
     {
       "Key": "OutputFileName",
       "Type": "String",
-      "Value": null
+      "Value": "Output/test.dat"
     }
   ],
   "Nodes": [
@@ -28,7 +38,7 @@
       "Inputs": [
         {
           "Key": "Length",
-          "Value": 16
+          "Value": "Pins.SaltLength"
         }
       ],
       "Next": {
@@ -37,7 +47,7 @@
         "Inputs": [
           {
             "Key": "Length",
-            "Value": 16
+            "Value": "Pins.IvLength"
           }
         ],
         "Next": {
@@ -54,7 +64,7 @@
             },
             {
               "Key": "Salt",
-              "Value": "saltgenerator.output.RandomBytes"
+              "Value": "saltgenerator.RandomBytes"
             }
           ],
           "Next": {
@@ -72,15 +82,15 @@
               "Inputs": [
                 {
                   "Key": "PlainTextBytes",
-                  "Value": "encode.output.EncodedBytes"
+                  "Value": "encode.EncodedBytes"
                 },
                 {
                   "Key": "Iv",
-                  "Value": "ivgenerator.output.RandomBytes"
+                  "Value": "ivgenerator.RandomBytes"
                 },
                 {
                   "Key": "Key",
-                  "Value": "derive.output.Key"
+                  "Value": "derive.Key"
                 }
               ],
               "Next": {
@@ -89,15 +99,15 @@
                 "Inputs": [
                   {
                     "Key": "Part1",
-                    "Value": "ivgenerator.output.RandomBytes"
+                    "Value": "ivgenerator.RandomBytes"
                   },
                   {
                     "Key": "Part2",
-                    "Value": "encrypt.output.EncryptedBytes"
+                    "Value": "encrypt.EncryptedBytes"
                   },
                   {
                     "Key": "Part3",
-                    "Value": "saltgenerator.output.RandomBytes"
+                    "Value": "saltgenerator.RandomBytes"
                   }
                 ],
                 "Next": {
@@ -106,7 +116,7 @@
                   "Inputs": [
                     {
                       "Key": "InputData",
-                      "Value": "joiner.output.JoinedOutput"
+                      "Value": "joiner.JoinedOutput"
                     },
                     {
                       "Key": "FileName",
