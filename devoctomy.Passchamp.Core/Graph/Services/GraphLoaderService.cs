@@ -41,7 +41,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             return new Graph(
                 pins,
                 nodes,
-                null);
+                startNodeKey);
         }
     }
 }
