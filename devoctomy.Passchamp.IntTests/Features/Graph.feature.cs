@@ -83,7 +83,7 @@ namespace devoctomy.Passchamp.IntTests.Features
         [Xunit.SkippableTheoryAttribute(DisplayName="01) Encrypt string using a password and write to disk")]
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "01) Encrypt string using a password and write to disk")]
-        [Xunit.InlineDataAttribute("saltgenerator", "16", "ivgenerator", "16", "derivekey", "123", "32", "Hello World!", "encoder", "encrypt", "joiner", "writer", "data/test.dat", new string[0])]
+        [Xunit.InlineDataAttribute("saltgenerator", "16", "ivgenerator", "16", "derive", "123", "32", "Hello World!", "encoder", "encrypt", "joiner", "writer", "data/test.dat", new string[0])]
         public virtual void _01EncryptStringUsingAPasswordAndWriteToDisk(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string plainText, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string fileWriterNodeName, string fileName, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -184,8 +184,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("All nodes executed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 26
- testRunner.And("All all nodes executed in correct order of saltgenerator,ivgenerator,derivekey,en" +
-                        "coder,encrypt,joiner,writer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encod" +
+                        "er,encrypt,joiner,writer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();

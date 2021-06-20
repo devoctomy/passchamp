@@ -81,7 +81,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var key = "input1";
 
             // Act
-            sut.PrepareInputDataPin(key);
+            sut.PrepareInputDataPin(
+                key,
+                false);
 
             // Assert
             Assert.NotNull(sut.Input[key]);
@@ -109,7 +111,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var key = "output1";
 
             // Act
-            sut.PrepareOutputDataPin(key);
+            sut.PrepareOutputDataPin(
+                key,
+                false);
 
             // Assert
             Assert.NotNull(sut.Output[key]);

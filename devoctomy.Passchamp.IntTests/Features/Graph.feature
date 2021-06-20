@@ -23,12 +23,12 @@ Scenario: 01) Encrypt string using a password and write to disk
 	When Execute graph
 	Then Output file <FileName> created of 48 bytes in length
 	And All nodes executed
-	And All all nodes executed in correct order of saltgenerator,ivgenerator,derivekey,encoder,encrypt,joiner,writer
+	And All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encoder,encrypt,joiner,writer
 
 	Examples:
 
 	| SaltGeneratorNodeName | SaltLength | IvGeneratorNodeName | IvLength | DeriveKeyNodeName | Password | KeyLength | PlainText    | Utf8EncoderNodeName | EncryptNodeName | JoinerNodeName | FileWriterNodeName | FileName      |
-	| saltgenerator         | 16         | ivgenerator         | 16       | derivekey         | 123      | 32        | Hello World! | encoder             | encrypt         | joiner         | writer             | data/test.dat |
+	| saltgenerator         | 16         | ivgenerator         | 16       | derive            | 123      | 32        | Hello World! | encoder             | encrypt         | joiner         | writer             | data/test.dat |
 
 Scenario: 02) Decrypt file using a password to correct plain text
 	Given A new dictionary of nodes

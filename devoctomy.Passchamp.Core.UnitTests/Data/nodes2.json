@@ -1,0 +1,14 @@
+﻿{
+  "Nodes": [
+    {
+      "Key": "node1",
+      "Type": "Blargh",
+      "Inputs": [
+        {
+          "Key": "Length",
+          "Value": 16
+        }
+      ]
+    }
+  ]
+}

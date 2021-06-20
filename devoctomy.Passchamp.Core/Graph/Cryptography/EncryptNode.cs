@@ -7,6 +7,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class EncryptNode : NodeBase
     {
+        [NodeInputPin]
         public IDataPin PlainTextBytes
         {
             get
@@ -19,6 +20,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        [NodeInputPin]
         public IDataPin Iv
         {
             get
@@ -31,6 +33,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        [NodeInputPin]
         public IDataPin Key
         {
             get
@@ -43,6 +46,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        [NodeOutputPin]
         public IDataPin EncryptedBytes
         {
             get

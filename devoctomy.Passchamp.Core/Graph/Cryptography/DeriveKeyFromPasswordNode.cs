@@ -5,6 +5,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class DeriveKeyFromPasswordNode : NodeBase
     {
+        [NodeInputPin]
         public IDataPin Password
         {
             get
@@ -17,6 +18,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        [NodeInputPin]
         public IDataPin Salt
         {
             get
@@ -29,6 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        [NodeInputPin]
         public IDataPin KeyLength
         {
             get
@@ -41,6 +44,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        [NodeOutputPin]
         public IDataPin Key
         {
             get

@@ -1,0 +1,19 @@
+﻿{
+  "Pins": [
+    {
+      "Key": "Pin1",
+      "Type": "String",
+      "Value": "Hello"
+    },
+    {
+      "Key": "Pin2",
+      "Type": "String",
+      "Value": null
+    },
+    {
+      "Key": "Pin3",
+      "Type": "Int",
+      "Value": 101
+    }
+  ]
+}

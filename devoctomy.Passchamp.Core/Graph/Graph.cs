@@ -10,7 +10,9 @@ namespace devoctomy.Passchamp.Core.Graph
         private string _startKey = string.Empty;
         private readonly Dictionary<INode, string> _nodeKeys;
         private readonly List<string> _executionOrder = new();
+        private readonly Dictionary<string, IDataPin> _pins;
 
+        public Dictionary<string, IDataPin> Pins => _pins;
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public Dictionary<string, INode> Nodes { get; }
         public string StartKey
@@ -31,9 +33,11 @@ namespace devoctomy.Passchamp.Core.Graph
         }
 
         public Graph(
+            Dictionary<string, IDataPin> pins,
             Dictionary<string, INode> nodes,
             string startKey)
         {
+            _pins = pins;
             Nodes = nodes;
             _nodeKeys = Nodes.ToList().ToDictionary(
                 x => x.Value,

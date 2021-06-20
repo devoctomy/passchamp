@@ -12,6 +12,7 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             _systemConsole = systemConsole;
         }
 
+        [NodeInputPin]
         public IDataPin Prompt
         {
             get
@@ -24,11 +25,12 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             }
         }
 
+        [NodeOutputPin]
         public IDataPin InputLine
         {
             get
             {
-                return GetInput("InputLine");
+                return GetOutput("InputLine");
             }
         }
 

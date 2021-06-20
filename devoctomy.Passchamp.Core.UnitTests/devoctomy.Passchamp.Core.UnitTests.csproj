@@ -7,11 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\nodes1.json" />
+    <None Remove="Data\nodes2.json" />
+    <None Remove="Data\nodes3.json" />
+    <None Remove="Data\pins1.json" />
     <None Remove="Data\TestInputFile1.txt" />
     <None Remove="Data\TestOutputFile1.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\nodes3.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\nodes2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\nodes1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\pins1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\TestInputFile1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

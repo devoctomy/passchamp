@@ -12,8 +12,12 @@ namespace devoctomy.Passchamp.Core.Graph
         Task Execute(
             IGraph graph,
             CancellationToken cancellationToken);
-        void PrepareInputDataPin(string key);
-        void PrepareOutputDataPin(string key);
+        void PrepareInputDataPin(
+            string key,
+            bool validate = true);
+        void PrepareOutputDataPin(
+            string key,
+            bool validate = true);
         Task ExecuteNext(
             IGraph graph,
             CancellationToken cancellationToken);

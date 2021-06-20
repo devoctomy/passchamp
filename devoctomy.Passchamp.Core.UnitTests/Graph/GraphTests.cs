@@ -22,6 +22,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
 
             // Act
             var sut = new Core.Graph.Graph(
+                null,
                 nodes,
                 startKey);
 
@@ -46,6 +47,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             Assert.ThrowsAny<KeyNotFoundException>(() =>
             {
                 var sut = new Core.Graph.Graph(
+                    null,
                     nodes,
                     startKey);
             });
@@ -67,6 +69,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var startKey = "node1";
             var sut = new Core.Graph.Graph(
+                null,
                 nodes,
                 startKey);
             var cancellationTokenSource = new CancellationTokenSource();

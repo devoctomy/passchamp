@@ -7,6 +7,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
 {
     public class ArrayJoinerNode : NodeBase
     {
+        [NodeInputPin]
         public IDataPin Part1
         {
             get
@@ -19,6 +20,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
+        [NodeInputPin]
         public IDataPin Part2
         {
             get
@@ -31,6 +33,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
+        [NodeInputPin]
         public IDataPin Part3
         {
             get
@@ -43,6 +46,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
+        [NodeInputPin]
         public IDataPin Part4
         {
             get
@@ -55,6 +59,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
+        [NodeOutputPin]
         public IDataPin JoinedOutput
         {
             get

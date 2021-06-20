@@ -5,6 +5,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
 {
     public class FileWriterNode : NodeBase
     {
+        [NodeInputPin]
         public IDataPin InputData
         {
             get
@@ -17,6 +18,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
+        [NodeInputPin]
         public IDataPin FileName
         {
             get

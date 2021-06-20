@@ -1,0 +1,24 @@
+﻿{
+  "Nodes": [
+    {
+      "Key": "node1",
+      "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
+      "Inputs": [
+        {
+          "Key": "Length",
+          "Value": 16
+        }
+      ],
+      "Next": {
+        "Key": "node2",
+        "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
+        "Inputs": [
+          {
+            "Key": "Length",
+            "Value": 16
+          }
+        ]
+      }
+    }
+  ]
+}

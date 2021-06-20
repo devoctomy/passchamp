@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,26 +8,53 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public class NodeBase : INode
     {
+        private List<string> _inputPinNames;
+        private List<string> _outputPinNames;
+
         public Dictionary<string, IDataPin> Input { get; } = new Dictionary<string, IDataPin>();
         public Dictionary<string, IDataPin> Output { get; } = new Dictionary<string, IDataPin>();
         public string NextKey { get; set; }
         public bool Executed { get; protected set; }
 
-        public void PrepareInputDataPin(string key)
+        public NodeBase()
         {
+            var curType = GetType();
+            var inputProperties = curType.GetProperties().Where(prop => prop.IsDefined(typeof(NodeInputPinAttribute), false)).ToList();
+            _inputPinNames = inputProperties.Select(x => x.Name).ToList();
+            var outputProperties = curType.GetProperties().Where(prop => prop.IsDefined(typeof(NodeOutputPinAttribute), false)).ToList();
+            _outputPinNames = outputProperties.Select(x => x.Name).ToList();
+        }
+
+        public void PrepareInputDataPin(
+            string key,
+            bool validate = true)
+        {
+            if(validate && !_inputPinNames.Contains(key))
+            {
+                throw new KeyNotFoundException($"Input pin with the key name '{key}' not found on node type {GetType().Name}.");
+            }
+
             if (!Input.ContainsKey(key))
             {
                 Input.Add(key, new DataPin(null));
             }
         }
 
-        public void PrepareOutputDataPin(string key)
+        public void PrepareOutputDataPin(
+            string key,
+            bool validate = true)
         {
-            if(!Output.ContainsKey(key))
+            if (validate && !_outputPinNames.Contains(key))
+            {
+                throw new KeyNotFoundException($"Input pin with the key name '{key}' not found on node type {GetType().Name}.");
+            }
+
+            if (!Output.ContainsKey(key))
             {
                 Output.Add(key, new DataPin(null));
             }
         }
+
         public async Task Execute(
             IGraph graph,
             CancellationToken cancellationToken)

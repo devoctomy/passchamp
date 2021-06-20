@@ -9,6 +9,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
     {
         private Dictionary<string, DataPin> _sectionValues = new Dictionary<string, DataPin>();
 
+        [NodeInputPin]
         public IDataPin Bytes
         {
             get
@@ -22,6 +23,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
+        [NodeInputPin]
         public IDataPin Sections
         {
             get
