@@ -15,10 +15,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
 
         // TODO Pass in pin values
         [Theory]
-        [InlineData("Data/complexgraph1.json", "Output/test.dat")]
-        public async Task GivenJsonDataStream_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndGraphExecutes_AndOutputFileCreated(
-            string fileName,
-            string outputFileName)
+        [InlineData("Data/complexgraph1.json")]
+        public async Task GivenJsonDataStream_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndGraphExecutes_AndOutputFileCreated(string fileName)
         {
             // Arrange
             using var jsonDataStream = File.OpenRead(fileName);
@@ -35,7 +33,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             Assert.NotNull(result);
             await result.ExecuteAsync(CancellationToken.None);
             Assert.Equal("saltgenerator,ivgenerator,derive,encode,encrypt,joiner,writer", string.Join(",", result.ExecutionOrder));
-            Assert.True(File.Exists(outputFileName));
         }
     }
 }

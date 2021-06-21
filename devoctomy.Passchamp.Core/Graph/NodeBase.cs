@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -7,28 +9,42 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public class NodeBase : INode
     {
-        private List<string> _inputPinNames;
-        private List<string> _outputPinNames;
+        private bool _preparedUnsetPins;
 
+        public Dictionary<string, PropertyInfo> InputPinsProperties { get; }
+        public Dictionary<string, PropertyInfo> OutputPinsProperties { get; }
         public Dictionary<string, IDataPin> Input { get; } = new Dictionary<string, IDataPin>();
         public Dictionary<string, IDataPin> Output { get; } = new Dictionary<string, IDataPin>();
         public string NextKey { get; set; }
         public bool Executed { get; protected set; }
 
+        [NodeInputPin(ValueType = typeof(bool))]
+        public IDataPin Bypass
+        {
+            get
+            {
+                return GetInput("Bypass");
+            }
+            set
+            {
+                Input["Bypass"] = value;
+            }
+        }
+
         public NodeBase()
         {
             var curType = GetType();
             var inputProperties = curType.GetProperties().Where(prop => prop.IsDefined(typeof(NodeInputPinAttribute), false)).ToList();
-            _inputPinNames = inputProperties.Select(x => x.Name).ToList();
+            InputPinsProperties = inputProperties.ToDictionary(x => x.Name, x => x);
             var outputProperties = curType.GetProperties().Where(prop => prop.IsDefined(typeof(NodeOutputPinAttribute), false)).ToList();
-            _outputPinNames = outputProperties.Select(x => x.Name).ToList();
+            OutputPinsProperties = outputProperties.ToDictionary(x => x.Name, x => x);
         }
 
         public void PrepareInputDataPin(
             string key,
             bool validate = true)
         {
-            if(validate && !_inputPinNames.Contains(key))
+            if(validate && !InputPinsProperties.ContainsKey(key))
             {
                 throw new KeyNotFoundException($"Input pin with the key name '{key}' not found on node type {GetType().Name}.");
             }
@@ -43,7 +59,7 @@ namespace devoctomy.Passchamp.Core.Graph
             string key,
             bool validate = true)
         {
-            if (validate && !_outputPinNames.Contains(key))
+            if (validate && !OutputPinsProperties.ContainsKey(key))
             {
                 throw new KeyNotFoundException($"Output pin with the key name '{key}' not found on node type {GetType().Name}.");
             }
@@ -54,14 +70,45 @@ namespace devoctomy.Passchamp.Core.Graph
             }
         }
 
+        private void PrepareUnsetPins()
+        {
+            if (_preparedUnsetPins) return;
+
+            var unsetInput = InputPinsProperties.Where(x => !Input.ContainsKey(x.Key)).ToList();
+            foreach (var curUnsetInput in unsetInput)
+            {
+                var attribute = (NodeInputPinAttribute)Attribute.GetCustomAttribute(curUnsetInput.Value, typeof(NodeInputPinAttribute));
+                if (attribute.ValueType != null)
+                {
+                    Input[curUnsetInput.Key] = new DataPin(Activator.CreateInstance(attribute.ValueType));
+                }
+            }
+
+            var unsetOutput = OutputPinsProperties.Where(x => !Output.ContainsKey(x.Key)).ToList();
+            foreach (var curUnsetOutput in unsetOutput)
+            {
+                var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(curUnsetOutput.Value, typeof(NodeOutputPinAttribute));
+                if (attribute.ValueType != null)
+                {
+                    Output[curUnsetOutput.Key] = new DataPin(Activator.CreateInstance(attribute.ValueType));
+                }
+            }
+
+            _preparedUnsetPins = true;
+        }
+
         public async Task Execute(
             IGraph graph,
             CancellationToken cancellationToken)
         {
+            PrepareUnsetPins();
             graph.BeforeExecute(this);
-            await DoExecute(
-                graph,
-                cancellationToken);
+            if(!Bypass.GetValue<bool>())
+            {
+                await DoExecute(
+                    graph,
+                    cancellationToken);
+            }
             await ExecuteNext(
                 graph,
                 cancellationToken);

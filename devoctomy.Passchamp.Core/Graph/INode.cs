@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,6 +7,8 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public interface INode
     {
+        Dictionary<string, PropertyInfo> InputPinsProperties { get; }
+        Dictionary<string, PropertyInfo> OutputPinsProperties { get; }
         Dictionary<string, IDataPin> Input { get; }
         Dictionary<string, IDataPin> Output { get; }
         public string NextKey { get; set; }

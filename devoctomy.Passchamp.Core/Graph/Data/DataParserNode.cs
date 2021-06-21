@@ -7,7 +7,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
 {
     public class DataParserNode : NodeBase
     {
-        private Dictionary<string, DataPin> _sectionValues = new Dictionary<string, DataPin>();
+        private readonly Dictionary<string, DataPin> _sectionValues = new();
 
         [NodeInputPin]
         public IDataPin Bytes
@@ -48,7 +48,6 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            var values = new Dictionary<string, byte[]>();
             foreach(var curSection in Sections.GetValue<List<DataParserSection>>())
             {
                 var start = curSection.Start.GetIndex(Bytes.GetValue<byte[]>().Length);
