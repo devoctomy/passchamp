@@ -1,6 +1,5 @@
 # passchamp
 
-[![Super-Linter](https://github.com/devoctomy/passchamp/actions/workflows/superlinter.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/superlinter.yml)
 [![Build Status](https://travis-ci.com/devoctomy/passchamp.svg?branch=main)](https://travis-ci.com/devoctomy/passchamp)
 [![codecov](https://codecov.io/gh/devoctomy/passchamp/branch/main/graph/badge.svg?token=JU70OAK6OX)](https://codecov.io/gh/devoctomy/passchamp)
 
