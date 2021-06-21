@@ -37,6 +37,6 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           files: coverage.opencover.xml
-          commit_parent: ${{ GITHUB_SHA }}
+          commit_parent: $(git rev-parse --short "$GITHUB_SHA")
           fail_ci_if_error: true
           verbose: false
