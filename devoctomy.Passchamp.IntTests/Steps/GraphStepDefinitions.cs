@@ -73,6 +73,26 @@ namespace devoctomy.Passchamp.IntTests.Steps
             nodes.Add(name, node);
         }
 
+        [Given(@"SCryptNode named (.*) with a password of (.*) and NextKey of (.*)")]
+        public void GivenSCryptNodeNamedWithAPasswordOfAndKeyLengthOf(
+            string name,
+            string password,
+            string nextKey)
+        {
+            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+            var node = new SCryptNode
+            {
+                Password = new DataPin(password),
+                IterationCount = new DataPin(1024),
+                BlockSize = new DataPin(8),
+                ThreadCount = new DataPin(1),
+                NextKey = nextKey,
+            };
+
+            nodes.Add(name, node);
+        }
+
         [Given(@"Utf8EncoderNode named (.*) with plain text of (.*) and NextKey of (.*)")]
         public void GivenUtfEncoderNodeNamed(
             string name,

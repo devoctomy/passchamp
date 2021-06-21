@@ -70,19 +70,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin(ValueType = typeof(int))]
-        public IDataPin KeyLength
-        {
-            get
-            {
-                return GetInput("KeyLength");
-            }
-            set
-            {
-                Input["KeyLength"] = value;
-            }
-        }
-
         [NodeOutputPin]
         public IDataPin Key
         {
