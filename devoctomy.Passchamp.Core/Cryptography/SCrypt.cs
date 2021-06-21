@@ -14,6 +14,7 @@
 */
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -29,8 +30,10 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
     /// This has been modified by Nick Pateman so that it only exposes a function
     /// for deriving bytes from the given password and salt.  The resulting value
     /// does not contain the cryptographic function parameters, they are not
-    /// stored with the resulting bytes.
+    /// stored with the resulting bytes. Also done some slight refactoring to
+    /// remove precompile checks as it's only required for .net 5 >
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class SCrypt
     {
         #region Fields
