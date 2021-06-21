@@ -31,7 +31,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
 
             // Act
             var resultsList = new List<string>();
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 await sut.Execute(
                     mockGraph.Object,
