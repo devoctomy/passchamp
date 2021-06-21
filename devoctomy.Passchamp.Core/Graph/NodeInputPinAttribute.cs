@@ -6,5 +6,6 @@ namespace devoctomy.Passchamp.Core.Graph
     public class NodeInputPinAttribute : Attribute
     {
         public Type ValueType { get; set; }
+        public object DefaultValue { get; set; }
     }
 }

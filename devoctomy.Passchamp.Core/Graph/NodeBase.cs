@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public string NextKey { get; set; }
         public bool Executed { get; protected set; }
 
-        [NodeInputPin(ValueType = typeof(bool))]
+        [NodeInputPin(ValueType = typeof(bool), DefaultValue = false)]
         public IDataPin Bypass
         {
             get
@@ -80,7 +80,7 @@ namespace devoctomy.Passchamp.Core.Graph
                 var attribute = (NodeInputPinAttribute)Attribute.GetCustomAttribute(curUnsetInput.Value, typeof(NodeInputPinAttribute));
                 if (attribute.ValueType != null)
                 {
-                    Input[curUnsetInput.Key] = new DataPin(Activator.CreateInstance(attribute.ValueType));
+                    Input[curUnsetInput.Key] = new DataPin(attribute.DefaultValue);
                 }
             }
 
@@ -90,7 +90,7 @@ namespace devoctomy.Passchamp.Core.Graph
                 var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(curUnsetOutput.Value, typeof(NodeOutputPinAttribute));
                 if (attribute.ValueType != null)
                 {
-                    Output[curUnsetOutput.Key] = new DataPin(Activator.CreateInstance(attribute.ValueType));
+                    Output[curUnsetOutput.Key] = new DataPin(attribute.DefaultValue);
                 }
             }
 

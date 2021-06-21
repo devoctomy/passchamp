@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Cryptography
@@ -44,7 +45,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin(ValueType = typeof(string))]
+        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
         public IDataPin Password
         {
             get
@@ -57,7 +58,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin(ValueType = typeof(byte[]))]
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Salt
         {
             get
@@ -90,6 +91,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             Key.Value = scrypt.DeriveBytes(
                 Password.GetValue<string>(),
                 Salt.GetValue<byte[]>());
+            var keyb64 = Convert.ToBase64String(Key.GetValue<byte[]>());
             return Task.CompletedTask;
         }
     }

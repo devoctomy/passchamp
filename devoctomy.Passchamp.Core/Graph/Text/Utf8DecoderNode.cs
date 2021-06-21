@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.Core.Graph.Text
             }
         }
 
-        [NodeOutputPin]
+        [NodeOutputPin(ValueType = typeof(string), DefaultValue = "")]
         public IDataPin PlainText
         {
             get

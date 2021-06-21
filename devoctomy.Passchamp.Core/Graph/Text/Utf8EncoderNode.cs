@@ -5,7 +5,7 @@ namespace devoctomy.Passchamp.Core.Graph.Text
 {
     public class Utf8EncoderNode : NodeBase
     {
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
         public IDataPin PlainText
         {
             get

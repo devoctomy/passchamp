@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -64,6 +65,9 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             var key = Key.GetValue<byte[]>();
             crypto.KeySize = key.Length * 4;
             crypto.Key = Key.GetValue<byte[]>();
+
+            var ivb64 = Convert.ToBase64String(crypto.IV);
+            var keyb64 = Convert.ToBase64String(crypto.Key);
 
             using var memoryStream = new MemoryStream();
             using var cryptoStream = new CryptoStream(
