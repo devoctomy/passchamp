@@ -1,4 +1,4 @@
-name: Super-Linter
+name: Master Workflow
 
 on: push
 
@@ -37,5 +37,5 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           files: coverage.opencover.xml
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          fail_ci_if_error: true
+          verbose: false
