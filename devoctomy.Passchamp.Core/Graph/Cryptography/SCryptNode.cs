@@ -91,7 +91,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             Key.Value = scrypt.DeriveBytes(
                 Password.GetValue<string>(),
                 Salt.GetValue<byte[]>());
-            var keyb64 = Convert.ToBase64String(Key.GetValue<byte[]>());
             return Task.CompletedTask;
         }
     }

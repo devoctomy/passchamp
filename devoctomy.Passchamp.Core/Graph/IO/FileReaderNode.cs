@@ -5,7 +5,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
 {
     public class FileReaderNode : NodeBase
     {
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
         public IDataPin FileName
         {
             get
@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
-        [NodeOutputPin]
+        [NodeOutputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Bytes
         {
             get

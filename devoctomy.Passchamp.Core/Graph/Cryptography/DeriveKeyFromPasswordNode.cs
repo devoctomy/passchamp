@@ -5,7 +5,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class DeriveKeyFromPasswordNode : NodeBase
     {
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
         public IDataPin Password
         {
             get
@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Salt
         {
             get
@@ -31,7 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
         public IDataPin KeyLength
         {
             get
@@ -60,7 +60,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             using var crypto = new System.Security.Cryptography.Rfc2898DeriveBytes(
                 Password.GetValue<string>(),
                 Salt.GetValue<byte[]>());
-
             Key.Value = crypto.GetBytes(KeyLength.GetValue<int>());
             return Task.CompletedTask;
         }

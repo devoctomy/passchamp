@@ -12,7 +12,7 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             _systemConsole = systemConsole;
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
         public IDataPin Prompt
         {
             get

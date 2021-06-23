@@ -6,7 +6,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class RandomByteArrayGeneratorNode : NodeBase
     {
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
         public IDataPin Length
         {
             get

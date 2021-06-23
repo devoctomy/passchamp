@@ -8,7 +8,9 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class EncryptNode : NodeBase
     {
-        [NodeInputPin]
+        private const string AesAlgorithmName = "AesManaged";
+
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin PlainTextBytes
         {
             get
@@ -21,7 +23,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Iv
         {
             get
@@ -34,7 +36,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Key
         {
             get
@@ -60,27 +62,19 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            using var crypto = Aes.Create("AesManaged");
-            crypto.IV = Iv.GetValue<byte[]>();
-            var key = Key.GetValue<byte[]>();
-            crypto.KeySize = key.Length * 4;
-            crypto.Key = Key.GetValue<byte[]>();
-
-            var ivb64 = Convert.ToBase64String(crypto.IV);
-            var keyb64 = Convert.ToBase64String(crypto.Key);
-
+            using var crypto = Aes.Create(AesAlgorithmName);
+            var encryptStream = crypto.CreateEncryptor(
+                    Key.GetValue<byte[]>(),
+                    Iv.GetValue<byte[]>());
             using var memoryStream = new MemoryStream();
             using var cryptoStream = new CryptoStream(
                 memoryStream,
-                crypto.CreateEncryptor(),
+                encryptStream,
                 CryptoStreamMode.Write);
-
-            var plainText = PlainTextBytes.GetValue<byte[]>();
             await cryptoStream.WriteAsync(
-                plainText,
+                PlainTextBytes.GetValue<byte[]>(),
                 cancellationToken);
             await cryptoStream.FlushFinalBlockAsync(cancellationToken);
-            cryptoStream.Close();
 
             EncryptedBytes.Value = memoryStream.ToArray();
         }

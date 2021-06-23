@@ -8,7 +8,9 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class DecryptNode : NodeBase
     {
-        [NodeInputPin]
+        private const string AesAlgorithmName = "AesManaged";
+
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Cipher
         {
             get
@@ -21,7 +23,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Iv
         {
             get
@@ -34,7 +36,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Key
         {
             get
@@ -60,19 +62,13 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            using var crypto = Aes.Create("AesManaged");
-            crypto.IV = Iv.GetValue<byte[]>();
-            var key = Key.GetValue<byte[]>();
-            crypto.KeySize = key.Length * 4;
-            crypto.Key = Key.GetValue<byte[]>();
-
-            var ivb64 = Convert.ToBase64String(crypto.IV);
-            var keyb64 = Convert.ToBase64String(crypto.IV);
-
-            using var memoryStream = new MemoryStream(Cipher.GetValue<byte[]>());
+            using var crypto = Aes.Create(AesAlgorithmName);
+            using var decryptStream = crypto.CreateDecryptor(
+                    Key.GetValue<byte[]>(),
+                    Iv.GetValue<byte[]>());
             using var cryptoStream = new CryptoStream(
-                memoryStream,
-                crypto.CreateDecryptor(),
+                new MemoryStream(Cipher.GetValue<byte[]>()),
+                decryptStream,
                 CryptoStreamMode.Read);
             using var output = new MemoryStream();
             await cryptoStream.CopyToAsync(

@@ -9,7 +9,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
     {
         private readonly Dictionary<string, DataPin> _sectionValues = new();
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
         public IDataPin Bytes
         {
             get
@@ -23,7 +23,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        [NodeInputPin]
+        [NodeInputPin(ValueType = typeof(List<DataParserSection>), DefaultValue = default(List<DataParserSection>))]
         public IDataPin Sections
         {
             get
