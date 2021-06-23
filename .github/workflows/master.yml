@@ -1,0 +1,30 @@
+name: Master Workflow
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '5.0.x' ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install dependencies
+        run: dotnet restore --source https://api.nuget.org/v3/index.json 
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal --filter "FullyQualifiedName~UnitTests" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../coverage" -p:MergeWith="../coverage.json" -c Release --no-build devoctomy.Passchamp.sln
+      - name: Code Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          files: coverage.opencover.xml
+          commit_parent: $(git rev-parse --short "$GITHUB_SHA")
+          fail_ci_if_error: true
+          verbose: false
