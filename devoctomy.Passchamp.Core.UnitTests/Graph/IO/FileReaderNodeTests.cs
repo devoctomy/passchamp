@@ -34,7 +34,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
             // Assert
             var bytesData = sut.Bytes.GetValue<byte[]>();
             var textData = System.Text.Encoding.UTF8.GetString(bytesData);
-            Assert.True(expectedData.CompareTo(textData) == 0);
+            Assert.True(string.Compare(expectedData, textData, true, System.Globalization.CultureInfo.InvariantCulture) == 0);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);
             mockNextNode.Verify(x => x.Execute(

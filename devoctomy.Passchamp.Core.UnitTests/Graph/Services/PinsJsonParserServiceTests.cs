@@ -13,7 +13,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         [InlineData(
             "Data/pins1.json",
             3,
-            new string[] { "Pin1", "Pin2", "Pin3" },
+            new[] { "Pin1", "Pin2", "Pin3" },
             new object[] { "Hello", null, 101 })]
         public async Task GivenJsonData_WhenParse_ThenPinsReturned(
             string fileName,

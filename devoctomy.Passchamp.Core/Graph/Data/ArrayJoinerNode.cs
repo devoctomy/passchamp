@@ -73,10 +73,22 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             CancellationToken cancellationToken)
         {
             var allParts = new List<byte[]>();
-            if (Part1.Value != null) allParts.Add(Part1.GetValue<byte[]>());
-            if (Part2.Value != null) allParts.Add(Part2.GetValue<byte[]>());
-            if (Part3.Value != null) allParts.Add(Part3.GetValue<byte[]>());
-            if (Part4.Value != null) allParts.Add(Part4.GetValue<byte[]>());
+            if (Part1.Value != null)
+            {
+                allParts.Add(Part1.GetValue<byte[]>());
+            }
+            if (Part2.Value != null)
+            {
+                allParts.Add(Part2.GetValue<byte[]>());
+            }
+            if (Part3.Value != null)
+            {
+                allParts.Add(Part3.GetValue<byte[]>());
+            }
+            if (Part4.Value != null)
+            {
+                allParts.Add(Part4.GetValue<byte[]>());
+            }
             JoinedOutput.Value = allParts.SelectMany(x => x).ToArray();
             return Task.CompletedTask;
         }

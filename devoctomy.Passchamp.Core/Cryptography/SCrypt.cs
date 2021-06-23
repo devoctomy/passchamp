@@ -104,37 +104,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         /// Derives bytes from the provided password and optional salt
         /// </summary>
         /// <param name="password">Password used to derive the bytes from</param>
-        /// <param name="saltOutBytes">Output, the salt that was used in the derivation process</param>
-        /// <returns>The derived bytes</returns>
-        public byte[] DeriveBytes(string password, out byte[] saltOutBytes)
-        {
-            var N = IterationCount;
-            var r = BlockSize;
-            var p = ThreadCount;
-
-            if (N <= 1 || (N & (N - 1)) != 0)
-            {
-                throw new InvalidOperationException("IterationCount Must be a power of two greater than 1");
-            }
-
-            if ((ulong)r * (ulong)p >= 1 << 30 || r > Int32.MaxValue / 128 / p || r > Int32.MaxValue / 256 || N > Int32.MaxValue / 128 / r)
-            {
-                throw new InvalidOperationException("Parameters are too large");
-            }
-
-            var passwordBytes = Encoding.UTF8.GetBytes(password);
-            saltOutBytes = new byte[16];
-            DefaultSaltGenereator.GetBytes(saltOutBytes);
-
-            byte[] hashed = CryptoScrypt(passwordBytes, saltOutBytes, N, r, p);
-
-            return (hashed);
-        }
-
-        /// <summary>
-        /// Derives bytes from the provided password and optional salt
-        /// </summary>
-        /// <param name="password">Password used to derive the bytes from</param>
         /// <param name="saltInBytes">Salt to use in derivation process</param>
         /// <returns>The derived bytes</returns>
         public byte[] DeriveBytes(string password, byte[] saltInBytes)
