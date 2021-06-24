@@ -48,7 +48,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         public int IterationCount { get; }
         public int BlockSize { get; }
         public int ThreadCount { get; }
-        private readonly RandomNumberGenerator _saltGenerator;
 
         #endregion
 
@@ -58,7 +57,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         /// Initializes a new instance of the <see cref="SCrypt"/> class.
         /// </summary>
         public SCrypt()
-            : this(DefaultIterationCount, DefaultBlockSize, DefaultThreadCount, DefaultSaltGenereator)
+            : this(DefaultIterationCount, DefaultBlockSize, DefaultThreadCount)
         {
         }
 
@@ -66,14 +65,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         /// Initializes a new instance of the <see cref="SCrypt"/> class.
         /// </summary>
         public SCrypt(int iterationCount, int blockSize, int threadCount)
-            : this(iterationCount, blockSize, threadCount, DefaultSaltGenereator)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SCrypt"/> class.
-        /// </summary>
-        public SCrypt(int iterationCount, int blockSize, int threadCount, RandomNumberGenerator saltGenerator)
         {
             if (iterationCount < 1)
             {
@@ -93,7 +84,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             IterationCount = iterationCount;
             BlockSize = blockSize;
             ThreadCount = threadCount;
-            _saltGenerator = saltGenerator;
         }
 
         #endregion

@@ -78,7 +78,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         {
             // Arrange
             var sut = new NodeBase();
-            var key = "input1";
+            const string key = "input1";
 
             // Act
             sut.PrepareInputDataPin(
@@ -94,12 +94,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         {
             // Arrange
             var sut = new NodeBase();
-            var key = "input1";
+            const string key = "input1";
 
             // Act & Assert
             Assert.ThrowsAny<KeyNotFoundException>(() =>
             {
-                var dataPin = sut.Input[key];
+                _ = sut.Input[key];
             });
         }
 
@@ -108,7 +108,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         {
             // Arrange
             var sut = new NodeBase();
-            var key = "output1";
+            const string key = "output1";
 
             // Act
             sut.PrepareOutputDataPin(
@@ -124,12 +124,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         {
             // Arrange
             var sut = new NodeBase();
-            var key = "output1";
+            const string key = "output1";
 
             // Act & Assert
             Assert.ThrowsAny<KeyNotFoundException>(() =>
             {
-                var dataPin = sut.Output[key];
+                _ = sut.Output[key];
             });
         }
     }

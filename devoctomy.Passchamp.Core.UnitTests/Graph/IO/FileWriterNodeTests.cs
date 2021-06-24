@@ -34,7 +34,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
                 cancellationTokenSource.Token);
 
             // Assert
-            var fileData = await System.IO.File.ReadAllTextAsync("Data/TestOutputFile1.txt");
+            var fileData = await System.IO.File.ReadAllTextAsync("Data/TestOutputFile1.txt").ConfigureAwait(false);
             Assert.Equal(inputData, fileData);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);

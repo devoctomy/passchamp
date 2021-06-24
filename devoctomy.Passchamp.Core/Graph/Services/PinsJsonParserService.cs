@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 
 namespace devoctomy.Passchamp.Core.Graph.Services
@@ -22,6 +23,10 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                         {
                             value = curPinJson["Value"].Value<int>();
                             break;
+                        }
+                    default:
+                        {
+                            throw new NotSupportedException($"Pin value type '{curPinJson["Type"].Value<string>()}' not supported.");
                         }
                 }
                 pins.Add(

@@ -14,7 +14,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
         public async Task GivenBytes_AndSections_WhenExecute_ThenSectionValuesParsed_AndNextExecuted()
         {
             // Arrange
-            var expectedJoinedArray = new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
             var sut = new DataParserNode
             {
                 Bytes = new DataPin(new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }),
