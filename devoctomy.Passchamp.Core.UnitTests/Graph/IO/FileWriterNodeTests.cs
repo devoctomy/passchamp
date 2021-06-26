@@ -14,7 +14,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
         public async Task GivenFileName_AndInputData_AndNextKey_WhenExecute_ThenFileWritten_AndNextExecuted()
         {
             // Arrange
-            var inputData = Guid.NewGuid().ToString().ToUpper();
+            var inputData = Guid.NewGuid().ToString(null, System.Globalization.CultureInfo.InvariantCulture).ToUpper();
             var sut = new FileWriterNode
             {
                 FileName = new DataPin("Data/TestOutputFile1.txt"),
