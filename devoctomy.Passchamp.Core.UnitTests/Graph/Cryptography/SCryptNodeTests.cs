@@ -39,7 +39,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Act
-            await sut.Execute(
+            await sut.ExecuteAsync(
                 mockGraph.Object,
                 cancellationTokenSource.Token);
 

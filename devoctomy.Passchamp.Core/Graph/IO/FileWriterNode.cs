@@ -31,7 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
-        protected override async Task DoExecute(
+        protected override async Task DoExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken)
         {

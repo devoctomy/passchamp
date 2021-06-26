@@ -13,7 +13,7 @@ namespace devoctomy.Passchamp.Core.Graph
         Dictionary<string, IDataPin> Output { get; }
         public string NextKey { get; set; }
         public bool Executed { get; }
-        Task Execute(
+        Task ExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken);
         void PrepareInputDataPin(
@@ -22,7 +22,7 @@ namespace devoctomy.Passchamp.Core.Graph
         void PrepareOutputDataPin(
             string key,
             bool validate = true);
-        Task ExecuteNext(
+        Task ExecuteNextAsync(
             IGraph graph,
             CancellationToken cancellationToken);
         IDataPin GetInput(string key);

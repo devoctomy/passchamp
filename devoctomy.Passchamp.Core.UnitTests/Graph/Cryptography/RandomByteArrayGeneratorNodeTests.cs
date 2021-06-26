@@ -33,7 +33,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var resultsList = new List<string>();
             for (int i = 0; i < 3; i++)
             {
-                await sut.Execute(
+                await sut.ExecuteAsync(
                     mockGraph.Object,
                     cancellationTokenSource.Token);
                 resultsList.Add(Convert.ToBase64String(sut.RandomBytes.GetValue<byte[]>()));
@@ -43,7 +43,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             Assert.Equal(3, resultsList.Distinct().ToList().Count);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Exactly(3));
-            mockNextNode.Verify(x => x.Execute(
+            mockNextNode.Verify(x => x.ExecuteAsync(
                 It.Is<IGraph>(x => x == mockGraph.Object),
                 It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Exactly(3));
         }

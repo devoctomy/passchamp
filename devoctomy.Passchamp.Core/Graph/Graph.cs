@@ -86,7 +86,7 @@ namespace devoctomy.Passchamp.Core.Graph
             _executionOrder.Clear();
             PreparePins();
             var startNode = GetNode<INode>(StartKey);
-            await startNode.Execute(
+            await startNode.ExecuteAsync(
                 this,
                 cancellationToken);
         }

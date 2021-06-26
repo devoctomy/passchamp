@@ -48,7 +48,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Act
-            await sut.Execute(
+            await sut.ExecuteAsync(
                 mockGraph.Object,
                 cancellationTokenSource.Token);
 
@@ -58,7 +58,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
             Assert.Equal(new byte[] { 3, 3, 3, 3 }, sut.GetSectionValue("End").GetValue<byte[]>());
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);
-            mockNextNode.Verify(x => x.Execute(
+            mockNextNode.Verify(x => x.ExecuteAsync(
                 It.Is<IGraph>(x => x == mockGraph.Object),
                 It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
         }

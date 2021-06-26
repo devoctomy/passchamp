@@ -97,7 +97,7 @@ namespace devoctomy.Passchamp.Core.Graph
             _preparedUnsetPins = true;
         }
 
-        public async Task Execute(
+        public async Task ExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -105,16 +105,16 @@ namespace devoctomy.Passchamp.Core.Graph
             graph.BeforeExecute(this);
             if(!Bypass.GetValue<bool>())
             {
-                await DoExecute(
+                await DoExecuteAsync(
                     graph,
                     cancellationToken);
             }
-            await ExecuteNext(
+            await ExecuteNextAsync(
                 graph,
                 cancellationToken);
         }
 
-        public async Task ExecuteNext(
+        public async Task ExecuteNextAsync(
             IGraph graph,
             CancellationToken cancellationToken)
         {
@@ -127,13 +127,13 @@ namespace devoctomy.Passchamp.Core.Graph
             var nextNode = graph.GetNode<INode>(NextKey);
             if (nextNode != null)
             {
-                await nextNode.Execute(
+                await nextNode.ExecuteAsync(
                     graph,
                     cancellationToken);
             }
         }
 
-        protected virtual Task DoExecute(
+        protected virtual Task DoExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken)
         {
