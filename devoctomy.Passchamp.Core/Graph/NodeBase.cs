@@ -107,11 +107,11 @@ namespace devoctomy.Passchamp.Core.Graph
             {
                 await DoExecuteAsync(
                     graph,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
             }
             await ExecuteNextAsync(
                 graph,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
         }
 
         public async Task ExecuteNextAsync(
