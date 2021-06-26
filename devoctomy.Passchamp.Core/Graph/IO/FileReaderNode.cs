@@ -33,7 +33,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
         {
             Bytes.Value = await System.IO.File.ReadAllBytesAsync(
                 FileName.GetValue<string>(),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
         }
     }
 }

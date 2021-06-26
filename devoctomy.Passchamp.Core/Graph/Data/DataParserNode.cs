@@ -48,7 +48,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            foreach(var curSection in Sections.GetValue<List<DataParserSection>>())
+            Parallel.ForEach(Sections.GetValue<List<DataParserSection>>(), curSection =>
             {
                 var start = curSection.Start.GetIndex(Bytes.GetValue<byte[]>().Length);
                 var end = curSection.End.GetIndex(Bytes.GetValue<byte[]>().Length);
@@ -60,7 +60,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
                     0,
                     value.Length);
                 GetSectionValue(curSection.Key).Value = value;
-            }
+            });
 
             return Task.CompletedTask;
         }

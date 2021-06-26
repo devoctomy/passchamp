@@ -39,7 +39,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             await System.IO.File.WriteAllBytesAsync(
                 FileName.GetValue<string>(),
                 inputData,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
         }
     }
 }

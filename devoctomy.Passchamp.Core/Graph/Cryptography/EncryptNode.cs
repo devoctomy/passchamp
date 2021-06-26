@@ -73,8 +73,8 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
                 CryptoStreamMode.Write);
             await cryptoStream.WriteAsync(
                 PlainTextBytes.GetValue<byte[]>(),
-                cancellationToken);
-            await cryptoStream.FlushFinalBlockAsync(cancellationToken);
+                cancellationToken).ConfigureAwait(false);
+            await cryptoStream.FlushFinalBlockAsync(cancellationToken).ConfigureAwait(false);
 
             EncryptedBytes.Value = memoryStream.ToArray();
         }

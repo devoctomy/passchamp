@@ -73,7 +73,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             using var output = new MemoryStream();
             await cryptoStream.CopyToAsync(
                 output,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             DecryptedBytes.Value = output.ToArray();
         }
