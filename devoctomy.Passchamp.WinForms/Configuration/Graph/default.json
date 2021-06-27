@@ -3,7 +3,7 @@
     {
       "Key": "Password",
       "Type": "String",
-      "Value": "Password123"
+      "Value": ""
     },
     {
       "Key": "KeyLength",
@@ -21,14 +21,29 @@
       "Value": 16
     },
     {
+      "Key": "IterationCount",
+      "Type": "Int",
+      "Value": 16384
+    },
+    {
+      "Key": "BlockSize",
+      "Type": "Int",
+      "Value": 8
+    },
+    {
+      "Key": "ThreadCount",
+      "Type": "Int",
+      "Value": 1
+    },
+    {
       "Key": "PlainText",
       "Type": "String",
-      "Value": "HelloWorld"
+      "Value": ""
     },
     {
       "Key": "OutputFileName",
       "Type": "String",
-      "Value": "Output/test.dat"
+      "Value": ""
     }
   ],
   "Nodes": [
@@ -52,15 +67,23 @@
         ],
         "Next": {
           "Key": "derive",
-          "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
+          "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.SCryptNode",
           "Inputs": [
             {
               "Key": "Password",
               "Value": "Pins.Password"
             },
             {
-              "Key": "KeyLength",
-              "Value": "Pins.KeyLength"
+              "Key": "IterationCount",
+              "Value": "Pins.IterationCount"
+            },
+            {
+              "Key": "BlockSize",
+              "Value": "Pins.BlockSize"
+            },
+            {
+              "Key": "ThreadCount",
+              "Value": "Pins.ThreadCount"
             },
             {
               "Key": "Salt",
