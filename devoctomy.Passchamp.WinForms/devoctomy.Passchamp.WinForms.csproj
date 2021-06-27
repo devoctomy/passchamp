@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Configuration\Graph\default.json" />
+    <None Remove="Configuration\Graph\defaultoutput.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Configuration\Graph\default.json">
+    <Content Include="Configuration\Graph\defaultoutput.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
