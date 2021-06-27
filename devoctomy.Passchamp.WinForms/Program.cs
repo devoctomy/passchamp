@@ -18,11 +18,9 @@ namespace devoctomy.Passchamp.WinForms
             var services = new ServiceCollection();
             ConfigureServices(services);
             services.AddPasschampCoreServices();
-            using (var serviceProvider = services.BuildServiceProvider())
-            {
-                var form1 = serviceProvider.GetRequiredService<MainForm>();
-                Application.Run(form1);
-            }
+            using var serviceProvider = services.BuildServiceProvider();
+            var form1 = serviceProvider.GetRequiredService<MainForm>();
+            Application.Run(form1);
         }
 
         private static void ConfigureServices(IServiceCollection services)

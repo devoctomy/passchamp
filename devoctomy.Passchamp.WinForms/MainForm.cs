@@ -9,8 +9,8 @@ namespace devoctomy.Passchamp.WinForms
 {
     public partial class MainForm : Form
     {
-        private ILogger<MainForm> _logger;
-        private IGraphLoaderService _graphLoaderService;
+        private readonly ILogger<MainForm> _logger;
+        private readonly IGraphLoaderService _graphLoaderService;
 
         public MainForm(
             ILogger<MainForm> logger,
@@ -24,10 +24,12 @@ namespace devoctomy.Passchamp.WinForms
 
         private async Task TestLoad(CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Loading graph from json...");
             using var inputStream = File.OpenRead("Configuration/Graph/default.json");
             var graph = await _graphLoaderService.LoadAsync(
                 inputStream,
                 cancellationToken);
+            _logger.LogInformation("Graph loaded.");
         }
 
         private async void button1_Click(object sender, System.EventArgs e)
