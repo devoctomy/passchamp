@@ -8,8 +8,8 @@ namespace devoctomy.Passchamp.Core.Extensions
         public static void AddPasschampCoreServices(this IServiceCollection services)
         {
             services.AddScoped<IGraphLoaderService, GraphLoaderService>();
-            services.AddScoped<IPinsJsonParserService, PinsJsonParserService>();
             services.AddScoped<INodesJsonParserService, NodesJsonParserService>();
+            services.AddScoped<IPinsJsonParserService, PinsJsonParserService>();
         }
     }
 }

@@ -1,4 +1,9 @@
 using devoctomy.Passchamp.Core.Extensions;
+using devoctomy.Passchamp.Dialogs;
+using devoctomy.Passchamp.Models;
+using devoctomy.Passchamp.Services;
+using devoctomy.Passchamp.Views;
+using devoctomy.Passchamp.WinForms.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,14 +24,18 @@ namespace devoctomy.Passchamp.WinForms
             ConfigureServices(services);
             services.AddPasschampCoreServices();
             using var serviceProvider = services.BuildServiceProvider();
-            var form1 = serviceProvider.GetRequiredService<MainForm>();
-            Application.Run(form1);
+            var mainForm = serviceProvider.GetRequiredService<Main>();
+            Application.Run(mainForm);
         }
 
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging(configure => configure.AddConsole());
-            services.AddScoped<MainForm>();
+            services.AddScoped<MainViewModel>();
+            services.AddSingleton<IViewModelLocator, ViewModelLocator>();
+            services.AddSingleton<IViewLocator, ViewLocator>();
+            services.AddScoped<Main>();
+            services.AddScoped<GraphTesterDialog>();
         }
     }
 }
