@@ -1,21 +1,22 @@
 ﻿using devoctomy.Passchamp.Models;
 using devoctomy.Passchamp.Services;
+using devoctomy.Passchamp.Views;
 using Microsoft.Extensions.Logging;
 using System.Windows.Forms;
 
 namespace devoctomy.Passchamp.Dialogs
 {
-    public partial class GraphTesterDialog : Form
+    public partial class GraphTesterDialog : Form, IView<GraphTesterDialog, GraphTesterViewModel>
     {
-        private readonly ILogger<GraphTesterDialog> _logger;
-        private readonly GraphTesterViewModel _viewModel;
+        public ILogger<GraphTesterDialog> Logger { get; }
+        public GraphTesterViewModel Model { get; }
 
         public GraphTesterDialog(
             ILogger<GraphTesterDialog> logger,
             IViewModelLocator viewModelLocator)
         {
-            _logger = logger;
-            _viewModel = viewModelLocator.CreateInstance<GraphTesterViewModel>();
+            Logger = logger;
+            Model = viewModelLocator.CreateInstance<GraphTesterViewModel>();
             InitializeComponent();
         }
     }
