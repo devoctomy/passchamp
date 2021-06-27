@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace devoctomy.Passchamp.WinForms.Views
 {
-    public partial class Main : Form, IView<Main, MainViewModel> //NOSONAR
+    public partial class Main : Form, IView<Main, MainViewModel>
     {
         public ILogger<Main> Logger { get; }
         public MainViewModel Model { get; }
