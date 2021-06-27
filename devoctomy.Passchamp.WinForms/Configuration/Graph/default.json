@@ -1,0 +1,134 @@
+﻿{
+  "Pins": [
+    {
+      "Key": "Password",
+      "Type": "String",
+      "Value": "Password123"
+    },
+    {
+      "Key": "KeyLength",
+      "Type": "Int",
+      "Value": 32
+    },
+    {
+      "Key": "SaltLength",
+      "Type": "Int",
+      "Value": 16
+    },
+    {
+      "Key": "IvLength",
+      "Type": "Int",
+      "Value": 16
+    },
+    {
+      "Key": "PlainText",
+      "Type": "String",
+      "Value": "HelloWorld"
+    },
+    {
+      "Key": "OutputFileName",
+      "Type": "String",
+      "Value": "Output/test.dat"
+    }
+  ],
+  "Nodes": [
+    {
+      "Key": "saltgenerator",
+      "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
+      "Inputs": [
+        {
+          "Key": "Length",
+          "Value": "Pins.SaltLength"
+        }
+      ],
+      "Next": {
+        "Key": "ivgenerator",
+        "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
+        "Inputs": [
+          {
+            "Key": "Length",
+            "Value": "Pins.IvLength"
+          }
+        ],
+        "Next": {
+          "Key": "derive",
+          "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
+          "Inputs": [
+            {
+              "Key": "Password",
+              "Value": "Pins.Password"
+            },
+            {
+              "Key": "KeyLength",
+              "Value": "Pins.KeyLength"
+            },
+            {
+              "Key": "Salt",
+              "Value": "saltgenerator.RandomBytes"
+            }
+          ],
+          "Next": {
+            "Key": "encode",
+            "Type": "devoctomy.Passchamp.Core.Graph.Text.Utf8EncoderNode",
+            "Inputs": [
+              {
+                "Key": "PlainText",
+                "Value": "Pins.PlainText"
+              }
+            ],
+            "Next": {
+              "Key": "encrypt",
+              "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.EncryptNode",
+              "Inputs": [
+                {
+                  "Key": "PlainTextBytes",
+                  "Value": "encode.EncodedBytes"
+                },
+                {
+                  "Key": "Iv",
+                  "Value": "ivgenerator.RandomBytes"
+                },
+                {
+                  "Key": "Key",
+                  "Value": "derive.Key"
+                }
+              ],
+              "Next": {
+                "Key": "joiner",
+                "Type": "devoctomy.Passchamp.Core.Graph.Data.ArrayJoinerNode",
+                "Inputs": [
+                  {
+                    "Key": "Part1",
+                    "Value": "ivgenerator.RandomBytes"
+                  },
+                  {
+                    "Key": "Part2",
+                    "Value": "encrypt.EncryptedBytes"
+                  },
+                  {
+                    "Key": "Part3",
+                    "Value": "saltgenerator.RandomBytes"
+                  }
+                ],
+                "Next": {
+                  "Key": "writer",
+                  "Type": "devoctomy.Passchamp.Core.Graph.IO.FileWriterNode",
+                  "Inputs": [
+                    {
+                      "Key": "InputData",
+                      "Value": "joiner.JoinedOutput"
+                    },
+                    {
+                      "Key": "FileName",
+                      "Value": "Pins.OutputFileName"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
