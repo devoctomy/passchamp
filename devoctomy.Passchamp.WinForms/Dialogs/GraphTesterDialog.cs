@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace devoctomy.Passchamp.Dialogs
 {
-    public partial class GraphTesterDialog : Form, IView<GraphTesterDialog, GraphTesterViewModel>
+    public partial class GraphTesterDialog : Form, IView<GraphTesterDialog, GraphTesterViewModel> //NOSONAR
     {
         public ILogger<GraphTesterDialog> Logger { get; }
         public GraphTesterViewModel Model { get; }
