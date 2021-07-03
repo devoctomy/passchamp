@@ -12,5 +12,13 @@ namespace devoctomy.Passchamp.Windows.Services
                 return Ioc.Default.GetRequiredService<MainViewModel>();
             }
         }
+
+        public GraphTesterViewModel GraphTesterViewModel
+        {
+            get
+            {
+                return Ioc.Default.GetRequiredService<GraphTesterViewModel>();
+            }
+        }
     }
 }

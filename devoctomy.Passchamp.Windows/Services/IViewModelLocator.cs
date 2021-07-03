@@ -5,5 +5,6 @@ namespace devoctomy.Passchamp.Windows.Services
     public interface IViewModelLocator
     {
         MainViewModel MainViewModel { get; }
+        GraphTesterViewModel GraphTesterViewModel { get; }
     }
 }

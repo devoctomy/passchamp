@@ -1,8 +1,9 @@
 ﻿using devoctomy.Passchamp.Core.Extensions;
+using devoctomy.Passchamp.Windows.Model;
 using devoctomy.Passchamp.Windows.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
-using System;
 using System.Windows;
 
 namespace devoctomy.Passchamp.Windows
@@ -20,9 +21,23 @@ namespace devoctomy.Passchamp.Windows
         private static void ConfigureServices()
         {
             var services = new ServiceCollection();
+            services.AddLogging(configure => configure.AddConsole());
             services.AddPasschampCoreServices();
-            services.AddScoped<MainViewModel>();
+            ConfigureModels(services);
+            ConfigureViewModels(services);
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
+        }
+
+        private static void ConfigureModels(IServiceCollection services)
+        {
+            services.AddScoped<MainModel>();
+            services.AddScoped<GraphTesterModel>();
+        }
+
+        private static void ConfigureViewModels(IServiceCollection services)
+        {
+            services.AddScoped<MainViewModel>();
+            services.AddScoped<GraphTesterViewModel>();
         }
     }
 }
