@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace devoctomy.Passchamp.Views
+namespace devoctomy.Passchamp.Services
 {
     public interface IViewLocator
     {

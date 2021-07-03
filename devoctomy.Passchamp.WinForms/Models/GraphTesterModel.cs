@@ -1,6 +1,6 @@
 ﻿namespace devoctomy.Passchamp.Models
 {
-    public class ViewModelBase
+    public class GraphTesterModel : ModelBase
     {
     }
 }

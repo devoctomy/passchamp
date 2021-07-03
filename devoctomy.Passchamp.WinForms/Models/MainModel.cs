@@ -1,6 +1,6 @@
 ﻿namespace devoctomy.Passchamp.Models
 {
-    public class MainViewModel : ViewModelBase
+    public class MainModel : ModelBase
     {
     }
 }

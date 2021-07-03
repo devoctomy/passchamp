@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Models;
 using devoctomy.Passchamp.Services;
+using devoctomy.Passchamp.ViewModels;
 using devoctomy.Passchamp.Views;
 using Microsoft.Extensions.Logging;
 using System.Windows.Forms;
@@ -9,14 +10,14 @@ namespace devoctomy.Passchamp.Dialogs
     public partial class GraphTesterDialog : Form, IView<GraphTesterDialog, GraphTesterViewModel>
     {
         public ILogger<GraphTesterDialog> Logger { get; }
-        public GraphTesterViewModel Model { get; }
+        public GraphTesterViewModel ViewModel { get; }
 
         public GraphTesterDialog(
             ILogger<GraphTesterDialog> logger,
-            IViewModelLocator viewModelLocator)
+            GraphTesterViewModel viewModel)
         {
             Logger = logger;
-            Model = viewModelLocator.CreateInstance<GraphTesterViewModel>();
+            ViewModel = viewModel;
             InitializeComponent();
         }
     }

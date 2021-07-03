@@ -1,18 +1,18 @@
-﻿using devoctomy.Passchamp.Models;
-using System;
+﻿using System;
+using System.Windows.Forms;
 
 namespace devoctomy.Passchamp.Services
 {
-    public class ViewModelLocator : IViewModelLocator
+    public class ViewLocator : IViewLocator
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public ViewModelLocator(IServiceProvider serviceProvider)
+        public ViewLocator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
 
-        public T CreateInstance<T>() where T : ViewModelBase
+        public T CreateInstance<T>() where T : Form
         {
             return (T)_serviceProvider.GetService(typeof(T));
         }
