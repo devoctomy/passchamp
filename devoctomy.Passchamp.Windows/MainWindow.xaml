@@ -8,6 +8,11 @@
         Title="MainWindow" Height="450" Width="800"
         DataContext="{Binding MainViewModel, Source={StaticResource ViewModelLocator}}">
     <Grid>
-        <TextBlock Text="{Binding Path=TestValue}"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Path=TestValue}" Grid.Row="0"></TextBlock>
+        <Button Command="{Binding Path=Test}" Grid.Row="1" IsEnabled="{Binding Path=Test.CanExecute}">Test</Button>
     </Grid>
 </Window>
