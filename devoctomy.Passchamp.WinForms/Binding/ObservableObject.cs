@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace devoctomy.Passchamp
+namespace devoctomy.Passchamp.Binding
 {
     public abstract class ObservableObject : INotifyPropertyChanged
     {

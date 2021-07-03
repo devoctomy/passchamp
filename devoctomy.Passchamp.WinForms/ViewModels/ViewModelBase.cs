@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Models;
+﻿using devoctomy.Passchamp.Binding;
+using devoctomy.Passchamp.Models;
 
 namespace devoctomy.Passchamp.ViewModels
 {

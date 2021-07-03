@@ -1,6 +1,4 @@
-﻿using devoctomy.Passchamp.Dialogs;
-using devoctomy.Passchamp.Services;
-using devoctomy.Passchamp.ViewModels;
+﻿using devoctomy.Passchamp.ViewModels;
 using devoctomy.Passchamp.Views;
 using Microsoft.Extensions.Logging;
 using System.Windows.Forms;

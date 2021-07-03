@@ -1,6 +1,4 @@
-﻿using devoctomy.Passchamp.Models;
-using devoctomy.Passchamp.Services;
-using devoctomy.Passchamp.ViewModels;
+﻿using devoctomy.Passchamp.ViewModels;
 using devoctomy.Passchamp.Views;
 using Microsoft.Extensions.Logging;
 using System.Windows.Forms;
@@ -19,6 +17,8 @@ namespace devoctomy.Passchamp.Dialogs
             Logger = logger;
             ViewModel = viewModel;
             InitializeComponent();
+
+            commandButton1.Command = ViewModel.BrowseCommand;
         }
     }
 }
