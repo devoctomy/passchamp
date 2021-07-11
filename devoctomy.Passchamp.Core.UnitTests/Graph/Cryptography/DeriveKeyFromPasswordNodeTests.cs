@@ -11,17 +11,19 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
     public class DeriveKeyFromPasswordNodeTests
     {
         [Fact]
-        public async Task GivenPassword_AndSalt_AndKeyLength_AndNextKey_WhenExecute_ThenKeyDerivedFromPassword_AndNextExecuted()
+        public async Task GivenPassword_AndSalt_AndKeyLength_AndIterationCount_AndNextKey_WhenExecute_ThenKeyDerivedFromPassword_AndNextExecuted()
         {
             // Arrange
             var password = "Hello World";
             var salt = new byte[16];
             var keyLength = 32;
+            var iterationCount = 10000;
             var sut = new DeriveKeyFromPasswordNode
             {
                 Password = new DataPin(password),
                 Salt = new DataPin(salt),
                 KeyLength = new DataPin(keyLength),
+                IterationCount = new DataPin(iterationCount),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
@@ -38,7 +40,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
 
             // Assert
             var keyBase64 = Convert.ToBase64String(sut.Key.GetValue<byte[]>());
-            Assert.Equal("4r6j4LSQOT/166ahn04oPny3pQxjnMu6sXCTBsi1z2Q=", keyBase64);
+            Assert.Equal("13L8vFYuEpQEsGqd3ApDr2DNVKhibgj1SdahkfZ+Wjs=", keyBase64);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);
             mockNextNode.Verify(x => x.ExecuteAsync(

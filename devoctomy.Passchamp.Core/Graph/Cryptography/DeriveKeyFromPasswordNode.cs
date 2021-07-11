@@ -44,6 +44,19 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        [NodeInputPin(ValueType = typeof(int), DefaultValue = 1)]
+        public IDataPin IterationCount
+        {
+            get
+            {
+                return GetInput("IterationCount");
+            }
+            set
+            {
+                Input["IterationCount"] = value;
+            }
+        }
+
         [NodeOutputPin]
         public IDataPin Key
         {
@@ -59,7 +72,8 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         {
             using var crypto = new System.Security.Cryptography.Rfc2898DeriveBytes(
                 Password.GetValue<string>(),
-                Salt.GetValue<byte[]>());
+                Salt.GetValue<byte[]>(),
+                IterationCount.GetValue<int>());
             Key.Value = crypto.GetBytes(KeyLength.GetValue<int>());
             return Task.CompletedTask;
         }

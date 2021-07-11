@@ -194,7 +194,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableTheoryAttribute(DisplayName="02) Decrypt file using a password to correct plain text")]
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "02) Decrypt file using a password to correct plain text")]
-        [Xunit.InlineDataAttribute("reader", "Output/test.dat", "parser", "Iv,0,16;Cipher,16,~16;Salt,~16,~0", "derivekey", "123", "32", "decrypt", "Iv", "Cipher", "Salt", "decode", "Hello World!", new string[0])]
+        [Xunit.InlineDataAttribute("reader", "Output/testdec.dat", "parser", "Iv,0,16;Cipher,16,~16;Salt,~16,~0", "derivekey", "123", "32", "decrypt", "Iv", "Cipher", "Salt", "decode", "Hello World!", new string[0])]
         public virtual void _02DecryptFileUsingAPasswordToCorrectPlainText(string fileReaderNodeName, string fileName, string dataParserNodeName, string parserSections, string deriveKeyNodeName, string password, string keyLength, string decryptNodeName, string ivSectionKey, string cipherSectionKey, string saltSectionKey, string decoderNodeName, string plainText, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
