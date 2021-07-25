@@ -85,5 +85,19 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                     value);
             });
         }
+
+        [Fact]
+        public void GivenName_AndNull_WhenCreate_ThenArgumentExceptionThrown()
+        {
+            // Arrange
+
+            // Act & Assert
+            Assert.ThrowsAny<ArgumentException>(() =>
+            {
+                DataPinFactory.Instance.Create(
+                    "Test",
+                    null);
+            });
+        }
     }
 }
