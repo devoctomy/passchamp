@@ -29,9 +29,12 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                             throw new NotSupportedException($"Pin value type '{curPinJson["Type"].Value<string>()}' not supported.");
                         }
                 }
+                var key = curPinJson["Key"].Value<string>();
                 pins.Add(
-                    curPinJson["Key"].Value<string>(),
-                    new DataPin(value));
+                    key,
+                    new DataPin(
+                        key,
+                        value));
             }
 
             return pins;

@@ -38,7 +38,9 @@ namespace devoctomy.Passchamp.Core.Graph.Data
                 {
                     _sectionValues.Add(
                         curSection.Key,
-                        new DataPin(null));
+                        new DataPin(
+                            curSection.Key,
+                            null));
                 }
                 Input["Sections"] = value;
             }

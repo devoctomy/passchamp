@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using devoctomy.Passchamp.Windows.Services;
+using System.Windows;
 
 namespace devoctomy.Passchamp.Windows.Views
 {

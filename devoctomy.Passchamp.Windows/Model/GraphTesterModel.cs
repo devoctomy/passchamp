@@ -1,6 +1,44 @@
-﻿namespace devoctomy.Passchamp.Windows.Model
+﻿using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Windows.Extensions;
+using System.Collections.ObjectModel;
+using System.Linq;
+
+namespace devoctomy.Passchamp.Windows.Model
 {
-    public class GraphTesterModel
+    public class GraphTesterModel : ModelBase
     {
+        private IGraph _graph;
+
+        private ObservableCollection<IDataPin> _pins;
+
+        public IGraph Graph
+        { 
+            get
+            {
+                return _graph;
+            }
+            set
+            {
+                if(_graph != value)
+                {
+                    _graph = value;
+                    OnPropertyChanged(nameof(Graph));
+                    OnPropertyChanged(nameof(Pins));
+                }
+            }
+        }
+
+        public ObservableCollection<IDataPin> Pins
+        {
+            get
+            {
+                if(_pins == null)
+                {
+                    _pins = Graph?.Pins.Values.ToList().ToObservableCollection();
+                }
+
+                return _pins;
+            }
+        }
     }
 }

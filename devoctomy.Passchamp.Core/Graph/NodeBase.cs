@@ -51,7 +51,9 @@ namespace devoctomy.Passchamp.Core.Graph
 
             if (!Input.ContainsKey(key))
             {
-                Input.Add(key, new DataPin(null));
+                Input.Add(key, new DataPin(
+                    key,
+                    null));
             }
         }
 
@@ -66,7 +68,9 @@ namespace devoctomy.Passchamp.Core.Graph
 
             if (!Output.ContainsKey(key))
             {
-                Output.Add(key, new DataPin(null));
+                Output.Add(key, new DataPin(
+                    key,
+                    null));
             }
         }
 
@@ -80,7 +84,9 @@ namespace devoctomy.Passchamp.Core.Graph
                 var attribute = (NodeInputPinAttribute)Attribute.GetCustomAttribute(curUnsetInput.Value, typeof(NodeInputPinAttribute));
                 if (attribute.ValueType != null)
                 {
-                    Input[curUnsetInput.Key] = new DataPin(attribute.DefaultValue);
+                    Input[curUnsetInput.Key] = new DataPin(
+                        curUnsetInput.Key,
+                        attribute.DefaultValue);
                 }
             }
 
@@ -90,7 +96,9 @@ namespace devoctomy.Passchamp.Core.Graph
                 var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(curUnsetOutput.Value, typeof(NodeOutputPinAttribute));
                 if (attribute.ValueType != null)
                 {
-                    Output[curUnsetOutput.Key] = new DataPin(attribute.DefaultValue);
+                    Output[curUnsetOutput.Key] = new DataPin(
+                        curUnsetOutput.Key,
+                        attribute.DefaultValue);
                 }
             }
 
