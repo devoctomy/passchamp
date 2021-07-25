@@ -1,4 +1,5 @@
-﻿using System;
+﻿using devoctomy.Passchamp.Core.Graph;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,19 +7,19 @@ namespace devoctomy.Passchamp.Windows.Views
 {
     public partial class DataPinView : UserControl
     {
-        public static readonly DependencyProperty PinNameProperty =
+        public static readonly DependencyProperty DataPinProperty =
                    DependencyProperty.Register(
-                       nameof(PinName),
-                       typeof(string),
+                       nameof(DataPin),
+                       typeof(IDataPin),
                        typeof(DataPinView),
                        new PropertyMetadata(
-                           "",
+                           null,
                            null));
 
-        public string PinName
+        public IDataPin DataPin
         {
-            get => (string)GetValue(PinNameProperty);
-            set => SetValue(PinNameProperty, value);
+            get => (IDataPin)GetValue(DataPinProperty);
+            set => SetValue(DataPinProperty, value);
         }
 
         public DataPinView()

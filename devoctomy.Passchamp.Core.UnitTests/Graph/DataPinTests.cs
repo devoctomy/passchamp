@@ -11,7 +11,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         {
             // Arrange
             var value = "Hello World!";
-            var sut = new DataPin(value);
+            var sut = new DataPin("Test", value);
 
             // Act
             var result = sut.GetValue<string>();
@@ -25,7 +25,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         {
             // Arrange
             var value = 100;
-            var sut = new DataPin(value);
+            var sut = new DataPin("Test", value);
 
             // Act
             Assert.ThrowsAny<InvalidCastException>(() =>

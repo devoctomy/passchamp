@@ -36,7 +36,7 @@
                 <ListBox Grid.Row="1" Width="200" ItemsSource="{Binding Path=Model.Pins}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <local:DataPinView PinName="{Binding Path=Name}" Width="180"></local:DataPinView>
+                            <local:DataPinView DataPin="{Binding Path=.}" Width="180"></local:DataPinView>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>

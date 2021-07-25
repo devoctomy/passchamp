@@ -14,7 +14,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
         {
             get
             {
-                PrepareInputDataPin("Bytes");
+                PrepareInputDataPin("Bytes", typeof(byte[]));
                 return Input["Bytes"];
             }
             set
@@ -28,7 +28,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
         {
             get
             {
-                PrepareInputDataPin("Sections");
+                PrepareInputDataPin("Sections", typeof(List<DataParserSection>));
                 return Input["Sections"];
             }
             set
@@ -40,7 +40,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
                         curSection.Key,
                         new DataPin(
                             curSection.Key,
-                            null));
+                            typeof(int)));
                 }
                 Input["Sections"] = value;
             }

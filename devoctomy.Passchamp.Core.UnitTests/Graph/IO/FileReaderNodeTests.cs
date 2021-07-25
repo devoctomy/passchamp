@@ -16,7 +16,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
             var expectedData = "Hello World!\r\n12345";
             var sut = new FileReaderNode
             {
-                FileName = new DataPin("Data/TestInputFile1.txt"),
+                FileName = new DataPin("FileName", "Data/TestInputFile1.txt"),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

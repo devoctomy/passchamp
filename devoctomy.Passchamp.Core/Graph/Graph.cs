@@ -66,7 +66,7 @@ namespace devoctomy.Passchamp.Core.Graph
                         else
                         {
                             var mapFromNode = Nodes[path[0]];
-                            mapFromNode.PrepareOutputDataPin(path[1]);
+                            mapFromNode.PrepareOutputDataPin(path[1], typeof(string));
                             var nodeOutPin = mapFromNode.Output[path[1]];
                             curNode.Input[curInputPinKey] = nodeOutPin;
                         }

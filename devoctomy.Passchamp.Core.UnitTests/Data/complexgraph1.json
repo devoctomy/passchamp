@@ -2,32 +2,32 @@
   "Pins": [
     {
       "Key": "Password",
-      "Type": "String",
+      "Type": "System.String",
       "Value": "Password123"
     },
     {
       "Key": "KeyLength",
-      "Type": "Int",
+      "Type": "System.Int32",
       "Value": 32
     },
     {
       "Key": "SaltLength",
-      "Type": "Int",
+      "Type": "System.Int32",
       "Value": 16
     },
     {
       "Key": "IvLength",
-      "Type": "Int",
+      "Type": "System.Int32",
       "Value": 16
     },
     {
       "Key": "PlainText",
-      "Type": "String",
+      "Type": "System.String",
       "Value": "HelloWorld"
     },
     {
       "Key": "OutputFileName",
-      "Type": "String",
+      "Type": "System.String",
       "Value": "Output/test.dat"
     }
   ],

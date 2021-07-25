@@ -17,8 +17,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
             var inputData = Guid.NewGuid().ToString(null, System.Globalization.CultureInfo.InvariantCulture).ToUpper();
             var sut = new FileWriterNode
             {
-                FileName = new DataPin("Data/TestOutputFile1.txt"),
-                InputData = new DataPin(System.Text.Encoding.UTF8.GetBytes(inputData)),
+                FileName = new DataPin("FileName", "Data/TestOutputFile1.txt"),
+                InputData = new DataPin("InputData", System.Text.Encoding.UTF8.GetBytes(inputData)),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

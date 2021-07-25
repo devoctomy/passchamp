@@ -30,11 +30,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var mockGraph = new Mock<IGraph>();
             var sut = new SCryptNode
             {
-                IterationCount = new DataPin(iterationCount),
-                BlockSize = new DataPin(blockSize),
-                ThreadCount = new DataPin(threadCount),
-                Password = new DataPin(password),
-                Salt = new DataPin(salt),
+                IterationCount = new DataPin("IterationCount", iterationCount),
+                BlockSize = new DataPin("BlockSize", blockSize),
+                ThreadCount = new DataPin("ThreadCount", threadCount),
+                Password = new DataPin("Password", password),
+                Salt = new DataPin("Salt", salt),
             };
             var cancellationTokenSource = new CancellationTokenSource();
 

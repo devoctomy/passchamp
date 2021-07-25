@@ -47,7 +47,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new RandomByteArrayGeneratorNode
             {
-                Length = new DataPin(length),
+                Length = new DataPin("Length", length),
                 NextKey = nextKey,
             };
 
@@ -65,8 +65,8 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new DeriveKeyFromPasswordNode
             {
-                Password = new DataPin(password),
-                KeyLength = new DataPin(keyLength),
+                Password = new DataPin("Password", password),
+                KeyLength = new DataPin("KeyLength", keyLength),
                 NextKey = nextKey,
             };
 
@@ -83,10 +83,10 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new SCryptNode
             {
-                Password = new DataPin(password),
-                IterationCount = new DataPin(1024),
-                BlockSize = new DataPin(8),
-                ThreadCount = new DataPin(1),
+                Password = new DataPin("Password", password),
+                IterationCount = new DataPin("IterationCount", 1024),
+                BlockSize = new DataPin("BlockSize", 8),
+                ThreadCount = new DataPin("ThreadCount", 1),
                 NextKey = nextKey,
             };
 
@@ -103,7 +103,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new Utf8EncoderNode
             {
-                PlainText = new DataPin(plainText),
+                PlainText = new DataPin("PlainText", plainText),
                 NextKey = nextKey,
             };
 
@@ -152,7 +152,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new FileWriterNode
             {
-                FileName = new DataPin(fileName),
+                FileName = new DataPin("FileName", fileName),
             };
 
             nodes.Add(name, node);
@@ -168,7 +168,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new FileReaderNode
             {
-                FileName = new DataPin(fileName),
+                FileName = new DataPin("FileName", fileName),
                 NextKey = nextKey,
             };
 
@@ -204,7 +204,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new DataParserNode
             {
-                Sections = new DataPin(allSections),
+                Sections = new DataPin("Sections", allSections),
                 NextKey = nextKey,
             };
 

@@ -20,9 +20,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var key = new byte[32];
             var sut = new EncryptNode()
             {
-                PlainTextBytes = new DataPin(Encoding.UTF8.GetBytes(plainText)),
-                Iv = new DataPin(iv),
-                Key = new DataPin(key),
+                PlainTextBytes = new DataPin("PlainTextBytes", Encoding.UTF8.GetBytes(plainText)),
+                Iv = new DataPin("Iv", iv),
+                Key = new DataPin("Key", key),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

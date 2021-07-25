@@ -16,8 +16,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
             // Arrange
             var sut = new DataParserNode
             {
-                Bytes = new DataPin(new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }),
-                Sections = new DataPin(new List<DataParserSection>
+                Bytes = new DataPin("Bytes", new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }),
+                Sections = new DataPin("Sections", new List<DataParserSection>
                 {
                     new DataParserSection
                     {

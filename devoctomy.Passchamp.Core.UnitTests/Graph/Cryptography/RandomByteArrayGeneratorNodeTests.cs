@@ -19,7 +19,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var length = 32;
             var sut = new RandomByteArrayGeneratorNode
             {
-                Length = new DataPin(length),
+                Length = new DataPin("Length", length),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

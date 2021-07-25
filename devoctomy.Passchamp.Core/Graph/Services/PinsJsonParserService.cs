@@ -12,14 +12,19 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             foreach (var curPinJson in json)
             {
                 object value = null;
-                switch (curPinJson["Type"].Value<string>())
+                var valueType = Type.GetType(curPinJson["Type"].Value<string>());
+                if(valueType == null)
+                {
+                    throw new TypeLoadException($"Unknown type '{curPinJson["Type"].Value<string>()}'.");
+                }
+                switch (valueType.Name)
                 {
                     case "String":
                         {
                             value = curPinJson["Value"].Value<string>();
                             break;
                         }
-                    case "Int":
+                    case "Int32":
                         {
                             value = curPinJson["Value"].Value<int>();
                             break;
@@ -34,7 +39,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                     key,
                     new DataPin(
                         key,
-                        value));
+                        value,
+                        valueType));
             }
 
             return pins;

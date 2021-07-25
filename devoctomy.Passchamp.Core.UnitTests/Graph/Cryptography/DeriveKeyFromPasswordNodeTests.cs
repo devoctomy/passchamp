@@ -20,10 +20,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var iterationCount = 10000;
             var sut = new DeriveKeyFromPasswordNode
             {
-                Password = new DataPin(password),
-                Salt = new DataPin(salt),
-                KeyLength = new DataPin(keyLength),
-                IterationCount = new DataPin(iterationCount),
+                Password = new DataPin("Password", password),
+                Salt = new DataPin("Salt", salt),
+                KeyLength = new DataPin("KeyLength", keyLength),
+                IterationCount = new DataPin("IterationCount", iterationCount),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

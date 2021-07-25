@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +19,11 @@ namespace devoctomy.Passchamp.Core.Graph
             CancellationToken cancellationToken);
         void PrepareInputDataPin(
             string key,
+            Type valueType,
             bool validate = true);
         void PrepareOutputDataPin(
             string key,
+            Type valueType,
             bool validate = true);
         Task ExecuteNextAsync(
             IGraph graph,

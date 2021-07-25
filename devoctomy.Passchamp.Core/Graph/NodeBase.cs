@@ -42,6 +42,7 @@ namespace devoctomy.Passchamp.Core.Graph
 
         public void PrepareInputDataPin(
             string key,
+            Type valueType,
             bool validate = true)
         {
             if(validate && !InputPinsProperties.ContainsKey(key))
@@ -53,12 +54,14 @@ namespace devoctomy.Passchamp.Core.Graph
             {
                 Input.Add(key, new DataPin(
                     key,
-                    null));
+                    null,
+                    valueType));
             }
         }
 
         public void PrepareOutputDataPin(
             string key,
+            Type valueType,
             bool validate = true)
         {
             if (validate && !OutputPinsProperties.ContainsKey(key))
@@ -70,7 +73,8 @@ namespace devoctomy.Passchamp.Core.Graph
             {
                 Output.Add(key, new DataPin(
                     key,
-                    null));
+                    null,
+                    valueType));
             }
         }
 
@@ -86,7 +90,8 @@ namespace devoctomy.Passchamp.Core.Graph
                 {
                     Input[curUnsetInput.Key] = new DataPin(
                         curUnsetInput.Key,
-                        attribute.DefaultValue);
+                        attribute.DefaultValue,
+                        attribute.ValueType);
                 }
             }
 
@@ -98,7 +103,8 @@ namespace devoctomy.Passchamp.Core.Graph
                 {
                     Output[curUnsetOutput.Key] = new DataPin(
                         curUnsetOutput.Key,
-                        attribute.DefaultValue);
+                        attribute.DefaultValue,
+                        attribute.ValueType);
                 }
             }
 
@@ -150,13 +156,17 @@ namespace devoctomy.Passchamp.Core.Graph
 
         public IDataPin GetInput(string key)
         {
-            PrepareInputDataPin(key);
+            PrepareInputDataPin(
+                key,
+                typeof(object));    //!!! We need to ditch this
             return Input[key];
         }
 
         public IDataPin GetOutput(string key)
         {
-            PrepareOutputDataPin(key);
+            PrepareOutputDataPin(
+                key,
+                typeof(object));    //!!! We need to ditch this
             return Output[key];
         }
     }

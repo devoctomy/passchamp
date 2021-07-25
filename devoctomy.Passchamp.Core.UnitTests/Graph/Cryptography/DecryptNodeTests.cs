@@ -19,9 +19,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var key = new byte[32];
             var sut = new DecryptNode()
             {
-                Cipher = new DataPin(Convert.FromBase64String("do721rp9jGvQeavPmDw34A==")),
-                Iv = new DataPin(iv),
-                Key = new DataPin(key),
+                Cipher = new DataPin("Cipher", Convert.FromBase64String("do721rp9jGvQeavPmDw34A==")),
+                Iv = new DataPin("Iv", iv),
+                Key = new DataPin("Key", key),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

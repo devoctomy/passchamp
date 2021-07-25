@@ -2,17 +2,17 @@
   "Pins": [
     {
       "Key": "Pin1",
-      "Type": "String",
+      "Type": "System.String",
       "Value": "Hello"
     },
     {
       "Key": "Pin2",
-      "Type": "String",
+      "Type": "System.String",
       "Value": null
     },
     {
       "Key": "Pin3",
-      "Type": "Int",
+      "Type": "System.Int32",
       "Value": 101
     }
   ]

@@ -83,6 +83,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             // Act
             sut.PrepareInputDataPin(
                 key,
+                typeof(string),
                 false);
 
             // Assert
@@ -113,6 +114,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             // Act
             sut.PrepareOutputDataPin(
                 key,
+                typeof(string),
                 false);
 
             // Assert

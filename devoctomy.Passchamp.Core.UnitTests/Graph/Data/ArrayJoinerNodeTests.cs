@@ -16,10 +16,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
             var expectedJoinedArray = new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4 };
             var sut = new ArrayJoinerNode
             {
-                Part1 = new DataPin(new byte[] { 1, 1, 1, 1 }),
-                Part2 = new DataPin(new byte[] { 2, 2, 2, 2 }),
-                Part3 = new DataPin(new byte[] { 3, 3, 3, 3 }),
-                Part4 = new DataPin(new byte[] { 4, 4, 4, 4 }),
+                Part1 = new DataPin("Part1", new byte[] { 1, 1, 1, 1 }),
+                Part2 = new DataPin("Part2", new byte[] { 2, 2, 2, 2 }),
+                Part3 = new DataPin("Part3", new byte[] { 3, 3, 3, 3 }),
+                Part4 = new DataPin("Part4", new byte[] { 4, 4, 4, 4 }),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
