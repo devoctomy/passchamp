@@ -6,11 +6,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
     public class DeriveKeyFromPasswordNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin Password
+        public IDataPin<string> Password
         {
             get
             {
-                return GetInput("Password");
+                return GetInput<string>("Password");
             }
             set
             {
@@ -19,11 +19,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Salt
+        public IDataPin<byte[]> Salt
         {
             get
             {
-                return GetInput("Salt");
+                return GetInput<byte[]>("Salt");
             }
             set
             {
@@ -32,11 +32,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
-        public IDataPin KeyLength
+        public IDataPin<int> KeyLength
         {
             get
             {
-                return GetInput("KeyLength");
+                return GetInput<int>("KeyLength");
             }
             set
             {
@@ -45,11 +45,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(int), DefaultValue = 1)]
-        public IDataPin IterationCount
+        public IDataPin<int> IterationCount
         {
             get
             {
-                return GetInput("IterationCount");
+                return GetInput<int>("IterationCount");
             }
             set
             {
@@ -57,12 +57,12 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeOutputPin]
-        public IDataPin Key
+        [NodeOutputPin(ValueType = typeof(byte[]))]
+        public IDataPin<byte[]> Key
         {
             get
             {
-                return GetOutput("Key");
+                return GetOutput<byte[]>("Key");
             }
         }
 
@@ -71,10 +71,10 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             CancellationToken cancellationToken)
         {
             using var crypto = new System.Security.Cryptography.Rfc2898DeriveBytes(
-                Password.GetValue<string>(),
-                Salt.GetValue<byte[]>(),
-                IterationCount.GetValue<int>());
-            Key.Value = crypto.GetBytes(KeyLength.GetValue<int>());
+                Password.Value,
+                Salt.Value,
+                IterationCount.Value);
+            Key.Value = crypto.GetBytes(KeyLength.Value);
             return Task.CompletedTask;
         }
     }

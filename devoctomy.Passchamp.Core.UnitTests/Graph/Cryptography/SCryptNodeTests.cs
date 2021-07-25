@@ -30,11 +30,21 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var mockGraph = new Mock<IGraph>();
             var sut = new SCryptNode
             {
-                IterationCount = new DataPin("IterationCount", iterationCount),
-                BlockSize = new DataPin("BlockSize", blockSize),
-                ThreadCount = new DataPin("ThreadCount", threadCount),
-                Password = new DataPin("Password", password),
-                Salt = new DataPin("Salt", salt),
+                IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "IterationCount",
+                    iterationCount),
+                BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "BlockSize",
+                    blockSize),
+                ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "ThreadCount",
+                    threadCount),
+                Password = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "Password",
+                    password),
+                Salt = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
+                    "Salt",
+                    salt),
             };
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -44,7 +54,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
                 cancellationTokenSource.Token);
 
             // Assert
-            var actualKeyBase64 = Convert.ToBase64String(sut.Key.GetValue<byte[]>());
+            var actualKeyBase64 = Convert.ToBase64String(sut.Key.Value);
             Assert.Equal(keyBase64, actualKeyBase64);
         }
     }

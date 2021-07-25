@@ -6,11 +6,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
     public class FileReaderNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin FileName
+        public IDataPin<string> FileName
         {
             get
             {
-                return GetInput("FileName");
+                return GetInput<string>("FileName");
             }
             set
             {
@@ -19,11 +19,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
         }
 
         [NodeOutputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Bytes
+        public IDataPin<byte[]> Bytes
         {
             get
             {
-                return GetOutput("Bytes");
+                return GetOutput<byte[]>("Bytes");
             }
         }
 
@@ -32,7 +32,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             CancellationToken cancellationToken)
         {
             Bytes.Value = await System.IO.File.ReadAllBytesAsync(
-                FileName.GetValue<string>(),
+                FileName.Value,
                 cancellationToken).ConfigureAwait(false);
         }
     }

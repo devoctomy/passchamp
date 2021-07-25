@@ -20,7 +20,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Console
             var key = new byte[32];
             var sut = new ConsoleInputNode(mockSystemConsole.Object)
             {
-                Prompt = new DataPin("Prompt", prompt),
+                Prompt = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "Prompt",
+                    prompt,
+                    typeof(string)),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();

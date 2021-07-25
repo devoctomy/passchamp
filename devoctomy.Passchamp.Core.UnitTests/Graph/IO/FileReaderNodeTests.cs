@@ -16,7 +16,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
             var expectedData = "Hello World!\r\n12345";
             var sut = new FileReaderNode
             {
-                FileName = new DataPin("FileName", "Data/TestInputFile1.txt"),
+                FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "FileName",
+                    "Data/TestInputFile1.txt",
+                    typeof(string)),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
@@ -32,7 +35,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
                 cancellationTokenSource.Token);
 
             // Assert
-            var bytesData = sut.Bytes.GetValue<byte[]>();
+            var bytesData = sut.Bytes.Value;
             var textData = System.Text.Encoding.UTF8.GetString(bytesData);
             Assert.True(string.Compare(expectedData, textData, true, System.Globalization.CultureInfo.InvariantCulture) == 0);
             mockGraph.Verify(x => x.GetNode<INode>(

@@ -7,11 +7,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
     public class SCryptNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(int))]
-        public IDataPin IterationCount
+        public IDataPin<int> IterationCount
         {
             get
             {
-                return GetInput("IterationCount");
+                return GetInput<int>("IterationCount");
             }
             set
             {
@@ -20,11 +20,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(int))]
-        public IDataPin BlockSize
+        public IDataPin<int> BlockSize
         {
             get
             {
-                return GetInput("BlockSize");
+                return GetInput<int>("BlockSize");
             }
             set
             {
@@ -33,11 +33,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(int))]
-        public IDataPin ThreadCount
+        public IDataPin<int> ThreadCount
         {
             get
             {
-                return GetInput("ThreadCount");
+                return GetInput<int>("ThreadCount");
             }
             set
             {
@@ -46,11 +46,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin Password
+        public IDataPin<string> Password
         {
             get
             {
-                return GetInput("Password");
+                return GetInput<string>("Password");
             }
             set
             {
@@ -59,11 +59,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Salt
+        public IDataPin<byte[]> Salt
         {
             get
             {
-                return GetInput("Salt");
+                return GetInput<byte[]>("Salt");
             }
             set
             {
@@ -71,12 +71,12 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeOutputPin]
-        public IDataPin Key
+        [NodeOutputPin(ValueType = typeof(byte[]))]
+        public IDataPin<byte[]> Key
         {
             get
             {
-                return GetOutput("Key");
+                return GetOutput<byte[]>("Key");
             }
         }
 
@@ -85,12 +85,12 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             CancellationToken cancellationToken)
         {
             var scrypt = new SCrypt(
-                IterationCount.GetValue<int>(),
-                BlockSize.GetValue<int>(),
-                ThreadCount.GetValue<int>());
+                IterationCount.Value,
+                BlockSize.Value,
+                ThreadCount.Value);
             Key.Value = scrypt.DeriveBytes(
-                Password.GetValue<string>(),
-                Salt.GetValue<byte[]>());
+                Password.Value,
+                Salt.Value);
             return Task.CompletedTask;
         }
     }

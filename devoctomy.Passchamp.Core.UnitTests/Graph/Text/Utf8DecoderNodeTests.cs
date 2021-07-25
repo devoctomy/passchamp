@@ -16,7 +16,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Text
             const string expectedPlainText = "Hello";
             var sut = new Utf8DecoderNode
             {
-                EncodedBytes = new DataPin("EncodedBytes", new byte[] { 0x48, 0x65, 0x6c, 0x6c, 0x6f }),
+                EncodedBytes = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
+                    "EncodedBytes",
+                    new byte[] { 0x48, 0x65, 0x6c, 0x6c, 0x6f }),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
@@ -32,7 +34,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Text
                 cancellationTokenSource.Token);
 
             // Assert
-            Assert.Equal(expectedPlainText, sut.PlainText.GetValue<string>());
+            Assert.Equal(expectedPlainText, sut.PlainText.Value);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);
             mockNextNode.Verify(x => x.ExecuteAsync(

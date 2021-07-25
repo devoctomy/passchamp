@@ -13,11 +13,11 @@ namespace devoctomy.Passchamp.Core.Graph.Console
         }
 
         [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin Prompt
+        public IDataPin<string> Prompt
         {
             get
             {
-                return GetInput("Prompt");                
+                return GetInput<string>("Prompt");                
             }
             set
             {
@@ -26,11 +26,11 @@ namespace devoctomy.Passchamp.Core.Graph.Console
         }
 
         [NodeOutputPin]
-        public IDataPin InputLine
+        public IDataPin<string> InputLine
         {
             get
             {
-                return GetOutput("InputLine");
+                return GetOutput<string>("InputLine");
             }
         }
 
@@ -38,7 +38,7 @@ namespace devoctomy.Passchamp.Core.Graph.Console
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            _systemConsole.WriteLine(Prompt.GetValue<string>());
+            _systemConsole.WriteLine(Prompt.Value);
             InputLine.Value = _systemConsole.ReadLine();
             return Task.CompletedTask;
         }

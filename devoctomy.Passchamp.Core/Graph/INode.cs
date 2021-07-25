@@ -10,8 +10,8 @@ namespace devoctomy.Passchamp.Core.Graph
     {
         Dictionary<string, PropertyInfo> InputPinsProperties { get; }
         Dictionary<string, PropertyInfo> OutputPinsProperties { get; }
-        Dictionary<string, IDataPin> Input { get; }
-        Dictionary<string, IDataPin> Output { get; }
+        Dictionary<string, IPin> Input { get; }
+        Dictionary<string, IPin> Output { get; }
         public string NextKey { get; set; }
         public bool Executed { get; }
         Task ExecuteAsync(
@@ -28,7 +28,9 @@ namespace devoctomy.Passchamp.Core.Graph
         Task ExecuteNextAsync(
             IGraph graph,
             CancellationToken cancellationToken);
-        IDataPin GetInput(string key);
-        IDataPin GetOutput(string key);
+        IDataPin<T> GetInput<T>(string key);
+        IPin GetInput(string key, Type type);
+        IDataPin<T> GetOutput<T>(string key);
+        IPin GetOutput(string key, Type type);
     }
 }

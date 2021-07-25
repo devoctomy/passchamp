@@ -10,15 +10,15 @@ namespace devoctomy.Passchamp.Windows.Views
         public static readonly DependencyProperty DataPinProperty =
                    DependencyProperty.Register(
                        nameof(DataPin),
-                       typeof(IDataPin),
+                       typeof(IPin),
                        typeof(DataPinView),
                        new PropertyMetadata(
                            null,
                            null));
 
-        public IDataPin DataPin
+        public IPin DataPin
         {
-            get => (IDataPin)GetValue(DataPinProperty);
+            get => (IPin)GetValue(DataPinProperty);
             set => SetValue(DataPinProperty, value);
         }
 

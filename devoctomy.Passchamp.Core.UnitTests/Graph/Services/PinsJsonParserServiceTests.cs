@@ -34,7 +34,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             // Assert
             Assert.Equal(expectedPins, result.Count);
             Assert.Equal(expectedPinNames, result.Select(x => x.Key).ToArray());
-            var values = result.Select(x => x.Value.Value).ToArray();
+            var values = result.Select(x => x.Value.ObjectValue).ToArray();
             for (int i = 0; i < values.Length; i++)
             {
                 Assert.Equal(expectedPinValues[i], values[i]);

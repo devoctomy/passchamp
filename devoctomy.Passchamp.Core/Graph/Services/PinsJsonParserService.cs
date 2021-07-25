@@ -6,9 +6,9 @@ namespace devoctomy.Passchamp.Core.Graph.Services
 {
     public class PinsJsonParserService : IPinsJsonParserService
     {
-        public Dictionary<string, IDataPin> Parse(JArray json)
+        public Dictionary<string, IPin> Parse(JArray json)
         {
-            var pins = new Dictionary<string, IDataPin>();
+            var pins = new Dictionary<string, IPin>();
             foreach (var curPinJson in json)
             {
                 object value = null;
@@ -37,7 +37,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                 var key = curPinJson["Key"].Value<string>();
                 pins.Add(
                     key,
-                    new DataPin(
+                    DataPinFactory.Instance.Create(
                         key,
                         value,
                         valueType));

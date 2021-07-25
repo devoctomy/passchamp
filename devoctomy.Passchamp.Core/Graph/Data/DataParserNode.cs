@@ -7,15 +7,14 @@ namespace devoctomy.Passchamp.Core.Graph.Data
 {
     public class DataParserNode : NodeBase
     {
-        private readonly Dictionary<string, DataPin> _sectionValues = new();
+        private readonly Dictionary<string, IDataPin<byte[]>> _sectionValues = new();
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Bytes
+        public IDataPin<byte[]> Bytes
         {
             get
             {
-                PrepareInputDataPin("Bytes", typeof(byte[]));
-                return Input["Bytes"];
+                return GetInput<byte[]>("Bytes");
             }
             set
             {
@@ -24,23 +23,22 @@ namespace devoctomy.Passchamp.Core.Graph.Data
         }
 
         [NodeInputPin(ValueType = typeof(List<DataParserSection>), DefaultValue = default(List<DataParserSection>))]
-        public IDataPin Sections
+        public IDataPin<List<DataParserSection>> Sections
         {
             get
             {
-                PrepareInputDataPin("Sections", typeof(List<DataParserSection>));
-                return Input["Sections"];
+                return GetInput<List<DataParserSection>>("Sections");
             }
             set
             {
-                var sections = value.GetValue<List<DataParserSection>>();
+                var sections = value.Value;
                 foreach(var curSection in sections)
                 {
                     _sectionValues.Add(
                         curSection.Key,
-                        new DataPin(
+                        new DataPin<byte[]>(
                             curSection.Key,
-                            typeof(int)));
+                            null));
                 }
                 Input["Sections"] = value;
             }
@@ -50,13 +48,13 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            Parallel.ForEach(Sections.GetValue<List<DataParserSection>>(), curSection =>
+            Parallel.ForEach(Sections.Value, curSection =>
             {
-                var start = curSection.Start.GetIndex(Bytes.GetValue<byte[]>().Length);
-                var end = curSection.End.GetIndex(Bytes.GetValue<byte[]>().Length);
+                var start = curSection.Start.GetIndex(Bytes.Value.Length);
+                var end = curSection.End.GetIndex(Bytes.Value.Length);
                 var value = new byte[end - start];
                 Array.ConstrainedCopy(
-                    Bytes.GetValue<byte[]>(),
+                    Bytes.Value,
                     start,
                     value,
                     0,
@@ -67,7 +65,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             return Task.CompletedTask;
         }
 
-        public DataPin GetSectionValue(string key)
+        public IDataPin<byte[]> GetSectionValue(string key)
         {
             return _sectionValues[key];
         }

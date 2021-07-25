@@ -5,6 +5,6 @@ namespace devoctomy.Passchamp.Core.Graph.Services
 {
     public interface IPinsJsonParserService
     {
-        Dictionary<string, IDataPin> Parse(JArray json);
+        Dictionary<string, IPin> Parse(JArray json);
     }
 }

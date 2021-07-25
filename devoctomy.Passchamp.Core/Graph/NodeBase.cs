@@ -13,17 +13,17 @@ namespace devoctomy.Passchamp.Core.Graph
 
         public Dictionary<string, PropertyInfo> InputPinsProperties { get; }
         public Dictionary<string, PropertyInfo> OutputPinsProperties { get; }
-        public Dictionary<string, IDataPin> Input { get; } = new Dictionary<string, IDataPin>();
-        public Dictionary<string, IDataPin> Output { get; } = new Dictionary<string, IDataPin>();
+        public Dictionary<string, IPin> Input { get; } = new Dictionary<string, IPin>();
+        public Dictionary<string, IPin> Output { get; } = new Dictionary<string, IPin>();
         public string NextKey { get; set; }
         public bool Executed { get; protected set; }
 
         [NodeInputPin(ValueType = typeof(bool), DefaultValue = false)]
-        public IDataPin Bypass
+        public IDataPin<bool> Bypass
         {
             get
             {
-                return GetInput("Bypass");
+                return GetInput<bool>("Bypass");
             }
             set
             {
@@ -52,7 +52,7 @@ namespace devoctomy.Passchamp.Core.Graph
 
             if (!Input.ContainsKey(key))
             {
-                Input.Add(key, new DataPin(
+                Input.Add(key, DataPinFactory.Instance.Create(
                     key,
                     null,
                     valueType));
@@ -64,6 +64,11 @@ namespace devoctomy.Passchamp.Core.Graph
             Type valueType,
             bool validate = true)
         {
+            if(key == "RandomBytes")
+            {
+                var pop = "";
+            }
+
             if (validate && !OutputPinsProperties.ContainsKey(key))
             {
                 throw new KeyNotFoundException($"Output pin with the key name '{key}' not found on node type {GetType().Name}.");
@@ -71,7 +76,7 @@ namespace devoctomy.Passchamp.Core.Graph
 
             if (!Output.ContainsKey(key))
             {
-                Output.Add(key, new DataPin(
+                Output.Add(key, DataPinFactory.Instance.Create(
                     key,
                     null,
                     valueType));
@@ -88,7 +93,7 @@ namespace devoctomy.Passchamp.Core.Graph
                 var attribute = (NodeInputPinAttribute)Attribute.GetCustomAttribute(curUnsetInput.Value, typeof(NodeInputPinAttribute));
                 if (attribute.ValueType != null)
                 {
-                    Input[curUnsetInput.Key] = new DataPin(
+                    Input[curUnsetInput.Key] = DataPinFactory.Instance.Create(
                         curUnsetInput.Key,
                         attribute.DefaultValue,
                         attribute.ValueType);
@@ -101,7 +106,7 @@ namespace devoctomy.Passchamp.Core.Graph
                 var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(curUnsetOutput.Value, typeof(NodeOutputPinAttribute));
                 if (attribute.ValueType != null)
                 {
-                    Output[curUnsetOutput.Key] = new DataPin(
+                    Output[curUnsetOutput.Key] = DataPinFactory.Instance.Create(
                         curUnsetOutput.Key,
                         attribute.DefaultValue,
                         attribute.ValueType);
@@ -117,7 +122,7 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             PrepareUnsetPins();
             graph.BeforeExecute(this);
-            if(!Bypass.GetValue<bool>())
+            if(!Bypass.Value)
             {
                 await DoExecuteAsync(
                     graph,
@@ -154,19 +159,39 @@ namespace devoctomy.Passchamp.Core.Graph
             return Task.CompletedTask;
         }
 
-        public IDataPin GetInput(string key)
+        public IDataPin<T> GetInput<T>(string key)
         {
             PrepareInputDataPin(
                 key,
-                typeof(object));    //!!! We need to ditch this
-            return Input[key];
+                typeof(T));    //!!! We need to ditch this
+            return (IDataPin<T>)Input[key];
         }
 
-        public IDataPin GetOutput(string key)
+        public IPin GetInput(
+            string key,
+            Type type)
+        {
+            PrepareInputDataPin(
+                key,
+                type);    //!!! We need to ditch this
+            return Output[key];
+        }
+
+        public IDataPin<T> GetOutput<T>(string key)
         {
             PrepareOutputDataPin(
                 key,
-                typeof(object));    //!!! We need to ditch this
+                typeof(T));    //!!! We need to ditch this
+            return (IDataPin<T>)Output[key];
+        }
+
+        public IPin GetOutput(
+            string key,
+            Type type)
+        {
+            PrepareOutputDataPin(
+                key,
+                type);    //!!! We need to ditch this
             return Output[key];
         }
     }

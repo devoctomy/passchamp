@@ -1,4 +1,5 @@
 using devoctomy.Passchamp.Core.Graph.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -11,9 +12,9 @@ namespace devoctomy.Passchamp.Core.Graph
         private string _startKey = string.Empty;
         private readonly Dictionary<INode, string> _nodeKeys;
         private readonly List<string> _executionOrder = new();
-        private readonly Dictionary<string, IDataPin> _pins;
+        private readonly Dictionary<string, IPin> _pins;
 
-        public Dictionary<string, IDataPin> Pins => _pins;
+        public Dictionary<string, IPin> Pins => _pins;
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public Dictionary<string, INode> Nodes { get; }
         public string StartKey
@@ -34,7 +35,7 @@ namespace devoctomy.Passchamp.Core.Graph
         }
 
         public Graph(
-            Dictionary<string, IDataPin> pins,
+            Dictionary<string, IPin> pins,
             Dictionary<string, INode> nodes,
             string startKey)
         {
@@ -54,10 +55,10 @@ namespace devoctomy.Passchamp.Core.Graph
                 {
                     var curInputPinValue = curNode.Input[curInputPinKey];
                     if(curInputPinValue != null &&
-                        curInputPinValue.Value != null &&
-                        curInputPinValue.Value.GetType() == typeof(DataPinIntermediateValue))
+                        curInputPinValue.ObjectValue != null &&
+                        curInputPinValue.ObjectValue.GetType() == typeof(DataPinIntermediateValue))
                     {
-                        var intermediateValue = curInputPinValue.Value as DataPinIntermediateValue;
+                        var intermediateValue = curInputPinValue.ObjectValue as DataPinIntermediateValue;
                         var path = intermediateValue.Value.Split('.');
                         if(path[0] == "Pins")
                         {
@@ -66,7 +67,9 @@ namespace devoctomy.Passchamp.Core.Graph
                         else
                         {
                             var mapFromNode = Nodes[path[0]];
-                            mapFromNode.PrepareOutputDataPin(path[1], typeof(string));
+                            var outPinPropInfo = mapFromNode.OutputPinsProperties[path[1]];
+                            var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(outPinPropInfo, typeof(NodeOutputPinAttribute));
+                            mapFromNode.PrepareOutputDataPin(path[1], attribute.ValueType);
                             var nodeOutPin = mapFromNode.Output[path[1]];
                             curNode.Input[curInputPinKey] = nodeOutPin;
                         }

@@ -11,11 +11,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         private const string AesAlgorithmName = "AesManaged";
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin PlainTextBytes
+        public IDataPin<byte[]> PlainTextBytes
         {
             get
             {
-                return GetInput("PlainTextBytes");
+                return GetInput<byte[]>("PlainTextBytes");
             }
             set
             {
@@ -24,11 +24,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Iv
+        public IDataPin<byte[]> Iv
         {
             get
             {
-                return GetInput("Iv");
+                return GetInput<byte[]>("Iv");
             }
             set
             {
@@ -37,11 +37,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         }
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Key
+        public IDataPin<byte[]> Key
         {
             get
             {
-                return GetInput("Key");
+                return GetInput<byte[]>("Key");
             }
             set
             {
@@ -49,12 +49,12 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeOutputPin]
-        public IDataPin EncryptedBytes
+        [NodeOutputPin(ValueType = typeof(byte[]))]
+        public IDataPin<byte[]> EncryptedBytes
         {
             get
             {
-                return GetOutput("EncryptedBytes");
+                return GetOutput<byte[]>("EncryptedBytes");
             }
         }
 
@@ -64,15 +64,15 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         {
             using var crypto = Aes.Create(AesAlgorithmName);
             var encryptStream = crypto.CreateEncryptor(
-                    Key.GetValue<byte[]>(),
-                    Iv.GetValue<byte[]>());
+                    Key.Value,
+                    Iv.Value);
             using var memoryStream = new MemoryStream();
             using var cryptoStream = new CryptoStream(
                 memoryStream,
                 encryptStream,
                 CryptoStreamMode.Write);
             await cryptoStream.WriteAsync(
-                PlainTextBytes.GetValue<byte[]>(),
+                PlainTextBytes.Value,
                 cancellationToken).ConfigureAwait(false);
             await cryptoStream.FlushFinalBlockAsync(cancellationToken).ConfigureAwait(false);
 

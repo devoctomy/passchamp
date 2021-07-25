@@ -2,11 +2,8 @@
 
 namespace devoctomy.Passchamp.Core.Graph
 {
-    public interface IDataPin
+    public interface IDataPin<T> : IPin
     {
-        string Name { get; set; }
-        object Value { get; set; }
-        Type ValueType { get; set; }
-        T GetValue<T>();
+        T Value { get; set; }
     }
 }

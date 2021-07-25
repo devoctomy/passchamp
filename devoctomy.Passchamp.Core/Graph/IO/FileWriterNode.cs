@@ -6,11 +6,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
     public class FileWriterNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin InputData
+        public IDataPin<byte[]> InputData
         {
             get
             {
-                return GetInput("InputData");
+                return GetInput<byte[]>("InputData");
             }
             set
             {
@@ -19,11 +19,11 @@ namespace devoctomy.Passchamp.Core.Graph.IO
         }
 
         [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin FileName
+        public IDataPin<string> FileName
         {
             get
             {
-                return GetInput("FileName");
+                return GetInput<string>("FileName");
             }
             set
             {
@@ -35,9 +35,9 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            var inputData = InputData.GetValue<byte[]>();
+            var inputData = InputData.Value;
             await System.IO.File.WriteAllBytesAsync(
-                FileName.GetValue<string>(),
+                FileName.Value,
                 inputData,
                 cancellationToken).ConfigureAwait(false);
         }

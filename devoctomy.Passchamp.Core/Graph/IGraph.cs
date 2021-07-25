@@ -6,7 +6,7 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public interface IGraph
     {
-        Dictionary<string, IDataPin> Pins { get; }
+        Dictionary<string, IPin> Pins { get; }
         IReadOnlyList<string> ExecutionOrder { get; }
         Dictionary<string, INode> Nodes { get; }
         string StartKey { get; }

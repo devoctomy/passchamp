@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -47,7 +48,9 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new RandomByteArrayGeneratorNode
             {
-                Length = new DataPin("Length", length),
+                Length = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "Length",
+                    length),
                 NextKey = nextKey,
             };
 
@@ -65,8 +68,12 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new DeriveKeyFromPasswordNode
             {
-                Password = new DataPin("Password", password),
-                KeyLength = new DataPin("KeyLength", keyLength),
+                Password = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "Password",
+                    password),
+                KeyLength = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "KeyLength",
+                    keyLength),
                 NextKey = nextKey,
             };
 
@@ -83,10 +90,18 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new SCryptNode
             {
-                Password = new DataPin("Password", password),
-                IterationCount = new DataPin("IterationCount", 1024),
-                BlockSize = new DataPin("BlockSize", 8),
-                ThreadCount = new DataPin("ThreadCount", 1),
+                Password = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "Password",
+                    password),
+                IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "IterationCount",
+                    1024),
+                BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "BlockSize",
+                    8),
+                ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "ThreadCount",
+                    1),
                 NextKey = nextKey,
             };
 
@@ -103,7 +118,9 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new Utf8EncoderNode
             {
-                PlainText = new DataPin("PlainText", plainText),
+                PlainText = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "PlainText",
+                    plainText),
                 NextKey = nextKey,
             };
 
@@ -152,7 +169,9 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new FileWriterNode
             {
-                FileName = new DataPin("FileName", fileName),
+                FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "FileName",
+                    fileName),
             };
 
             nodes.Add(name, node);
@@ -168,7 +187,9 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new FileReaderNode
             {
-                FileName = new DataPin("FileName", fileName),
+                FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
+                    "FileName",
+                    fileName),
                 NextKey = nextKey,
             };
 
@@ -204,7 +225,9 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new DataParserNode
             {
-                Sections = new DataPin("Sections", allSections),
+                Sections = (IDataPin<List<DataParserSection>>)DataPinFactory.Instance.Create(
+                    "Sections",
+                    allSections),
                 NextKey = nextKey,
             };
 
@@ -248,7 +271,10 @@ namespace devoctomy.Passchamp.IntTests.Steps
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
             var nodeA = nodes[nodeAName];
             var nodeB = nodes[nodeBName];
-            nodeA.Input[pinAName] = nodeB.GetOutput(pinBName);
+
+            var nodeBPinPropInfo = nodeB.OutputPinsProperties[pinBName];
+            var nodeBPinOutAttribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(nodeBPinPropInfo, typeof(NodeOutputPinAttribute));
+            nodeA.Input[pinAName] = nodeB.GetOutput(pinBName, nodeBPinOutAttribute.ValueType);
         }
 
         [Given(@"Node (.*) input pin (.*) connected to DataParserNode (.*) section (.*) value")]
@@ -304,7 +330,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
         {
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
             var node = nodes[nodeName];
-            Assert.Equal(stringValue, node.Output[pinName].GetValue<string>());
+            Assert.Equal(stringValue, node.GetOutput<string>(pinName).Value);
         }
     }
 }

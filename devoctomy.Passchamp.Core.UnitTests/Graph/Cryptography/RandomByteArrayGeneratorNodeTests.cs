@@ -19,7 +19,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var length = 32;
             var sut = new RandomByteArrayGeneratorNode
             {
-                Length = new DataPin("Length", length),
+                Length = (IDataPin<int>)DataPinFactory.Instance.Create(
+                    "Length",
+                    length),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
@@ -36,7 +38,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
                 await sut.ExecuteAsync(
                     mockGraph.Object,
                     cancellationTokenSource.Token);
-                resultsList.Add(Convert.ToBase64String(sut.RandomBytes.GetValue<byte[]>()));
+                resultsList.Add(Convert.ToBase64String(sut.RandomBytes.Value));
             }
 
             // Assert

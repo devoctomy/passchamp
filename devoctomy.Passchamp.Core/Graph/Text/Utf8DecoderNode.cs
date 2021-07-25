@@ -6,11 +6,11 @@ namespace devoctomy.Passchamp.Core.Graph.Text
     public class Utf8DecoderNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin EncodedBytes
+        public IDataPin<byte[]> EncodedBytes
         {
             get
             {
-                return GetInput("EncodedBytes");
+                return GetInput<byte[]>("EncodedBytes");
             }
             set
             {
@@ -19,11 +19,11 @@ namespace devoctomy.Passchamp.Core.Graph.Text
         }
 
         [NodeOutputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin PlainText
+        public IDataPin<string> PlainText
         {
             get
             {
-                return GetOutput("PlainText");
+                return GetOutput<string>("PlainText");
             }
         }
 
@@ -31,7 +31,7 @@ namespace devoctomy.Passchamp.Core.Graph.Text
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            PlainText.Value = System.Text.Encoding.UTF8.GetString(EncodedBytes.GetValue<byte[]>());
+            PlainText.Value = System.Text.Encoding.UTF8.GetString(EncodedBytes.Value);
             return Task.CompletedTask;
         }
     }

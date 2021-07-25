@@ -7,11 +7,11 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
     public class RandomByteArrayGeneratorNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
-        public IDataPin Length
+        public IDataPin<int> Length
         {
             get
             {
-                return GetInput("Length");
+                return GetInput<int>("Length");
             }
             set
             {
@@ -19,12 +19,12 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeOutputPin]
-        public IDataPin RandomBytes
+        [NodeOutputPin(ValueType = typeof(byte[]))]
+        public IDataPin<byte[]> RandomBytes
         {
             get
             {
-                return GetOutput("RandomBytes");
+                return GetOutput<byte[]>("RandomBytes");
             }
         }
 
@@ -33,7 +33,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             CancellationToken cancellationToken)
         {
             using var rng = RandomNumberGenerator.Create();
-            var randomBytes = new byte[Length.GetValue<int>()];
+            var randomBytes = new byte[Length.Value];
             rng.GetBytes(randomBytes);
             RandomBytes.Value = randomBytes;
             return Task.CompletedTask;

@@ -19,9 +19,15 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var key = new byte[32];
             var sut = new DecryptNode()
             {
-                Cipher = new DataPin("Cipher", Convert.FromBase64String("do721rp9jGvQeavPmDw34A==")),
-                Iv = new DataPin("Iv", iv),
-                Key = new DataPin("Key", key),
+                Cipher = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
+                    "Cipher",
+                    Convert.FromBase64String("do721rp9jGvQeavPmDw34A==")),
+                Iv = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
+                    "Iv",
+                    iv),
+                Key = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
+                    "Key",
+                    key),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
@@ -37,7 +43,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
                 cancellationTokenSource.Token);
 
             // Assert
-            var plainText = System.Text.Encoding.UTF8.GetString(sut.DecryptedBytes.GetValue<byte[]>());
+            var plainText = System.Text.Encoding.UTF8.GetString(sut.DecryptedBytes.Value);
             Assert.Equal(expectedPlainText, plainText);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);

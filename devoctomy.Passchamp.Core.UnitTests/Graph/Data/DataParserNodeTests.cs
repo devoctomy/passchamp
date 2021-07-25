@@ -16,28 +16,33 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
             // Arrange
             var sut = new DataParserNode
             {
-                Bytes = new DataPin("Bytes", new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }),
-                Sections = new DataPin("Sections", new List<DataParserSection>
-                {
-                    new DataParserSection
+                Bytes = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
+                    "Bytes",
+                    new byte[] { 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }),
+                Sections = (IDataPin<List<DataParserSection>>)DataPinFactory.Instance.Create(
+                    "Sections",
+                    new List<DataParserSection>
                     {
-                        Key = "Start",
-                        Start = new ArrayLocation(Offset.Absolute, 0),
-                        End = new ArrayLocation(Offset.Absolute, 4),
+                        new DataParserSection
+                        {
+                            Key = "Start",
+                            Start = new ArrayLocation(Offset.Absolute, 0),
+                            End = new ArrayLocation(Offset.Absolute, 4),
+                        },
+                        new DataParserSection
+                        {
+                            Key = "Middle",
+                            Start = new ArrayLocation(Offset.Absolute, 4),
+                            End = new ArrayLocation(Offset.FromEnd, 4),
+                        },
+                        new DataParserSection
+                        {
+                            Key = "End",
+                            Start = new ArrayLocation(Offset.FromEnd, 4),
+                            End = new ArrayLocation(Offset.FromEnd, 0),
+                        }
                     },
-                    new DataParserSection
-                    {
-                        Key = "Middle",
-                        Start = new ArrayLocation(Offset.Absolute, 4),
-                        End = new ArrayLocation(Offset.FromEnd, 4),
-                    },
-                    new DataParserSection
-                    {
-                        Key = "End",
-                        Start = new ArrayLocation(Offset.FromEnd, 4),
-                        End = new ArrayLocation(Offset.FromEnd, 0),
-                    }
-                }),
+                    typeof(List<DataParserSection>)),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
@@ -53,9 +58,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Data
                 cancellationTokenSource.Token);
 
             // Assert
-            Assert.Equal(new byte[] { 1, 1, 1, 1 }, sut.GetSectionValue("Start").GetValue<byte[]>());
-            Assert.Equal(new byte[] { 2, 2, 2, 2 }, sut.GetSectionValue("Middle").GetValue<byte[]>());
-            Assert.Equal(new byte[] { 3, 3, 3, 3 }, sut.GetSectionValue("End").GetValue<byte[]>());
+            Assert.Equal(new byte[] { 1, 1, 1, 1 }, sut.GetSectionValue("Start").Value);
+            Assert.Equal(new byte[] { 2, 2, 2, 2 }, sut.GetSectionValue("Middle").Value);
+            Assert.Equal(new byte[] { 3, 3, 3, 3 }, sut.GetSectionValue("End").Value);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);
             mockNextNode.Verify(x => x.ExecuteAsync(

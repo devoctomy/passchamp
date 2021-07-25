@@ -9,7 +9,7 @@ namespace devoctomy.Passchamp.Windows.Model
     {
         private IGraph _graph;
 
-        private ObservableCollection<IDataPin> _pins;
+        private ObservableCollection<IPin> _pins;
 
         public IGraph Graph
         { 
@@ -28,7 +28,7 @@ namespace devoctomy.Passchamp.Windows.Model
             }
         }
 
-        public ObservableCollection<IDataPin> Pins
+        public ObservableCollection<IPin> Pins
         {
             get
             {

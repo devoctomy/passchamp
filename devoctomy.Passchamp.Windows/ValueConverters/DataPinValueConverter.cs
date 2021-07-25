@@ -27,7 +27,7 @@ namespace devoctomy.Passchamp.Windows.ValueConverters
             object parameter,
             CultureInfo culture)
         {
-            if (value == null || value.GetType() != typeof(IDataPin))
+            if (value == null || value.GetType() != typeof(IPin))
             {
                 throw new NotSupportedException($"Value must be of type IDataPin.");
             }

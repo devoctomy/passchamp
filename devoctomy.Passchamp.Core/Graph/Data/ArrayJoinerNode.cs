@@ -8,11 +8,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
     public class ArrayJoinerNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Part1
+        public IDataPin<byte[]> Part1
         {
             get
             {
-                return GetInput("Part1");
+                return GetInput<byte[]>("Part1");
             }
             set
             {
@@ -21,11 +21,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
         }
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Part2
+        public IDataPin<byte[]> Part2
         {
             get
             {
-                return GetInput("Part2");
+                return GetInput<byte[]>("Part2");
             }
             set
             {
@@ -34,11 +34,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
         }
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Part3
+        public IDataPin<byte[]> Part3
         {
             get
             {
-                return GetInput("Part3");
+                return GetInput<byte[]>("Part3");
             }
             set
             {
@@ -47,11 +47,11 @@ namespace devoctomy.Passchamp.Core.Graph.Data
         }
 
         [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin Part4
+        public IDataPin<byte[]> Part4
         {
             get
             {
-                return GetInput("Part4");
+                return GetInput<byte[]>("Part4");
             }
             set
             {
@@ -59,12 +59,12 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             }
         }
 
-        [NodeOutputPin]
-        public IDataPin JoinedOutput
+        [NodeOutputPin(ValueType = typeof(byte[]))]
+        public IDataPin<byte[]> JoinedOutput
         {
             get
             {
-                return GetOutput("JoinedOutput");
+                return GetOutput<byte[]>("JoinedOutput");
             }
         }
 
@@ -75,19 +75,19 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             var allParts = new List<byte[]>();
             if (Part1.Value != null)
             {
-                allParts.Add(Part1.GetValue<byte[]>());
+                allParts.Add(Part1.Value);
             }
             if (Part2.Value != null)
             {
-                allParts.Add(Part2.GetValue<byte[]>());
+                allParts.Add(Part2.Value);
             }
             if (Part3.Value != null)
             {
-                allParts.Add(Part3.GetValue<byte[]>());
+                allParts.Add(Part3.Value);
             }
             if (Part4.Value != null)
             {
-                allParts.Add(Part4.GetValue<byte[]>());
+                allParts.Add(Part4.Value);
             }
             JoinedOutput.Value = allParts.SelectMany(x => x).ToArray();
             return Task.CompletedTask;

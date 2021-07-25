@@ -29,8 +29,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             using var jsonReader = new JsonTextReader(streamReader);
 
             var json = await JObject.ReadFromAsync(
-                jsonReader,
-                cancellationToken);
+                    jsonReader,
+                    cancellationToken);
 
             var pins = _pinsJsonParserService.Parse(json["Pins"].Value<JArray>());
             var nodes = _nodeJsonParserService.Parse(
