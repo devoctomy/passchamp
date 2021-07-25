@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.UnitTests.Graph.Test;
 using Moq;
 using System.Collections.Generic;
 using System.Threading;
@@ -133,6 +134,34 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             {
                 _ = sut.Output[key];
             });
+        }
+    
+        [Fact]
+        public void GivenNodeBase_WhenGetInput_ThenInputReturned()
+        {
+            // Arrange
+            var nodeBase = new TestNode();
+            nodeBase.InputTest = new DataPin<string>("InputTest", "Hello World");
+
+            // Act
+            var input = nodeBase.GetInput<string>("InputTest");
+
+            // Assert
+            Assert.Equal("Hello World", input.Value);
+        }
+
+        [Fact]
+        public void GivenNodeBase_WhenGetOutput_ThenOutputReturned()
+        {
+            // Arrange
+            var nodeBase = new TestNode();
+            nodeBase.OutputTest = new DataPin<string> ("OutputTest", "Hello World");
+
+            // Act
+            var output = nodeBase.GetOutput<string>("OutputTest");
+
+            // Assert
+            Assert.Equal("Hello World", output.Value);
         }
     }
 }

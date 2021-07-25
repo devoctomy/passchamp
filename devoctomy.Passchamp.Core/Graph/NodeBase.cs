@@ -169,7 +169,7 @@ namespace devoctomy.Passchamp.Core.Graph
             PrepareInputDataPin(
                 key,
                 type);    //!!! We need to ditch this
-            return Output[key];
+            return Input[key];
         }
 
         public IDataPin<T> GetOutput<T>(string key)
