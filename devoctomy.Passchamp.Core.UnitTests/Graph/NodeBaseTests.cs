@@ -137,7 +137,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         }
     
         [Fact]
-        public void GivenTestNode_WhenGetInput_ThenInputReturned()
+        public void GivenTestNode_WhenGetInputGeneric_ThenInputReturned()
         {
             // Arrange
             var sut = new TestNode();
@@ -151,7 +151,21 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         }
 
         [Fact]
-        public void GivenTestNode_WhenGetOutput_ThenOutputReturned()
+        public void GivenTestNode_WhenGetInput_ThenInputReturned()
+        {
+            // Arrange
+            var sut = new TestNode();
+            sut.InputTest = new DataPin<string>("InputTest", "Hello World");
+
+            // Act
+            var input = (IDataPin<string>)sut.GetInput("InputTest", typeof(string));
+
+            // Assert
+            Assert.Equal("Hello World", input.Value);
+        }
+
+        [Fact]
+        public void GivenTestNode_WhenGetOutputGeneric_ThenOutputReturned()
         {
             // Arrange
             var sut = new TestNode();
@@ -159,6 +173,20 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
 
             // Act
             var output = sut.GetOutput<string>("OutputTest");
+
+            // Assert
+            Assert.Equal("Hello World", output.Value);
+        }
+
+        [Fact]
+        public void GivenTestNode_WhenGetOutput_ThenOutputReturned()
+        {
+            // Arrange
+            var sut = new TestNode();
+            sut.OutputTest = new DataPin<string>("OutputTest", "Hello World");
+
+            // Act
+            var output = (IDataPin<string>)sut.GetOutput("OutputTest", typeof(string));
 
             // Assert
             Assert.Equal("Hello World", output.Value);
