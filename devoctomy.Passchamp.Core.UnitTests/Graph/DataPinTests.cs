@@ -33,5 +33,32 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 var result = sut.GetValue<string>();
             });
         }
+
+        [Fact]
+        public void GivenName_AndValue_AndValueType_AndValueTypeDiffersFromTypeOfValue_WhenConstruct_ThenArgumentExceptionThrown()
+        {
+            // Arrange
+            var value = 100;
+            var valueTye = typeof(string);
+
+            // Act
+            Assert.ThrowsAny<ArgumentException>(() =>
+            {
+                var result = new DataPin("Test", value, valueTye);
+            });
+        }
+
+        [Fact]
+        public void GivenName_AndValue_AndValueIsNull_WhenConstruct_ThenNullReferenceExceptionThrown()
+        {
+            // Arrange
+            object value = null;
+
+            // Act
+            Assert.ThrowsAny<NullReferenceException>(() =>
+            {
+                var result = new DataPin("Test", value);
+            });
+        }
     }
 }
