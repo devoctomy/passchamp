@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="48"></RowDefinition>
         </Grid.RowDefinitions>
         
         <Menu DockPanel.Dock="Top">
@@ -42,5 +43,9 @@
                 </ListBox>
             </Grid>
         </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Width="128" Margin="2,2,8,8" HorizontalAlignment="Right" Command="{Binding Path=Execute}">Execute</Button>
+            <Button Width="128" Margin="2,2,8,8" HorizontalAlignment="Right">Ok</Button>
+        </StackPanel>
     </Grid>
 </Window>

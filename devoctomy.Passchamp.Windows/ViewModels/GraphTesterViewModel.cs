@@ -19,6 +19,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
         private readonly IGraphLoaderService _graphLoaderService;
 
         public ICommand GraphBrowse { get; }
+        public ICommand Execute { get; }
 
         public GraphTesterViewModel(
             ILogger<GraphTesterViewModel> logger,
@@ -26,8 +27,17 @@ namespace devoctomy.Passchamp.Windows.ViewModels
             IGraphLoaderService graphLoaderService)
             : base(logger, model)
         {
+            Execute = new RelayCommand(DoExecute);
             GraphBrowse = new RelayCommand(DoGraphBrowse);
             _graphLoaderService = graphLoaderService;
+        }
+
+        private async void DoExecute()
+        {
+            if(Model.Graph != null)
+            {
+                await Model.Graph.ExecuteAsync(CancellationToken.None);
+            }
         }
 
         private async void DoGraphBrowse()
@@ -51,7 +61,5 @@ namespace devoctomy.Passchamp.Windows.ViewModels
                     CancellationToken.None);
             }
         }
-
-        public string Test => "Hello World!";
     }
 }

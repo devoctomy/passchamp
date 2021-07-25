@@ -1,6 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
-using devoctomy.Passchamp.Windows.Extensions;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace devoctomy.Passchamp.Windows.Model
@@ -9,7 +8,7 @@ namespace devoctomy.Passchamp.Windows.Model
     {
         private IGraph _graph;
 
-        private ObservableCollection<IPin> _pins;
+        private List<IPin> _pins;
 
         public IGraph Graph
         { 
@@ -28,13 +27,13 @@ namespace devoctomy.Passchamp.Windows.Model
             }
         }
 
-        public ObservableCollection<IPin> Pins
+        public List<IPin> Pins
         {
             get
             {
                 if(_pins == null)
                 {
-                    _pins = Graph?.Pins.Values.ToList().ToObservableCollection();
+                    _pins = Graph?.Pins.Values.ToList();
                 }
 
                 return _pins;
