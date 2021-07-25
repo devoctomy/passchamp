@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Graph.Services;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,6 +40,40 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             {
                 Assert.Equal(expectedPinValues[i], values[i]);
             }
+        }
+
+        [Fact]
+        public void GivenJsonData_AndUnknownType_WhenParse_ThenTypeLoadExceptionThrown()
+        {
+            // Arrange
+            var jsonData = new JArray();
+            var pin = new JObject();
+            pin.Add("Type", new JValue("Pants"));
+            jsonData.Add(pin);
+            var sut = new PinsJsonParserService();
+
+            // Act & Assert
+            Assert.ThrowsAny<TypeLoadException>(() =>
+            {
+                sut.Parse(jsonData);
+            });
+        }
+
+        [Fact]
+        public void GivenJsonData_AndUnsupportedType_WhenParse_ThenNotSupportedExceptionThrown()
+        {
+            // Arrange
+            var jsonData = new JArray();
+            var pin = new JObject();
+            pin.Add("Type", new JValue("System.Double"));
+            jsonData.Add(pin);
+            var sut = new PinsJsonParserService();
+
+            // Act & Assert
+            Assert.ThrowsAny<NotSupportedException>(() =>
+            {
+                sut.Parse(jsonData);
+            });
         }
     }
 }
