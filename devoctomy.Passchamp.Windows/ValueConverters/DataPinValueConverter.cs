@@ -27,7 +27,11 @@ namespace devoctomy.Passchamp.Windows.ValueConverters
             object parameter,
             CultureInfo culture)
         {
-            return null;
+            var converted = System.Convert.ChangeType(value.ToString(), targetTypes[1]);
+            return new object[] { DataPinFactory.Instance.Create(
+                "test",
+                converted,
+                targetTypes[1]) };
         }
     }
 }

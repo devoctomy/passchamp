@@ -22,7 +22,7 @@
             <TextBox.Text>
                 <MultiBinding Converter="{StaticResource DataPinValueConverter}">
                     <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="DataPin"/>
-                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="DataPin.ObjectValue" Mode="OneTime"/>
+                    <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="DataPin.Value" Mode="OneTime"/>
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
