@@ -1,9 +1,13 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.UnitTests.Graph.Test
 {
     public class TestNode : NodeBase
     {
+        public bool Executed { get; private set; }
+
         [NodeInputPin(ValueType = typeof(string), DefaultValue = "Hello World")]
         public IDataPin<string> InputTest
         {
@@ -28,6 +32,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Test
             {
                 Output["OutputTest"] = value;
             }
+        }
+
+        protected override Task DoExecuteAsync(IGraph graph, CancellationToken cancellationToken)
+        {
+            Executed = true;
+            return Task.CompletedTask;
         }
     }
 }

@@ -137,31 +137,105 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         }
     
         [Fact]
-        public void GivenNodeBase_WhenGetInput_ThenInputReturned()
+        public void GivenTestNode_WhenGetInput_ThenInputReturned()
         {
             // Arrange
-            var nodeBase = new TestNode();
-            nodeBase.InputTest = new DataPin<string>("InputTest", "Hello World");
+            var sut = new TestNode();
+            sut.InputTest = new DataPin<string>("InputTest", "Hello World");
 
             // Act
-            var input = nodeBase.GetInput<string>("InputTest");
+            var input = sut.GetInput<string>("InputTest");
 
             // Assert
             Assert.Equal("Hello World", input.Value);
         }
 
         [Fact]
-        public void GivenNodeBase_WhenGetOutput_ThenOutputReturned()
+        public void GivenTestNode_WhenGetOutput_ThenOutputReturned()
         {
             // Arrange
-            var nodeBase = new TestNode();
-            nodeBase.OutputTest = new DataPin<string> ("OutputTest", "Hello World");
+            var sut = new TestNode();
+            sut.OutputTest = new DataPin<string> ("OutputTest", "Hello World");
 
             // Act
-            var output = nodeBase.GetOutput<string>("OutputTest");
+            var output = sut.GetOutput<string>("OutputTest");
 
             // Assert
             Assert.Equal("Hello World", output.Value);
+        }
+
+        [Fact]
+        public void GivenTestNode_AndUnknownPinName_AndValidate_WhenPrepareOutputDataPin_ThenKeyNotFoundExceptionThrown()
+        {
+            // Arrange
+            var sut = new TestNode();
+
+            // Act & Assert
+            Assert.ThrowsAny<KeyNotFoundException>(() =>
+            {
+                sut.PrepareOutputDataPin("Pants", typeof(string), true);
+            });
+        }
+
+        [Fact]
+        public void GivenTestNode_AndUnknownPinName_AndNotValidate_WhenPrepareOutputDataPin_ThenKeyNotFoundExceptionNotThrown()
+        {
+            // Arrange
+            var sut = new TestNode();
+
+            // Act & Assert
+            sut.PrepareOutputDataPin("Pants", typeof(string), false);
+        }
+
+        [Fact]
+        public void GivenTestNode_AndUnknownPinName_AndValidate_WhenPrepareInputDataPin_ThenKeyNotFoundExceptionThrown()
+        {
+            // Arrange
+            var sut = new TestNode();
+
+            // Act & Assert
+            Assert.ThrowsAny<KeyNotFoundException>(() =>
+            {
+                sut.PrepareInputDataPin("Pants", typeof(string), true);
+            });
+        }
+
+        [Fact]
+        public void GivenTestNode_AndUnknownPinName_AndNotValidate_WhenPrepareInputDataPin_ThenKeyNotFoundExceptionNotThrown()
+        {
+            // Arrange
+            var sut = new TestNode();
+
+            // Act & Assert
+            sut.PrepareInputDataPin("Pants", typeof(string), false);
+        }
+
+        [Fact]
+        public async Task GivenTestNode_AndBypass_AndExecute_ThenExecutedFalse()
+        {
+            // Arrange
+            var sut = new TestNode();
+            sut.Bypass = new DataPin<bool>("Bypass", true);
+
+            // Act
+            await sut.ExecuteAsync(Mock.Of<IGraph>(), CancellationToken.None);
+
+            // Assert
+            Assert.False(sut.Executed);
+        }
+
+        [Fact]
+        public async Task GivenTestNode_AndNotBypass_AndExecute_ThenExecutedTrue()
+        {
+            // Arrange
+            var sut = new TestNode();
+            sut.Bypass = new DataPin<bool>("Bypass", false);
+
+            // Act
+            await sut.ExecuteAsync(Mock.Of<IGraph>(), CancellationToken.None);
+
+            // Assert
+            Assert.True(sut.Executed);
         }
     }
 }
