@@ -6,6 +6,7 @@ namespace devoctomy.Passchamp.Core.Graph
     {
         public string Name { get; set; }
         public T Value { get; set; }
+        public Type ValueType => typeof(T);
         public object ObjectValue => Value;
 
         public DataPin(

@@ -5,33 +5,28 @@ using System.Windows.Data;
 
 namespace devoctomy.Passchamp.Windows.ValueConverters
 {
-    public class DataPinValueConverter : IValueConverter
+    public class DataPinValueConverter : IMultiValueConverter
     {
         public object Convert(
-            object value,
+            object[] values,
             Type targetType,
             object parameter,
             CultureInfo culture)
         {
-            if(targetType != typeof(string))
+            if (targetType != typeof(string))
             {
                 throw new NotSupportedException($"Target type {targetType.Name} not supported by value converter.");
             }
 
-            return value.ToString();
+            return ((IPin)values[0]).ObjectValue.ToString();
         }
 
-        public object ConvertBack(
+        public object[] ConvertBack(
             object value,
-            Type targetType,
+            Type[] targetTypes,
             object parameter,
             CultureInfo culture)
         {
-            if (value == null || value.GetType() != typeof(IPin))
-            {
-                throw new NotSupportedException($"Value must be of type IDataPin.");
-            }
-
             return null;
         }
     }

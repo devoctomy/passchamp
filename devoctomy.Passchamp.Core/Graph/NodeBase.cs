@@ -64,11 +64,6 @@ namespace devoctomy.Passchamp.Core.Graph
             Type valueType,
             bool validate = true)
         {
-            if(key == "RandomBytes")
-            {
-                var pop = "";
-            }
-
             if (validate && !OutputPinsProperties.ContainsKey(key))
             {
                 throw new KeyNotFoundException($"Output pin with the key name '{key}' not found on node type {GetType().Name}.");
