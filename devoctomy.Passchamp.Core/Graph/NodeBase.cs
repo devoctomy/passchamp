@@ -112,9 +112,13 @@ namespace devoctomy.Passchamp.Core.Graph
             _preparedUnsetPins = true;
         }
 
-        public async Task ExecuteAsync(
-            CancellationToken cancellationToken)
+        public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            if(_graph == null)
+            {
+                throw new InvalidOperationException("No graph attached to node.");
+            }
+
             PrepareUnsetPins();
             _graph.BeforeExecute(this);
             if(!Bypass.Value)
@@ -126,7 +130,7 @@ namespace devoctomy.Passchamp.Core.Graph
             await ExecuteNextAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task ExecuteNextAsync(CancellationToken cancellationToken)
+        private async Task ExecuteNextAsync(CancellationToken cancellationToken)
         {
             Executed = true;
             if(string.IsNullOrEmpty(NextKey))

@@ -23,7 +23,6 @@ namespace devoctomy.Passchamp.Core.Graph
             string key,
             Type valueType,
             bool validate = true);
-        Task ExecuteNextAsync(CancellationToken cancellationToken);
         IDataPin<T> GetInput<T>(string key);
         IPin GetInput(string key, Type type);
         IDataPin<T> GetOutput<T>(string key);

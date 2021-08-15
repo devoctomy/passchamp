@@ -270,5 +270,18 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 sut.AttachGraph(null);
             });
         }
+
+        [Fact]
+        public void GivenUnattachedNode_WhenExecuteAsync_ThenInvalidOperationExceptionThrown()
+        {
+            // Arrange
+            var sut = new NodeBase();
+
+            // Act & Assert
+            Assert.ThrowsAny<InvalidOperationException>(() =>
+            {
+                sut.ExecuteAsync(CancellationToken.None).GetAwaiter().GetResult();
+            });
+        }
     }
 }
