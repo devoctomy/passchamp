@@ -14,9 +14,7 @@ namespace devoctomy.Passchamp.Core.Graph
         Dictionary<string, IPin> Output { get; }
         public string NextKey { get; set; }
         public bool Executed { get; }
-        Task ExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken);
+        Task ExecuteAsync(CancellationToken cancellationToken);
         void PrepareInputDataPin(
             string key,
             Type valueType,
@@ -25,12 +23,11 @@ namespace devoctomy.Passchamp.Core.Graph
             string key,
             Type valueType,
             bool validate = true);
-        Task ExecuteNextAsync(
-            IGraph graph,
-            CancellationToken cancellationToken);
+        Task ExecuteNextAsync(CancellationToken cancellationToken);
         IDataPin<T> GetInput<T>(string key);
         IPin GetInput(string key, Type type);
         IDataPin<T> GetOutput<T>(string key);
         IPin GetOutput(string key, Type type);
+        void AttachGraph(IGraph graph);
     }
 }

@@ -27,6 +27,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             // Act
             var result = await sut.LoadAsync(
                 jsonDataStream,
+                null,
                 CancellationToken.None);
 
             // Assert

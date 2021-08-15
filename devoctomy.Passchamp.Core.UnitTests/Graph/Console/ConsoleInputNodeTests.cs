@@ -39,10 +39,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Console
             mockSystemConsole.Setup(x => x.ReadLine())
                 .Returns(inputLine);
 
+            sut.AttachGraph(mockGraph.Object);
+
             // Act
-            await sut.ExecuteAsync(
-                mockGraph.Object,
-                cancellationTokenSource.Token);
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
             mockSystemConsole.Verify(x => x.WriteLine(
@@ -52,9 +52,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Console
                 .Returns(inputLine);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Once);
-            mockNextNode.Verify(x => x.ExecuteAsync(
-                It.Is<IGraph>(x => x == mockGraph.Object),
-                It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
+            mockNextNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
         }
     }
 }

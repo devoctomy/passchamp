@@ -1,6 +1,7 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.UnitTests.Graph.Test;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,21 +27,15 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 It.IsAny<string>()))
                 .Returns(mockNode.Object);
 
-            mockNode.Setup(x => x.ExecuteAsync(
-                It.IsAny<IGraph>(),
-                It.IsAny<CancellationToken>()));
+            mockNode.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>()));
+            sut.AttachGraph(mockGraph.Object);
 
             // Act
-            await sut.ExecuteAsync(
-                mockGraph.Object,
-                cancellationTokenSource.Token);
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
-            mockGraph.Verify(x => x.GetNode<INode>(
-                It.Is<string>(x => x == sut.NextKey)), Times.Once);
-            mockNode.Verify(x => x.ExecuteAsync(
-                It.Is<IGraph>(x => x == mockGraph.Object),
-                It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
+            mockGraph.Verify(x => x.GetNode<INode>(It.Is<string>(x => x == sut.NextKey)), Times.Once);
+            mockNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
         }
 
         [Fact]
@@ -57,21 +52,16 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 It.IsAny<string>()))
                 .Returns(mockNode.Object);
 
-            mockNode.Setup(x => x.ExecuteAsync(
-                It.IsAny<IGraph>(),
-                It.IsAny<CancellationToken>()));
+            mockNode.Setup(x => x.ExecuteAsync(It.IsAny<CancellationToken>()));
+            sut.AttachGraph(mockGraph.Object);
 
             // Act
-            await sut.ExecuteAsync(
-                mockGraph.Object,
-                cancellationTokenSource.Token);
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Never);
-            mockNode.Verify(x => x.ExecuteAsync(
-                It.Is<IGraph>(x => x == mockGraph.Object),
-                It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Never);
+            mockNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Never);
         }
 
         [Fact]
@@ -244,9 +234,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             // Arrange
             var sut = new TestNode();
             sut.Bypass = new DataPin<bool>("Bypass", true);
+            sut.AttachGraph(Mock.Of<IGraph>());
 
             // Act
-            await sut.ExecuteAsync(Mock.Of<IGraph>(), CancellationToken.None);
+            await sut.ExecuteAsync(CancellationToken.None);
 
             // Assert
             Assert.False(sut.Executed);
@@ -258,12 +249,26 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             // Arrange
             var sut = new TestNode();
             sut.Bypass = new DataPin<bool>("Bypass", false);
+            sut.AttachGraph(Mock.Of<IGraph>());
 
             // Act
-            await sut.ExecuteAsync(Mock.Of<IGraph>(), CancellationToken.None);
+            await sut.ExecuteAsync(CancellationToken.None);
 
             // Assert
             Assert.True(sut.Executed);
+        }
+        
+        [Fact]
+        public void GivenNull_WhenAttachGraph_ThenArgumentExceptionThrown()
+        {
+            // Arrange
+            var sut = new NodeBase();
+
+            // Act & Assert
+            Assert.ThrowsAny<ArgumentException>(() =>
+            {
+                sut.AttachGraph(null);
+            });
         }
     }
 }

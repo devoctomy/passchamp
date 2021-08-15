@@ -35,7 +35,13 @@ namespace devoctomy.Passchamp.IntTests.Steps
         public void GivenANewGraphWithAStartNodeNamed(string startNode)
         {
             var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-            _scenarioContext.Set(new Graph(null, nodes, startNode), "Graph");
+            _scenarioContext.Set(
+                new Graph(
+                    null,
+                    nodes,
+                    startNode,
+                    null),
+                "Graph");
         }
 
         [Given(@"RandomByteGeneratorNode named (.*) with a length of (.*) and NextKey of (.*)")]

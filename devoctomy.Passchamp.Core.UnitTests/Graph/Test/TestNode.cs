@@ -6,7 +6,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Test
 {
     public class TestNode : NodeBase
     {
-        public bool Executed { get; private set; }
+        public new bool Executed { get; private set; }
 
         [NodeInputPin(ValueType = typeof(string), DefaultValue = "Hello World")]
         public IDataPin<string> InputTest
@@ -34,9 +34,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Test
             }
         }
 
-        protected override Task DoExecuteAsync(IGraph graph, CancellationToken cancellationToken)
+        protected override Task DoExecuteAsync(
+            IGraph graph,
+            CancellationToken cancellationToken)
         {
             Executed = true;
+            OutputMessage("Hello from TestNode!");
             return Task.CompletedTask;
         }
     }

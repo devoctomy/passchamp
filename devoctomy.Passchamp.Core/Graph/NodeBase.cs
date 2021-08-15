@@ -9,6 +9,7 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public class NodeBase : INode
     {
+        private IGraph _graph;
         private bool _preparedUnsetPins;
 
         public Dictionary<string, PropertyInfo> InputPinsProperties { get; }
@@ -112,25 +113,20 @@ namespace devoctomy.Passchamp.Core.Graph
         }
 
         public async Task ExecuteAsync(
-            IGraph graph,
             CancellationToken cancellationToken)
         {
             PrepareUnsetPins();
-            graph.BeforeExecute(this);
+            _graph.BeforeExecute(this);
             if(!Bypass.Value)
             {
                 await DoExecuteAsync(
-                    graph,
+                    _graph,
                     cancellationToken).ConfigureAwait(false);
             }
-            await ExecuteNextAsync(
-                graph,
-                cancellationToken).ConfigureAwait(false);
+            await ExecuteNextAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task ExecuteNextAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
+        public async Task ExecuteNextAsync(CancellationToken cancellationToken)
         {
             Executed = true;
             if(string.IsNullOrEmpty(NextKey))
@@ -138,12 +134,10 @@ namespace devoctomy.Passchamp.Core.Graph
                 return;
             }
 
-            var nextNode = graph.GetNode<INode>(NextKey);
+            var nextNode = _graph.GetNode<INode>(NextKey);
             if (nextNode != null)
             {
-                await nextNode.ExecuteAsync(
-                    graph,
-                    cancellationToken).ConfigureAwait(false);
+                await nextNode.ExecuteAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -188,6 +182,28 @@ namespace devoctomy.Passchamp.Core.Graph
                 key,
                 type);    //!!! We need to ditch this
             return Output[key];
+        }
+
+        public void AttachGraph(IGraph graph)
+        {
+            if(graph == null)
+            {
+                throw new ArgumentException(
+                    "Value cannot be null",
+                    "graph");
+            }
+
+            _graph = graph;
+        }
+
+        public void OutputMessage(string message)
+        {
+            if(_graph != null && _graph.OutputMessage != null)
+            {
+                _graph.OutputMessage(
+                    this,
+                    message);
+            }
         }
     }
 }

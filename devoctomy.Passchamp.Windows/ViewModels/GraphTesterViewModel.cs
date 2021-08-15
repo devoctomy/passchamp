@@ -58,6 +58,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
                 var stream = openFileDialog.OpenFile();
                 Model.Graph = await _graphLoaderService.LoadAsync(
                     stream,
+                    null,
                     CancellationToken.None);
             }
         }

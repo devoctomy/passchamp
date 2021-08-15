@@ -8,6 +8,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
     {
         public Task<IGraph> LoadAsync(
             Stream graphJson,
+            IGraph.GraphOutputMessageDelegate outputMessage,
             CancellationToken cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.UnitTests.Graph.Test;
 using Moq;
 using System.Collections.Generic;
 using System.Threading;
@@ -24,7 +25,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var sut = new Core.Graph.Graph(
                 null,
                 nodes,
-                startKey);
+                startKey,
+                null);
 
             // Assert
             Assert.NotNull(sut.GetNode<INode>("node1"));
@@ -49,7 +51,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 var sut = new Core.Graph.Graph(
                     null,
                     nodes,
-                    startKey);
+                    startKey,
+                    null);
             });
         }
 
@@ -71,7 +74,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var sut = new Core.Graph.Graph(
                 null,
                 nodes,
-                startKey);
+                startKey,
+                null);
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Act
@@ -79,6 +83,47 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
 
             // Assert
             Assert.Equal("node1,node2", string.Join(",", sut.ExecutionOrder));
+        }
+
+        [Fact]
+        public async Task GivenGraph_AndNodes_AndOutputMessageDelegate_WhenExecute_ThenMessagesOutputFromNodes()
+        {
+            var node1 = new TestNode()
+            {
+                NextKey = "node2"
+            };
+            var node2 = new TestNode();
+            var nodes = new Dictionary<string, INode>
+            {
+                { "node1", node1 },
+                { "node2", node2 }
+            };
+            var startKey = "node1";
+            var nodesOutput = new List<INode>();
+
+            IGraph.GraphOutputMessageDelegate outputMessageDelegate = delegate(INode node, string message)
+            {
+                if(node != null)
+                {
+                    nodesOutput.Add(node);
+                }
+            };
+
+            var sut = new Core.Graph.Graph(
+                null,
+                nodes,
+                startKey,
+                outputMessageDelegate);
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+
+            // Assert
+            foreach(var curNode in nodes)
+            {
+                Assert.Contains(curNode.Value, nodesOutput);
+            }    
         }
     }
 }

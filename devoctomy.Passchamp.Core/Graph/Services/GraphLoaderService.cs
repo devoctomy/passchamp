@@ -21,6 +21,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
 
         public async Task<IGraph> LoadAsync(
             Stream graphJson,
+            IGraph.GraphOutputMessageDelegate outputMessage,
             CancellationToken cancellationToken)
         {
             using var streamReader = new StreamReader(
@@ -40,7 +41,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             return new Graph(
                 pins,
                 nodes,
-                startNodeKey);
+                startNodeKey,
+                outputMessage);
         }
     }
 }

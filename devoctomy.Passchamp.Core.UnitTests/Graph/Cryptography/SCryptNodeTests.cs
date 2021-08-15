@@ -47,11 +47,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
                     salt),
             };
             var cancellationTokenSource = new CancellationTokenSource();
+            sut.AttachGraph(mockGraph.Object);
 
             // Act
-            await sut.ExecuteAsync(
-                mockGraph.Object,
-                cancellationTokenSource.Token);
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
             var actualKeyBase64 = Convert.ToBase64String(sut.Key.Value);

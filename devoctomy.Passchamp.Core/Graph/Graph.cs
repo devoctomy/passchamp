@@ -14,6 +14,7 @@ namespace devoctomy.Passchamp.Core.Graph
         private readonly List<string> _executionOrder = new();
         private readonly Dictionary<string, IPin> _pins;
 
+        public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
         public Dictionary<string, IPin> Pins => _pins;
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public Dictionary<string, INode> Nodes { get; }
@@ -37,19 +38,27 @@ namespace devoctomy.Passchamp.Core.Graph
         public Graph(
             Dictionary<string, IPin> pins,
             Dictionary<string, INode> nodes,
-            string startKey)
+            string startKey,
+            IGraph.GraphOutputMessageDelegate outputMessage)
         {
+            OutputMessage = outputMessage;
             _pins = pins;
             Nodes = nodes;
             _nodeKeys = Nodes.ToList().ToDictionary(
                 x => x.Value,
                 x => x.Key);
+            foreach(var curNode in Nodes)
+            {
+                DoOutputMessage($"Attaching node {curNode.Key} of type '{curNode.Value.GetType().Name}'");
+                curNode.Value.AttachGraph(this);
+            }
             StartKey = startKey;
         }
 
         private void PreparePins()
         {
-            foreach(var curNode in Nodes.Values)
+            DoOutputMessage("Preparing pins...");
+            foreach (var curNode in Nodes.Values)
             {
                 foreach(var curInputPinKey in curNode.Input.Keys.ToArray())
                 {
@@ -76,6 +85,7 @@ namespace devoctomy.Passchamp.Core.Graph
                     }
                 }
             }
+            DoOutputMessage("Pins prepared");
         }
 
         public T GetNode<T>(string key) where T : INode
@@ -85,19 +95,29 @@ namespace devoctomy.Passchamp.Core.Graph
 
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            DoOutputMessage($"Executing graph...");
             _executionOrder.Clear();
             PreparePins();
             var startNode = GetNode<INode>(StartKey);
-            await startNode.ExecuteAsync(
-                this,
-                cancellationToken).ConfigureAwait(false);
+            await startNode.ExecuteAsync(cancellationToken).ConfigureAwait(false);
         }
 
         public void BeforeExecute(INode node)
         {
-            if(_nodeKeys.TryGetValue(node, out string key))
+            DoOutputMessage($"Before execute node...");
+            if (_nodeKeys.TryGetValue(node, out string key))
             {
                 _executionOrder.Add(key);
+            }
+        }
+
+        private void DoOutputMessage(string message)
+        {
+            if (OutputMessage != null)
+            {
+                OutputMessage(
+                    null,
+                    message);
             }
         }
     }

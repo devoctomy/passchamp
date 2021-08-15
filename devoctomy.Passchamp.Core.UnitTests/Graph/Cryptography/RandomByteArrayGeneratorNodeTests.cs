@@ -30,14 +30,13 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
                 It.Is<string>(x => x == sut.NextKey)))
                 .Returns(mockNextNode.Object);
             var cancellationTokenSource = new CancellationTokenSource();
+            sut.AttachGraph(mockGraph.Object);
 
             // Act
             var resultsList = new List<string>();
             for (int i = 0; i < 3; i++)
             {
-                await sut.ExecuteAsync(
-                    mockGraph.Object,
-                    cancellationTokenSource.Token);
+                await sut.ExecuteAsync(cancellationTokenSource.Token);
                 resultsList.Add(Convert.ToBase64String(sut.RandomBytes.Value));
             }
 
@@ -45,9 +44,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             Assert.Equal(3, resultsList.Distinct().ToList().Count);
             mockGraph.Verify(x => x.GetNode<INode>(
                 It.Is<string>(x => x == sut.NextKey)), Times.Exactly(3));
-            mockNextNode.Verify(x => x.ExecuteAsync(
-                It.Is<IGraph>(x => x == mockGraph.Object),
-                It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Exactly(3));
+            mockNextNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Exactly(3));
         }
     }
 }
