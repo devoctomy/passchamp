@@ -53,6 +53,7 @@ namespace devoctomy.Passchamp.Core.Graph
 
             if (!Input.ContainsKey(key))
             {
+                OutputMessage($"Creating default input pin for '{key}'.");
                 Input.Add(key, DataPinFactory.Instance.Create(
                     key,
                     null,
@@ -72,6 +73,7 @@ namespace devoctomy.Passchamp.Core.Graph
 
             if (!Output.ContainsKey(key))
             {
+                OutputMessage($"Creating default output pin for '{key}'.");
                 Output.Add(key, DataPinFactory.Instance.Create(
                     key,
                     null,
@@ -83,6 +85,7 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             if (_preparedUnsetPins) return;
 
+            OutputMessage("Preparing unset input pins...");
             var unsetInput = InputPinsProperties.Where(x => !Input.ContainsKey(x.Key)).ToList();
             foreach (var curUnsetInput in unsetInput)
             {
@@ -95,7 +98,9 @@ namespace devoctomy.Passchamp.Core.Graph
                         attribute.ValueType);
                 }
             }
+            OutputMessage("Finished preparing unset input pins.");
 
+            OutputMessage("Preparing unset output pins...");
             var unsetOutput = OutputPinsProperties.Where(x => !Output.ContainsKey(x.Key)).ToList();
             foreach (var curUnsetOutput in unsetOutput)
             {
@@ -108,6 +113,7 @@ namespace devoctomy.Passchamp.Core.Graph
                         attribute.ValueType);
                 }
             }
+            OutputMessage("Finished preparing unset output pins.");
 
             _preparedUnsetPins = true;
         }
@@ -123,6 +129,7 @@ namespace devoctomy.Passchamp.Core.Graph
             _graph.BeforeExecute(this);
             if(!Bypass.Value)
             {
+                OutputMessage("Executing node...");
                 await DoExecuteAsync(
                     _graph,
                     cancellationToken).ConfigureAwait(false);
@@ -135,12 +142,15 @@ namespace devoctomy.Passchamp.Core.Graph
             Executed = true;
             if(string.IsNullOrEmpty(NextKey))
             {
+                OutputMessage("Nothing to execute next.");
                 return;
             }
 
+            OutputMessage($"Getting next node '{NextKey}'...");
             var nextNode = _graph.GetNode<INode>(NextKey);
             if (nextNode != null)
             {
+                OutputMessage($"Executing next node '{NextKey}'...");
                 await nextNode.ExecuteAsync(cancellationToken).ConfigureAwait(false);
             }
         }

@@ -17,7 +17,8 @@ namespace devoctomy.Passchamp.Core.Graph
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
         public Dictionary<string, IPin> Pins => _pins;
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
-        public Dictionary<string, INode> Nodes { get; }
+        public IReadOnlyDictionary<string, INode> Nodes { get; }
+        public IReadOnlyDictionary<INode, string> NodeKeys => _nodeKeys;
         public string StartKey
         { 
             get

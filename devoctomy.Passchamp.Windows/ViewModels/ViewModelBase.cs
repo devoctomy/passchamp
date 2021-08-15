@@ -5,6 +5,8 @@ namespace devoctomy.Passchamp.Windows.ViewModels
 {
     public class ViewModelBase<T> : ObservableRecipient
     {
+        protected System.Windows.Threading.Dispatcher Dispatcher { get; set; }
+
         public ILogger<ViewModelBase<T>> Logger { get; }
         public T Model { get; }
 
@@ -12,6 +14,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
             ILogger<ViewModelBase<T>> logger,
             T model)
         {
+            Dispatcher = System.Windows.Threading.Dispatcher.CurrentDispatcher;
             Logger = logger;
             Model = model;
         }

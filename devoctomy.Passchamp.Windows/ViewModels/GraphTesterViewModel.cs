@@ -1,16 +1,14 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Services;
-using devoctomy.Passchamp.Windows.Extensions;
 using devoctomy.Passchamp.Windows.Model;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Win32;
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace devoctomy.Passchamp.Windows.ViewModels
 {
@@ -65,7 +63,11 @@ namespace devoctomy.Passchamp.Windows.ViewModels
 
         private void OutputMessage(INode node, string message)
         {
-            Model.Messages.Add(message);
+            Dispatcher.Invoke(new Action(() =>
+            {
+                var sourceKey = node != null ? $"{Model.Graph.NodeKeys[node]} ({node.GetType().Name})" : "Graph";
+                Model.Messages.Add($"{sourceKey} ::  {message}");
+            }));
         }
     }
 }

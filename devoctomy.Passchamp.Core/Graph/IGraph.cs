@@ -11,7 +11,8 @@ namespace devoctomy.Passchamp.Core.Graph
         GraphOutputMessageDelegate OutputMessage { get; set; }
         Dictionary<string, IPin> Pins { get; }
         IReadOnlyList<string> ExecutionOrder { get; }
-        Dictionary<string, INode> Nodes { get; }
+        IReadOnlyDictionary<string, INode> Nodes { get; }
+        IReadOnlyDictionary<INode, string> NodeKeys { get; }
         string StartKey { get; }
         T GetNode<T>(string key) where T : INode;
         Task ExecuteAsync(CancellationToken cancellationToken);
