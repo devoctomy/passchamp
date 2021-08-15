@@ -42,6 +42,15 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <ListBox Grid.Row="1" ItemsSource="{Binding Path=Model.Messages}"></ListBox>
+            </Grid>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Width="128" Margin="2,2,8,8" HorizontalAlignment="Right" Command="{Binding Path=Execute}">Execute</Button>

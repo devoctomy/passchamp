@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace devoctomy.Passchamp.Windows.Model
@@ -39,5 +40,7 @@ namespace devoctomy.Passchamp.Windows.Model
                 return _pins;
             }
         }
+
+        public ObservableCollection<string> Messages { get; set; } = new ObservableCollection<string>();
     }
 }
