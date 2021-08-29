@@ -8,10 +8,14 @@
 
   <ItemGroup>
     <None Remove="Config\Graphs\encryptgraph1.json" />
+    <None Remove="Fonts\androidicons.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Config\Graphs\encryptgraph1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\androidicons.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
