@@ -8,7 +8,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
         protected System.Windows.Threading.Dispatcher Dispatcher { get; set; }
 
         public ILogger<ViewModelBase<T>> Logger { get; }
-        public T Model { get; }
+        public T Model { get; set; }
 
         public ViewModelBase(
             ILogger<ViewModelBase<T>> logger,
