@@ -48,6 +48,14 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
+                
+                <ListBox ItemsSource="{Binding Path=Model.Nodes}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <local:NodeListItemView Node="{Binding Path=.}"></local:NodeListItemView>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
                 <ListBox Grid.Row="1" ItemsSource="{Binding Path=Model.Messages}"></ListBox>
             </Grid>

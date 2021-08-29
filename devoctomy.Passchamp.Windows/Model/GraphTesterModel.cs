@@ -10,6 +10,7 @@ namespace devoctomy.Passchamp.Windows.Model
         private IGraph _graph;
 
         private List<IPin> _pins;
+        private List<INode> _nodes;
 
         public IGraph Graph
         { 
@@ -24,6 +25,7 @@ namespace devoctomy.Passchamp.Windows.Model
                     _graph = value;
                     OnPropertyChanged(nameof(Graph));
                     OnPropertyChanged(nameof(Pins));
+                    OnPropertyChanged(nameof(Nodes));
                 }
             }
         }
@@ -38,6 +40,19 @@ namespace devoctomy.Passchamp.Windows.Model
                 }
 
                 return _pins;
+            }
+        }
+
+        public List<INode> Nodes
+        {
+            get
+            {
+                if (_nodes == null)
+                {
+                    _nodes = Graph?.Nodes.Values.ToList();
+                }
+
+                return _nodes;
             }
         }
 

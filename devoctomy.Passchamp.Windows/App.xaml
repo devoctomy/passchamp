@@ -5,6 +5,7 @@
              xmlns:services="clr-namespace:devoctomy.Passchamp.Windows.Services"
              StartupUri="Views/Main.xaml">
     <Application.Resources>
+        <FontFamily x:Key="AndroidIcons">/Fonts/androidicons.ttf#androidicons</FontFamily>
         <services:ViewModelLocator x:Key="ViewModelLocator"/>
     </Application.Resources>
 </Application>
