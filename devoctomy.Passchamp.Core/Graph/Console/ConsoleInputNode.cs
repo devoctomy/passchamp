@@ -7,6 +7,10 @@ namespace devoctomy.Passchamp.Core.Graph.Console
     {
         private readonly ISystemConsole _systemConsole;
 
+        public ConsoleInputNode()
+        {
+        }
+
         public ConsoleInputNode(ISystemConsole systemConsole)
         {
             _systemConsole = systemConsole;

@@ -29,8 +29,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         }
 
         [Theory]
-        [InlineData(float.MinValue)]
-        [InlineData(double.MinValue)]
         [InlineData(byte.MinValue)]
         public void GivenName_AndUnsupportedValue_WhenCreate_ThenNotSupportedExceptionThrown(
             object value)

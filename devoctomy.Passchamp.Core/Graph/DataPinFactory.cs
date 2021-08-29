@@ -61,6 +61,18 @@ namespace devoctomy.Passchamp.Core.Graph
                             name,
                             (int)value);
                     }
+                case "Single":
+                    {
+                        return new DataPin<float>(
+                            name,
+                            (float)value);
+                    }
+                case "Double":
+                    {
+                        return new DataPin<double>(
+                            name,
+                            (double)value);
+                    }
                 case "Byte[]":
                     {
                         return new DataPin<byte[]>(
