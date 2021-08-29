@@ -6,7 +6,12 @@ namespace devoctomy.Passchamp.Core.Graph.Services
 {
     public interface IGraphLoaderService
     {
-        public Task<IGraph> LoadAsync(
+        Task<IGraph> LoadAsync(
+            string graphJsonFile,
+            IGraph.GraphOutputMessageDelegate outputMessage,
+            CancellationToken cancellationToken);
+
+        Task<IGraph> LoadAsync(
             Stream graphJson,
             IGraph.GraphOutputMessageDelegate outputMessage,
             CancellationToken cancellationToken);

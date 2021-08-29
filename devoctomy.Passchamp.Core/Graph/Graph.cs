@@ -45,14 +45,18 @@ namespace devoctomy.Passchamp.Core.Graph
             OutputMessage = outputMessage;
             _pins = pins;
             Nodes = nodes;
-            _nodeKeys = Nodes.ToList().ToDictionary(
+            _nodeKeys = Nodes?.ToList().ToDictionary(
                 x => x.Value,
                 x => x.Key);
-            foreach(var curNode in Nodes)
+            if(Nodes != null)
             {
-                DoOutputMessage($"Attaching node {curNode.Key} of type '{curNode.Value.GetType().Name}'");
-                curNode.Value.AttachGraph(this);
+                foreach (var curNode in Nodes)
+                {
+                    DoOutputMessage($"Attaching node {curNode.Key} of type '{curNode.Value.GetType().Name}'");
+                    curNode.Value.AttachGraph(this);
+                }
             }
+
             StartKey = startKey;
         }
 

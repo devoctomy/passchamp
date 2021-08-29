@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Windows.Model;
+using devoctomy.Passchamp.Windows.Services;
 using devoctomy.Passchamp.Windows.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -25,7 +26,13 @@ namespace devoctomy.Passchamp.Windows
             services.AddPasschampCoreServices();
             ConfigureModels(services);
             ConfigureViewModels(services);
+            ConfigureServices(services);
             Ioc.Default.ConfigureServices(services.BuildServiceProvider());
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddScoped<IFileDialogService, FileDialogService>();
         }
 
         private static void ConfigureModels(IServiceCollection services)

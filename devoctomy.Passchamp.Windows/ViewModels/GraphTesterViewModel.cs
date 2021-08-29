@@ -1,9 +1,9 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Windows.Model;
+using devoctomy.Passchamp.Windows.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Threading;
@@ -15,6 +15,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
     public class GraphTesterViewModel : ViewModelBase<GraphTesterModel>
     {
         private readonly IGraphLoaderService _graphLoaderService;
+        private readonly IFileDialogService _fileDialogService;
 
         public ICommand GraphBrowse { get; }
         public ICommand Execute { get; }
@@ -22,12 +23,14 @@ namespace devoctomy.Passchamp.Windows.ViewModels
         public GraphTesterViewModel(
             ILogger<GraphTesterViewModel> logger,
             GraphTesterModel model,
-            IGraphLoaderService graphLoaderService)
+            IGraphLoaderService graphLoaderService,
+            IFileDialogService fileDialogService)
             : base(logger, model)
         {
             Execute = new RelayCommand(DoExecute);
             GraphBrowse = new RelayCommand(DoGraphBrowse);
             _graphLoaderService = graphLoaderService;
+            _fileDialogService = fileDialogService;
         }
 
         private async void DoExecute()
@@ -41,7 +44,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
         private async void DoGraphBrowse()
         {
             Logger.LogInformation("Browsing for graph file...");
-            var openFileDialog = new OpenFileDialog
+            var success = _fileDialogService.OpenFile(new OpenFileDialogOptions
             {
                 CheckFileExists = true,
                 CheckPathExists = true,
@@ -50,12 +53,12 @@ namespace devoctomy.Passchamp.Windows.ViewModels
                 Multiselect = false,
                 InitialDirectory = Environment.CurrentDirectory + $"{Path.DirectorySeparatorChar}Config{Path.DirectorySeparatorChar}Graphs",
                 AddExtension = true
-            };
-            if(openFileDialog.ShowDialog() == true)
+            }, out var fileName);
+
+            if(success.GetValueOrDefault())
             {
-                var stream = openFileDialog.OpenFile();
                 Model.Graph = await _graphLoaderService.LoadAsync(
-                    stream,
+                    fileName,
                     OutputMessage,
                     CancellationToken.None);
             }

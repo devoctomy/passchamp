@@ -19,6 +19,17 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             _nodeJsonParserService = nodeJsonParserService;
         }
 
+        public Task<IGraph> LoadAsync(
+            string graphJsonFile,
+            IGraph.GraphOutputMessageDelegate outputMessage,
+            CancellationToken cancellationToken)
+        {
+            return LoadAsync(
+                File.OpenRead(graphJsonFile),
+                outputMessage,
+                cancellationToken);
+        }
+
         public async Task<IGraph> LoadAsync(
             Stream graphJson,
             IGraph.GraphOutputMessageDelegate outputMessage,
