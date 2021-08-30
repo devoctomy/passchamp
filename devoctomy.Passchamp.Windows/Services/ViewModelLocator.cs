@@ -5,20 +5,8 @@ namespace devoctomy.Passchamp.Windows.Services
 {
     public class ViewModelLocator : IViewModelLocator
     {
-        public MainViewModel MainViewModel
-        {
-            get
-            {
-                return Ioc.Default.GetRequiredService<MainViewModel>();
-            }
-        }
+        public MainViewModel MainViewModel => Ioc.Default.GetRequiredService<MainViewModel>();
 
-        public GraphTesterViewModel GraphTesterViewModel
-        {
-            get
-            {
-                return Ioc.Default.GetRequiredService<GraphTesterViewModel>();
-            }
-        }
+        public GraphTesterViewModel GraphTesterViewModel => Ioc.Default.GetRequiredService<GraphTesterViewModel>();
     }
 }

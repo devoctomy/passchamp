@@ -33,6 +33,7 @@ namespace devoctomy.Passchamp.Windows
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IFileDialogService, FileDialogService>();
+            services.AddScoped<IViewLocator, ViewLocator>();
         }
 
         private static void ConfigureModels(IServiceCollection services)
