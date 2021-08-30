@@ -99,7 +99,17 @@
                     "Key": "EncodedBytes",
                     "Value": "decrypt.DecryptedBytes"
                   }
-                ]
+                ],
+                "Next": {
+                  "Key": "parse",
+                  "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Vault.VaultParserNode",
+                  "Inputs": [
+                    {
+                      "Key": "VaultJson",
+                      "Value": "decode.PlainText"
+                    }
+                  ]
+                }
               }
             }
           }

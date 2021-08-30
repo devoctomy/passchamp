@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using Newtonsoft.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Text

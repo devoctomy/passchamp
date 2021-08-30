@@ -102,6 +102,12 @@ namespace devoctomy.Passchamp.Core.Graph
                                 }
                         }
                     }
+                case "Vault":
+                    {
+                        return new DataPin<Core.Vault.Vault>(
+                            name,
+                            (Core.Vault.Vault)value);
+                    }
                 default:
                     {
                         throw new NotSupportedException($"Value type {valueType.Name} not supported.");
