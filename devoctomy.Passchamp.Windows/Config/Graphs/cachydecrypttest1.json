@@ -76,6 +76,32 @@
             }
           ],
           "Next": {
+            "Key": "decrypt",
+            "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.DecryptNode",
+            "Inputs": [
+              {
+                "Key": "Cipher",
+                "Value": "GetDataParserSectionValue.dataparser.Cipher"
+              },
+              {
+                "Key": "Iv",
+                "Value": "GetDataParserSectionValue.dataparser.Iv"
+              },
+              {
+                "Key": "Key",
+                "Value": "derivekey.Key"
+              }
+            ],
+            "Next": {
+              "Key": "decode",
+              "Type": "devoctomy.Passchamp.Core.Graph.Text.Utf8DecoderNode",
+              "Inputs": [
+                {
+                  "Key": "EncodedBytes",
+                  "Value": "decrypt.DecryptedBytes"
+                }
+              ]
+            }
           }
         }
       }
