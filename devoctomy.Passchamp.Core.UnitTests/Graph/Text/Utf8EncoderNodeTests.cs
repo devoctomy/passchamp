@@ -13,7 +13,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Text
         public async Task GivenEncodedBytes_WhenExecute_ThenPlainTextCorrect_AndNextExecuted()
         {
             // Arrange
-            var expectedEncodedBytes = new byte[] { 0x48, 0x65, 0x6c, 0x6c, 0x6f };
+            var expectedEncodedBytes = new byte[] { 72, 101, 108, 108, 111 };
             var sut = new Utf8EncoderNode
             {
                 PlainText = (IDataPin<string>)DataPinFactory.Instance.Create(

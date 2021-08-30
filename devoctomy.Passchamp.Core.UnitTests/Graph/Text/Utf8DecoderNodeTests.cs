@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Text
             {
                 EncodedBytes = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
                     "EncodedBytes",
-                    new byte[] { 0x48, 0x65, 0x6c, 0x6c, 0x6f }),
+                    new byte[] { 72, 101, 108, 108, 111 }),
                 NextKey = "hello"
             };
             var mockGraph = new Mock<IGraph>();
