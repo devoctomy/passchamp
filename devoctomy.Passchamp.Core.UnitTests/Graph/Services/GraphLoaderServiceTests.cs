@@ -22,7 +22,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             using var jsonDataStream = File.OpenRead(fileName);
             var sut = new GraphLoaderService(
                 new PinsJsonParserService(),
-                new NodesJsonParserService());
+                new NodesJsonParserService(),
+                null);
 
             // Act
             var result = await sut.LoadAsync(

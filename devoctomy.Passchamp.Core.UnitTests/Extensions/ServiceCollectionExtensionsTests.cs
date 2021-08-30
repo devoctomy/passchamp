@@ -1,11 +1,8 @@
 ﻿using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Core.Graph.Services;
+using devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace devoctomy.Passchamp.Core.UnitTests.Extensions
@@ -26,6 +23,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Extensions
             Assert.NotNull(provider.GetService<IGraphLoaderService>());
             Assert.NotNull(provider.GetService<INodesJsonParserService>());
             Assert.NotNull(provider.GetService<IPinsJsonParserService>());
+
+            var pinPrepFunctions = provider.GetServices<IGraphPinPrepFunction>();
+            pinPrepFunctions.SingleOrDefault(x => x.GetType() == typeof(DataParserSectionGetterPinPrepFunction));
         }
     }
 }

@@ -53,7 +53,7 @@ namespace devoctomy.Passchamp.Windows.UnitTests.ViewModels
             {
                 { startNode, new NodeBase() }
             };
-            var graph = new Graph(null, nodes, startNode, null);
+            var graph = new Graph(null, nodes, startNode, null, null);
 
             mockFileDialogService.Setup(x => x.OpenFile(
                 It.IsAny<OpenFileDialogOptions>(),

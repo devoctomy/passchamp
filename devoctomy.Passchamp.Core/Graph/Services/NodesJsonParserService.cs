@@ -50,9 +50,12 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             if (curNode.ContainsKey("Next"))
             {
                 var nextNode = curNode["Next"].Value<JObject>();
-                inode.NextKey =  DoParse(
-                    nodes,
-                    nextNode).Key;
+                if(nextNode.Children().Count() > 0)
+                {
+                    inode.NextKey = DoParse(
+                        nodes,
+                        nextNode).Key;
+                }
             }
 
             return new KeyValuePair<string, INode>(

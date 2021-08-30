@@ -13,9 +13,10 @@ namespace devoctomy.Passchamp.Core.Graph
         private readonly Dictionary<INode, string> _nodeKeys;
         private readonly List<string> _executionOrder = new();
         private readonly Dictionary<string, IPin> _pins;
+        private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
 
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
-        public Dictionary<string, IPin> Pins => _pins;
+        public IReadOnlyDictionary<string, IPin> Pins => _pins;
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public IReadOnlyDictionary<string, INode> Nodes { get; }
         public IReadOnlyDictionary<INode, string> NodeKeys => _nodeKeys;
@@ -40,7 +41,8 @@ namespace devoctomy.Passchamp.Core.Graph
             Dictionary<string, IPin> pins,
             Dictionary<string, INode> nodes,
             string startKey,
-            IGraph.GraphOutputMessageDelegate outputMessage)
+            IGraph.GraphOutputMessageDelegate outputMessage,
+            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions)
         {
             OutputMessage = outputMessage;
             _pins = pins;
@@ -58,13 +60,15 @@ namespace devoctomy.Passchamp.Core.Graph
             }
 
             StartKey = startKey;
+            _pinPrepFunctions = pinPrepFunctions ?? new List<IGraphPinPrepFunction>();
         }
 
         private void PreparePins()
         {
             DoOutputMessage("Preparing pins...");
-            foreach (var curNode in Nodes.Values)
+            foreach (var curNodeKey in Nodes.Keys)
             {
+                var curNode = Nodes[curNodeKey];
                 foreach(var curInputPinKey in curNode.Input.Keys.ToArray())
                 {
                     var curInputPinValue = curNode.Input[curInputPinKey];
@@ -80,12 +84,28 @@ namespace devoctomy.Passchamp.Core.Graph
                         }
                         else
                         {
-                            var mapFromNode = Nodes[path[0]];
-                            var outPinPropInfo = mapFromNode.OutputPinsProperties[path[1]];
-                            var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(outPinPropInfo, typeof(NodeOutputPinAttribute));
-                            mapFromNode.PrepareOutputDataPin(path[1], attribute.ValueType);
-                            var nodeOutPin = mapFromNode.Output[path[1]];
-                            curNode.Input[curInputPinKey] = nodeOutPin;
+                            var pinPrepFunction = _pinPrepFunctions.SingleOrDefault(x => x.IsApplicable(path[0]));
+                            if(pinPrepFunction != null)
+                            {
+                                var node = pinPrepFunction.Execute(
+                                    curNodeKey,
+                                    intermediateValue.Value,
+                                    Pins,
+                                    Nodes);
+                                if(node != null)
+                                {
+                                    curNode.Input[curInputPinKey] = node;
+                                }
+                            }
+                            else
+                            {
+                                var mapFromNode = Nodes[path[0]];
+                                var outPinPropInfo = mapFromNode.OutputPinsProperties[path[1]];
+                                var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(outPinPropInfo, typeof(NodeOutputPinAttribute));
+                                mapFromNode.PrepareOutputDataPin(path[1], attribute.ValueType);
+                                var nodeOutPin = mapFromNode.Output[path[1]];
+                                curNode.Input[curInputPinKey] = nodeOutPin;
+                            }
                         }
                     }
                 }

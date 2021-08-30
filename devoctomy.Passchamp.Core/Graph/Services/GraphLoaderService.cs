@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,13 +11,16 @@ namespace devoctomy.Passchamp.Core.Graph.Services
     {
         private readonly IPinsJsonParserService _pinsJsonParserService;
         private readonly INodesJsonParserService _nodeJsonParserService;
+        private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
 
         public GraphLoaderService(
             IPinsJsonParserService pinsJsonParserService,
-            INodesJsonParserService nodeJsonParserService)
+            INodesJsonParserService nodeJsonParserService,
+            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions)
         {
             _pinsJsonParserService = pinsJsonParserService;
             _nodeJsonParserService = nodeJsonParserService;
+            _pinPrepFunctions = pinPrepFunctions;
         }
 
         public Task<IGraph> LoadAsync(
@@ -53,7 +57,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                 pins,
                 nodes,
                 startNodeKey,
-                outputMessage);
+                outputMessage,
+                _pinPrepFunctions);
         }
     }
 }

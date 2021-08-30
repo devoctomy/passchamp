@@ -1,0 +1,84 @@
+﻿{
+  "Pins": [
+    {
+      "Key": "InputFileName",
+      "Type": "System.String",
+      "Value": "c:/temp/test.vault"
+    },
+    {
+      "Key": "DataParserSections",
+      "Type": "System.String",
+      "Value": "Iv,0,16;Cipher,16,~16;Salt,~16,~0"
+    },
+    {
+      "Key": "Password",
+      "Type": "System.String",
+      "Value": "Password123"
+    },
+    {
+      "Key": "KeyLength",
+      "Type": "System.Int32",
+      "Value": 32
+    },
+    {
+      "Key": "SaltLength",
+      "Type": "System.Int32",
+      "Value": 16
+    },
+    {
+      "Key": "IterationCount",
+      "Type": "System.Int32",
+      "Value": 10000
+    }
+  ],
+  "Nodes": [
+    {
+      "Key": "filereader",
+      "Type": "devoctomy.Passchamp.Core.Graph.IO.FileReaderNode",
+      "Inputs": [
+        {
+          "Key": "FileName",
+          "Value": "Pins.InputFileName"
+        }
+      ],
+      "Next": {
+        "Key": "dataparser",
+        "Type": "devoctomy.Passchamp.Core.Graph.Data.DataParserNode",
+        "Inputs": [
+          {
+            "Key": "Bytes",
+            "Value": "filereader.Bytes"
+          },
+          {
+            "Key": "Sections",
+            "Value": "ParseDataParserSections.Pins.DataParserSections"
+          }
+        ],
+        "Next": {
+          "Key": "derivekey",
+          "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
+          "Inputs": [
+            {
+              "Key": "Password",
+              "Value": "Pins.Password"
+            },
+            {
+              "Key": "KeyLength",
+              "Value": "Pins.KeyLength"
+            },
+            {
+              "Key": "IterationCount",
+              "Value": "Pins.IterationCount"
+            },
+            {
+              "Key": "Salt",
+              "Value": "GetDataParserSectionValue.dataparser.Salt"
+            }
+          ],
+          "Next": {
+          }
+        }
+      }
+    }
+  ]
+}
