@@ -23,13 +23,13 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             Dictionary<string, INode> nodes,
             JObject curNode)
         {
-            var type = curNode["Type"].Value<string>(); 
-            var node = typeof(NodesJsonParserService).Assembly.CreateInstance(type);
-            if(node == null)
+            var type = curNode["Type"].Value<string>().Split(":");
+            var node = type.Length == 2 ? Activator.CreateInstance(type[0], type[1]) : null;
+            if (node == null)
             {
                 throw new TypeLoadException($"Could not activate instance of '{type}'.");
             }
-            var inode = node as INode;
+            var inode = node.Unwrap() as INode;
 
             var inputsJson = curNode["Inputs"].Value<JArray>();
             foreach(var curInputJson in inputsJson)

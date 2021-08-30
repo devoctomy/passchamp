@@ -39,7 +39,7 @@
   "Nodes": [
     {
       "Key": "saltgenerator",
-      "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
+      "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
       "Inputs": [
         {
           "Key": "Length",
@@ -48,7 +48,7 @@
       ],
       "Next": {
         "Key": "ivgenerator",
-        "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
+        "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
         "Inputs": [
           {
             "Key": "Length",
@@ -57,7 +57,7 @@
         ],
         "Next": {
           "Key": "derive",
-          "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
+          "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
           "Inputs": [
             {
               "Key": "Password",
@@ -78,7 +78,7 @@
           ],
           "Next": {
             "Key": "encode",
-            "Type": "devoctomy.Passchamp.Core.Graph.Text.Utf8EncoderNode",
+            "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Text.Utf8EncoderNode",
             "Inputs": [
               {
                 "Key": "PlainText",
@@ -87,7 +87,7 @@
             ],
             "Next": {
               "Key": "encrypt",
-              "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.EncryptNode",
+              "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.EncryptNode",
               "Inputs": [
                 {
                   "Key": "PlainTextBytes",
@@ -104,7 +104,7 @@
               ],
               "Next": {
                 "Key": "joiner",
-                "Type": "devoctomy.Passchamp.Core.Graph.Data.ArrayJoinerNode",
+                "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Data.ArrayJoinerNode",
                 "Inputs": [
                   {
                     "Key": "Part1",
@@ -121,7 +121,7 @@
                 ],
                 "Next": {
                   "Key": "writer",
-                  "Type": "devoctomy.Passchamp.Core.Graph.IO.FileWriterNode",
+                  "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.IO.FileWriterNode",
                   "Inputs": [
                     {
                       "Key": "InputData",

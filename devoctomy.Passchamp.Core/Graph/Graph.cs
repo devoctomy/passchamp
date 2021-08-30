@@ -20,6 +20,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public IReadOnlyDictionary<string, INode> Nodes { get; }
         public IReadOnlyDictionary<INode, string> NodeKeys => _nodeKeys;
+        public Dictionary<string, object> ExtendedParams { get; } = new Dictionary<string, object>();
         public string StartKey
         { 
             get

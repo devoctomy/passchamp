@@ -11,11 +11,6 @@
       "Value": "Iv,0,16;Cipher,16,~16;Salt,~16,~0"
     },
     {
-      "Key": "Password",
-      "Type": "System.String",
-      "Value": "Password123"
-    },
-    {
       "Key": "KeyLength",
       "Type": "System.Int32",
       "Value": 32
@@ -34,7 +29,7 @@
   "Nodes": [
     {
       "Key": "filereader",
-      "Type": "devoctomy.Passchamp.Core.Graph.IO.FileReaderNode",
+      "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.IO.FileReaderNode",
       "Inputs": [
         {
           "Key": "FileName",
@@ -43,7 +38,7 @@
       ],
       "Next": {
         "Key": "dataparser",
-        "Type": "devoctomy.Passchamp.Core.Graph.Data.DataParserNode",
+        "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Data.DataParserNode",
         "Inputs": [
           {
             "Key": "Bytes",
@@ -55,52 +50,57 @@
           }
         ],
         "Next": {
-          "Key": "derivekey",
-          "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
-          "Inputs": [
-            {
-              "Key": "Password",
-              "Value": "Pins.Password"
-            },
-            {
-              "Key": "KeyLength",
-              "Value": "Pins.KeyLength"
-            },
-            {
-              "Key": "IterationCount",
-              "Value": "Pins.IterationCount"
-            },
-            {
-              "Key": "Salt",
-              "Value": "GetDataParserSectionValue.dataparser.Salt"
-            }
-          ],
+          "Key": "enterpassword",
+          "Type": "devoctomy.Passchamp.Windows:devoctomy.Passchamp.Windows.Graph.Windows.PasswordEnterDialogNode",
+          "Inputs": [],
           "Next": {
-            "Key": "decrypt",
-            "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.DecryptNode",
+            "Key": "derivekey",
+            "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
             "Inputs": [
               {
-                "Key": "Cipher",
-                "Value": "GetDataParserSectionValue.dataparser.Cipher"
+                "Key": "Password",
+                "Value": "enterpassword.Password"
               },
               {
-                "Key": "Iv",
-                "Value": "GetDataParserSectionValue.dataparser.Iv"
+                "Key": "KeyLength",
+                "Value": "Pins.KeyLength"
               },
               {
-                "Key": "Key",
-                "Value": "derivekey.Key"
+                "Key": "IterationCount",
+                "Value": "Pins.IterationCount"
+              },
+              {
+                "Key": "Salt",
+                "Value": "GetDataParserSectionValue.dataparser.Salt"
               }
             ],
             "Next": {
-              "Key": "decode",
-              "Type": "devoctomy.Passchamp.Core.Graph.Text.UnicodeDecoderNode",
+              "Key": "decrypt",
+              "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.DecryptNode",
               "Inputs": [
                 {
-                  "Key": "EncodedBytes",
-                  "Value": "decrypt.DecryptedBytes"
+                  "Key": "Cipher",
+                  "Value": "GetDataParserSectionValue.dataparser.Cipher"
+                },
+                {
+                  "Key": "Iv",
+                  "Value": "GetDataParserSectionValue.dataparser.Iv"
+                },
+                {
+                  "Key": "Key",
+                  "Value": "derivekey.Key"
                 }
-              ]
+              ],
+              "Next": {
+                "Key": "decode",
+                "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Text.UnicodeDecoderNode",
+                "Inputs": [
+                  {
+                    "Key": "EncodedBytes",
+                    "Value": "decrypt.DecryptedBytes"
+                  }
+                ]
+              }
             }
           }
         }

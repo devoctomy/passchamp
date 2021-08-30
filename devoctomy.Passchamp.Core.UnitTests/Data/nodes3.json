@@ -2,7 +2,7 @@
   "Nodes": [
     {
       "Key": "node1",
-      "Type": "devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
+      "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.RandomByteArrayGeneratorNode",
       "Inputs": [
         {
           "Key": "Bob",
