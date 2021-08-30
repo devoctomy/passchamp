@@ -94,7 +94,7 @@
             ],
             "Next": {
               "Key": "decode",
-              "Type": "devoctomy.Passchamp.Core.Graph.Text.Utf8DecoderNode",
+              "Type": "devoctomy.Passchamp.Core.Graph.Text.UnicodeDecoderNode",
               "Inputs": [
                 {
                   "Key": "EncodedBytes",
