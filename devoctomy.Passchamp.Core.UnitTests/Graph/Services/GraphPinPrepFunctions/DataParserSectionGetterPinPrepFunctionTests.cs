@@ -1,7 +1,9 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Console;
 using devoctomy.Passchamp.Core.Graph.Data;
 using devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions;
 using Moq;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +28,75 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinPrepFunction
 
             // Assert
             Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public async Task GivenValueWithWrongNodeName_AndNodeList_WhenExecute_ThenKeyNotFoundExceptionThrown()
+        {
+            // Arrange
+            var value = "GetDataParserSectionValue.fruit.orange";
+            var dataParserNode = new DataParserNode();
+            dataParserNode.AttachGraph(Mock.Of<IGraph>());
+            dataParserNode.Bytes = (IDataPin<byte[]>)DataPinFactory.Instance.Create("Bytes", new byte[] { 1, 1, 1, 1, 2, 2, 2, 2 });
+            dataParserNode.Sections = (IDataPin<List<DataParserSection>>)DataPinFactory.Instance.Create(
+                "Sections",
+                new List<DataParserSection>
+                {
+                    new DataParserSection
+                    {
+                        Key = "apple",
+                        Start = new ArrayLocation(Offset.Absolute, 0),
+                        End = new ArrayLocation(Offset.Absolute, 3)
+                    },
+                    new DataParserSection
+                    {
+                        Key = "orange",
+                        Start = new ArrayLocation(Offset.Absolute, 4),
+                        End = new ArrayLocation(Offset.Absolute, 8)
+                    }
+                });
+            var nodes = new Dictionary<string, INode>
+            {
+                { "dataparser", dataParserNode }
+            };
+            await dataParserNode.ExecuteAsync(CancellationToken.None);
+
+            var sut = new DataParserSectionGetterPinPrepFunction();
+
+            // Act
+            Assert.ThrowsAny<KeyNotFoundException>(() =>
+            {
+                var result = sut.Execute(
+                    null,
+                    value,
+                    null,
+                    nodes);
+            });
+        }
+
+        [Fact]
+        public async Task GivenValue_AndWrongNodeType_AndNodeList_WhenExecute_ThenInvalidOperationExceptionThrown()
+        {
+            // Arrange
+            var value = "GetDataParserSectionValue.dataparser.orange";
+            var dataParserNode = new ConsoleInputNode();
+            dataParserNode.AttachGraph(Mock.Of<IGraph>());
+            var nodes = new Dictionary<string, INode>
+            {
+                { "dataparser", dataParserNode }
+            };
+
+            var sut = new DataParserSectionGetterPinPrepFunction();
+
+            // Act
+            Assert.ThrowsAny<InvalidOperationException>(() =>
+            {
+                var result = sut.Execute(
+                    null,
+                    value,
+                    null,
+                    nodes);
+            });
         }
 
         [Fact]
