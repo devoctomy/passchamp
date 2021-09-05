@@ -75,7 +75,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinPrepFunction
         }
 
         [Fact]
-        public async Task GivenValue_AndWrongNodeType_AndNodeList_WhenExecute_ThenInvalidOperationExceptionThrown()
+        public void GivenValue_AndWrongNodeType_AndNodeList_WhenExecute_ThenInvalidOperationExceptionThrown()
         {
             // Arrange
             var value = "GetDataParserSectionValue.dataparser.orange";
