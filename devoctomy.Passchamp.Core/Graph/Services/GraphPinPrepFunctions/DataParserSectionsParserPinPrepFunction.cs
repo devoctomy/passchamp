@@ -20,7 +20,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions
             IReadOnlyDictionary<string, INode> nodes)
         {
             var pathParts = value.Split(".");
-            var parserSections = string.Empty;
+            var parserSections = default(string);
             if(pathParts[1] == "Pins")
             {
                 parserSections = inputPins[pathParts[2]].ObjectValue.ToString();
