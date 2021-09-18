@@ -242,7 +242,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         }
 
         [Fact]
-        public async Task GivenGraph_WithInputPinWithPrepFunction_WhenExecute_TheInputPinValueSet()
+        public async Task GivenGraph_WithInputPinWithPrepFunctionMappedToNodeOutputPin_WhenExecute_TheInputPinValueSet()
         {
             // Arrange
             var testNode = new TestNode();
@@ -259,6 +259,43 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var sut = new Core.Graph.Graph(
                 null,
+                null,
+                nodes,
+                startKey,
+                null,
+                prepFunctions,
+                null);
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+
+            // Assert
+            Assert.Equal("Hello World", testNode.Input["InputTest"].ObjectValue);
+        }
+
+        [Fact]
+        public async Task GivenGraph_WithInputPinWithPrepFunctionMappedToInputPin_WhenExecute_TheInputPinValueSet()
+        {
+            // Arrange
+            var testNode = new TestNode();
+            testNode.Input["InputTest"] = DataPinFactory.Instance.Create("InputTest", new DataPinIntermediateValue("Pins.Test"));
+            testNode.OutputTest.Value = "Hello World";
+            var nodes = new Dictionary<string, INode>
+            {
+                { "node1", testNode },
+            };
+            var startKey = "node1";
+            var prepFunctions = new List<IGraphPinPrepFunction>
+            {
+                new TestGraphPinPrepFunction()
+            };
+            var inputPins = new Dictionary<string, IPin>
+            {
+                { "Test", DataPinFactory.Instance.Create("Test", "Hello World") }
+            };
+            var sut = new Core.Graph.Graph(
+                inputPins,
                 null,
                 nodes,
                 startKey,
