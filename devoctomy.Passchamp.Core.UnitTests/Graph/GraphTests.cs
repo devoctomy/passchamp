@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.UnitTests.Graph.Test;
 using Moq;
 using System.Collections.Generic;
@@ -204,6 +205,40 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
 
             // Assert
             Assert.Equal(inputPins["Input"].ObjectValue, sut.OutputPins["Output"].ObjectValue);
+        }
+
+        [Fact]
+        public async Task GivenGraph_WithOutputPinWithOutputFunction_WhenExecute_ThenOutputPinValueSet()
+        {
+            // Arrange
+            var nodes = new Dictionary<string, INode>
+            {
+                { "node1", new TestNode() },
+            };
+            var startKey = "node1";
+            var outputPins = new Dictionary<string, IPin>
+            {
+                { "Output", DataPinFactory.Instance.Create("Output", "TestGraphPinOutputFunction.node1.OutputTest") }
+            };
+            var outputFunctions = new List<IGraphPinOutputFunction>
+            {
+                new TestGraphPinOutputFunction()
+            };
+            var sut = new Core.Graph.Graph(
+                null,
+                outputPins,
+                nodes,
+                startKey,
+                null,
+                null,
+                outputFunctions);
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+
+            // Assert
+            Assert.Equal("Hello World", sut.OutputPins["Output"].ObjectValue);
         }
     }
 }
