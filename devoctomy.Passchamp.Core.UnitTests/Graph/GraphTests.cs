@@ -240,5 +240,38 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             // Assert
             Assert.Equal("Hello World", sut.OutputPins["Output"].ObjectValue);
         }
+
+        [Fact]
+        public async Task GivenGraph_WithInputPinWithPrepFunction_WhenExecute_TheInputPinValueSet()
+        {
+            // Arrange
+            var testNode = new TestNode();
+            testNode.Input["InputTest"] = DataPinFactory.Instance.Create("InputTest", new DataPinIntermediateValue("TestGraphPinPrepFunction.node1.OutputTest"));
+            testNode.OutputTest.Value = "Hello World";
+            var nodes = new Dictionary<string, INode>
+            {
+                { "node1", testNode },
+            };
+            var startKey = "node1";
+            var prepFunctions = new List<IGraphPinPrepFunction>
+            {
+                new TestGraphPinPrepFunction()
+            };
+            var sut = new Core.Graph.Graph(
+                null,
+                null,
+                nodes,
+                startKey,
+                null,
+                prepFunctions,
+                null);
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+
+            // Assert
+            Assert.Equal("Hello World", testNode.Input["InputTest"].ObjectValue);
+        }
     }
 }

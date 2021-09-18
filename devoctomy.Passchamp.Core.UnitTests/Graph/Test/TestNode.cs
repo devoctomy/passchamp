@@ -34,6 +34,15 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Test
             }
         }
 
+        public TestNode()
+        {
+        }
+
+        public TestNode(string inputTestValue)
+        {
+            InputTest.Value = inputTestValue;
+        }
+
         protected override Task DoExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken)
