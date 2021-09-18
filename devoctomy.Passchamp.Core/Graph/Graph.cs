@@ -12,11 +12,13 @@ namespace devoctomy.Passchamp.Core.Graph
         private string _startKey = string.Empty;
         private readonly Dictionary<INode, string> _nodeKeys;
         private readonly List<string> _executionOrder = new();
-        private readonly Dictionary<string, IPin> _pins;
+        private readonly Dictionary<string, IPin> _inputPins;
+        private readonly Dictionary<string, IPin> _outputPins;
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
 
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
-        public IReadOnlyDictionary<string, IPin> Pins => _pins;
+        public IReadOnlyDictionary<string, IPin> InputPins => _inputPins;
+        public IReadOnlyDictionary<string, IPin> OutputPins => _outputPins;
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public IReadOnlyDictionary<string, INode> Nodes { get; }
         public IReadOnlyDictionary<INode, string> NodeKeys => _nodeKeys;
@@ -39,14 +41,16 @@ namespace devoctomy.Passchamp.Core.Graph
         }
 
         public Graph(
-            Dictionary<string, IPin> pins,
+            Dictionary<string, IPin> inputPins,
+            Dictionary<string, IPin> outputPins,
             Dictionary<string, INode> nodes,
             string startKey,
             IGraph.GraphOutputMessageDelegate outputMessage,
             IEnumerable<IGraphPinPrepFunction> pinPrepFunctions)
         {
             OutputMessage = outputMessage;
-            _pins = pins;
+            _inputPins = inputPins;
+            _outputPins = outputPins;
             Nodes = nodes;
             _nodeKeys = Nodes?.ToList().ToDictionary(
                 x => x.Value,
@@ -66,7 +70,7 @@ namespace devoctomy.Passchamp.Core.Graph
 
         private void PreparePins()
         {
-            DoOutputMessage("Preparing pins...");
+            DoOutputMessage("Preparing all node pins...");
             foreach (var curNodeKey in Nodes.Keys)
             {
                 var curNode = Nodes[curNodeKey];
@@ -81,7 +85,7 @@ namespace devoctomy.Passchamp.Core.Graph
                         var path = intermediateValue.Value.Split('.');
                         if(path[0] == "Pins")
                         {
-                            curNode.Input[curInputPinKey] = Pins[path[1]];
+                            curNode.Input[curInputPinKey] = InputPins[path[1]];
                         }
                         else
                         {
@@ -91,7 +95,7 @@ namespace devoctomy.Passchamp.Core.Graph
                                 var node = pinPrepFunction.Execute(
                                     curNodeKey,
                                     intermediateValue.Value,
-                                    Pins,
+                                    InputPins,
                                     Nodes);
                                 if(node != null)
                                 {

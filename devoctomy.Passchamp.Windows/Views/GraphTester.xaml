@@ -34,7 +34,7 @@
                     <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
 
-                <ListBox Grid.Row="1" Width="200" ItemsSource="{Binding Path=Model.Pins}">
+                <ListBox Grid.Row="1" Width="200" ItemsSource="{Binding Path=Model.InputPins}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <local:DataPinView DataPin="{Binding Path=.}" Width="180"></local:DataPinView>

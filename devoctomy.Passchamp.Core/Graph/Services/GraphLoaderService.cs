@@ -48,13 +48,15 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                     jsonReader,
                     cancellationToken);
 
-            var pins = _pinsJsonParserService.Parse(json["Pins"].Value<JArray>());
+            var inputPins = _pinsJsonParserService.Parse(json["InputPins"].Value<JArray>());
+            var outputPins = _pinsJsonParserService.Parse(json["OutputPins"].Value<JArray>());
             var nodes = _nodeJsonParserService.Parse(
                 json["Nodes"].Value<JArray>(),
                 out var startNodeKey);
 
             return new Graph(
-                pins,
+                inputPins,
+                outputPins,
                 nodes,
                 startNodeKey,
                 outputMessage,

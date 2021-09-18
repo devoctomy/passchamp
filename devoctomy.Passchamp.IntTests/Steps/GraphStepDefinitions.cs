@@ -38,6 +38,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
             _scenarioContext.Set(
                 new Graph(
                     null,
+                    null,
                     nodes,
                     startNode,
                     null,

@@ -9,7 +9,7 @@ namespace devoctomy.Passchamp.Windows.Model
     {
         private IGraph _graph;
 
-        private List<IPin> _pins;
+        private List<IPin> _inputPins;
         private List<INode> _nodes;
 
         public IGraph Graph
@@ -24,22 +24,22 @@ namespace devoctomy.Passchamp.Windows.Model
                 {
                     _graph = value;
                     OnPropertyChanged(nameof(Graph));
-                    OnPropertyChanged(nameof(Pins));
+                    OnPropertyChanged(nameof(InputPins));
                     OnPropertyChanged(nameof(Nodes));
                 }
             }
         }
 
-        public List<IPin> Pins
+        public List<IPin> InputPins
         {
             get
             {
-                if(_pins == null)
+                if(_inputPins == null)
                 {
-                    _pins = Graph?.Pins.Values.ToList();
+                    _inputPins = Graph?.InputPins.Values.ToList();
                 }
 
-                return _pins;
+                return _inputPins;
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿{
-  "Pins": [
+  "InputPins": [
     {
       "Key": "InputFileName",
       "Type": "System.String",
@@ -25,6 +25,8 @@
       "Type": "System.Int32",
       "Value": 10000
     }
+  ],
+  "OutputPins": [
   ],
   "Nodes": [
     {

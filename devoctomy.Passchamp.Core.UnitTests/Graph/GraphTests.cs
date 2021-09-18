@@ -24,6 +24,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             // Act
             var sut = new Core.Graph.Graph(
                 null,
+                null,
                 nodes,
                 startKey,
                 null,
@@ -51,6 +52,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             {
                 var sut = new Core.Graph.Graph(
                     null,
+                    null,
                     nodes,
                     startKey,
                     null,
@@ -74,6 +76,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var startKey = "node1";
             var sut = new Core.Graph.Graph(
+                null,
                 null,
                 nodes,
                 startKey,
@@ -113,6 +116,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
 
             var sut = new Core.Graph.Graph(
+                null,
                 null,
                 nodes,
                 startKey,

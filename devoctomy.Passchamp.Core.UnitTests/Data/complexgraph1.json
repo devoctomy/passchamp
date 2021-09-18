@@ -1,5 +1,5 @@
 ﻿{
-  "Pins": [
+  "InputPins": [
     {
       "Key": "Password",
       "Type": "System.String",
@@ -30,6 +30,8 @@
       "Type": "System.String",
       "Value": "Output/test.dat"
     }
+  ],
+  "OutputPins": [
   ],
   "Nodes": [
     {
