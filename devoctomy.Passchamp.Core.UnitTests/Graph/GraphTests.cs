@@ -137,5 +137,39 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 Assert.Contains(curNode.Value, nodesOutput);
             }    
         }
+
+        [Fact]
+        public async Task GivenGraph_WithOutputPin_WhenExecute_ThenOutputPinValueSet()
+        {
+            // Arrange
+            var node1 = new TestNode();
+            node1.Output["OutputTest"] = DataPinFactory.Instance.Create(
+                "OutputTest",
+                "Hello World!");
+            var nodes = new Dictionary<string, INode>
+            {
+                { "node1", node1 },
+            };
+            var startKey = "node1";
+            var outputPins = new Dictionary<string, IPin>
+            {
+                { "Output", DataPinFactory.Instance.Create("Output", "node1.OutputTest") }
+            };
+            var sut = new Core.Graph.Graph(
+                null,
+                outputPins,
+                nodes,
+                startKey,
+                null,
+                null,
+                null);
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+
+            // Assert
+            Assert.Equal("Hello World!", sut.OutputPins["Output"].ObjectValue);
+        }
     }
 }

@@ -130,13 +130,26 @@ namespace devoctomy.Passchamp.Core.Graph
                 {
                     var outputPin = OutputPins[curOutputPinKey];
                     var path = outputPin.ObjectValue.ToString().Split('.');
-                    var pinPrepFunction = _pinOutputFunctions.SingleOrDefault(x => x.IsApplicable(path[0]));
-                    if (pinPrepFunction != null)
+                    if (path[0] == "Pins")
                     {
-                        var result = pinPrepFunction.Execute(
-                            outputPin.ObjectValue.ToString(),
-                            Nodes);
-                        _outputPins[curOutputPinKey] = result;
+                        _outputPins[curOutputPinKey] = InputPins[path[1]];
+                    }
+                    else
+                    {
+                        var pinPrepFunction = _pinOutputFunctions.SingleOrDefault(x => x.IsApplicable(path[0]));
+                        if (pinPrepFunction != null)
+                        {
+                            var result = pinPrepFunction.Execute(
+                                outputPin.ObjectValue.ToString(),
+                                Nodes);
+                            _outputPins[curOutputPinKey] = result;
+                        }
+                        else
+                        {
+                            var node = Nodes[path[0]];
+                            var nodeOutputPin = node.Output[path[1]];
+                            _outputPins[curOutputPinKey] = nodeOutputPin;
+                        }
                     }
                 }
                 DoOutputMessage("Pins processed");
