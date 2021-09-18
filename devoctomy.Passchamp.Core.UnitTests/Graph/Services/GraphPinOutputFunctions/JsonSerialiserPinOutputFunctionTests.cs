@@ -49,7 +49,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinOutputFuncti
             Assert.ThrowsAny<KeyNotFoundException>(() =>
             {
                 var result = sut.Execute(
-                null,
                 value,
                 nodes);
             });
@@ -76,7 +75,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinOutputFuncti
 
             // Act
             var result = sut.Execute(
-                null,
                 value,
                 nodes);
 

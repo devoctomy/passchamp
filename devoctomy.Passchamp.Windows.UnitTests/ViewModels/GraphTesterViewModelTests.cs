@@ -59,6 +59,7 @@ namespace devoctomy.Passchamp.Windows.UnitTests.ViewModels
                 nodes,
                 startNode,
                 null,
+                null,
                 null);
 
             mockFileDialogService.Setup(x => x.OpenFile(

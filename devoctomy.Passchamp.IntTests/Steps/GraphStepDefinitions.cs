@@ -42,6 +42,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
                     nodes,
                     startNode,
                     null,
+                    null,
                     null),
                 "Graph");
         }

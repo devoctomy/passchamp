@@ -12,15 +12,18 @@ namespace devoctomy.Passchamp.Core.Graph.Services
         private readonly IPinsJsonParserService _pinsJsonParserService;
         private readonly INodesJsonParserService _nodeJsonParserService;
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
+        private readonly IEnumerable<IGraphPinOutputFunction> _pinOutputFunctions;
 
         public GraphLoaderService(
             IPinsJsonParserService pinsJsonParserService,
             INodesJsonParserService nodeJsonParserService,
-            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions)
+            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions,
+            IEnumerable<IGraphPinOutputFunction> pinOutputFunctions)
         {
             _pinsJsonParserService = pinsJsonParserService;
             _nodeJsonParserService = nodeJsonParserService;
             _pinPrepFunctions = pinPrepFunctions;
+            _pinOutputFunctions = pinOutputFunctions;
         }
 
         public Task<IGraph> LoadAsync(
@@ -60,7 +63,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                 nodes,
                 startNodeKey,
                 outputMessage,
-                _pinPrepFunctions);
+                _pinPrepFunctions,
+                _pinOutputFunctions);
         }
     }
 }

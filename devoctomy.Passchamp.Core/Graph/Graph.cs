@@ -15,6 +15,7 @@ namespace devoctomy.Passchamp.Core.Graph
         private readonly Dictionary<string, IPin> _inputPins;
         private readonly Dictionary<string, IPin> _outputPins;
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
+        private readonly IEnumerable<IGraphPinOutputFunction> _pinOutputFunctions;
 
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
         public IReadOnlyDictionary<string, IPin> InputPins => _inputPins;
@@ -46,7 +47,8 @@ namespace devoctomy.Passchamp.Core.Graph
             Dictionary<string, INode> nodes,
             string startKey,
             IGraph.GraphOutputMessageDelegate outputMessage,
-            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions)
+            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions,
+            IEnumerable<IGraphPinOutputFunction> pinOutputFunctions)
         {
             OutputMessage = outputMessage;
             _inputPins = inputPins;
@@ -66,6 +68,7 @@ namespace devoctomy.Passchamp.Core.Graph
 
             StartKey = startKey;
             _pinPrepFunctions = pinPrepFunctions ?? new List<IGraphPinPrepFunction>();
+            _pinOutputFunctions = pinOutputFunctions ?? new List<IGraphPinOutputFunction>();
         }
 
         private void PreparePins()
@@ -118,6 +121,28 @@ namespace devoctomy.Passchamp.Core.Graph
             DoOutputMessage("Pins prepared");
         }
 
+        private void ProcessOutputPins()
+        {
+            if(OutputPins != null && OutputPins.Any())
+            {
+                DoOutputMessage("Processing all output pins...");
+                foreach (var curOutputPinKey in OutputPins.Keys.ToList())
+                {
+                    var outputPin = OutputPins[curOutputPinKey];
+                    var path = outputPin.ObjectValue.ToString().Split('.');
+                    var pinPrepFunction = _pinOutputFunctions.SingleOrDefault(x => x.IsApplicable(path[0]));
+                    if (pinPrepFunction != null)
+                    {
+                        var result = pinPrepFunction.Execute(
+                            outputPin.ObjectValue.ToString(),
+                            Nodes);
+                        _outputPins[curOutputPinKey] = result;
+                    }
+                }
+                DoOutputMessage("Pins processed");
+            }
+        }
+
         public T GetNode<T>(string key) where T : INode
         {
             return Nodes.ContainsKey(key) ? (T)Nodes[key] : default;
@@ -130,6 +155,7 @@ namespace devoctomy.Passchamp.Core.Graph
             PreparePins();
             var startNode = GetNode<INode>(StartKey);
             await startNode.ExecuteAsync(cancellationToken).ConfigureAwait(false);
+            ProcessOutputPins();
         }
 
         public void BeforeExecute(INode node)

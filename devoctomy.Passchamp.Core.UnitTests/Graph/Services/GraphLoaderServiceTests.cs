@@ -21,6 +21,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             var sut = new GraphLoaderService(
                 new PinsJsonParserService(),
                 new NodesJsonParserService(),
+                null,
                 null);
 
             // Act
@@ -45,6 +46,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             var sut = new GraphLoaderService(
                 new PinsJsonParserService(),
                 new NodesJsonParserService(),
+                null,
                 null);
 
             // Act

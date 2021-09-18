@@ -28,6 +28,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 null,
+                null,
                 null);
 
             // Assert
@@ -56,6 +57,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                     nodes,
                     startKey,
                     null,
+                    null,
                     null);
             });
         }
@@ -80,6 +82,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 null,
                 nodes,
                 startKey,
+                null,
                 null,
                 null);
             var cancellationTokenSource = new CancellationTokenSource();
@@ -121,6 +124,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 outputMessageDelegate,
+                null,
                 null);
             var cancellationTokenSource = new CancellationTokenSource();
 

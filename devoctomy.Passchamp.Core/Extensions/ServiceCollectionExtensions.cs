@@ -13,11 +13,18 @@ namespace devoctomy.Passchamp.Core.Extensions
             services.AddScoped<IPinsJsonParserService, PinsJsonParserService>();
             services.AddScoped<IDataParserSectionParser, DataParserSectionParser>();
 
-            var assembly = typeof(IGraphPinPrepFunction).Assembly;
-            var allPinPrepFunctions = assembly.GetTypes().Where(x => typeof(IGraphPinPrepFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();
+            var pinPrepFunctionAssembly = typeof(IGraphPinPrepFunction).Assembly;
+            var allPinPrepFunctions = pinPrepFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinPrepFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();
             foreach(var pinPrepFunction in allPinPrepFunctions)
             {
                 services.AddScoped(typeof(IGraphPinPrepFunction), pinPrepFunction);
+            }
+
+            var pinOutputFunctionAssembly = typeof(IGraphPinOutputFunction).Assembly;
+            var allPinOutputFunctions = pinOutputFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinOutputFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();
+            foreach (var pinOutputFunction in allPinOutputFunctions)
+            {
+                services.AddScoped(typeof(IGraphPinOutputFunction), pinOutputFunction);
             }
         }
     }

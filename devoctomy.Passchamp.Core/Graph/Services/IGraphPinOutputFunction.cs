@@ -6,7 +6,6 @@ namespace devoctomy.Passchamp.Core.Graph.Services
     {
         bool IsApplicable(string key);
         IPin Execute(
-            string curNodeKey,
             string value,
             IReadOnlyDictionary<string, INode> nodes);
     }

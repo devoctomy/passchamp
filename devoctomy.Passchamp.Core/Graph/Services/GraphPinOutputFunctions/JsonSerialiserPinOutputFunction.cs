@@ -14,7 +14,6 @@ namespace devoctomy.Passchamp.Core.Graph.Services.GraphPinOutputFunctions
         }
 
         public IPin Execute(
-            string curNodeKey,
             string value,
             IReadOnlyDictionary<string, INode> nodes)
         {
