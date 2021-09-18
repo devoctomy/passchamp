@@ -11,5 +11,6 @@ namespace devoctomy.Passchamp.Core.Vault
         public string CreatedAt { get; set; }
         public string LastUpdatedAt { get; set; }
         public List<Credential> Credentials { get; set; }
+        public List<AuditLogEntry> AuditLogEntries { get; set; }
     }
 }
