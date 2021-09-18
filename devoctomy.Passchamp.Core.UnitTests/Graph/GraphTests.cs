@@ -139,7 +139,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         }
 
         [Fact]
-        public async Task GivenGraph_WithOutputPin_WhenExecute_ThenOutputPinValueSet()
+        public async Task GivenGraph_WithOutputPinMappedToNodeOutput_WhenExecute_ThenOutputPinValueSet()
         {
             // Arrange
             var node1 = new TestNode();
@@ -170,6 +170,40 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
 
             // Assert
             Assert.Equal("Hello World!", sut.OutputPins["Output"].ObjectValue);
+        }
+
+        [Fact]
+        public async Task GivenGraph_WithOutputPinMappedToInputPin_WhenExecute_ThenOutputPinValueSet()
+        {
+            // Arrange
+            var nodes = new Dictionary<string, INode>
+            {
+                { "node1", new TestNode() },
+            };
+            var startKey = "node1";
+            var inputPins = new Dictionary<string, IPin>
+            {
+                { "Input", DataPinFactory.Instance.Create("Input", "123456") }
+            };
+            var outputPins = new Dictionary<string, IPin>
+            {
+                { "Output", DataPinFactory.Instance.Create("Output", "Pins.Input") }
+            };
+            var sut = new Core.Graph.Graph(
+                inputPins,
+                outputPins,
+                nodes,
+                startKey,
+                null,
+                null,
+                null);
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+
+            // Assert
+            Assert.Equal(inputPins["Input"].ObjectValue, sut.OutputPins["Output"].ObjectValue);
         }
     }
 }
