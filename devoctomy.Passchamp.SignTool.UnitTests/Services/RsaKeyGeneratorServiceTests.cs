@@ -14,6 +14,9 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
     {
         [Theory]
         [InlineData(1024)]
+        [InlineData(2048)]
+        [InlineData(3072)]
+        [InlineData(4096)]
         public void GivenKeySize_WhenGenerate_ThenKeyPairGenerated_AndKeyPairValid(int keySize)
         {
             // Arrange

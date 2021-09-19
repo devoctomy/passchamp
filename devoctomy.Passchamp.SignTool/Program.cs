@@ -1,5 +1,6 @@
-﻿using CommandLine;
+﻿using devoctomy.Passchamp.SignTool.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool
 {
@@ -7,20 +8,41 @@ namespace devoctomy.Passchamp.SignTool
     {
         public class Options
         {
-            [Option('i', "input", Required = false, HelpText = "Input json file to sign.")]
-            public string Input { get; set; }
-            [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
-            public bool Verbose { get; set; }
+            [CommandLineParserOption(Required = true, IsDefaultOption = true, ShortName = "m", LongName = "mode")]
+            public string Mode { get; set; }
         }
 
-
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                   .WithParsed<Options>(o =>
-                   {
-                       
-                   });
+            throw new NotImplementedException();
+            //if (o.Verbose)
+            //{
+            //    Console.WriteLine($"Attempting to generate {o.KeyLength} bit key pair.");
+            //}
+
+            //var keyGenerator = new RsaKeyGeneratorService();
+            //keyGenerator.Generate(
+            //    o.KeyLength,
+            //    out var privateKey,
+            //    out var publicKey);
+
+            //if (o.Verbose)
+            //{
+            //    Console.WriteLine($"Writing private key.");
+            //}
+
+            //await File.WriteAllTextAsync(
+            //    "privatekey.json",
+            //    privateKey);
+
+            //if (o.Verbose)
+            //{
+            //    Console.WriteLine($"Writing public key.");
+            //}
+
+            //await File.WriteAllTextAsync(
+            //    "publickey.json",
+            //    publicKey);
         }
     }
 }

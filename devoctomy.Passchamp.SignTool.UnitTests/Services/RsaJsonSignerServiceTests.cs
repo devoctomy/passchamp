@@ -22,7 +22,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
                 Age = 100
             };
             var testObjectJson = JsonConvert.SerializeObject(testObject, Formatting.Indented);
-            var path = $"Output/{Guid.NewGuid().ToString()}";
+            var path = $"Output/{Guid.NewGuid()}";
             await File.WriteAllTextAsync(
                 path,
                 testObjectJson);
