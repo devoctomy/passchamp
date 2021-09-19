@@ -1,4 +1,4 @@
-﻿using devoctomy.Passchamp.SignTool.Exceptions;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool.Services
 {
-    public class RsaJsonVerifier : IRsaJsonVerifier
+    public class RsaJsonVerifierService : IRsaJsonVerifierService
     {
         public async Task<bool> IsApplicable(string path)
         {
@@ -34,9 +34,9 @@ namespace devoctomy.Passchamp.SignTool.Services
             return true;
         }
 
-        public async Task Verify(
+        public async Task<bool> Verify(
             string path,
-            RSAParameters key)
+            string publicKey)
         {
             var jsonData = await File.ReadAllTextAsync(path);
             var json = JObject.Parse(jsonData);
@@ -49,11 +49,9 @@ namespace devoctomy.Passchamp.SignTool.Services
             var unsignedBytes = sha256Provider.ComputeHash(System.Text.Encoding.UTF8.GetBytes(json.ToString(Newtonsoft.Json.Formatting.None)));
 
             using var rsaProvider = new RSACryptoServiceProvider();
-            rsaProvider.ImportParameters(key);
-            if(!rsaProvider.VerifyData(unsignedBytes, sha256Provider, signature))
-            {
-                throw new InvalidSignatureException();
-            }
+            var publicKeyParams = JsonConvert.DeserializeObject<RSAParameters>(publicKey);
+            rsaProvider.ImportParameters(publicKeyParams);
+            return rsaProvider.VerifyData(unsignedBytes, sha256Provider, signature);
         }
     }
 }

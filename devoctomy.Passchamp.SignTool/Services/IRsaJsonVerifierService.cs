@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool.Services
 {
-    public interface IRsaJsonVerifier
+    public interface IRsaJsonVerifierService
     {
         Task<bool> IsApplicable(string path);
-        Task Verify(
+        Task<bool> Verify(
             string path,
-            RSAParameters key);
+            string publicKey);
     }
 }

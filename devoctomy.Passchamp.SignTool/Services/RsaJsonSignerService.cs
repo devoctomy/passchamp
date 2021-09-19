@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool.Services
 {
-    public class RsaJsonSigner : IRsaJsonSigner
+    public class RsaJsonSignerService : IRsaJsonSignerService
     {
         public async Task<bool> IsApplicable(string path)
         {
@@ -25,7 +25,7 @@ namespace devoctomy.Passchamp.SignTool.Services
 
         public async Task<string> Sign(
             string path,
-            RSAParameters key)
+            string privateKey)
         {
             var jsonData = await File.ReadAllTextAsync(path);
             var json = JObject.Parse(jsonData);
@@ -41,7 +41,8 @@ namespace devoctomy.Passchamp.SignTool.Services
             var hashBytes = sha256Provider.ComputeHash(jsonBytes);
 
             using var rsaProvider = new RSACryptoServiceProvider();
-            rsaProvider.ImportParameters(key);
+            var privateKeyParams = JsonConvert.DeserializeObject<RSAParameters>(privateKey);
+            rsaProvider.ImportParameters(privateKeyParams);
             var signatureBytes = rsaProvider.SignData(
                 hashBytes,
                 sha256Provider);

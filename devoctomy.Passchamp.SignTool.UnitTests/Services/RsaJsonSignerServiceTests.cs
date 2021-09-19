@@ -10,7 +10,7 @@ using Xunit;
 
 namespace devoctomy.Passchamp.SignTool.UnitTests.Services
 {
-    public class RsaJsonSignerTests
+    public class RsaJsonSignerServiceTests
     {
         [Fact]
         public async Task GivenPath_AndValidJson_WhenIsApplicable_ThenTrueReturned()
@@ -26,7 +26,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             await File.WriteAllTextAsync(
                 path,
                 testObjectJson);
-            var sut = new RsaJsonSigner();
+            var sut = new RsaJsonSignerService();
 
             // Act
             var result = await sut.IsApplicable(path);
@@ -46,7 +46,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             await File.WriteAllTextAsync(
                 path,
                 "POP!");
-            var sut = new RsaJsonSigner();
+            var sut = new RsaJsonSignerService();
 
             // Act
             var result = await sut .IsApplicable(path);
@@ -72,10 +72,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             await File.WriteAllTextAsync(
                 path,
                 testObjectJson);
-            var sut = new RsaJsonSigner();
+            var keyGen = new RsaKeyGeneratorService();
+            keyGen.Generate(
+                1024,
+                out var privateKey,
+                out _);
+            var sut = new RsaJsonSignerService();
 
             using var rsaProvider = new RSACryptoServiceProvider();
-            var privateKey = rsaProvider.ExportParameters(true);
 
             // Act
             var signedResult = await sut.Sign(
@@ -96,10 +100,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         public async Task GivenPath_AndValidJson_AndKey_AndJsonAlreadySigned_WhenSign_ThenJsonSigned_AndSignatureAdded()
         {
             // Arrange
-            var sut = new RsaJsonSigner();
+            var keyGen = new RsaKeyGeneratorService();
+            keyGen.Generate(
+                1024,
+                out var privateKey,
+                out _);
+            var sut = new RsaJsonSignerService();
 
             using var rsaProvider = new RSACryptoServiceProvider();
-            var privateKey = rsaProvider.ExportParameters(true);
 
             // Act
             var signedResult = await sut.Sign(
