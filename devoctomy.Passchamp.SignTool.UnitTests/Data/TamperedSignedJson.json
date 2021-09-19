@@ -1,0 +1,8 @@
+﻿{
+  "Name": "Bob Hoskins",
+  "Age": 200,
+  "Signature": {
+    "Algorithm": "RsaJsonSigner",
+    "Signature": "VPMt2hqqsvFfu04GzwP2iLL8P48rhUOxpeIDbAC5YDFEGvlKJo+B/37L5A5ZVzm3kg0IWROWW1/bCfSbRx0srcPgE5AVssAeDEzieJvcqeTCNDZUvmr57E3NtpmsuegYsD0nry87Wad7WkU23U7JwBlIyrmdcjGXb5E8J76Hxho="
+  }
+}

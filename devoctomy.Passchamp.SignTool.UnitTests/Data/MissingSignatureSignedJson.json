@@ -1,0 +1,7 @@
+﻿{
+  "Name": "Bob Hoskins",
+  "Age": 100,
+  "Signature": {
+    "Algorithm": "RsaJsonSigner"
+  }
+}
