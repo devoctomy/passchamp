@@ -15,6 +15,41 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
 
         [Theory]
         [InlineData("Data/complexgraph1.json")]
+        public async Task GivenFileName_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndDetailsCorrect(string fileName)
+        {
+            // Arrange
+            var sut = new GraphLoaderService(
+                new PinsJsonParserService(),
+                new NodesJsonParserService(),
+                null,
+                null);
+
+            // Act
+            var result = await sut.LoadAsync(
+                fileName,
+                null,
+                CancellationToken.None);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("Graph used for unit testing", result.Settings.Description);
+            Assert.Equal("devoctomy", result.Settings.Author);
+            Assert.True(result.Settings.Debug);
+            Assert.Equal(6, result.InputPins.Count);
+            Assert.Equal(1, result.OutputPins.Count);
+            Assert.Equal(7, result.Nodes.Count);
+            Assert.True(result.Nodes.ContainsKey("saltgenerator"));
+            Assert.True(result.Nodes.ContainsKey("ivgenerator"));
+            Assert.True(result.Nodes.ContainsKey("derive"));
+            Assert.True(result.Nodes.ContainsKey("encode"));
+            Assert.True(result.Nodes.ContainsKey("encrypt"));
+            Assert.True(result.Nodes.ContainsKey("joiner"));
+            Assert.True(result.Nodes.ContainsKey("writer"));
+            Assert.True(result.Nodes.ContainsKey("writer"));
+        }
+
+        [Theory]
+        [InlineData("Data/complexgraph1.json")]
         public async Task GivenFileName_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndGraphExecutes_AndOutputFileCreated(string fileName)
         {
             // Arrange

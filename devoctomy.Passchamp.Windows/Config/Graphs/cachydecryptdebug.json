@@ -1,4 +1,9 @@
 ﻿{
+  "Settings": {
+    "Description": "Graph used for testing interoperability between legacy cachy and passchamp.",
+    "Author": "devoctomy",
+    "Debug": true
+  },
   "InputPins": [
     {
       "Key": "InputFileName",

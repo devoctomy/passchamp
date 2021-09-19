@@ -26,6 +26,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var sut = new Core.Graph.Graph(
                 null,
                 null,
+                null,
                 nodes,
                 startKey,
                 null,
@@ -55,6 +56,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 var sut = new Core.Graph.Graph(
                     null,
                     null,
+                    null,
                     nodes,
                     startKey,
                     null,
@@ -79,6 +81,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var startKey = "node1";
             var sut = new Core.Graph.Graph(
+                null,
                 null,
                 null,
                 nodes,
@@ -122,6 +125,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var sut = new Core.Graph.Graph(
                 null,
                 null,
+                null,
                 nodes,
                 startKey,
                 outputMessageDelegate,
@@ -158,6 +162,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var sut = new Core.Graph.Graph(
                 null,
+                null,
                 outputPins,
                 nodes,
                 startKey,
@@ -191,6 +196,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 { "Output", DataPinFactory.Instance.Create("Output", "Pins.Input") }
             };
             var sut = new Core.Graph.Graph(
+                null,
                 inputPins,
                 outputPins,
                 nodes,
@@ -226,6 +232,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var sut = new Core.Graph.Graph(
                 null,
+                null,
                 outputPins,
                 nodes,
                 startKey,
@@ -258,6 +265,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 new TestGraphPinPrepFunction()
             };
             var sut = new Core.Graph.Graph(
+                null,
                 null,
                 null,
                 nodes,
@@ -295,6 +303,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 { "Test", DataPinFactory.Instance.Create("Test", "Hello World") }
             };
             var sut = new Core.Graph.Graph(
+                null,
                 inputPins,
                 null,
                 nodes,

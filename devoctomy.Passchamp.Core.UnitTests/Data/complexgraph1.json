@@ -1,4 +1,9 @@
 ﻿{
+  "Settings": {
+    "Description": "Graph used for unit testing",
+    "Author": "devoctomy",
+    "Debug": true
+  },
   "InputPins": [
     {
       "Key": "Password",
@@ -32,6 +37,11 @@
     }
   ],
   "OutputPins": [
+    {
+      "Key": "Test",
+      "Type": "System.String",
+      "Value": "Hello World!"
+    }
   ],
   "Nodes": [
     {

@@ -17,6 +17,7 @@ namespace devoctomy.Passchamp.Core.Graph
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
         private readonly IEnumerable<IGraphPinOutputFunction> _pinOutputFunctions;
 
+        public GraphSettings Settings { get; set; }
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
         public IReadOnlyDictionary<string, IPin> InputPins => _inputPins;
         public IReadOnlyDictionary<string, IPin> OutputPins => _outputPins;
@@ -42,6 +43,7 @@ namespace devoctomy.Passchamp.Core.Graph
         }
 
         public Graph(
+            GraphSettings settings,
             Dictionary<string, IPin> inputPins,
             Dictionary<string, IPin> outputPins,
             Dictionary<string, INode> nodes,
@@ -50,6 +52,7 @@ namespace devoctomy.Passchamp.Core.Graph
             IEnumerable<IGraphPinPrepFunction> pinPrepFunctions,
             IEnumerable<IGraphPinOutputFunction> pinOutputFunctions)
         {
+            Settings = settings;
             OutputMessage = outputMessage;
             _inputPins = inputPins;
             _outputPins = outputPins;
@@ -146,9 +149,12 @@ namespace devoctomy.Passchamp.Core.Graph
                         }
                         else
                         {
-                            var node = Nodes[path[0]];
-                            var nodeOutputPin = node.Output[path[1]];
-                            _outputPins[curOutputPinKey] = nodeOutputPin;
+                            if(Nodes.ContainsKey(path[0]))
+                            {
+                                var node = Nodes[path[0]];
+                                var nodeOutputPin = node.Output[path[1]];
+                                _outputPins[curOutputPinKey] = nodeOutputPin;
+                            }
                         }
                     }
                 }

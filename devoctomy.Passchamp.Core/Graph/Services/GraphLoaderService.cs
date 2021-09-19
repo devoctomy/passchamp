@@ -51,6 +51,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                     jsonReader,
                     cancellationToken);
 
+            var settings = json["Settings"] != null ? JsonConvert.DeserializeObject<GraphSettings>(json["Settings"].ToString()) : new GraphSettings();
             var inputPins = _pinsJsonParserService.Parse(json["InputPins"].Value<JArray>());
             var outputPins = _pinsJsonParserService.Parse(json["OutputPins"].Value<JArray>());
             var nodes = _nodeJsonParserService.Parse(
@@ -58,6 +59,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                 out var startNodeKey);
 
             return new Graph(
+                settings,
                 inputPins,
                 outputPins,
                 nodes,

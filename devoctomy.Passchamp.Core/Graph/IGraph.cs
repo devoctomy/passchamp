@@ -8,8 +8,11 @@ namespace devoctomy.Passchamp.Core.Graph
     {
         public delegate void GraphOutputMessageDelegate(INode node, string message);
 
+        GraphSettings Settings { get; set; }
+
         GraphOutputMessageDelegate OutputMessage { get; set; }
         IReadOnlyDictionary<string, IPin> InputPins { get; }
+        IReadOnlyDictionary<string, IPin> OutputPins { get; }
         IReadOnlyList<string> ExecutionOrder { get; }
         IReadOnlyDictionary<string, INode> Nodes { get; }
         IReadOnlyDictionary<INode, string> NodeKeys { get; }

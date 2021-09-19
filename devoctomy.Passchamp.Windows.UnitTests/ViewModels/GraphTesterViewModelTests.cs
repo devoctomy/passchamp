@@ -56,6 +56,7 @@ namespace devoctomy.Passchamp.Windows.UnitTests.ViewModels
             var graph = new Core.Graph.Graph(
                 null,
                 null,
+                null,
                 nodes,
                 startNode,
                 null,
