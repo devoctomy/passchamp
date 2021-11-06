@@ -113,7 +113,7 @@ namespace devoctomy.Passchamp.Core.Graph
                                 var mapFromNode = Nodes[path[0]];
                                 var outPinPropInfo = mapFromNode.OutputPinsProperties[path[1]];
                                 var attribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(outPinPropInfo, typeof(NodeOutputPinAttribute));
-                                mapFromNode.PrepareOutputDataPin(path[1], attribute.ValueType);
+                                mapFromNode.PrepareOutputDataPin(path[1], attribute.ValueType, true);
                                 var nodeOutPin = mapFromNode.Output[path[1]];
                                 curNode.Input[curInputPinKey] = nodeOutPin;
                             }

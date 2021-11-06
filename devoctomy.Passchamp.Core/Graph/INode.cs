@@ -18,11 +18,11 @@ namespace devoctomy.Passchamp.Core.Graph
         void PrepareInputDataPin(
             string key,
             Type valueType,
-            bool validate = true);
+            bool validate);
         void PrepareOutputDataPin(
             string key,
             Type valueType,
-            bool validate = true);
+            bool validate);
         IDataPin<T> GetInput<T>(string key);
         IPin GetInput(string key, Type type);
         IDataPin<T> GetOutput<T>(string key);

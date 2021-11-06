@@ -35,7 +35,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             foreach(var curInputJson in inputsJson)
             {
                 var key = curInputJson["Key"].Value<string>();
-                inode.PrepareInputDataPin(key, typeof(string));
+                inode.PrepareInputDataPin(key, typeof(string), true);
                 inode.Input[key] = DataPinFactory.Instance.Create(
                     key,
                     new DataPinIntermediateValue(curInputJson["Value"].Value<string>()),

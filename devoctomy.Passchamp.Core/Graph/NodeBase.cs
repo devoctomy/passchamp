@@ -83,7 +83,10 @@ namespace devoctomy.Passchamp.Core.Graph
 
         private void PrepareUnsetPins()
         {
-            if (_preparedUnsetPins) return;
+            if (_preparedUnsetPins)
+            {
+                return;
+            }
 
             OutputMessage("Preparing unset input pins...");
             var unsetInput = InputPinsProperties.Where(x => !Input.ContainsKey(x.Key)).ToList();

@@ -16,7 +16,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
         {
             // Arrange
             var outputDirName = Guid.NewGuid().ToString();
-            var inputData = Guid.NewGuid().ToString(null, System.Globalization.CultureInfo.InvariantCulture).ToUpper();
+            var inputData = Guid.NewGuid().ToString(null, System.Globalization.CultureInfo.InvariantCulture).ToUpper(System.Globalization.CultureInfo.InvariantCulture);
             var sut = new FileWriterNode
             {
                 FileName = (IDataPin<string>)DataPinFactory.Instance.Create(

@@ -8,6 +8,7 @@ namespace devoctomy.Passchamp.Core.Graph
     public class DataPinFactory : IDataPinFactory
     {
         private static IDataPinFactory _instance;
+
         public static IDataPinFactory Instance
         {
             get
