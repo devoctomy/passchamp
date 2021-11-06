@@ -1,5 +1,7 @@
 ﻿using devoctomy.Passchamp.SignTool.Services;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool
@@ -8,41 +10,52 @@ namespace devoctomy.Passchamp.SignTool
     {
         public class Options
         {
-            [CommandLineParserOption(Required = true, IsDefaultOption = true, ShortName = "m", LongName = "mode")]
+            [CommandLineParserOption(Required = true, ShortName = "m", LongName = "mode")]
             public string Mode { get; set; }
+
+            [CommandLineParserOption(Required = false, ShortName = "l", LongName = "length", DefaultValue = 1024)]
+            public int KeyLength { get; set; }
+
+            [CommandLineParserOption(Required = false, ShortName = "v", LongName = "verbose", DefaultValue = false)]
+            public bool Verbose { get; set; }
         }
 
-        static int Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
-            throw new NotImplementedException();
-            //if (o.Verbose)
-            //{
-            //    Console.WriteLine($"Attempting to generate {o.KeyLength} bit key pair.");
-            //}
+            var curExePath = Assembly.GetEntryAssembly().Location;
+            var arguments = Environment.CommandLine.Replace(curExePath, string.Empty).Trim();
+            var commandLineParser = new CommandLineParserService<Options>(new SingleArgumentParser());
+            var options = commandLineParser.ParseArgumentsAsOptions(arguments);
+            if (options.Verbose)
+            {
+                Console.WriteLine($"Attempting to generate {options.KeyLength} bit key pair.");
+            }
 
-            //var keyGenerator = new RsaKeyGeneratorService();
-            //keyGenerator.Generate(
-            //    o.KeyLength,
-            //    out var privateKey,
-            //    out var publicKey);
+            var keyGenerator = new RsaKeyGeneratorService();
+            keyGenerator.Generate(
+                options.KeyLength,
+                out var privateKey,
+                out var publicKey);
 
-            //if (o.Verbose)
-            //{
-            //    Console.WriteLine($"Writing private key.");
-            //}
+            if (options.Verbose)
+            {
+                Console.WriteLine($"Writing private key.");
+            }
 
-            //await File.WriteAllTextAsync(
-            //    "privatekey.json",
-            //    privateKey);
+            await File.WriteAllTextAsync(
+                "privatekey.json",
+                privateKey);
 
-            //if (o.Verbose)
-            //{
-            //    Console.WriteLine($"Writing public key.");
-            //}
+            if (options.Verbose)
+            {
+                Console.WriteLine($"Writing public key.");
+            }
 
-            //await File.WriteAllTextAsync(
-            //    "publickey.json",
-            //    publicKey);
+            await File.WriteAllTextAsync(
+                "publickey.json",
+                publicKey);
+
+            return 0;
         }
     }
 }

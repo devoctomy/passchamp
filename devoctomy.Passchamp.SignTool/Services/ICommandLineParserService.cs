@@ -2,6 +2,6 @@
 {
     public interface ICommandLineParserService<T>
     {
-        T ParseArgumentsAsOptions(string arguments);
+        T ParseArgumentsAsOptions(string argumentString);
     }
 }

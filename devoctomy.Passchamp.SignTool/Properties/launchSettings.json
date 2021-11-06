@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "devoctomy.Passchamp.SignTool": {
+      "commandName": "Project",
+      "commandLineArgs": "-m=generate -v=true"
+    }
+  }
+}
