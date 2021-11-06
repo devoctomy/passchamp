@@ -1,7 +1,7 @@
-﻿using devoctomy.Passchamp.SignTool.Services;
+﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using Xunit;
 
-namespace devoctomy.Passchamp.SignTool.UnitTests.Services
+namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
 {
     public class SingleArgumentParserTests
     {
@@ -14,7 +14,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             string expectedValue)
         {
             // Arrange
-            var sut = new SingleArgumentParser();
+            var sut = new SingleArgumentParserService();
 
             // Act
             var argument = sut.Parse(argumentString);

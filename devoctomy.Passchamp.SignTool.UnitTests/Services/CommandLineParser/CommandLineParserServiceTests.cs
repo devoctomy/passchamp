@@ -1,6 +1,6 @@
-﻿using devoctomy.Passchamp.SignTool.Services;
+﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+using devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -16,7 +16,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             string[] expectedMatches)
         {
             // Arrange
-            var sut = new Regex(CommandLineParserService.Regex);
+            var sut = new Regex(new ArgumentMapperOptions().Regex);
 
             // Act
             var matches = sut.Matches(arguments);
@@ -41,7 +41,15 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             float expectedFloatValue)
         {
             // Arrange
-            var sut = new CommandLineParserService(new SingleArgumentParser());
+            var propertyValueSetterService = new PropertyValueSetterService();
+            var sut = new CommandLineParserService(
+                new SingleArgumentParserService(),
+                new DefaultArgumentParserService(propertyValueSetterService),
+                new ArgumentMapper(
+                    new ArgumentMapperOptions(),
+                    new SingleArgumentParserService(),
+                    propertyValueSetterService),
+                new OptionalArgumentSetterService(propertyValueSetterService));
 
             // Act
             var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>(arguments);
@@ -57,7 +65,15 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         public void GivenArguments_AndRequiredMissing_WhenParseArgumentsAsOptions_ThenArgumentExceptionThrown_AndMessageContainsParamLongNames()
         {
             // Arrange
-            var sut = new CommandLineParserService(new SingleArgumentParser());
+            var propertyValueSetterService = new PropertyValueSetterService();
+            var sut = new CommandLineParserService(
+                new SingleArgumentParserService(),
+                new DefaultArgumentParserService(propertyValueSetterService),
+                new ArgumentMapper(
+                    new ArgumentMapperOptions(),
+                    new SingleArgumentParserService(),
+                    propertyValueSetterService),
+                new OptionalArgumentSetterService(propertyValueSetterService));
 
             // Act & Assert
             var exception = Assert.ThrowsAny<ArgumentException>(() =>
@@ -72,7 +88,15 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         {
             // Arrange
             var arguments = "-s=helloworld -b=false -i=2 -f=5.55";
-            var sut = new CommandLineParserService(new SingleArgumentParser());
+            var propertyValueSetterService = new PropertyValueSetterService();
+            var sut = new CommandLineParserService(
+                new SingleArgumentParserService(),
+                new DefaultArgumentParserService(propertyValueSetterService),
+                new ArgumentMapper(
+                    new ArgumentMapperOptions(),
+                    new SingleArgumentParserService(),
+                    propertyValueSetterService),
+                new OptionalArgumentSetterService(propertyValueSetterService));
 
             // Act
             var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>(arguments);

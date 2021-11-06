@@ -1,6 +1,6 @@
-﻿namespace devoctomy.Passchamp.SignTool.Services
+﻿namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
-    public class SingleArgumentParser : ISingleArgumentParser
+    public class SingleArgumentParserService : ISingleArgumentParserService
     {
         public Argument Parse(string argumentString)
         {

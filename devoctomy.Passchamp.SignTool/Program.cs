@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.SignTool.Services;
+using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using System;
 using System.IO;
 using System.Reflection;
@@ -27,7 +28,7 @@ namespace devoctomy.Passchamp.SignTool
         {
             var curExePath = Assembly.GetEntryAssembly().Location;
             var arguments = Environment.CommandLine.Replace(curExePath, string.Empty).Trim();
-            var commandLineParser = new CommandLineParserService(new SingleArgumentParser());
+            var commandLineParser = CommandLineParserService.CreateDefaultInstance();
             var preOptions = commandLineParser.ParseArgumentsAsOptions<PreOptions>(arguments);
             switch(preOptions.Mode.ToLower())
             {

@@ -1,6 +1,6 @@
-﻿using devoctomy.Passchamp.SignTool.Services;
+﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 
-namespace devoctomy.Passchamp.SignTool.UnitTests.Services
+namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
 {
     public class CommandLineTestOptions
     {

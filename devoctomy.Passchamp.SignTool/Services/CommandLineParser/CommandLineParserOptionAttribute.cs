@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.SignTool.Services
+namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
     public class CommandLineParserOptionAttribute : Attribute
     {

@@ -1,4 +1,4 @@
-﻿namespace devoctomy.Passchamp.SignTool.Services
+﻿namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
     public interface ICommandLineParserService
     {
