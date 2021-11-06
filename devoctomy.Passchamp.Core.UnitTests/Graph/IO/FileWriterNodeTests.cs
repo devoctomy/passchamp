@@ -52,7 +52,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
         public async Task GivenFileName_AndDirectoryNotExists_AndNotCreateDirectory_AndInputData_AndNextKey_WhenExecute_ThenDirectoryNotFoundExceptionThrown()
         {
             // Arrange
-            var inputData = Guid.NewGuid().ToString(null, System.Globalization.CultureInfo.InvariantCulture).ToUpper();
+            var inputData = Guid.NewGuid().ToString(null, System.Globalization.CultureInfo.InvariantCulture).ToUpper(System.Globalization.CultureInfo.InvariantCulture);
             var sut = new FileWriterNode
             {
                 FileName = (IDataPin<string>)DataPinFactory.Instance.Create(

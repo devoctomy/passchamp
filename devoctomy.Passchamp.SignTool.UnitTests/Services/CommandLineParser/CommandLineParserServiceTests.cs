@@ -77,7 +77,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
                 It.IsAny<string>(),
                 It.IsAny<List<CommandLineParserOptionAttribute>>()))
-                .Callback((object a, Dictionary<PropertyInfo, CommandLineParserOptionAttribute> b, string c, List<CommandLineParserOptionAttribute> d) =>
+                .Callback((object _, Dictionary<PropertyInfo, CommandLineParserOptionAttribute> b, string c, List<CommandLineParserOptionAttribute> d) =>
                 {
                     d.AddRange(allOptions.Values);
                 });

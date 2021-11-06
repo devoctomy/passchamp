@@ -44,7 +44,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public void PrepareInputDataPin(
             string key,
             Type valueType,
-            bool validate = true)
+            bool validate)
         {
             if(validate && !InputPinsProperties.ContainsKey(key))
             {
@@ -64,7 +64,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public void PrepareOutputDataPin(
             string key,
             Type valueType,
-            bool validate = true)
+            bool validate)
         {
             if (validate && !OutputPinsProperties.ContainsKey(key))
             {
@@ -169,7 +169,8 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             PrepareInputDataPin(
                 key,
-                typeof(T));    //!!! We need to ditch this
+                typeof(T),
+                true);    //!!! We need to ditch this
             return (IDataPin<T>)Input[key];
         }
 
@@ -179,7 +180,8 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             PrepareInputDataPin(
                 key,
-                type);    //!!! We need to ditch this
+                type,
+                true);    //!!! We need to ditch this
             return Input[key];
         }
 
@@ -187,7 +189,8 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             PrepareOutputDataPin(
                 key,
-                typeof(T));    //!!! We need to ditch this
+                typeof(T),
+                true);    //!!! We need to ditch this
             return (IDataPin<T>)Output[key];
         }
 
@@ -197,7 +200,8 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             PrepareOutputDataPin(
                 key,
-                type);    //!!! We need to ditch this
+                type,
+                true);    //!!! We need to ditch this
             return Output[key];
         }
 
