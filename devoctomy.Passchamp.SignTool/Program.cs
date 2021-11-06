@@ -46,6 +46,16 @@ namespace devoctomy.Passchamp.SignTool
                             break;
                         }
 
+                    case "sign":
+                        {
+                            throw new NotImplementedException();
+                        }
+
+                    case "verify":
+                        {
+                            throw new NotImplementedException();
+                        }
+
                     default:
                         {
                             Console.WriteLine($"Unknown mode '{preOptions.Options.Mode}'.");
