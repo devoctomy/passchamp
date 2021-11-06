@@ -3,11 +3,12 @@ using Xunit;
 
 namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
 {
-    public class SingleArgumentParserTests
+    public class SingleArgumentParserServiceTests
     {
         [Theory]
         [InlineData("a=hello", "a", "hello")]
         [InlineData("a=\"hello world\"", "a", "hello world")]
+        [InlineData("", null, null)]
         public void GivenArgumentString_WhenParse_ThenCorrectArgumentReturned(
             string argumentString,
             string expectedName,

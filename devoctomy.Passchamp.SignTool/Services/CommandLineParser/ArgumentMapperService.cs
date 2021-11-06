@@ -5,13 +5,13 @@ using System.Text.RegularExpressions;
 
 namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
-    public class ArgumentMapper : IArgumentMapper
+    public class ArgumentMapperService : IArgumentMapperService
     {
         private readonly ArgumentMapperOptions _options;
         private readonly ISingleArgumentParserService _singleArgumentParserService;
         private readonly IPropertyValueSetterService _propertyValueSetter;
 
-        public ArgumentMapper(
+        public ArgumentMapperService(
             ArgumentMapperOptions options,
             ISingleArgumentParserService singleArgumentParserService,
             IPropertyValueSetterService propertyValueSetter)

@@ -1,108 +1,122 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
-using devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser;
-using System;
+using Moq;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Reflection;
 using Xunit;
 
-namespace devoctomy.Passchamp.SignTool.UnitTests.Services
+namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
 {
     public class CommandLineParserServiceTests
     {
-        [Theory]
-        [InlineData("-a=1 --apple=hello -b=\"hello world\"", new string[] { "-a=1", "--apple=hello", "-b=\"hello world\"" } )]
-        public void GivenArguments_AndRegex_WhenMatch_ThenExpectedMatchesReturned(
-            string arguments,
-            string[] expectedMatches)
+        [Fact]
+        public void GivenNothing_WhenCreateDefaultInstance_ThenDefaultInstanceReturned()
         {
             // Arrange
-            var sut = new Regex(new ArgumentMapperOptions().Regex);
 
             // Act
-            var matches = sut.Matches(arguments);
+            var instance = CommandLineParserService.CreateDefaultInstance();
 
             // Assert
-            var allMatches = matches.Select(x => x.Value.TrimEnd()).ToList();
-            foreach (var curExpected in expectedMatches)
+            Assert.NotNull(instance);
+        }
+
+        [Fact]
+        public void GivenMissingArguments_AndOptionsType_WhenParseArgumentsAsOptions_ThenFalseReturned()
+        {
+            // Arrange
+            var mockSingleArgumentParserService = new Mock<ISingleArgumentParserService>();
+            var mockDefaultArgumentParserService = new Mock<IDefaultArgumentParserService>();
+            var mockArgumentMapperService = new Mock<IArgumentMapperService>();
+            var mockOptionalArgumentSetterService = new Mock<IOptionalArgumentSetterService>();
+            var sut = new CommandLineParserService(
+                mockSingleArgumentParserService.Object,
+                mockDefaultArgumentParserService.Object,
+                mockArgumentMapperService.Object,
+                mockOptionalArgumentSetterService.Object);
+            var argumentsString = "hello world";
+
+            // Act
+            var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var options);
+
+            // Assert
+            Assert.False(success);
+            mockDefaultArgumentParserService.Verify(x => x.SetDefaultOption(
+                It.IsAny<CommandLineTestOptions>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+                ref argumentsString,
+                It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
+            mockOptionalArgumentSetterService.Verify(x => x.SetOptionalValues(
+                It.IsAny<CommandLineTestOptions>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>()), Times.Once);
+            mockArgumentMapperService.Verify(x => x.MapArguments(
+                It.IsAny<CommandLineTestOptions>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+                It.IsAny<string>(),
+                It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
+        }
+
+        [Fact]
+        public void GivenRequiredArguments_AndOptionsType_WhenParseArgumentsAsOptions_ThenTrueReturned_AndOptionsSet()
+        {
+            // Arrange
+            var mockSingleArgumentParserService = new Mock<ISingleArgumentParserService>();
+            var mockDefaultArgumentParserService = new Mock<IDefaultArgumentParserService>();
+            var mockArgumentMapperService = new Mock<IArgumentMapperService>();
+            var mockOptionalArgumentSetterService = new Mock<IOptionalArgumentSetterService>();
+            var sut = new CommandLineParserService(
+                mockSingleArgumentParserService.Object,
+                mockDefaultArgumentParserService.Object,
+                mockArgumentMapperService.Object,
+                mockOptionalArgumentSetterService.Object);
+            var argumentsString = "hello world";
+            var allOptions = GetAllOptions<CommandLineTestOptions>();
+
+            mockArgumentMapperService.Setup(x => x.MapArguments(
+                It.IsAny<CommandLineTestOptions>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+                It.IsAny<string>(),
+                It.IsAny<List<CommandLineParserOptionAttribute>>()))
+                .Callback((object a, Dictionary<PropertyInfo, CommandLineParserOptionAttribute> b, string c, List<CommandLineParserOptionAttribute> d) =>
+                {
+                    d.AddRange(allOptions.Values);
+                });
+
+            // Act
+            var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var options);
+
+            // Assert
+            Assert.True(success);
+            mockDefaultArgumentParserService.Verify(x => x.SetDefaultOption(
+                It.IsAny<CommandLineTestOptions>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+                ref argumentsString,
+                It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
+            mockOptionalArgumentSetterService.Verify(x => x.SetOptionalValues(
+                It.IsAny<CommandLineTestOptions>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>()), Times.Once);
+            mockArgumentMapperService.Verify(x => x.MapArguments(
+                It.IsAny<CommandLineTestOptions>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+                It.IsAny<string>(),
+                It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
+        }
+
+        private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions<T>()
+        {
+            var propeties = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
+            var allProperties = typeof(T).GetProperties();
+            foreach (var curProperty in allProperties)
             {
-                Assert.Contains(curExpected, allMatches);
+                var optionAttribute = (CommandLineParserOptionAttribute)curProperty.GetCustomAttributes(typeof(CommandLineParserOptionAttribute), true).FirstOrDefault();
+                if (optionAttribute != null)
+                {
+                    propeties.Add(
+                        curProperty,
+                        optionAttribute);
+                }
             }
-        }
-
-        [Theory]
-        [InlineData("-s=\"hello world\" -b=true -i=1 -f=1.5", "hello world", true, 1, 1.5f)]
-        [InlineData("-s=helloworld -b=false -i=2 -f=5.55", "helloworld", false, 2, 5.55f)]
-        [InlineData("helloworld -b=false -i=2 -f=5.55", "helloworld", false, 2, 5.55f)]
-        public void GivenArguments_AndOptionsType_WhenParseArgumentsAsOptions_ThenOptionsParsedCorrectly(
-            string arguments,
-            string expectedStringValue,
-            bool expectedBoolValue,
-            int expectedIntValue,
-            float expectedFloatValue)
-        {
-            // Arrange
-            var propertyValueSetterService = new PropertyValueSetterService();
-            var sut = new CommandLineParserService(
-                new SingleArgumentParserService(),
-                new DefaultArgumentParserService(propertyValueSetterService),
-                new ArgumentMapper(
-                    new ArgumentMapperOptions(),
-                    new SingleArgumentParserService(),
-                    propertyValueSetterService),
-                new OptionalArgumentSetterService(propertyValueSetterService));
-
-            // Act
-            var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>(arguments);
-
-            // Assert
-            Assert.Equal(expectedStringValue, result.StringValue);
-            Assert.Equal(expectedBoolValue, result.BoolValue);
-            Assert.Equal(expectedIntValue, result.IntValue);
-            Assert.Equal(expectedFloatValue, result.FloatValue);
-        }
-
-        [Fact]
-        public void GivenArguments_AndRequiredMissing_WhenParseArgumentsAsOptions_ThenArgumentExceptionThrown_AndMessageContainsParamLongNames()
-        {
-            // Arrange
-            var propertyValueSetterService = new PropertyValueSetterService();
-            var sut = new CommandLineParserService(
-                new SingleArgumentParserService(),
-                new DefaultArgumentParserService(propertyValueSetterService),
-                new ArgumentMapper(
-                    new ArgumentMapperOptions(),
-                    new SingleArgumentParserService(),
-                    propertyValueSetterService),
-                new OptionalArgumentSetterService(propertyValueSetterService));
-
-            // Act & Assert
-            var exception = Assert.ThrowsAny<ArgumentException>(() =>
-            {
-                var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>("-p=pop");
-            });
-            Assert.Contains("string,bool,int,float", exception.Message);
-        }
-
-        [Fact]
-        public void GivenArguments_AndOmitOptional_WhenParseArgumentsAsOptions_ThenOptionalArgumentsSetToDefaultValue()
-        {
-            // Arrange
-            var arguments = "-s=helloworld -b=false -i=2 -f=5.55";
-            var propertyValueSetterService = new PropertyValueSetterService();
-            var sut = new CommandLineParserService(
-                new SingleArgumentParserService(),
-                new DefaultArgumentParserService(propertyValueSetterService),
-                new ArgumentMapper(
-                    new ArgumentMapperOptions(),
-                    new SingleArgumentParserService(),
-                    propertyValueSetterService),
-                new OptionalArgumentSetterService(propertyValueSetterService));
-
-            // Act
-            var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>(arguments);
-
-            // Assert
-            Assert.Equal("Hello World", result.OptionalStringValue);
+            return propeties;
         }
     }
 }

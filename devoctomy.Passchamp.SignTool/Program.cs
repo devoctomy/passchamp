@@ -29,20 +29,33 @@ namespace devoctomy.Passchamp.SignTool
             var curExePath = Assembly.GetEntryAssembly().Location;
             var arguments = Environment.CommandLine.Replace(curExePath, string.Empty).Trim();
             var commandLineParser = CommandLineParserService.CreateDefaultInstance();
-            var preOptions = commandLineParser.ParseArgumentsAsOptions<PreOptions>(arguments);
-            switch(preOptions.Mode.ToLower())
+            if(commandLineParser.TryParseArgumentsAsOptions<PreOptions>(arguments, out var preOptions))
             {
-                case "generate":
-                    {
-                        var generateOptions = commandLineParser.ParseArgumentsAsOptions<GenerateOptions>(arguments);
-                        return await Generate(generateOptions);
-                    }
+                switch (preOptions.Options.Mode.ToLower())
+                {
+                    case "generate":
+                        {
+                            if(commandLineParser.TryParseArgumentsAsOptions<GenerateOptions>(arguments, out var generateOptions))
+                            {
+                                return await Generate(generateOptions.Options);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{generateOptions.Exception.Message}");
+                            }
+                            break;
+                        }
 
-                default:
-                    {
-                        Console.WriteLine($"Unknown mode '{preOptions.Mode}'.");
-                        break;
-                    }
+                    default:
+                        {
+                            Console.WriteLine($"Unknown mode '{preOptions.Options.Mode}'.");
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{preOptions.Exception.Message}");
             }
 
             return -1;

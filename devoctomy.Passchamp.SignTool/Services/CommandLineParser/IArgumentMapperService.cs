@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
-    public interface IArgumentMapper
+    public interface IArgumentMapperService
     {
         void MapArguments<T>(
             T optionsInstance,

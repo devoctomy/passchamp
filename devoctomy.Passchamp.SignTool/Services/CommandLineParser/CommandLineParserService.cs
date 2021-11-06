@@ -9,13 +9,13 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
     {
         private readonly ISingleArgumentParserService _singleArgumentParser;
         private readonly IDefaultArgumentParserService _defaultArgumentParserService;
-        private readonly IArgumentMapper _argumentMapper;
+        private readonly IArgumentMapperService _argumentMapper;
         private readonly IOptionalArgumentSetterService _optionalArgumentSetterSevice;
 
         public CommandLineParserService(
             ISingleArgumentParserService singleArgumentParser,
             IDefaultArgumentParserService defaultArgumentParserService,
-            IArgumentMapper arumentMapper,
+            IArgumentMapperService arumentMapper,
             IOptionalArgumentSetterService optionalArgumentSetterSevice)
         {
             _singleArgumentParser = singleArgumentParser;
@@ -30,47 +30,51 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             return new CommandLineParserService(
                 new SingleArgumentParserService(),
                 new DefaultArgumentParserService(propertyValueSetterService),
-                new ArgumentMapper(
+                new ArgumentMapperService(
                     new ArgumentMapperOptions(),
                     new SingleArgumentParserService(),
                     propertyValueSetterService),
                 new OptionalArgumentSetterService(propertyValueSetterService));
         }
 
-        public T ParseArgumentsAsOptions<T>(string argumentString)
+        public bool TryParseArgumentsAsOptions<T>(string argumentString, out ParseResults<T> results)
         {
-            if(string.IsNullOrWhiteSpace(argumentString))
+            if (string.IsNullOrWhiteSpace(argumentString))
             {
-                return default(T);
+                results = default(ParseResults<T>);
+                return false;
             }
 
-            var optionsInstance = Activator.CreateInstance<T>();
+            results = new ParseResults<T>
+            {
+                Options = Activator.CreateInstance<T>()
+            };
             var allOptions = GetAllOptions<T>();
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
             _defaultArgumentParserService.SetDefaultOption<T>(
-                optionsInstance,
+                results.Options,
                 allOptions,
                 ref argumentString,
                 allSetOptions);
 
             _optionalArgumentSetterSevice.SetOptionalValues<T>(
-                optionsInstance,
+                results.Options,
                 allOptions);
 
             _argumentMapper.MapArguments(
-                optionsInstance,
+                results.Options,
                 allOptions,
                 argumentString,
                 allSetOptions);
 
-            var missingRequired = allOptions.Where(x => x.Value.Required && !allSetOptions.Contains(x.Value)).ToList();
-            if(missingRequired.Any())
+            var missingRequired = allOptions.Where(x => x.Value.Required && !allSetOptions.Any(y => y.LongName == x.Value.LongName)).ToList();
+            if (missingRequired.Any())
             {
-                throw new ArgumentException($"Required arguments missing ({string.Join(',', missingRequired.Select(x => x.Value.LongName))}).");
+                results.Exception = new ArgumentException($"Required arguments missing ({string.Join(',', missingRequired.Select(x => x.Value.LongName))}).");
             }
 
-            return optionsInstance;
+            return !missingRequired.Any();
         }
 
         private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions<T>()
