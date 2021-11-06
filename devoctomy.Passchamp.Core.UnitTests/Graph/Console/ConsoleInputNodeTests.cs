@@ -16,8 +16,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Console
             var mockSystemConsole = new Mock<ISystemConsole>();
             var prompt = "Enter stuff...";
             var inputLine = "Hello World";
-            var iv = new byte[16];
-            var key = new byte[32];
             var sut = new ConsoleInputNode(mockSystemConsole.Object)
             {
                 Prompt = (IDataPin<string>)DataPinFactory.Instance.Create(

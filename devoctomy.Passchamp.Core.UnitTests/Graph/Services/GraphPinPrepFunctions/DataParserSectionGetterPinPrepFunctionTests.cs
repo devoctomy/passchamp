@@ -91,7 +91,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinPrepFunction
             // Act
             Assert.ThrowsAny<InvalidOperationException>(() =>
             {
-                var result = sut.Execute(
+                sut.Execute(
                     null,
                     value,
                     null,

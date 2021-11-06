@@ -53,7 +53,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             // Act & Assert
             Assert.ThrowsAny<TypeLoadException>(() =>
             {
-                var result = sut.Parse(
+                sut.Parse(
                     nodesJson["Nodes"].Value<JArray>(),
                     out var startNodeKey);
             });

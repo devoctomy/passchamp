@@ -69,7 +69,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public async Task GivenGraph_WhenExecute_ThenExecutionOrderIsCorrect()
         {
             // Arrange
-            var node1 = new NodeBase()
+            var node1 = new NodeBase
             {
                 NextKey = "node2"
             };
@@ -101,7 +101,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         [Fact]
         public async Task GivenGraph_AndNodes_AndOutputMessageDelegate_WhenExecute_ThenMessagesOutputFromNodes()
         {
-            var node1 = new TestNode()
+            var node1 = new TestNode
             {
                 NextKey = "node2"
             };

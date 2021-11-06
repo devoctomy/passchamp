@@ -17,7 +17,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var expectedPlainText = "Hello World";
             var iv = new byte[16];
             var key = new byte[32];
-            var sut = new DecryptNode()
+            var sut = new DecryptNode
             {
                 Cipher = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
                     "Cipher",
