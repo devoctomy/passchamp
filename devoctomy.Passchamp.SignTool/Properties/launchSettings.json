@@ -2,7 +2,7 @@
   "profiles": {
     "devoctomy.Passchamp.SignTool": {
       "commandName": "Project",
-      "commandLineArgs": "-m=generate -v=true"
+      "commandLineArgs": "generate -v=true"
     }
   }
 }

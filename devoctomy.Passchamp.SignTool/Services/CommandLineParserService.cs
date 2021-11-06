@@ -26,6 +26,7 @@ namespace devoctomy.Passchamp.SignTool.Services
 
             var optionsInstance = Activator.CreateInstance<T>();
             var allOptions = GetAllOptions<T>();
+            var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
             var optional = allOptions.Where(x => !x.Value.Required).ToList();
             foreach(var curOptional in optional)
@@ -33,10 +34,27 @@ namespace devoctomy.Passchamp.SignTool.Services
                 SetOption(optionsInstance, curOptional.Key, curOptional.Value.DefaultValue.ToString());
             }
 
+            var defaultOptionValue = string.Empty;
+            if(!argumentString.StartsWith("-"))
+            {
+                defaultOptionValue = argumentString.Substring(
+                    0,
+                    argumentString.IndexOf(" "));
+                argumentString = argumentString.Substring(argumentString.IndexOf(" ") + 1);
+            }
+            var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
+            if(defaultOption.Key != null && !string.IsNullOrEmpty(defaultOptionValue))
+            {
+                SetOption(
+                    optionsInstance,
+                    defaultOption.Key,
+                    defaultOptionValue);
+                allSetOptions.Add(defaultOption.Value);
+            }
+
             var regex = new Regex(Regex);
             var matches = regex.Matches(argumentString);
-            var allMatches = matches.Select(x => x.Value.TrimEnd()).ToList();
-            var allSetOptions = new List<CommandLineParserOptionAttribute>();
+            var allMatches = matches.Select(x => x.Value.TrimEnd()).ToList();            
             foreach(var curMatch in allMatches)
             {
                 var match = curMatch.TrimStart().TrimStart('-');

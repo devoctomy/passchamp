@@ -4,7 +4,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
 {
     public class CommandLineTestOptions
     {
-        [CommandLineParserOptionAttribute(LongName = "string", ShortName = "s", Required = true)]
+        [CommandLineParserOptionAttribute(LongName = "string", ShortName = "s", Required = true, IsDefault = true)]
         public string StringValue { get; set; }
 
         [CommandLineParserOptionAttribute(LongName = "bool", ShortName = "b", Required = true)]

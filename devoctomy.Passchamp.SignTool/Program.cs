@@ -10,11 +10,11 @@ namespace devoctomy.Passchamp.SignTool
     {
         public class PreOptions
         {
-            [CommandLineParserOption(Required = true, ShortName = "m", LongName = "mode")]
+            [CommandLineParserOption(Required = true, ShortName = "m", LongName = "mode", IsDefault = true)]
             public string Mode { get; set; }
         }
 
-        public class GenerateOptions
+        public class GenerateOptions : PreOptions
         {
             [CommandLineParserOption(Required = false, ShortName = "l", LongName = "length", DefaultValue = 1024)]
             public int KeyLength { get; set; }

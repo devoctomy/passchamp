@@ -10,9 +10,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
     public class CommandLineParserServiceTests
     {
         [Theory]
-        [InlineData(
-            "-a=1 --apple=hello -b=\"hello world\"",
-            new string[] { "-a=1", "--apple=hello", "-b=\"hello world\"" } )]
+        [InlineData("-a=1 --apple=hello -b=\"hello world\"", new string[] { "-a=1", "--apple=hello", "-b=\"hello world\"" } )]
         public void GivenArguments_AndRegex_WhenMatch_ThenExpectedMatchesReturned(
             string arguments,
             string[] expectedMatches)
@@ -34,6 +32,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         [Theory]
         [InlineData("-s=\"hello world\" -b=true -i=1 -f=1.5", "hello world", true, 1, 1.5f)]
         [InlineData("-s=helloworld -b=false -i=2 -f=5.55", "helloworld", false, 2, 5.55f)]
+        [InlineData("helloworld -b=false -i=2 -f=5.55", "helloworld", false, 2, 5.55f)]
         public void GivenArguments_AndOptionsType_WhenParseArgumentsAsOptions_ThenOptionsParsedCorrectly(
             string arguments,
             string expectedStringValue,
