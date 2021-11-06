@@ -28,48 +28,21 @@ namespace devoctomy.Passchamp.SignTool.Services
             var allOptions = GetAllOptions<T>();
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
-            var optional = allOptions.Where(x => !x.Value.Required).ToList();
-            foreach(var curOptional in optional)
-            {
-                SetOption(optionsInstance, curOptional.Key, curOptional.Value.DefaultValue.ToString());
-            }
+            SetDefaultOption<T>(
+                optionsInstance,
+                allOptions,
+                ref argumentString,
+                allSetOptions);
 
-            var defaultOptionValue = string.Empty;
-            if(!argumentString.StartsWith("-"))
-            {
-                defaultOptionValue = argumentString.Substring(
-                    0,
-                    argumentString.IndexOf(" "));
-                argumentString = argumentString.Substring(argumentString.IndexOf(" ") + 1);
-            }
-            var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
-            if(defaultOption.Key != null && !string.IsNullOrEmpty(defaultOptionValue))
-            {
-                SetOption(
-                    optionsInstance,
-                    defaultOption.Key,
-                    defaultOptionValue);
-                allSetOptions.Add(defaultOption.Value);
-            }
+            SetOptionalValues<T>(
+                optionsInstance,
+                allOptions);
 
-            var regex = new Regex(Regex);
-            var matches = regex.Matches(argumentString);
-            var allMatches = matches.Select(x => x.Value.TrimEnd()).ToList();            
-            foreach(var curMatch in allMatches)
-            {
-                var match = curMatch.TrimStart().TrimStart('-');
-                var argument = _singleArgumentParser.Parse(match);
-                var option = allOptions.SingleOrDefault(x => x.Value.ShortName == argument.Name || x.Value.LongName == argument.Name);
-                if(option.Key != null)
-                {
-                    SetOption(
-                        optionsInstance,
-                        option.Key,
-                        argument.Value);
-                    allSetOptions.Add(option.Value);
-                }
-
-            }
+            MapArguments<T>(
+                optionsInstance,
+                allOptions,
+                argumentString,
+                allSetOptions);
 
             var missingRequired = allOptions.Where(x => x.Value.Required && !allSetOptions.Contains(x.Value)).ToList();
             if(missingRequired.Any())
@@ -95,6 +68,67 @@ namespace devoctomy.Passchamp.SignTool.Services
                 }
             }
             return propeties;
+        }
+
+        private void SetOptionalValues<T>(
+            T optionsInstance,
+            Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions)
+        {
+            var optional = allOptions.Where(x => !x.Value.Required).ToList();
+            foreach (var curOptional in optional)
+            {
+                SetOption(optionsInstance, curOptional.Key, curOptional.Value.DefaultValue.ToString());
+            }
+        }
+
+        private void SetDefaultOption<T>(
+            T optionsInstance,
+            Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
+            ref string argumentString,
+            List<CommandLineParserOptionAttribute> allSetOptions)
+        {
+            var defaultOptionValue = string.Empty;
+            if (!argumentString.StartsWith("-"))
+            {
+                defaultOptionValue = argumentString.Substring(
+                    0,
+                    argumentString.IndexOf(" "));
+                argumentString = argumentString.Substring(argumentString.IndexOf(" ") + 1);
+            }
+            var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
+            if (defaultOption.Key != null && !string.IsNullOrEmpty(defaultOptionValue))
+            {
+                SetOption(
+                    optionsInstance,
+                    defaultOption.Key,
+                    defaultOptionValue);
+                allSetOptions.Add(defaultOption.Value);
+            }
+        }
+
+        private void MapArguments<T>(
+            T optionsInstance,
+            Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
+            string argumentString,
+            List<CommandLineParserOptionAttribute> allSetOptions)
+        {
+            var regex = new Regex(Regex);
+            var matches = regex.Matches(argumentString);
+            var allMatches = matches.Select(x => x.Value.TrimEnd()).ToList();
+            foreach (var curMatch in allMatches)
+            {
+                var match = curMatch.TrimStart().TrimStart('-');
+                var argument = _singleArgumentParser.Parse(match);
+                var option = allOptions.SingleOrDefault(x => x.Value.ShortName == argument.Name || x.Value.LongName == argument.Name);
+                if (option.Key != null)
+                {
+                    SetOption(
+                        optionsInstance,
+                        option.Key,
+                        argument.Value);
+                    allSetOptions.Add(option.Value);
+                }
+            }
         }
 
         private void SetOption<T>(
