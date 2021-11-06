@@ -104,6 +104,12 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                             Assert.Equal("pants", curOption.Key.GetValue(optionsInstance));
                             break;
                         }
+
+                    default:
+                        {
+                            Assert.True(false, $"Untested option '{curOption.Key.Name}'.");
+                            break;
+                        }
                 }
             }
         }
