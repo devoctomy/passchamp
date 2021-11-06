@@ -1,7 +1,7 @@
 ﻿namespace devoctomy.Passchamp.SignTool.Services
 {
-    public interface ICommandLineParserService<T>
+    public interface ICommandLineParserService
     {
-        T ParseArgumentsAsOptions(string argumentString);
+        T ParseArgumentsAsOptions<T>(string argumentString);
     }
 }

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace devoctomy.Passchamp.SignTool.Services
 {
-    public class CommandLineParserService<T> : ICommandLineParserService<T>
+    public class CommandLineParserService : ICommandLineParserService
     {
         public static string Regex => Properties.Resources.CommandLineParserRegex;
 
@@ -17,7 +17,7 @@ namespace devoctomy.Passchamp.SignTool.Services
             _singleArgumentParser = singleArgumentParser;
         }
 
-        public T ParseArgumentsAsOptions(string argumentString)
+        public T ParseArgumentsAsOptions<T>(string argumentString)
         {
             if(string.IsNullOrWhiteSpace(argumentString))
             {
@@ -25,7 +25,7 @@ namespace devoctomy.Passchamp.SignTool.Services
             }
 
             var optionsInstance = Activator.CreateInstance<T>();
-            var allOptions = GetAllOptions();
+            var allOptions = GetAllOptions<T>();
 
             var optional = allOptions.Where(x => !x.Value.Required).ToList();
             foreach(var curOptional in optional)
@@ -42,11 +42,15 @@ namespace devoctomy.Passchamp.SignTool.Services
                 var match = curMatch.TrimStart().TrimStart('-');
                 var argument = _singleArgumentParser.Parse(match);
                 var option = allOptions.SingleOrDefault(x => x.Value.ShortName == argument.Name || x.Value.LongName == argument.Name);
-                SetOption(
-                    optionsInstance,
-                    option.Key,
-                    argument.Value);
-                allSetOptions.Add(option.Value);
+                if(option.Key != null)
+                {
+                    SetOption(
+                        optionsInstance,
+                        option.Key,
+                        argument.Value);
+                    allSetOptions.Add(option.Value);
+                }
+
             }
 
             var missingRequired = allOptions.Where(x => x.Value.Required && !allSetOptions.Contains(x.Value)).ToList();
@@ -58,7 +62,7 @@ namespace devoctomy.Passchamp.SignTool.Services
             return optionsInstance;
         }
 
-        private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions()
+        private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions<T>()
         {
             var propeties = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
             var allProperties = typeof(T).GetProperties();
@@ -75,7 +79,7 @@ namespace devoctomy.Passchamp.SignTool.Services
             return propeties;
         }
 
-        private void SetOption(
+        private void SetOption<T>(
             T option,
             PropertyInfo property,
             string value)

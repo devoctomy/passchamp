@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             string[] expectedMatches)
         {
             // Arrange
-            var sut = new Regex(CommandLineParserService<object>.Regex);
+            var sut = new Regex(CommandLineParserService.Regex);
 
             // Act
             var matches = sut.Matches(arguments);
@@ -42,10 +42,10 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             float expectedFloatValue)
         {
             // Arrange
-            var sut = new CommandLineParserService<CommandLineTestOptions>(new SingleArgumentParser());
+            var sut = new CommandLineParserService(new SingleArgumentParser());
 
             // Act
-            var result = sut.ParseArgumentsAsOptions(arguments);
+            var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>(arguments);
 
             // Assert
             Assert.Equal(expectedStringValue, result.StringValue);
@@ -58,12 +58,12 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         public void GivenArguments_AndRequiredMissing_WhenParseArgumentsAsOptions_ThenArgumentExceptionThrown_AndMessageContainsParamLongNames()
         {
             // Arrange
-            var sut = new CommandLineParserService<CommandLineTestOptions>(new SingleArgumentParser());
+            var sut = new CommandLineParserService(new SingleArgumentParser());
 
             // Act & Assert
             var exception = Assert.ThrowsAny<ArgumentException>(() =>
             {
-                var result = sut.ParseArgumentsAsOptions(string.Empty);
+                var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>("-p=pop");
             });
             Assert.Contains("string,bool,int,float", exception.Message);
         }
@@ -73,10 +73,10 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         {
             // Arrange
             var arguments = "-s=helloworld -b=false -i=2 -f=5.55";
-            var sut = new CommandLineParserService<CommandLineTestOptions>(new SingleArgumentParser());
+            var sut = new CommandLineParserService(new SingleArgumentParser());
 
             // Act
-            var result = sut.ParseArgumentsAsOptions(arguments);
+            var result = sut.ParseArgumentsAsOptions<CommandLineTestOptions>(arguments);
 
             // Assert
             Assert.Equal("Hello World", result.OptionalStringValue);

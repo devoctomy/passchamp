@@ -8,11 +8,14 @@ namespace devoctomy.Passchamp.SignTool
 {
     public class Program
     {
-        public class Options
+        public class PreOptions
         {
             [CommandLineParserOption(Required = true, ShortName = "m", LongName = "mode")]
             public string Mode { get; set; }
+        }
 
+        public class GenerateOptions
+        {
             [CommandLineParserOption(Required = false, ShortName = "l", LongName = "length", DefaultValue = 1024)]
             public int KeyLength { get; set; }
 
@@ -24,8 +27,28 @@ namespace devoctomy.Passchamp.SignTool
         {
             var curExePath = Assembly.GetEntryAssembly().Location;
             var arguments = Environment.CommandLine.Replace(curExePath, string.Empty).Trim();
-            var commandLineParser = new CommandLineParserService<Options>(new SingleArgumentParser());
-            var options = commandLineParser.ParseArgumentsAsOptions(arguments);
+            var commandLineParser = new CommandLineParserService(new SingleArgumentParser());
+            var preOptions = commandLineParser.ParseArgumentsAsOptions<PreOptions>(arguments);
+            switch(preOptions.Mode.ToLower())
+            {
+                case "generate":
+                    {
+                        var generateOptions = commandLineParser.ParseArgumentsAsOptions<GenerateOptions>(arguments);
+                        return await Generate(generateOptions);
+                    }
+
+                default:
+                    {
+                        Console.WriteLine($"Unknown mode '{preOptions.Mode}'.");
+                        break;
+                    }
+            }
+
+            return -1;
+        }
+
+        private static async Task<int> Generate(GenerateOptions options)
+        {
             if (options.Verbose)
             {
                 Console.WriteLine($"Attempting to generate {options.KeyLength} bit key pair.");
