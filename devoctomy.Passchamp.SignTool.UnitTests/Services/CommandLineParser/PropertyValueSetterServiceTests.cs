@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+using System;
 using Xunit;
 
 namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
@@ -27,6 +28,24 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
 
             // Assert
             Assert.Equal(property.GetValue(optionsInstance).ToString(), value);
+        }
+
+        [Fact]
+        public void GivenOptionsInstance_AndUnsupportedProperty_WhenSetPropertyValue_ThenNotSupportedExceptionThrown()
+        {
+            // Arrange
+            var optionsInstance = new CommandLineTestBadOptions();
+            var property = typeof(CommandLineTestBadOptions).GetProperty("UnsupportedValue");
+            var sut = new PropertyValueSetterService();
+
+            // Act & Assert
+            Assert.ThrowsAny<NotSupportedException>(() =>
+            {
+                sut.SetPropertyValue(
+                    optionsInstance,
+                    property,
+                    null);
+            });
         }
     }
 }
