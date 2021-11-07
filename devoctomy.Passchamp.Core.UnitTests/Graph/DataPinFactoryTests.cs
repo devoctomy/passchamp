@@ -14,6 +14,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         [InlineData(false, typeof(DataPin<bool>))]
         [InlineData(new[]{ (byte)0, (byte)1, (byte)2 }, typeof(DataPin<byte[]>))]
         [InlineData(110.5d, typeof(DataPin<double>))]
+        [InlineData(110.5f, typeof(DataPin<Single>))]
         public void GivenName_AndSupportedValue_WhenCreate_ThenPinOfCorrectTypeCreated_AndValueCorrect(
             object value,
             Type dataPinType)
