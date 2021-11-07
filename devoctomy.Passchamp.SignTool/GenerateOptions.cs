@@ -1,7 +1,9 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+using System.Diagnostics.CodeAnalysis;
 
 namespace devoctomy.Passchamp.SignTool
 {
+    [ExcludeFromCodeCoverage]
     public class GenerateOptions : PreOptions
     {
         [CommandLineParserOption(Required = false, ShortName = "l", LongName = "length", DefaultValue = 1024)]
