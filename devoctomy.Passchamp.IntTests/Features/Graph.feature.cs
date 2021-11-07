@@ -83,10 +83,17 @@ namespace devoctomy.Passchamp.IntTests.Features
         [Xunit.SkippableTheoryAttribute(DisplayName="01) Encrypt string using a password and write to disk")]
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "01) Encrypt string using a password and write to disk")]
+        [Xunit.TraitAttribute("Category", "graph")]
         [Xunit.InlineDataAttribute("saltgenerator", "16", "ivgenerator", "16", "derive", "123", "32", "Hello World!", "encoder", "encrypt", "joiner", "writer", "Output/test.dat", new string[0])]
         public virtual void _01EncryptStringUsingAPasswordAndWriteToDisk(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string plainText, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string fileWriterNodeName, string fileName, string[] exampleTags)
         {
-            string[] tagsOfScenario = exampleTags;
+            string[] @__tags = new string[] {
+                    "graph"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("SaltGeneratorNodeName", saltGeneratorNodeName);
             argumentsOfScenario.Add("SaltLength", saltLength);
@@ -102,7 +109,7 @@ namespace devoctomy.Passchamp.IntTests.Features
             argumentsOfScenario.Add("FileWriterNodeName", fileWriterNodeName);
             argumentsOfScenario.Add("FileName", fileName);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Encrypt string using a password and write to disk", null, tagsOfScenario, argumentsOfScenario);
-#line 5
+#line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -122,68 +129,68 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 6
+#line 7
  testRunner.Given("A new dictionary of nodes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 7
+#line 8
  testRunner.And(string.Format("RandomByteGeneratorNode named {0} with a length of {1} and NextKey of {2}", saltGeneratorNodeName, saltLength, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 8
+#line 9
  testRunner.And(string.Format("RandomByteGeneratorNode named {0} with a length of {1} and NextKey of {2}", ivGeneratorNodeName, ivLength, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 9
+#line 10
  testRunner.And(string.Format("DeriveKeyFromPasswordNode named {0} with a password of {1} and key length of {2} " +
                             "and NextKey of {3}", deriveKeyNodeName, password, keyLength, utf8EncoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 10
+#line 11
  testRunner.And(string.Format("Utf8EncoderNode named {0} with plain text of {1} and NextKey of {2}", utf8EncoderNodeName, plainText, encryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 11
+#line 12
  testRunner.And(string.Format("EncryptNode named {0} and NextKey of {1}", encryptNodeName, joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 12
+#line 13
  testRunner.And(string.Format("ArrayJoinerNode named {0} and NextKey of {1}", joinerNodeName, fileWriterNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 13
+#line 14
  testRunner.And(string.Format("FileWriterNode named {0} with a filename of {1}", fileWriterNodeName, fileName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 14
+#line 15
  testRunner.And(string.Format("Node {0} input pin Salt connected to node {1} output pin RandomBytes", deriveKeyNodeName, saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 16
  testRunner.And(string.Format("Node {0} input pin PlainTextBytes connected to node {1} output pin EncodedBytes", encryptNodeName, utf8EncoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 16
+#line 17
  testRunner.And(string.Format("Node {0} input pin Iv connected to node {1} output pin RandomBytes", encryptNodeName, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 17
+#line 18
  testRunner.And(string.Format("Node {0} input pin Key connected to node {1} output pin Key", encryptNodeName, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 18
+#line 19
  testRunner.And(string.Format("Node {0} input pin Part1 connected to node {1} output pin RandomBytes", joinerNodeName, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 19
+#line 20
  testRunner.And(string.Format("Node {0} input pin Part2 connected to node {1} output pin EncryptedBytes", joinerNodeName, encryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 20
+#line 21
  testRunner.And(string.Format("Node {0} input pin Part3 connected to node {1} output pin RandomBytes", joinerNodeName, saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 21
+#line 22
  testRunner.And(string.Format("Node {0} input pin InputData connected to node {1} output pin JoinedOutput", fileWriterNodeName, joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 22
+#line 23
  testRunner.And(string.Format("All nodes added to a new graph with a start node named {0}", saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 23
+#line 24
  testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 24
+#line 25
  testRunner.Then(string.Format("Output file {0} created of 48 bytes in length", fileName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 25
+#line 26
  testRunner.And("All nodes executed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 26
+#line 27
  testRunner.And("All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encod" +
                         "er,encrypt,joiner,writer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -213,7 +220,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("DecoderNodeName", decoderNodeName);
             argumentsOfScenario.Add("PlainText", plainText);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Decrypt file using a password to correct plain text", null, tagsOfScenario, argumentsOfScenario);
-#line 33
+#line 34
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -233,56 +240,56 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 34
+#line 35
  testRunner.Given("A new dictionary of nodes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 35
+#line 36
  testRunner.And(string.Format("FileReaderNode named {0} with a filename of {1} and NextKey of {2}", fileReaderNodeName, fileName, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 36
+#line 37
  testRunner.And(string.Format("DataParserNode named {0} with parser sections of {1} and NextKey of {2}", dataParserNodeName, parserSections, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 37
+#line 38
  testRunner.And(string.Format("DeriveKeyFromPasswordNode named {0} with a password of {1} and key length of {2} " +
                             "and NextKey of {3}", deriveKeyNodeName, password, keyLength, decryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 38
+#line 39
  testRunner.And(string.Format("DecryptNode named {0} and NextKey of {1}", decryptNodeName, decoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 39
+#line 40
  testRunner.And(string.Format("Utf8DecoderNode named {0}", decoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 40
+#line 41
  testRunner.And(string.Format("Node {0} input pin Bytes connected to node {1} output pin Bytes", dataParserNodeName, fileReaderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 41
+#line 42
  testRunner.And(string.Format("Node {0} input pin {1} connected to DataParserNode {2} section {1} value", deriveKeyNodeName, saltSectionKey, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 42
+#line 43
  testRunner.And(string.Format("Node {0} input pin {1} connected to DataParserNode {2} section {1} value", decryptNodeName, ivSectionKey, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 43
+#line 44
  testRunner.And(string.Format("Node {0} input pin {1} connected to DataParserNode {2} section {1} value", decryptNodeName, cipherSectionKey, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 44
+#line 45
  testRunner.And(string.Format("Node {0} input pin Key connected to node {1} output pin Key", decryptNodeName, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 45
+#line 46
  testRunner.And(string.Format("Node {0} input pin EncodedBytes connected to node {1} output pin DecryptedBytes", decoderNodeName, decryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 46
+#line 47
  testRunner.And(string.Format("All nodes added to a new graph with a start node named {0}", fileReaderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 47
+#line 48
  testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 48
+#line 49
  testRunner.Then(string.Format("Node {0} output pin PlainText equals string {1}", decoderNodeName, plainText), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 49
+#line 50
  testRunner.And("All nodes executed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 50
+#line 51
  testRunner.And("All all nodes executed in correct order of reader,parser,derivekey,decrypt,decode" +
                         "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -312,7 +319,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("FileWriterNodeName", fileWriterNodeName);
             argumentsOfScenario.Add("FileName", fileName);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Encrypt string using a password with scrypt and write to disk", null, tagsOfScenario, argumentsOfScenario);
-#line 57
+#line 58
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -332,67 +339,67 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 58
+#line 59
  testRunner.Given("A new dictionary of nodes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 59
+#line 60
  testRunner.And(string.Format("RandomByteGeneratorNode named {0} with a length of {1} and NextKey of {2}", saltGeneratorNodeName, saltLength, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 60
+#line 61
  testRunner.And(string.Format("RandomByteGeneratorNode named {0} with a length of {1} and NextKey of {2}", ivGeneratorNodeName, ivLength, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 61
+#line 62
  testRunner.And(string.Format("SCryptNode named {0} with a password of {1} and NextKey of {2}", deriveKeyNodeName, password, utf8EncoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 62
+#line 63
  testRunner.And(string.Format("Utf8EncoderNode named {0} with plain text of {1} and NextKey of {2}", utf8EncoderNodeName, plainText, encryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 63
+#line 64
  testRunner.And(string.Format("EncryptNode named {0} and NextKey of {1}", encryptNodeName, joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 64
+#line 65
  testRunner.And(string.Format("ArrayJoinerNode named {0} and NextKey of {1}", joinerNodeName, fileWriterNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 65
+#line 66
  testRunner.And(string.Format("FileWriterNode named {0} with a filename of {1}", fileWriterNodeName, fileName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 66
+#line 67
  testRunner.And(string.Format("Node {0} input pin Salt connected to node {1} output pin RandomBytes", deriveKeyNodeName, saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 67
+#line 68
  testRunner.And(string.Format("Node {0} input pin PlainTextBytes connected to node {1} output pin EncodedBytes", encryptNodeName, utf8EncoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 68
+#line 69
  testRunner.And(string.Format("Node {0} input pin Iv connected to node {1} output pin RandomBytes", encryptNodeName, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 69
+#line 70
  testRunner.And(string.Format("Node {0} input pin Key connected to node {1} output pin Key", encryptNodeName, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 70
+#line 71
  testRunner.And(string.Format("Node {0} input pin Part1 connected to node {1} output pin RandomBytes", joinerNodeName, ivGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 71
+#line 72
  testRunner.And(string.Format("Node {0} input pin Part2 connected to node {1} output pin EncryptedBytes", joinerNodeName, encryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 72
+#line 73
  testRunner.And(string.Format("Node {0} input pin Part3 connected to node {1} output pin RandomBytes", joinerNodeName, saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 73
+#line 74
  testRunner.And(string.Format("Node {0} input pin InputData connected to node {1} output pin JoinedOutput", fileWriterNodeName, joinerNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 74
+#line 75
  testRunner.And(string.Format("All nodes added to a new graph with a start node named {0}", saltGeneratorNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 75
+#line 76
  testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 76
+#line 77
  testRunner.Then(string.Format("Output file {0} created of 48 bytes in length", fileName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 77
+#line 78
  testRunner.And("All nodes executed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 78
+#line 79
  testRunner.And("All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encod" +
                         "er,encrypt,joiner,writer", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -422,7 +429,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("DecoderNodeName", decoderNodeName);
             argumentsOfScenario.Add("PlainText", plainText);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("04) Decrypt file using a password with scrypt to correct plain text", null, tagsOfScenario, argumentsOfScenario);
-#line 85
+#line 86
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -442,55 +449,55 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-#line 86
+#line 87
  testRunner.Given("A new dictionary of nodes", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 87
+#line 88
  testRunner.And(string.Format("FileReaderNode named {0} with a filename of {1} and NextKey of {2}", fileReaderNodeName, fileName, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 88
+#line 89
  testRunner.And(string.Format("DataParserNode named {0} with parser sections of {1} and NextKey of {2}", dataParserNodeName, parserSections, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 89
+#line 90
  testRunner.And(string.Format("SCryptNode named {0} with a password of {1} and NextKey of {2}", deriveKeyNodeName, password, decryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 90
+#line 91
  testRunner.And(string.Format("DecryptNode named {0} and NextKey of {1}", decryptNodeName, decoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 91
+#line 92
  testRunner.And(string.Format("Utf8DecoderNode named {0}", decoderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 92
+#line 93
  testRunner.And(string.Format("Node {0} input pin Bytes connected to node {1} output pin Bytes", dataParserNodeName, fileReaderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 93
+#line 94
  testRunner.And(string.Format("Node {0} input pin Salt connected to DataParserNode {1} section {2} value", deriveKeyNodeName, dataParserNodeName, saltSectionKey), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 94
+#line 95
  testRunner.And(string.Format("Node {0} input pin {1} connected to DataParserNode {2} section {1} value", decryptNodeName, ivSectionKey, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 95
+#line 96
  testRunner.And(string.Format("Node {0} input pin {1} connected to DataParserNode {2} section {1} value", decryptNodeName, cipherSectionKey, dataParserNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 96
+#line 97
  testRunner.And(string.Format("Node {0} input pin Key connected to node {1} output pin Key", decryptNodeName, deriveKeyNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 97
+#line 98
  testRunner.And(string.Format("Node {0} input pin EncodedBytes connected to node {1} output pin DecryptedBytes", decoderNodeName, decryptNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 98
+#line 99
  testRunner.And(string.Format("All nodes added to a new graph with a start node named {0}", fileReaderNodeName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 99
+#line 100
  testRunner.When("Execute graph", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 100
+#line 101
  testRunner.Then(string.Format("Node {0} output pin PlainText equals string {1}", decoderNodeName, plainText), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
-#line 101
+#line 102
  testRunner.And("All nodes executed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 102
+#line 103
  testRunner.And("All all nodes executed in correct order of reader,parser,derivekey,decrypt,decode" +
                         "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden

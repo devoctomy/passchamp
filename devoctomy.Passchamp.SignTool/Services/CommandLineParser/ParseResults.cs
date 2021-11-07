@@ -2,9 +2,14 @@
 
 namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
-    public class ParseResults<T>
+    public class ParseResults
     {
-        public T Options { get; set; }
+        public object Options { get; set; }
         public Exception Exception { get; set; }
+    
+        public T OptionsAs<T>()
+        {
+            return (T)Options;
+        }
     }
 }

@@ -31,13 +31,13 @@ namespace devoctomy.Passchamp.SignTool
             var commandLineParser = CommandLineParserService.CreateDefaultInstance();
             if(commandLineParser.TryParseArgumentsAsOptions<PreOptions>(arguments, out var preOptions))
             {
-                switch (preOptions.Options.Mode.ToLower())
+                switch (preOptions.OptionsAs<PreOptions>().Mode.ToLower())
                 {
                     case "generate":
                         {
                             if(commandLineParser.TryParseArgumentsAsOptions<GenerateOptions>(arguments, out var generateOptions))
                             {
-                                return await Generate(generateOptions.Options);
+                                return await Generate(generateOptions.OptionsAs<GenerateOptions>());
                             }
                             else
                             {
@@ -58,7 +58,7 @@ namespace devoctomy.Passchamp.SignTool
 
                     default:
                         {
-                            Console.WriteLine($"Unknown mode '{preOptions.Options.Mode}'.");
+                            Console.WriteLine($"Unknown mode '{preOptions.OptionsAs<PreOptions>().Mode}'.");
                             break;
                         }
                 }

@@ -37,28 +37,38 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                 new OptionalArgumentSetterService(propertyValueSetterService));
         }
 
-        public bool TryParseArgumentsAsOptions<T>(string argumentString, out ParseResults<T> results)
+        public bool TryParseArgumentsAsOptions<T>(string argumentString, out ParseResults results)
+        {
+            return TryParseArgumentsAsOptions(
+                typeof(T),
+                argumentString,
+                out results);
+        }
+
+        public bool TryParseArgumentsAsOptions(Type optionsType, string argumentString, out ParseResults results)
         {
             if (string.IsNullOrWhiteSpace(argumentString))
             {
-                results = default(ParseResults<T>);
+                results = default(ParseResults);
                 return false;
             }
 
-            results = new ParseResults<T>
+            results = new ParseResults
             {
-                Options = Activator.CreateInstance<T>()
+                Options = Activator.CreateInstance(optionsType)
             };
-            var allOptions = GetAllOptions<T>();
+            var allOptions = GetAllOptions(optionsType);
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
-            _defaultArgumentParserService.SetDefaultOption<T>(
+            _defaultArgumentParserService.SetDefaultOption(
+                optionsType,
                 results.Options,
                 allOptions,
                 ref argumentString,
                 allSetOptions);
 
-            _optionalArgumentSetterSevice.SetOptionalValues<T>(
+            _optionalArgumentSetterSevice.SetOptionalValues(
+                optionsType,
                 results.Options,
                 allOptions);
 
@@ -77,10 +87,10 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             return !missingRequired.Any();
         }
 
-        private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions<T>()
+        private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions(Type optionsType)
         {
             var propeties = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
-            var allProperties = typeof(T).GetProperties();
+            var allProperties = optionsType.GetProperties();
             foreach (var curProperty in allProperties)
             {
                 var optionAttribute = (CommandLineParserOptionAttribute)curProperty.GetCustomAttributes(typeof(CommandLineParserOptionAttribute), true).FirstOrDefault();

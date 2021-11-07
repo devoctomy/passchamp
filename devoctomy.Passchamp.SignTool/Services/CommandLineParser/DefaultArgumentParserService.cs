@@ -13,9 +13,23 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
         {
             _propertyValueSetter = propertyValueSetter;
         }
-
         public void SetDefaultOption<T>(
             T optionsInstance,
+            Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
+            ref string argumentString,
+            List<CommandLineParserOptionAttribute> allSetOptions)
+        {
+            SetDefaultOption(
+                typeof(T),
+                optionsInstance,
+                allOptions,
+                ref argumentString,
+                allSetOptions);
+        }
+
+        public void SetDefaultOption(
+            Type optionsType,
+            object optionsInstance,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
             ref string argumentString,
             List<CommandLineParserOptionAttribute> allSetOptions)

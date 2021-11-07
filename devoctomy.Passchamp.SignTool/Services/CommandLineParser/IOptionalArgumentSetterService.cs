@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
@@ -7,6 +8,11 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
     {
         void SetOptionalValues<T>(
             T optionsInstance,
+            Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions);
+
+        void SetOptionalValues(
+            Type optionsType,
+            object optionsInstance,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions);
     }
 }

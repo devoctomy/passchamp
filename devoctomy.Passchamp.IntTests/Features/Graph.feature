@@ -2,6 +2,7 @@
 
 Method of building up many small actions into a larger, more complex task.
 
+@graph
 Scenario: 01) Encrypt string using a password and write to disk
 	Given A new dictionary of nodes
 	And RandomByteGeneratorNode named <SaltGeneratorNodeName> with a length of <SaltLength> and NextKey of <IvGeneratorNodeName>
