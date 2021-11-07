@@ -13,7 +13,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         [InlineData("Hello", typeof(DataPin<string>))]
         [InlineData(false, typeof(DataPin<bool>))]
         [InlineData(new[]{ (byte)0, (byte)1, (byte)2 }, typeof(DataPin<byte[]>))]
-        public void GivenName_AndSupportedValue_WhenCreate_ThenPinOfCorrectTypeCreated(
+        [InlineData(110.5d, typeof(DataPin<double>))]
+        public void GivenName_AndSupportedValue_WhenCreate_ThenPinOfCorrectTypeCreated_AndValueCorrect(
             object value,
             Type dataPinType)
         {
@@ -26,6 +27,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
 
             //Assert
             Assert.Equal(dataPinType, result.GetType());
+            Assert.Equal(value, result.ObjectValue);
         }
 
         [Theory]
