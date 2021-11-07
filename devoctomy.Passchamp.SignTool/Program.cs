@@ -1,29 +1,16 @@
 ﻿using devoctomy.Passchamp.SignTool.Services;
 using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
-        public class PreOptions
-        {
-            [CommandLineParserOption(Required = true, ShortName = "m", LongName = "mode", IsDefault = true)]
-            public string Mode { get; set; }
-        }
-
-        public class GenerateOptions : PreOptions
-        {
-            [CommandLineParserOption(Required = false, ShortName = "l", LongName = "length", DefaultValue = 1024)]
-            public int KeyLength { get; set; }
-
-            [CommandLineParserOption(Required = false, ShortName = "v", LongName = "verbose", DefaultValue = false)]
-            public bool Verbose { get; set; }
-        }
-
         static async Task<int> Main(string[] args)
         {
             var curExePath = Assembly.GetEntryAssembly().Location;

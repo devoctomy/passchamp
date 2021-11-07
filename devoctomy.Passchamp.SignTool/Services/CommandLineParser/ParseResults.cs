@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
+    [ExcludeFromCodeCoverage]
     public class ParseResults
     {
         public object Options { get; set; }
