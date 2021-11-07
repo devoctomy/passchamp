@@ -73,6 +73,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                 allOptions);
 
             _argumentMapper.MapArguments(
+                optionsType,
                 results.Options,
                 allOptions,
                 argumentString,

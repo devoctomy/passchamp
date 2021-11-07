@@ -5,11 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Data\01-parse-options.json" />
+    <None Remove="Data\01-parse-options_1.json" />
+    <None Remove="Data\01-parse-options_2.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Data\01-parse-options.json">
+    <Content Include="Data\01-parse-options_2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\01-parse-options_1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

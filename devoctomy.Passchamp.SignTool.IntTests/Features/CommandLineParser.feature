@@ -13,5 +13,6 @@ Scenario: 01) Correctly parse arguments string to options instance
 
 	Examples:
 
-	| Arguments                                | OptionsType                                                        | ExpectedOptionsFile        |
-	| helloworld -b=true -i=2 -f=5.55 -o=pants | devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions | Data/01-parse-options.json |
+	| Case | Arguments                                       | OptionsType                                                        | ExpectedOptionsFile          |
+	| 1    | helloworld -b=true -i=2 -f=5.55 -o=pants        | devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions | Data/01-parse-options_1.json |
+	| 2    | -s=helloworld --b=true --i=2 --f=5.55 --o=pants | devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions | Data/01-parse-options_2.json |

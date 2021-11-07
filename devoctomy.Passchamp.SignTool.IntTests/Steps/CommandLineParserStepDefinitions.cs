@@ -87,8 +87,14 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
             Type objectType = a.GetType();
             var properies = objectType.GetProperties();
             foreach (var property in properies)
-                if (!property.GetValue(a, null).Equals(property.GetValue(b, null)))
+            {
+                var aVal = property.GetValue(a, null);
+                var bVal = property.GetValue(b, null);
+                if ((aVal != null && bVal != null) && !aVal.Equals(bVal))
+                {
                     yield return property;
+                }
+            }
         }
     }
 }

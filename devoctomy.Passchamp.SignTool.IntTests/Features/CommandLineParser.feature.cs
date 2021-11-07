@@ -84,8 +84,9 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
         [Xunit.TraitAttribute("FeatureTitle", "CommandLineParser")]
         [Xunit.TraitAttribute("Description", "01) Correctly parse arguments string to options instance")]
         [Xunit.TraitAttribute("Category", "mytag")]
-        [Xunit.InlineDataAttribute("helloworld -b=true -i=2 -f=5.55 -o=pants", "devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions", "Data/01-parse-options.json", new string[0])]
-        public virtual void _01CorrectlyParseArgumentsStringToOptionsInstance(string arguments, string optionsType, string expectedOptionsFile, string[] exampleTags)
+        [Xunit.InlineDataAttribute("1", "helloworld -b=true -i=2 -f=5.55 -o=pants", "devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions", "Data/01-parse-options_1.json", new string[0])]
+        [Xunit.InlineDataAttribute("2", "-s=helloworld --b=true --i=2 --f=5.55 --o=pants", "devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions", "Data/01-parse-options_2.json", new string[0])]
+        public virtual void _01CorrectlyParseArgumentsStringToOptionsInstance(string @case, string arguments, string optionsType, string expectedOptionsFile, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "mytag"};
@@ -95,6 +96,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
             }
             string[] tagsOfScenario = @__tags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Case", @case);
             argumentsOfScenario.Add("Arguments", arguments);
             argumentsOfScenario.Add("OptionsType", optionsType);
             argumentsOfScenario.Add("ExpectedOptionsFile", expectedOptionsFile);

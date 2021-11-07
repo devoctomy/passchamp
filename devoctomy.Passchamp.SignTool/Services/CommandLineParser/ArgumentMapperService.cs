@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -20,9 +21,23 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             _singleArgumentParserService = singleArgumentParserService;
             _propertyValueSetter = propertyValueSetter;
         }
-
         public void MapArguments<T>(
             T optionsInstance,
+            Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
+            string argumentString,
+            List<CommandLineParserOptionAttribute> allSetOptions)
+        {
+            MapArguments(
+                typeof(T),
+                optionsInstance,
+                allOptions,
+                argumentString,
+                allSetOptions);
+        }
+
+        public void MapArguments(
+            Type optionsType,
+            object optionsInstance,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
             string argumentString,
             List<CommandLineParserOptionAttribute> allSetOptions)
