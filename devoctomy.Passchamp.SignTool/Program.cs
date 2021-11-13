@@ -13,8 +13,8 @@ namespace devoctomy.Passchamp.SignTool
     {
         static async Task<int> Main(string[] args)
         {
-            var curExePath = Assembly.GetEntryAssembly().Location;
-            var arguments = Environment.CommandLine.Replace(curExePath, string.Empty).Trim();
+            var commandLine = new CommandLineArgumentsService();
+            var arguments = commandLine.GetArguments(Environment.CommandLine);
             var commandLineParser = CommandLineParserService.CreateDefaultInstance();
             if(commandLineParser.TryParseArgumentsAsOptions<PreOptions>(arguments, out var preOptions))
             {
