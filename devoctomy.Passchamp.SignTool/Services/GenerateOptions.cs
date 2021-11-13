@@ -1,7 +1,7 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using System.Diagnostics.CodeAnalysis;
 
-namespace devoctomy.Passchamp.SignTool
+namespace devoctomy.Passchamp.SignTool.Services
 {
     [ExcludeFromCodeCoverage]
     public class GenerateOptions : PreOptions

@@ -4,38 +4,45 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.SignTool
+namespace devoctomy.Passchamp.SignTool.Services
 {
     public class SignToolProgram : IProgram
     {
         private readonly ICommandLineArgumentService _commandLineArgumentService;
         private readonly ICommandLineParserService _commandLineParserService;
+        private readonly IGenerateService _generateService;
 
         public SignToolProgram(
             ICommandLineArgumentService commandLineArgumentService,
-            ICommandLineParserService commandLineParserService)
+            ICommandLineParserService commandLineParserService,
+            IGenerateService generateService)
         {
             _commandLineArgumentService = commandLineArgumentService;
             _commandLineParserService = commandLineParserService;
+            _generateService = generateService;
         }
 
-        public async Task Run()
+        public async Task<int> Run()
         {
             var arguments = _commandLineArgumentService.GetArguments(Environment.CommandLine);
-            if (_commandLineParserService.TryParseArgumentsAsOptions<PreOptions>(arguments, out var preOptions))
+            if (_commandLineParserService.TryParseArgumentsAsOptions(typeof(PreOptions), arguments, out var preOptions))
             {
                 switch (preOptions.OptionsAs<PreOptions>().Mode.ToLower())
                 {
                     case "generate":
                         {
-                            if (_commandLineParserService.TryParseArgumentsAsOptions<GenerateOptions>(arguments, out var generateOptions))
+                            if (_commandLineParserService.TryParseArgumentsAsOptions(
+                                typeof(GenerateOptions),
+                                arguments,
+                                out var generateOptions))
                             {
-                                await Generate(generateOptions.OptionsAs<GenerateOptions>());
+                                return await _generateService.Generate(generateOptions.OptionsAs<GenerateOptions>());
                             }
                             else
                             {
                                 Console.WriteLine($"{generateOptions.Exception.Message}");
                             }
+
                             break;
                         }
 
@@ -60,40 +67,8 @@ namespace devoctomy.Passchamp.SignTool
             {
                 Console.WriteLine($"{preOptions.Exception.Message}");
             }
-        }
 
-        private static async Task<int> Generate(GenerateOptions options)
-        {
-            if (options.Verbose)
-            {
-                Console.WriteLine($"Attempting to generate {options.KeyLength} bit key pair.");
-            }
-
-            var keyGenerator = new RsaKeyGeneratorService();
-            keyGenerator.Generate(
-                options.KeyLength,
-                out var privateKey,
-                out var publicKey);
-
-            if (options.Verbose)
-            {
-                Console.WriteLine($"Writing private key.");
-            }
-
-            await File.WriteAllTextAsync(
-                "privatekey.json",
-                privateKey);
-
-            if (options.Verbose)
-            {
-                Console.WriteLine($"Writing public key.");
-            }
-
-            await File.WriteAllTextAsync(
-                "publickey.json",
-                publicKey);
-
-            return 0;
+            return -1;
         }
     }
 }

@@ -4,8 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool
@@ -13,12 +11,12 @@ namespace devoctomy.Passchamp.SignTool
     [ExcludeFromCodeCoverage]
     public class Program
     {
-        static async Task Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
             using IHost host = CreateHostBuilder(null).Build();
 
             var program = host.Services.GetService<IProgram>(); ;
-            await program.Run();
+            return await program.Run();
         }
 
         static IHostBuilder CreateHostBuilder(string[] args) =>

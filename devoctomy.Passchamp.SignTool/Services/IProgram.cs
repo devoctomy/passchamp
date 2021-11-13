@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.SignTool
+namespace devoctomy.Passchamp.SignTool.Services
 {
     public interface IProgram
     {
-        Task Run();
+        Task<int> Run();
     }
 }
