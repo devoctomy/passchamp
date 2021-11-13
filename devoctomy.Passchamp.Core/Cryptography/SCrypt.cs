@@ -38,8 +38,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
     {
         #region Fields
 
-        private readonly static RandomNumberGenerator DefaultSaltGenereator = new RNGCryptoServiceProvider();
-
         private const int SaltLength = 32;
         private const int DefaultIterationCount = 16384;
         private const int DefaultBlockSize = 8;
