@@ -82,6 +82,37 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
         }
 
         [Fact]
+        public async Task GivenArguments_AndUnknownMode_WhenRun_ThenErrorCodeReturned()
+        {
+            // Arrange
+            var mockCommandLineArgumentService = new Mock<ICommandLineArgumentService>();
+            var mockCommandLineParserService = new Mock<ICommandLineParserService>();
+            var mockGenerateService = new Mock<IGenerateService>();
+            var sut = new SignToolProgram(
+                mockCommandLineArgumentService.Object,
+                mockCommandLineParserService.Object,
+                mockGenerateService.Object);
+
+            var preOptions = new ParseResults
+            {
+                Options = new PreOptions
+                {
+                    Mode = "pop"
+                }
+            };
+            mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
+                It.Is<Type>(y => y == typeof(PreOptions)),
+                It.IsAny<string>(),
+                out preOptions)).Returns(true);
+
+            // Act
+            var result = await sut.Run();
+
+            // Assert
+            Assert.Equal(-1, result);
+        }
+
+        [Fact]
         public async Task GivenGenerateArguments_WhenRun_ThenGenerateArgumentsParsed_AndGenerateRun_AndResultsReturned()
         {
             // Arrange
