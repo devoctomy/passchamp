@@ -102,7 +102,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             {
                 WordLists = new Dictionary<string, List<string>>
                 {
-                    { "fruits", new List<string> { "apple", "orange", "banana", "pear" } }
+                    { "fruits", new List<string> { "aPPLE", "oRANGE", "bANANA", "pEAR" } }
                 }
             };
             var sut = new MemorablePasswordWordListSectionGenerator(new RandomNumericGenerator());
@@ -111,8 +111,14 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             var result = sut.Generate(context, "fruits_rc");
 
             // Assert
-            Assert.DoesNotContain(result, context.WordLists["fruits"].Select(x => x.ToLower()));
-            Assert.Contains(result.ToLower(), context.WordLists["fruits"].Select(x => x.ToLower()));
+            // Can we add another assertion in here?
+            var allLowerCase = context.WordLists["fruits"].Select(x => x.ToLower()).ToList();
+            var allUpperCase = context.WordLists["fruits"].Select(x => x.ToLower()).ToList();
+            var allInitialCaps = context.WordLists["fruits"].Select(x => x[0].ToString().ToUpper() + x.Substring(1)).ToList();
+            Assert.True(
+                allLowerCase.Contains(result) ||
+                allUpperCase.Contains(result) ||
+                allInitialCaps.Contains(result));
         }
 
         [Fact]
