@@ -67,26 +67,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             Assert.Equal(constructedDataPinType, result.GetType());
         }
 
-        [Theory]
-        [InlineData(typeof(int))]
-        [InlineData(typeof(bool))]
-        [InlineData(typeof(string))]
-        public void GivenName_AndUnsupportedGenericListValue_WhenCreate_ThenNotSupportedExceptionThrown(Type listType)
-        {
-            //Arrange
-            var genericListType = typeof(List<>);
-            var constructedListType = genericListType.MakeGenericType(listType);
-            var value = Activator.CreateInstance(constructedListType);
-
-            //Act & Assert
-            Assert.ThrowsAny<NotSupportedException>(() =>
-            {
-                var result = DataPinFactory.Instance.Create(
-                    "Test",
-                    value);
-            });
-        }
-
         [Fact]
         public void GivenName_AndNull_WhenCreate_ThenArgumentExceptionThrown()
         {

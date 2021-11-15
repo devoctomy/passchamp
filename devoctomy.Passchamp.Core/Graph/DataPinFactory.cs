@@ -7,6 +7,19 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public class DataPinFactory : IDataPinFactory
     {
+        private readonly Dictionary<string, Type> _typeMap = new Dictionary<string, Type>
+        {
+            { "Boolean", typeof(bool) },
+            { "String", typeof(string) },
+            { "Int32", typeof(int) },
+            { "Single", typeof(float) },
+            { "Double", typeof(double) },
+            { "Byte[]", typeof(byte[]) },
+            { "DataPinIntermediateValue", typeof(DataPinIntermediateValue) },
+            { "DataParserSection", typeof(DataParserSection) },
+            { "Vault", typeof(Core.Vault.Vault) }
+        };
+
         private static IDataPinFactory _instance;
 
         public static IDataPinFactory Instance
@@ -42,78 +55,39 @@ namespace devoctomy.Passchamp.Core.Graph
             object value,
             Type valueType)
         {
-            switch (valueType.Name)
+            if(_typeMap.TryGetValue(valueType.Name, out var type))
             {
-                case "Boolean":
-                    {
-                        return new DataPin<bool>(
-                            name,
-                            (bool)value);
-                    }
-                case "String":
-                    {
-                        return new DataPin<string>(
-                            name,
-                            (string)value);
-                    }
-                case "Int32":
-                    {
-                        return new DataPin<int>(
-                            name,
-                            (int)value);
-                    }
-                case "Single":
-                    {
-                        return new DataPin<float>(
-                            name,
-                            (float)value);
-                    }
-                case "Double":
-                    {
-                        return new DataPin<double>(
-                            name,
-                            (double)value);
-                    }
-                case "Byte[]":
-                    {
-                        return new DataPin<byte[]>(
-                            name,
-                            (byte[])value);
-                    }
-                case "DataPinIntermediateValue":
-                    {
-                        return new DataPin<DataPinIntermediateValue>(
-                            name,
-                            (DataPinIntermediateValue)value);
-                    }
-                case "List`1":
-                    {
-                        var typeName = valueType.GenericTypeArguments[0].Name;
-                        switch(typeName)
-                        {
-                            case "DataParserSection":
-                                {
-                                    return new DataPin<List<DataParserSection>>(
-                                        name,
-                                        (List<DataParserSection>)value);
-                                }
-                            default:
-                                {
-                                    throw new NotSupportedException($"Generic list of type {typeName} not supported.");
-                                }
-                        }
-                    }
-                case "Vault":
-                    {
-                        return new DataPin<Core.Vault.Vault>(
-                            name,
-                            (Core.Vault.Vault)value);
-                    }
-                default:
-                    {
-                        throw new NotSupportedException($"Value type {valueType.Name} not supported.");
-                    }
+                var typeArgs = new []{ type };
+                Type dataPinGenericType = typeof(DataPin<>);
+                Type dataPinType = dataPinGenericType.MakeGenericType(typeArgs);
+
+                return (IPin)Activator.CreateInstance(
+                    dataPinType,
+                    name,
+                    value);
             }
+
+            if(valueType.Name == "List`1")
+            {
+                var listTypeName = valueType.GenericTypeArguments[0].Name;
+                if (_typeMap.TryGetValue(listTypeName, out var listType))
+                {
+                    var dataPinListTypeArgs = new[] { listType };
+                    Type listGenericType = typeof(List<>);
+                    Type datapinListType = listGenericType.MakeGenericType(dataPinListTypeArgs);
+                    Type dataPinGenericType = typeof(DataPin<>);
+
+                    var dataPinTypeArgs = new[] { datapinListType };
+                    Type dataPinType = dataPinGenericType.MakeGenericType(dataPinTypeArgs);
+
+                    return (IPin)Activator.CreateInstance(
+                        dataPinType,
+                        name,
+                        value);
+                }
+            }
+
+            throw new NotSupportedException($"Value type {valueType.Name} not supported.");
         }
     }
 }

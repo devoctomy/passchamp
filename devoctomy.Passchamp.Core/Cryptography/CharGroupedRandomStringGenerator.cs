@@ -27,14 +27,15 @@ namespace devoctomy.Passchamp.Core.Cryptography
             var random = _simpleRandomStringGenerator.GenerateRandomStringFromChars(allChars, length);
 
             var groupCount = 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Lowercase)) ? 1 : 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Uppercase)) ? 1 : 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Digits)) ? 1 : 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Minus)) ? 1 : 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Underline)) ? 1 : 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Space)) ? 1 : 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Brackets)) ? 1 : 0;
-            groupCount += (charSelection.HasFlag(ICharGroupedRandomStringGenerator.CharSelection.Other)) ? 1 : 0;
+            foreach(var curCharSelection in Enum.GetValues<ICharGroupedRandomStringGenerator.CharSelection>())
+            {
+                if(curCharSelection == ICharGroupedRandomStringGenerator.CharSelection.All)
+                {
+                    continue;
+                }
+
+                groupCount += (charSelection.HasFlag(curCharSelection)) ? 1 : 0;
+            }
 
             if (atLeastOneOfEachGroup && length < groupCount)
             {
@@ -45,16 +46,13 @@ namespace devoctomy.Passchamp.Core.Cryptography
             while (fixing)
             {
                 fixing = false;
-                foreach (var curGroup in groups)
+                foreach (var curGroup in groups.Where(x => !StringContainsOneOf(random, x.Chars)))
                 {
-                    if (!StringContainsOneOf(random, curGroup.Chars))
-                    {
-                        fixing = true;
-                        var single = _simpleRandomStringGenerator.GenerateRandomStringFromChars(curGroup.Chars, 1);
-                        var index = _randomNumericGenerator.GenerateInt(1, random.Length) - 1;
-                        random = random.Remove(index, 1);
-                        random = random.Insert(index, single);
-                    }
+                    fixing = true;
+                    var single = _simpleRandomStringGenerator.GenerateRandomStringFromChars(curGroup.Chars, 1);
+                    var index = _randomNumericGenerator.GenerateInt(1, random.Length) - 1;
+                    random = random.Remove(index, 1);
+                    random = random.Insert(index, single);
                 }
             }
 
