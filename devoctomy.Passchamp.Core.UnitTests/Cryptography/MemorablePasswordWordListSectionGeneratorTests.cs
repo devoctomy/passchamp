@@ -111,7 +111,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             var result = sut.Generate(context, "fruits_rc");
 
             // Assert
-            // Can we add another assertion in here?
             var allLowerCase = context.WordLists["fruits"].Select(x => x.ToLower()).ToList();
             var allUpperCase = context.WordLists["fruits"].Select(x => x.ToLower()).ToList();
             var allInitialCaps = context.WordLists["fruits"].Select(x => x[0].ToString().ToUpper() + x.Substring(1)).ToList();
