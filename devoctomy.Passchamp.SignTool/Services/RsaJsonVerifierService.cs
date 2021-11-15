@@ -20,8 +20,7 @@ namespace devoctomy.Passchamp.SignTool.Services
             }
 
             var signature = (JObject)json["Signature"];
-            if (
-                !signature.ContainsKey("Algorithm") ||
+            if (!signature.ContainsKey("Algorithm") ||
                 signature["Algorithm"].Value<string>() != "RsaJsonSigner" ||
                 !signature.ContainsKey("Signature"))
             {
