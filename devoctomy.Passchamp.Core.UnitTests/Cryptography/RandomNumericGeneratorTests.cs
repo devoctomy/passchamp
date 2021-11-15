@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Cryptography.Random;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -12,7 +13,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
         [InlineData(-100, 100)]
         [InlineData(-100, -50)]
         [InlineData(0, 1)]
-        [InlineData(0, 0)]
         public void GivenMin_AndMax_WhenGenerateInt_ThenIntGeneratedWithinRange(
             int min,
             int max)

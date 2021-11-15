@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace devoctomy.Passchamp.Core.Cryptography
+namespace devoctomy.Passchamp.Core.Cryptography.Random
 {
     public class MemorablePasswordWordListSectionGenerator : IMemorablePasswordSectionGenerator
     {

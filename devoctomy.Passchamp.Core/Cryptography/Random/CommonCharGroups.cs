@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace devoctomy.Passchamp.Core.Cryptography
+namespace devoctomy.Passchamp.Core.Cryptography.Random
 {
     [ExcludeFromCodeCoverage]
     public static class CommonCharGroups

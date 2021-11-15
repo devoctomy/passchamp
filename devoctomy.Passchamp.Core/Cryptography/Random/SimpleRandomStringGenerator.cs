@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace devoctomy.Passchamp.Core.Cryptography
+namespace devoctomy.Passchamp.Core.Cryptography.Random
 {
     public class SimpleRandomStringGenerator : ISimpleRandomStringGenerator
     {

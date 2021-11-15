@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Cryptography.Random;
 using System;
 using Xunit;
 

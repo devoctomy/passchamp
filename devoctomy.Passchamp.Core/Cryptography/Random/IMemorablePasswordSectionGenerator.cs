@@ -1,4 +1,4 @@
-﻿namespace devoctomy.Passchamp.Core.Cryptography
+﻿namespace devoctomy.Passchamp.Core.Cryptography.Random
 {
     public interface IMemorablePasswordSectionGenerator
     {

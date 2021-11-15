@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace devoctomy.Passchamp.Core.Cryptography
+namespace devoctomy.Passchamp.Core.Cryptography.Random
 {
     public class RandomNumericGenerator : IRandomNumericGenerator
     {
@@ -18,10 +18,7 @@ namespace devoctomy.Passchamp.Core.Cryptography
             int min,
             int max)
         {
-            var fraction = GenerateDouble();
-            var range = max - min;
-            var retVal = min + (int)(fraction * range);
-            return ((int)retVal);
+            return RandomNumberGenerator.GetInt32(min, max);
         }
     }
 }

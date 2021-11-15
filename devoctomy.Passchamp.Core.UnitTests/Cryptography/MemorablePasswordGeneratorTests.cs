@@ -1,4 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Cryptography.Random;
+using devoctomy.Passchamp.Core.Data;
 using Moq;
 using System;
 using System.Collections.Generic;

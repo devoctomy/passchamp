@@ -1,4 +1,4 @@
-﻿namespace devoctomy.Passchamp.Core.Cryptography
+﻿namespace devoctomy.Passchamp.Core.Data
 {
     public class WordListLoaderConfig
     {
