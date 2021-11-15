@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -100,6 +101,34 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             {
                 sut.GenerateString(charSelection, length, true);
             });
+        }
+
+        [Theory]
+        [InlineData(ICharGroupedRandomStringGenerator.CharSelection.All, 12)]
+        [InlineData(ICharGroupedRandomStringGenerator.CharSelection.Uppercase, 12)]
+        [InlineData(ICharGroupedRandomStringGenerator.CharSelection.Digits, 12)]
+        public void GivenAllCharGroups_AndLength_WhenGenerate100Strings_ThenAllStringsDifferent(
+            ICharGroupedRandomStringGenerator.CharSelection charSelection,
+            int length)
+        {
+            // Arrange
+            var randomNumericGenerator = new RandomNumericGenerator();
+            var sut = new CharGroupedRandomStringGenerator(
+                new SimpleRandomStringGenerator(randomNumericGenerator),
+                randomNumericGenerator);
+
+            // Act
+            var results = new List<string>();
+            while(results.Count < 101)
+            {
+                results.Add(sut.GenerateString(
+                    charSelection,
+                    length,
+                    true));
+            }
+
+            // Assert
+            Assert.Equal(results.Count, results.Distinct().Count());
         }
     }
 }
