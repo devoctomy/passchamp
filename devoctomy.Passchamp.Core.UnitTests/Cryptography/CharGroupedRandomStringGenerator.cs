@@ -103,6 +103,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             });
         }
 
+        /// <summary>
+        /// This test may occasionally fail, due to the fact it could randomly generate 2 strings the same.
+        /// </summary>
         [Theory]
         [InlineData(ICharGroupedRandomStringGenerator.CharSelection.All, 12)]
         [InlineData(ICharGroupedRandomStringGenerator.CharSelection.Uppercase, 12)]
