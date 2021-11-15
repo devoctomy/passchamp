@@ -14,6 +14,8 @@
     <None Remove="Data\pins1.json" />
     <None Remove="Data\TestInputFile1.txt" />
     <None Remove="Data\TestOutputFile1.txt" />
+    <None Remove="Data\WordLists\colours.txt" />
+    <None Remove="Data\WordLists\fruits.txt" />
     <None Remove="Output\DontDeleteMe.txt" />
   </ItemGroup>
 
@@ -37,6 +39,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\TestOutputFile1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\WordLists\colours.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\WordLists\fruits.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Output\DontDeleteMe.txt">
