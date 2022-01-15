@@ -9,6 +9,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
         public object DefaultValue { get; set; } 
         public bool Required { get; set; }
         public bool IsDefault { get; set; }
+        public string DisplayName { get; set; }
         public string HelpText { get; set; }
     }
 }

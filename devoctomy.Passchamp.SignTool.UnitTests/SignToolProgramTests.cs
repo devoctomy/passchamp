@@ -19,7 +19,8 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             var sut = new SignToolProgram(
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
-                mockGenerateService.Object);
+                mockGenerateService.Object,
+                Mock.Of<IHelpMessageFormatter>());
 
             var options = new ParseResults
             {
@@ -47,13 +48,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             var sut = new SignToolProgram(
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
-                mockGenerateService.Object);
+                mockGenerateService.Object,
+                Mock.Of<IHelpMessageFormatter>());
 
             var preOptions = new ParseResults
             {
                 Options = new PreOptions
                 {
-                    Mode = Mode.Generate
+                    Command = Command.Generate
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -82,7 +84,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
         }
 
         [Fact]
-        public async Task GivenArguments_AndUnknownMode_WhenRun_ThenErrorCodeReturned()
+        public async Task GivenArguments_AndUnknownCommand_WhenRun_ThenErrorCodeReturned()
         {
             // Arrange
             var mockCommandLineArgumentService = new Mock<ICommandLineArgumentService>();
@@ -91,13 +93,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             var sut = new SignToolProgram(
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
-                mockGenerateService.Object);
+                mockGenerateService.Object,
+                Mock.Of<IHelpMessageFormatter>());
 
             var preOptions = new ParseResults
             {
                 Options = new PreOptions
                 {
-                    Mode = Mode.None
+                    Command = Command.None
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -122,13 +125,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             var sut = new SignToolProgram(
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
-                mockGenerateService.Object);
+                mockGenerateService.Object,
+                Mock.Of<IHelpMessageFormatter>());
 
             var preOptions = new ParseResults
             {
                 Options = new PreOptions
                 {
-                    Mode = Mode.Generate
+                    Command = Command.Generate
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -140,7 +144,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             {
                 Options = new GenerateOptions
                 {
-                    Mode = Mode.Generate
+                    Command = Command.Generate
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -171,13 +175,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             var sut = new SignToolProgram(
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
-                mockGenerateService.Object);
+                mockGenerateService.Object,
+                Mock.Of<IHelpMessageFormatter>());
 
             var preOptions = new ParseResults
             {
                 Options = new PreOptions
                 {
-                    Mode = Mode.Sign
+                    Command = Command.Sign
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -202,13 +207,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             var sut = new SignToolProgram(
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
-                mockGenerateService.Object);
+                mockGenerateService.Object,
+                Mock.Of<IHelpMessageFormatter>());
 
             var preOptions = new ParseResults
             {
                 Options = new PreOptions
                 {
-                    Mode = Mode.Verify
+                    Command = Command.Verify
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(

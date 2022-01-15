@@ -11,10 +11,10 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
         [InlineData("IntValue", "199", "199")]
         [InlineData("BoolValue", "True", "True")]
         [InlineData("FloatValue", "1.4", "1.4")]
-        [InlineData("EnumValue", "Apple", "Apple")]
-        [InlineData("EnumValue", "Orange", "Orange")]
-        [InlineData("EnumValue", "Pear", "Pear")]
-        [InlineData("EnumValue", "Banana", "None")]
+        [InlineData("OptionalEnumValue", "Apple", "Apple")]
+        [InlineData("OptionalEnumValue", "Orange", "Orange")]
+        [InlineData("OptionalEnumValue", "Pear", "Pear")]
+        [InlineData("OptionalEnumValue", "Banana", "None")]
         public void GivenOptionsInstance_AndProperty_AndValue_WhenSetPropertyValue_ThenPropertyValueSet(
             string propertyName,
             string value,

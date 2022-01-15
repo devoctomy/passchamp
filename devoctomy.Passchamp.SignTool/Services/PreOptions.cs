@@ -6,7 +6,13 @@ namespace devoctomy.Passchamp.SignTool.Services
     [ExcludeFromCodeCoverage]
     public class PreOptions
     {
-        [CommandLineParserOption(Required = true, ShortName = "m", LongName = "mode", IsDefault = true, HelpText = "Mode of operation")]
-        public Mode Mode { get; set; }
+        [CommandLineParserOption(
+            Required = true,
+            ShortName = "c",
+            LongName = "command",
+            IsDefault = true,
+            DisplayName = "Command",
+            HelpText = "Command to perform")]
+        public Command Command { get; set; }
     }
 }

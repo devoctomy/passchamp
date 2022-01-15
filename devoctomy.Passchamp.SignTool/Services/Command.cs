@@ -1,6 +1,6 @@
 ﻿namespace devoctomy.Passchamp.SignTool.Services
 {
-    public enum Mode
+    public enum Command
     {
         None = 0,
         Generate = 1,

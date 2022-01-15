@@ -24,7 +24,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             AddProperty(typeof(CommandLineTestOptions), "IntValue", allOptions);
             AddProperty(typeof(CommandLineTestOptions), "FloatValue", allOptions);
             AddProperty(typeof(CommandLineTestOptions), "OptionalStringValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "EnumValue", allOptions);
+            AddProperty(typeof(CommandLineTestOptions), "OptionalEnumValue", allOptions);
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
             mockPropertyValueSetterService.Setup(x => x.SetPropertyValue(

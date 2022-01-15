@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.SignTool.Services
@@ -11,15 +12,18 @@ namespace devoctomy.Passchamp.SignTool.Services
         private readonly ICommandLineArgumentService _commandLineArgumentService;
         private readonly ICommandLineParserService _commandLineParserService;
         private readonly IGenerateService _generateService;
+        private readonly IHelpMessageFormatter _helpMessageFormatter;
 
         public SignToolProgram(
             ICommandLineArgumentService commandLineArgumentService,
             ICommandLineParserService commandLineParserService,
-            IGenerateService generateService)
+            IGenerateService generateService,
+            IHelpMessageFormatter helpMessageFormatter)
         {
             _commandLineArgumentService = commandLineArgumentService;
             _commandLineParserService = commandLineParserService;
             _generateService = generateService;
+            _helpMessageFormatter = helpMessageFormatter;
         }
 
         public async Task<int> Run()
@@ -27,9 +31,9 @@ namespace devoctomy.Passchamp.SignTool.Services
             var arguments = _commandLineArgumentService.GetArguments(Environment.CommandLine);
             if (_commandLineParserService.TryParseArgumentsAsOptions(typeof(PreOptions), arguments, out var preOptions))
             {
-                switch (preOptions.OptionsAs<PreOptions>().Mode)
+                switch (preOptions.OptionsAs<PreOptions>().Command)
                 {
-                    case Mode.Generate:
+                    case Command.Generate:
                         {
                             if (_commandLineParserService.TryParseArgumentsAsOptions(
                                 typeof(GenerateOptions),
@@ -46,26 +50,32 @@ namespace devoctomy.Passchamp.SignTool.Services
                             break;
                         }
 
-                    case Mode.Sign:
+                    case Command.Sign:
                         {
                             throw new NotImplementedException();
                         }
 
-                    case Mode.Verify:
+                    case Command.Verify:
                         {
                             throw new NotImplementedException();
                         }
 
                     default:
                         {
-                            Console.WriteLine($"Mode {preOptions.OptionsAs<PreOptions>().Mode} not yet implemented.");
+                            Console.WriteLine($"Command {preOptions.OptionsAs<PreOptions>().Command} not yet implemented.");
                             break;
                         }
                 }
             }
             else
             {
-                Console.WriteLine($"Display help message...");
+                string strExeFilePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+                var helpMessage = _helpMessageFormatter.Format<PreOptions>();
+                var message = new StringBuilder();
+                message.AppendLine($"Invalid command line '{Environment.CommandLine}'.");
+                message.AppendLine($"Usage: {new FileInfo(strExeFilePath).Name} [command] [command_options]");
+                message.Append(helpMessage);
+                Console.WriteLine(message);
             }
 
             return -1;

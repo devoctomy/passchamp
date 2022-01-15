@@ -1,0 +1,31 @@
+﻿Available Options
+	Required
+		Name:	String
+		Some required string value.
+
+		Name:	Boolean
+		Short:	-b
+		Long:	--bool
+		Some required bool value.
+
+		Name:	Integer
+		Short:	-i
+		Long:	--int
+		Some required int value
+
+		Name:	Floating Point
+		Short:	-f
+		Long:	--float
+		Some required float value
+
+	Optional
+		Name:	Optional String
+		Short:	-o
+		Long:	--optstring
+		Some optional string value
+
+		Name:	Optional Enum
+		Short:	-e
+		Long:	--enum
+		Some optional enum value
+
