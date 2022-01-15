@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\CommandLineTestOptionsHelpMessage.txt" />
     <None Remove="Data\InvalidAlgorithmSignedJson.json" />
     <None Remove="Data\InvalidSignatureSignedJson.json" />
     <None Remove="Data\MissingSignatureSignedJson.json" />
@@ -17,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Data\CommandLineTestOptionsHelpMessage.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\MissingSignatureSignedJson.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

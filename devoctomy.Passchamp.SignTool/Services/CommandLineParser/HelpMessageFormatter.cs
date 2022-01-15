@@ -21,26 +21,27 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             foreach (var curProperty in allProperties)
             {
                 var optionAttribute = (CommandLineParserOptionAttribute)curProperty.GetCustomAttributes(typeof(CommandLineParserOptionAttribute), true).FirstOrDefault();
-                if (optionAttribute != null && !string.IsNullOrWhiteSpace(optionAttribute.HelpText))
+                if (optionAttribute == null || string.IsNullOrWhiteSpace(optionAttribute.HelpText))
                 {
-                    var option = new StringBuilder();
-                    option.AppendLine($"\t\tName:\t{optionAttribute.DisplayName}");
-                    if(!optionAttribute.IsDefault)
-                    {
-                        option.AppendLine($"\t\tShort:\t-{optionAttribute.ShortName}");
-                        option.AppendLine($"\t\tLong:\t--{optionAttribute.LongName}");
-                    }
+                    continue;
+                }
 
-                    option.AppendLine($"\t\t{optionAttribute.HelpText}");
+                var option = new StringBuilder();
+                option.AppendLine($"\t\tName:\t{optionAttribute.DisplayName}");
+                if(!optionAttribute.IsDefault)
+                {
+                    option.AppendLine($"\t\tShort:\t-{optionAttribute.ShortName}");
+                    option.AppendLine($"\t\tLong:\t--{optionAttribute.LongName}");
+                }
 
-                    if (optionAttribute.Required)
-                    {
-                        requiredOptions.AppendLine(option.ToString());
-                    }
-                    else
-                    {
-                        optionalOptions.AppendLine(option.ToString());
-                    }
+                option.AppendLine($"\t\t{optionAttribute.HelpText}");
+                if (optionAttribute.Required)
+                {
+                    requiredOptions.AppendLine(option.ToString());
+                }
+                else
+                {
+                    optionalOptions.AppendLine(option.ToString());
                 }
             }
 
