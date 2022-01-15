@@ -1,11 +1,10 @@
-﻿using devoctomy.Passchamp.Core.Cryptography;
-using devoctomy.Passchamp.Core.Cryptography.Random;
+﻿using devoctomy.Passchamp.Core.Cryptography.Random;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
+namespace devoctomy.Passchamp.Core.UnitTests.Cryptography.Random
 {
     public class MemorablePasswordWordListSectionGeneratorTests
     {

@@ -7,13 +7,16 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
     {
         private readonly ISimpleRandomStringGenerator _simpleRandomStringGenerator;
         private readonly IRandomNumericGenerator _randomNumericGenerator;
+        private readonly IStringChecker _stringChecker;
 
         public CharGroupedRandomStringGenerator(
             ISimpleRandomStringGenerator simpleRandomStringGenerator,
-            IRandomNumericGenerator randomNumericGenerator)
+            IRandomNumericGenerator randomNumericGenerator,
+            IStringChecker stringChecker)
         {
             _simpleRandomStringGenerator = simpleRandomStringGenerator;
             _randomNumericGenerator = randomNumericGenerator;
+            _stringChecker = stringChecker;
         }
 
         public string GenerateString(
@@ -46,7 +49,7 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
             while (fixing)
             {
                 fixing = false;
-                foreach (var curGroup in groups.Where(x => !StringContainsOneOf(random, x.Chars)))
+                foreach (var curGroup in groups.Where(x => !_stringChecker.ContainsAtLeastOneOf(random, x.Chars)))
                 {
                     fixing = true;
                     var single = _simpleRandomStringGenerator.GenerateRandomStringFromChars(curGroup.Chars, 1);
@@ -57,21 +60,6 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
             }
 
             return (random);
-        }
-
-        private static bool StringContainsOneOf(
-            string value,
-            string chars)
-        {
-            foreach (char curChar in chars)
-            {
-                if (value.Contains(curChar.ToString()))
-                {
-                    return (true);
-                }
-            }
-
-            return (false);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using devoctomy.Passchamp.Core.Cryptography;
-using devoctomy.Passchamp.Core.Cryptography.Random;
+﻿using devoctomy.Passchamp.Core.Cryptography.Random;
 using devoctomy.Passchamp.Core.Data;
 using Moq;
 using System;
@@ -8,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
+namespace devoctomy.Passchamp.Core.UnitTests.Cryptography.Random
 {
     public class MemorablePasswordGeneratorTests
     {

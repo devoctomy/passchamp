@@ -1,10 +1,9 @@
-﻿using devoctomy.Passchamp.Core.Cryptography;
-using devoctomy.Passchamp.Core.Data;
+﻿using devoctomy.Passchamp.Core.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
+namespace devoctomy.Passchamp.Core.UnitTests.Data
 {
     public class WordListLoaderTests
     {

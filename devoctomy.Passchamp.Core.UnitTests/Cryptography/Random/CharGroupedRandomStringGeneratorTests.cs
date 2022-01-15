@@ -1,11 +1,10 @@
-﻿using devoctomy.Passchamp.Core.Cryptography;
-using devoctomy.Passchamp.Core.Cryptography.Random;
+﻿using devoctomy.Passchamp.Core.Cryptography.Random;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
+namespace devoctomy.Passchamp.Core.UnitTests.Cryptography.Random
 {
     public class CharGroupedRandomStringGeneratorTests
     {
@@ -27,7 +26,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             var randomNumericGenerator = new RandomNumericGenerator();
             var sut = new CharGroupedRandomStringGenerator(
                 new SimpleRandomStringGenerator(randomNumericGenerator),
-                randomNumericGenerator);
+                randomNumericGenerator,
+                new StringChecker());
             var selection = charSelection.ToString().Split(',');
             var groups = charSelection == ICharGroupedRandomStringGenerator.CharSelection.All ? CommonCharGroups.CharGroups.Values.Select(x => x).ToList() : selection.Select(x => CommonCharGroups.CharGroups[x.ToString()]).ToList();
             var allChars = groups.Select(x => x.Chars).Aggregate((a, b) => a + b);
@@ -55,7 +55,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             var randomNumericGenerator = new RandomNumericGenerator();
             var sut = new CharGroupedRandomStringGenerator(
                 new SimpleRandomStringGenerator(randomNumericGenerator),
-                randomNumericGenerator);
+                randomNumericGenerator,
+                new StringChecker());
             var selection = charSelection.ToString().Split(',');
             var groups = charSelection == ICharGroupedRandomStringGenerator.CharSelection.All ? CommonCharGroups.CharGroups.Values.Select(x => x).ToList() : selection.Select(x => CommonCharGroups.CharGroups[x.ToString().Trim()]).ToList();
             var allChars = groups.Select(x => x.Chars).Aggregate((a, b) => a + b);
@@ -92,7 +93,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             var randomNumericGenerator = new RandomNumericGenerator();
             var sut = new CharGroupedRandomStringGenerator(
                 new SimpleRandomStringGenerator(randomNumericGenerator),
-                randomNumericGenerator);
+                randomNumericGenerator,
+                new StringChecker());
             var selection = charSelection.ToString().Split(',');
             var groups = charSelection == ICharGroupedRandomStringGenerator.CharSelection.All ? CommonCharGroups.CharGroups.Values.Select(x => x).ToList() : selection.Select(x => CommonCharGroups.CharGroups[x.ToString().Trim()]).ToList();
             var allChars = groups.Select(x => x.Chars).Aggregate((a, b) => a + b);
@@ -104,9 +106,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             });
         }
 
-        /// <summary>
-        /// This test may occasionally fail, due to the fact it could randomly generate 2 strings the same.
-        /// </summary>
         [Theory]
         [InlineData(ICharGroupedRandomStringGenerator.CharSelection.All, 12)]
         [InlineData(ICharGroupedRandomStringGenerator.CharSelection.Uppercase, 12)]
@@ -119,16 +118,28 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             var randomNumericGenerator = new RandomNumericGenerator();
             var sut = new CharGroupedRandomStringGenerator(
                 new SimpleRandomStringGenerator(randomNumericGenerator),
-                randomNumericGenerator);
+                randomNumericGenerator,
+                new StringChecker());
 
             // Act
             var results = new List<string>();
             while(results.Count < 101)
             {
-                results.Add(sut.GenerateString(
+                var next = sut.GenerateString(
                     charSelection,
                     length,
-                    true));
+                    true);
+                // This check is done purely to avoid the chance of 2 randomly generated
+                // strings being created that are identical.  Small chance but would
+                // cause the test to fail.
+                while(results.Contains(next))
+                {
+                    next = sut.GenerateString(
+                    charSelection,
+                    length,
+                    true);
+                }
+                results.Add(next);
             }
 
             // Assert
