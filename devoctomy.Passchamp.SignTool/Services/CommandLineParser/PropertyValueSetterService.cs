@@ -47,6 +47,18 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 
                 default:
                     {
+                        if (destType.BaseType.Name.Equals("enum", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            if(Enum.TryParse(destType, value, true, out var result))
+                            {
+                                property.SetValue(
+                                    option,
+                                    result);
+                            }
+
+                            return;
+                        }
+
                         throw new NotSupportedException($"Destination type '{destType.Name}' is not supported.");
                     }
             };

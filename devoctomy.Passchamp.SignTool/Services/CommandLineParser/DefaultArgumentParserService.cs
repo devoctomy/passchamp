@@ -37,10 +37,11 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             var defaultOptionValue = string.Empty;
             if (!argumentString.StartsWith("-"))
             {
-                defaultOptionValue = argumentString.Substring(
+                var argContainsSpace = argumentString.IndexOf(" ") > 0;
+                defaultOptionValue = argContainsSpace ? argumentString.Substring(
                     0,
-                    argumentString.IndexOf(" "));
-                argumentString = argumentString.Substring(argumentString.IndexOf(" ") + 1);
+                    argumentString.IndexOf(" ")) : argumentString;
+                argumentString = argContainsSpace ? argumentString.Substring(argumentString.IndexOf(" ") + 1) : String.Empty;
             }
             var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
             if (defaultOption.Key != null && !string.IsNullOrEmpty(defaultOptionValue))

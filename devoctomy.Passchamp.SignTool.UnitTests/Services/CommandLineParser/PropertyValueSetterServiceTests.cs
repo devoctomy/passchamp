@@ -7,13 +7,18 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
     public class PropertyValueSetterServiceTests
     {
         [Theory]
-        [InlineData("StringValue", "Bob Hoskins")]
-        [InlineData("IntValue", "199")]
-        [InlineData("BoolValue", "True")]
-        [InlineData("FloatValue", "1.4")]
+        [InlineData("StringValue", "Bob Hoskins", "Bob Hoskins")]
+        [InlineData("IntValue", "199", "199")]
+        [InlineData("BoolValue", "True", "True")]
+        [InlineData("FloatValue", "1.4", "1.4")]
+        [InlineData("EnumValue", "Apple", "Apple")]
+        [InlineData("EnumValue", "Orange", "Orange")]
+        [InlineData("EnumValue", "Pear", "Pear")]
+        [InlineData("EnumValue", "Banana", "None")]
         public void GivenOptionsInstance_AndProperty_AndValue_WhenSetPropertyValue_ThenPropertyValueSet(
             string propertyName,
-            string value)
+            string value,
+            string expectedValue)
         {
             // Arrange
             var optionsInstance = new CommandLineTestOptions();
@@ -27,7 +32,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 value);
 
             // Assert
-            Assert.Equal(property.GetValue(optionsInstance).ToString(), value);
+            Assert.Equal(expectedValue, property.GetValue(optionsInstance).ToString());
         }
 
         [Fact]

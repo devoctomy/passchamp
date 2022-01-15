@@ -9,7 +9,7 @@ namespace devoctomy.Passchamp.SignTool.Services
         [CommandLineParserOption(Required = false, ShortName = "l", LongName = "length", DefaultValue = 1024)]
         public int KeyLength { get; set; }
 
-        [CommandLineParserOption(Required = false, ShortName = "v", LongName = "verbose", DefaultValue = false)]
+        [CommandLineParserOption(Required = false, ShortName = "v", LongName = "verbose", DefaultValue = true)]
         public bool Verbose { get; set; }
     }
 }

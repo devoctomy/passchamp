@@ -18,5 +18,8 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
 
         [CommandLineParserOption(LongName = "optstring", ShortName = "o", Required = false, DefaultValue = "Hello World")]
         public string OptionalStringValue { get; set; }
+
+        [CommandLineParserOption(LongName = "enum", ShortName = "e", Required = false, DefaultValue = "None")]
+        public TestEnum EnumValue { get; set; }
     }
 }

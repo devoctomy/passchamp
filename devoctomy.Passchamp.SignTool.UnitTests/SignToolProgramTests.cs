@@ -53,7 +53,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             {
                 Options = new PreOptions
                 {
-                    Mode = "generate"
+                    Mode = Mode.Generate
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -97,7 +97,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             {
                 Options = new PreOptions
                 {
-                    Mode = "pop"
+                    Mode = Mode.None
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -128,7 +128,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             {
                 Options = new PreOptions
                 {
-                    Mode = "generate"
+                    Mode = Mode.Generate
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -140,7 +140,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             {
                 Options = new GenerateOptions
                 {
-                    Mode = "generate"
+                    Mode = Mode.Generate
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -177,7 +177,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             {
                 Options = new PreOptions
                 {
-                    Mode = "sign"
+                    Mode = Mode.Sign
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
@@ -208,7 +208,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
             {
                 Options = new PreOptions
                 {
-                    Mode = "verify"
+                    Mode = Mode.Verify
                 }
             };
             mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(

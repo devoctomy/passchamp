@@ -27,9 +27,9 @@ namespace devoctomy.Passchamp.SignTool.Services
             var arguments = _commandLineArgumentService.GetArguments(Environment.CommandLine);
             if (_commandLineParserService.TryParseArgumentsAsOptions(typeof(PreOptions), arguments, out var preOptions))
             {
-                switch (preOptions.OptionsAs<PreOptions>().Mode.ToLower())
+                switch (preOptions.OptionsAs<PreOptions>().Mode)
                 {
-                    case "generate":
+                    case Mode.Generate:
                         {
                             if (_commandLineParserService.TryParseArgumentsAsOptions(
                                 typeof(GenerateOptions),
@@ -46,12 +46,12 @@ namespace devoctomy.Passchamp.SignTool.Services
                             break;
                         }
 
-                    case "sign":
+                    case Mode.Sign:
                         {
                             throw new NotImplementedException();
                         }
 
-                    case "verify":
+                    case Mode.Verify:
                         {
                             throw new NotImplementedException();
                         }
@@ -65,7 +65,7 @@ namespace devoctomy.Passchamp.SignTool.Services
             }
             else
             {
-                Console.WriteLine($"{preOptions.Exception.Message}");
+                Console.WriteLine($"Display help message...");
             }
 
             return -1;
