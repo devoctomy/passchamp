@@ -14,7 +14,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
         public string Format(Type optionsType)
         {
             var helpMessage = new StringBuilder();
-            var allProperties = optionsType.GetProperties();
+            var allProperties = optionsType.GetProperties().OrderBy(x => x.Name);
 
             var requiredOptions = new StringBuilder();
             var optionalOptions = new StringBuilder();
