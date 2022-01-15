@@ -33,10 +33,10 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
                 out var publicKey);
 
             // Assert
+            Assert.Equal(privateKeyParamsSize, privateKey.Length);
+            Assert.Equal(publicKeyParamsSize, publicKey.Length);
             var privateKeyParams = JsonConvert.DeserializeObject<RSAParameters>(privateKey);
-            Assert.Equal(privateKeyParamsSize, JsonConvert.SerializeObject(privateKeyParams).Length);
             var publicKeyParams = JsonConvert.DeserializeObject<RSAParameters>(publicKey);
-            Assert.Equal(publicKeyParamsSize, JsonConvert.SerializeObject(publicKeyParams).Length);
 
             using var sha256Provider = SHA256.Create();
             using var rsaProvider = new RSACryptoServiceProvider();
