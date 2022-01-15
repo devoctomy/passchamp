@@ -12,7 +12,6 @@ namespace devoctomy.Passchamp.SignTool.Services
             out string publicKey)
         {
             using var rsaProvider = new RSACryptoServiceProvider(keySize);
-            //rsaProvider.KeySize = keySize;
             var privateKeyParams = rsaProvider.ExportParameters(true);
             var publicKeyParams = rsaProvider.ExportParameters(false);
             privateKey = JsonConvert.SerializeObject(privateKeyParams);
