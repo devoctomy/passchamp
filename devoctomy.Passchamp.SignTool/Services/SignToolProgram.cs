@@ -58,7 +58,7 @@ namespace devoctomy.Passchamp.SignTool.Services
 
                     default:
                         {
-                            Console.WriteLine($"Unknown mode '{preOptions.OptionsAs<PreOptions>().Mode}'.");
+                            Console.WriteLine($"Mode {preOptions.OptionsAs<PreOptions>().Mode} not yet implemented.");
                             break;
                         }
                 }

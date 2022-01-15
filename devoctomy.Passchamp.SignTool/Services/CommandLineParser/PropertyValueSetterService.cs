@@ -5,7 +5,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
     public class PropertyValueSetterService : IPropertyValueSetterService
     {
-        public void SetPropertyValue<T>(
+        public bool SetPropertyValue<T>(
             T option,
             PropertyInfo property,
             string value)
@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                         property.SetValue(
                             option,
                             value);
-                        break;
+                        return true;
                     }
 
                 case "Boolean":
@@ -26,7 +26,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                         property.SetValue(
                             option,
                             bool.Parse(value));
-                        break;
+                        return true;
                     }
 
                 case "Int32":
@@ -34,7 +34,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                         property.SetValue(
                             option,
                             int.Parse(value));
-                        break;
+                        return true;
                     }
 
                 case "Single":
@@ -42,7 +42,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                         property.SetValue(
                             option,
                             float.Parse(value));
-                        break;
+                        return true;
                     }
 
                 default:
@@ -54,9 +54,10 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                                 property.SetValue(
                                     option,
                                     result);
+                                return true;
                             }
 
-                            return;
+                            return false;
                         }
 
                         throw new NotSupportedException($"Destination type '{destType.Name}' is not supported.");

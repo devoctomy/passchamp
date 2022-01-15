@@ -17,13 +17,14 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             var mockPropertyValueSetterService = new Mock<IPropertyValueSetterService>();
             var propertyValueSetterService = new PropertyValueSetterService();
             var sut = new DefaultArgumentParserService(mockPropertyValueSetterService.Object);
-            var argumentsString = "helloworld -b=true -i=2 -f=5.55 -o=pants";
+            var argumentsString = "helloworld -b=true -i=2 -f=5.55 -o=pants -e=Apple";
             var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
             AddProperty(typeof(CommandLineTestOptions), "StringValue", allOptions);
             AddProperty(typeof(CommandLineTestOptions), "BoolValue", allOptions);
             AddProperty(typeof(CommandLineTestOptions), "IntValue", allOptions);
             AddProperty(typeof(CommandLineTestOptions), "FloatValue", allOptions);
             AddProperty(typeof(CommandLineTestOptions), "OptionalStringValue", allOptions);
+            AddProperty(typeof(CommandLineTestOptions), "EnumValue", allOptions);
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
             mockPropertyValueSetterService.Setup(x => x.SetPropertyValue(
@@ -33,7 +34,8 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 .Callback((object o, PropertyInfo p, string s) =>
                 {
                     propertyValueSetterService.SetPropertyValue(o, p, s);
-                });
+                })
+                .Returns(true);
 
             // Act
             sut.SetDefaultOption(
@@ -46,7 +48,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             Assert.Single(allSetOptions);
             Assert.Equal("string", allSetOptions[0].LongName);
             Assert.Equal("helloworld", optionsInstance.StringValue);
-            Assert.Equal("-b=true -i=2 -f=5.55 -o=pants", argumentsString);
+            Assert.Equal("-b=true -i=2 -f=5.55 -o=pants -e=Apple", argumentsString);
         }
 
         private void AddProperty(

@@ -4,7 +4,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
     public interface IPropertyValueSetterService
     {
-        void SetPropertyValue<T>(
+        bool SetPropertyValue<T>(
             T option,
             PropertyInfo property,
             string value);

@@ -46,11 +46,13 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
             if (defaultOption.Key != null && !string.IsNullOrEmpty(defaultOptionValue))
             {
-                _propertyValueSetter.SetPropertyValue(
+                if(_propertyValueSetter.SetPropertyValue(
                     optionsInstance,
                     defaultOption.Key,
-                    defaultOptionValue);
-                allSetOptions.Add(defaultOption.Value);
+                    defaultOptionValue))
+                {
+                    allSetOptions.Add(defaultOption.Value);
+                }
             }
         }
     }
