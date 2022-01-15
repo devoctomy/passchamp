@@ -45,7 +45,10 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                 out results);
         }
 
-        public bool TryParseArgumentsAsOptions(Type optionsType, string argumentString, out ParseResults results)
+        public bool TryParseArgumentsAsOptions(
+            Type optionsType,
+            string argumentString,
+            out ParseResults results)
         {
             if (string.IsNullOrWhiteSpace(argumentString))
             {
@@ -59,13 +62,22 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             };
             var allOptions = GetAllOptions(optionsType);
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
-
-            _defaultArgumentParserService.SetDefaultOption(
+            string invalidOption = string.Empty;
+            if(!_defaultArgumentParserService.SetDefaultOption(
                 optionsType,
                 results.Options,
                 allOptions,
                 ref argumentString,
-                allSetOptions);
+                allSetOptions,
+                ref invalidOption))
+            {
+                var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
+                results.Exception = new System.ArgumentException(
+                    $"Failed to set default argument '{defaultOption.Value.DisplayName}'.",
+                    $"{defaultOption.Value.DisplayName}");
+                results.InvalidOptions.Add(defaultOption.Value.DisplayName, invalidOption);
+                return false;
+            }
 
             _optionalArgumentSetterSevice.SetOptionalValues(
                 optionsType,

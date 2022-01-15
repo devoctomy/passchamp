@@ -13,28 +13,32 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
         {
             _propertyValueSetter = propertyValueSetter;
         }
-        public void SetDefaultOption<T>(
+        public bool SetDefaultOption<T>(
             T optionsInstance,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
             ref string argumentString,
-            List<CommandLineParserOptionAttribute> allSetOptions)
+            List<CommandLineParserOptionAttribute> allSetOptions,
+            ref string invalidValue)
         {
-            SetDefaultOption(
+            return SetDefaultOption(
                 typeof(T),
                 optionsInstance,
                 allOptions,
                 ref argumentString,
-                allSetOptions);
+                allSetOptions,
+                ref invalidValue);
         }
 
-        public void SetDefaultOption(
+        public bool SetDefaultOption(
             Type optionsType,
             object optionsInstance,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
             ref string argumentString,
-            List<CommandLineParserOptionAttribute> allSetOptions)
+            List<CommandLineParserOptionAttribute> allSetOptions,
+            ref string invalidValue)
         {
             var defaultOptionValue = string.Empty;
+            invalidValue = string.Empty;
             if (!argumentString.StartsWith("-"))
             {
                 var argContainsSpace = argumentString.IndexOf(" ") > 0;
@@ -52,8 +56,14 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
                     defaultOptionValue))
                 {
                     allSetOptions.Add(defaultOption.Value);
+                    return true;
                 }
+
+                invalidValue = defaultOptionValue;
+                return false;
             }
+
+            return true;    // Default wasn't required
         }
     }
 }

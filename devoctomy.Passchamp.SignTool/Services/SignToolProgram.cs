@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -72,8 +73,19 @@ namespace devoctomy.Passchamp.SignTool.Services
                 string strExeFilePath = System.Reflection.Assembly.GetEntryAssembly().Location;
                 var helpMessage = _helpMessageFormatter.Format<PreOptions>();
                 var message = new StringBuilder();
-                message.AppendLine($"Invalid command line '{Environment.CommandLine}'.");
+                if(preOptions.InvalidOptions.ContainsKey("Command"))
+                {
+                    var expected = Enum.GetNames<Command>().Where(x => x != "None").Select(y => y.ToLower()).ToList();
+                    message.AppendLine($"Unknown command '{preOptions.InvalidOptions["Command"]}', expected one of ({string.Join(',', expected)}).");
+                }
+                else
+                {
+                    message.AppendLine($"Invalid command line '{Environment.CommandLine}'.");
+                }
+
+                message.AppendLine();
                 message.AppendLine($"Usage: {new FileInfo(strExeFilePath).Name} [command] [command_options]");
+                message.AppendLine();
                 message.Append(helpMessage);
                 Console.WriteLine(message);
             }

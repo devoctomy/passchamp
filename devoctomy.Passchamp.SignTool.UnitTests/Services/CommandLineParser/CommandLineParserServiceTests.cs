@@ -36,6 +36,16 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 mockArgumentMapperService.Object,
                 mockOptionalArgumentSetterService.Object);
             var argumentsString = "hello world";
+            var invalidArgument = string.Empty;
+
+            mockDefaultArgumentParserService.Setup(x => x.SetDefaultOption(
+                It.IsAny<Type>(),
+                It.IsAny<object>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+                ref argumentsString,
+                It.IsAny<List<CommandLineParserOptionAttribute>>(),
+                ref invalidArgument))
+                .Returns(true);
 
             // Act
             var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var options);
@@ -47,7 +57,8 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 It.IsAny<CommandLineTestOptions>(),
                 It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
                 ref argumentsString,
-                It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
+                It.IsAny<List<CommandLineParserOptionAttribute>>(),
+                ref invalidArgument), Times.Once);
             mockOptionalArgumentSetterService.Verify(x => x.SetOptionalValues(
                 It.Is<Type>(y => y == typeof(CommandLineTestOptions)),
                 It.IsAny<CommandLineTestOptions>(),
@@ -74,7 +85,17 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 mockArgumentMapperService.Object,
                 mockOptionalArgumentSetterService.Object);
             var argumentsString = "hello world";
+            var invalidArgument = string.Empty;
             var allOptions = GetAllOptions<CommandLineTestOptions>();
+
+            mockDefaultArgumentParserService.Setup(x => x.SetDefaultOption(
+                It.IsAny<Type>(),
+                It.IsAny<object>(),
+                It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+                ref argumentsString,
+                It.IsAny<List<CommandLineParserOptionAttribute>>(),
+                ref invalidArgument))
+                .Returns(true);
 
             mockArgumentMapperService.Setup(x => x.MapArguments(
                 It.IsAny<Type>(),
@@ -102,7 +123,8 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 It.IsAny<CommandLineTestOptions>(),
                 It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
                 ref argumentsString,
-                It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
+                It.IsAny<List<CommandLineParserOptionAttribute>>(),
+                ref invalidArgument), Times.Once);
             mockOptionalArgumentSetterService.Verify(x => x.SetOptionalValues(
                 It.Is<Type>(y => y == typeof(CommandLineTestOptions)),
                 It.IsAny<CommandLineTestOptions>(),
