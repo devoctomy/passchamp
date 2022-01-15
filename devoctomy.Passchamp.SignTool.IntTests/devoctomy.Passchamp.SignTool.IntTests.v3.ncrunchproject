@@ -1,0 +1,9 @@
+﻿<ProjectConfiguration>
+  <Settings>
+    <IgnoredTests>
+      <FixtureTestSelector>
+        <FixtureName>devoctomy.Passchamp.SignTool.IntTests.Features.SignToolFeature</FixtureName>
+      </FixtureTestSelector>
+    </IgnoredTests>
+  </Settings>
+</ProjectConfiguration>

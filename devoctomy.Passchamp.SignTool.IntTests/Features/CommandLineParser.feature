@@ -2,7 +2,7 @@
 
 Simple service for parsing command line arguments.
 
-@mytag
+@CommandLineParser
 Scenario: 01) Correctly parse arguments string to options instance
 	Given the arguments <Arguments>
 	And options is of type <OptionsType>

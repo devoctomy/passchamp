@@ -19,7 +19,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class CommandLineParserFeature : object, Xunit.IClassFixture<CommandLineParserFeature.FixtureData>, System.IDisposable
+    public partial class SignToolFeature : object, Xunit.IClassFixture<SignToolFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "CommandLineParser.feature"
+#line 1 "SignTool.feature"
 #line hidden
         
-        public CommandLineParserFeature(CommandLineParserFeature.FixtureData fixtureData, devoctomy_Passchamp_SignTool_IntTests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public SignToolFeature(SignToolFeature.FixtureData fixtureData, devoctomy_Passchamp_SignTool_IntTests_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "CommandLineParser", "Simple service for parsing command line arguments.", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "SignTool", "A short summary of the feature", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -80,27 +80,16 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableTheoryAttribute(DisplayName="01) Correctly parse arguments string to options instance")]
-        [Xunit.TraitAttribute("FeatureTitle", "CommandLineParser")]
-        [Xunit.TraitAttribute("Description", "01) Correctly parse arguments string to options instance")]
-        [Xunit.TraitAttribute("Category", "CommandLineParser")]
-        [Xunit.InlineDataAttribute("1", "helloworld -b=true -i=2 -f=5.55 -o=pants", "devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions", "Data/01-parse-options_1.json", new string[0])]
-        [Xunit.InlineDataAttribute("2", "-s=helloworld --b=true --i=2 --f=5.55 --o=pants", "devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions", "Data/01-parse-options_2.json", new string[0])]
-        public virtual void _01CorrectlyParseArgumentsStringToOptionsInstance(string @case, string arguments, string optionsType, string expectedOptionsFile, string[] exampleTags)
+        [Xunit.SkippableFactAttribute(DisplayName="01) Generate a key pair")]
+        [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
+        [Xunit.TraitAttribute("Description", "01) Generate a key pair")]
+        [Xunit.TraitAttribute("Category", "tag1")]
+        public virtual void _01GenerateAKeyPair()
         {
-            string[] @__tags = new string[] {
-                    "CommandLineParser"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = new string[] {
+                    "tag1"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            argumentsOfScenario.Add("Case", @case);
-            argumentsOfScenario.Add("Arguments", arguments);
-            argumentsOfScenario.Add("OptionsType", optionsType);
-            argumentsOfScenario.Add("ExpectedOptionsFile", expectedOptionsFile);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Correctly parse arguments string to options instance", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Generate a key pair", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -122,22 +111,16 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 7
- testRunner.Given(string.Format("the arguments {0}", arguments), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("generate command and no options", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
- testRunner.And(string.Format("options is of type {0}", optionsType), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("run", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.And("command line parser service is a default instance", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("private key file generated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 10
- testRunner.When("TryParseArgumentsAsOptions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 11
- testRunner.Then("parsing was successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-#line 12
- testRunner.Then(string.Format("the options should match that of {0}", expectedOptionsFile), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("public key file generated", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -150,12 +133,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                CommandLineParserFeature.FeatureSetup();
+                SignToolFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                CommandLineParserFeature.FeatureTearDown();
+                SignToolFeature.FeatureTearDown();
             }
         }
     }
