@@ -8,6 +8,10 @@ The intention of passchamp is to provide an entirely dotnet 6 rewrite of [cachy]
 
 ## Components
 
+### Core
+
+Class library containing all core components of passchamp, this will be used to build all clients upon.
+
 ### SignTool
 
 Console application used for signing JSON files using an RSA key pair.
