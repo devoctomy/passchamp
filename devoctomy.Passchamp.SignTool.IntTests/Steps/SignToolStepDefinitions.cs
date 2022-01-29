@@ -89,7 +89,6 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
             _scenarioContext.Set(outputfile, "outputfile");
         }
 
-
         [Then(@"signature present in json")]
         public void ThenSignaturePresentInJson()
         {
