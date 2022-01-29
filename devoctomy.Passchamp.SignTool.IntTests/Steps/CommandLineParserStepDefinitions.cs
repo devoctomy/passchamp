@@ -80,7 +80,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
             Assert.False(mismatchedProperties.Any(), $"Found mismatched properties '{fieldNames}'.");
         }
 
-        private IEnumerable<PropertyInfo> GetNotEqualsProperties(
+        private static IEnumerable<PropertyInfo> GetNotEqualsProperties(
             object a,
             object b)
         {

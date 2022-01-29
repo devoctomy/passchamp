@@ -2,11 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="C:\Users\nickp\.nuget\packages\specrun.runner\3.8.12\build\..\tools\**" />
+  </ItemGroup>	
+	
+  <ItemGroup>
     <None Remove="Data\01-parse-options_1.json" />
     <None Remove="Data\01-parse-options_2.json" />
+    <None Remove="Data\json\unsigned\unsigned1.json" />
+    <None Remove="Data\keys\privatekey.json" />
+    <None Remove="Data\keys\publickey.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,10 +24,19 @@
     <Content Include="Data\01-parse-options_1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\json\unsigned\unsigned1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\keys\privatekey.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\keys\publickey.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="JunitXml.TestLogger" Version="3.0.98" />
+    <PackageReference Include="JunitXml.TestLogger" Version="3.0.110" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="SpecFlow" Version="3.9.40" />
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.40" />
@@ -36,7 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\devoctomy.Passchamp.SignTool\devoctomy.Passchamp.SignTool.csproj" />
+    <ProjectReference Include="..\devoctomy.Passchamp.SignTool\devoctomy.Passchamp.SignTool.csproj">
+      <CopyLocal></CopyLocal>
+      <CopyLocalSatelliteAssemblies></CopyLocalSatelliteAssemblies>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

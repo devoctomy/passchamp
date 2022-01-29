@@ -188,12 +188,9 @@ namespace devoctomy.Passchamp.Core.Graph
 
         private void DoOutputMessage(string message)
         {
-            if (OutputMessage != null)
-            {
-                OutputMessage(
-                    null,
-                    message);
-            }
+            OutputMessage?.Invoke(
+                null,
+                message);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace devoctomy.Passchamp.SignTool
     [ExcludeFromCodeCoverage]
     public class Program
     {
-        static async Task<int> Main(string[] args)
+        static async Task<int> Main()
         {
             using IHost host = CreateHostBuilder(null).Build();
 
@@ -26,6 +26,7 @@ namespace devoctomy.Passchamp.SignTool
                     .AddSingleton<ICommandLineArgumentService, CommandLineArgumentsService>()
                     .AddSingleton<ICommandLineParserService, CommandLineParserService>((IServiceProvider _) => { return CommandLineParserService.CreateDefaultInstance(); })
                     .AddSingleton<IGenerateService, GenerateService>()
+                    .AddSingleton<IRsaJsonSignerService, RsaJsonSignerService>()
                     .AddSingleton<IHelpMessageFormatter, HelpMessageFormatter>()
                     .AddSingleton<IProgram, SignToolProgram>());
     }

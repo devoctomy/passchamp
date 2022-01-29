@@ -32,3 +32,17 @@ Scenario: 05) Generate a 4096 bit key pair
 	When run
 	Then private key file generated of 3171 bytes
 	And public key file generated of 779 bytes
+
+@Sign
+Scenario: 01) Sign a JSON file
+	Given sign command
+	And private key file of "<PrivateKeyFile>"
+	And input file of "<InputJsonFile>"
+	And random output filename
+	When run
+	Then signature present in json
+
+	Examples: 
+
+	| Case | InputJsonFile                     | PrivateKeyFile            |
+	| 1    | Data/json/unsigned/unsigned1.json | Data/keys/privatekey.json |

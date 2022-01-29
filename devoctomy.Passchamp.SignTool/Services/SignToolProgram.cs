@@ -13,17 +13,20 @@ namespace devoctomy.Passchamp.SignTool.Services
         private readonly ICommandLineArgumentService _commandLineArgumentService;
         private readonly ICommandLineParserService _commandLineParserService;
         private readonly IGenerateService _generateService;
+        private readonly IRsaJsonSignerService _rasaJsonSignerService;
         private readonly IHelpMessageFormatter _helpMessageFormatter;
 
         public SignToolProgram(
             ICommandLineArgumentService commandLineArgumentService,
             ICommandLineParserService commandLineParserService,
             IGenerateService generateService,
+            IRsaJsonSignerService rasaJsonSignerService,
             IHelpMessageFormatter helpMessageFormatter)
         {
             _commandLineArgumentService = commandLineArgumentService;
             _commandLineParserService = commandLineParserService;
             _generateService = generateService;
+            _rasaJsonSignerService = rasaJsonSignerService;
             _helpMessageFormatter = helpMessageFormatter;
         }
 
@@ -53,7 +56,19 @@ namespace devoctomy.Passchamp.SignTool.Services
 
                     case Command.Sign:
                         {
-                            throw new NotImplementedException();
+                            if (_commandLineParserService.TryParseArgumentsAsOptions(
+                                typeof(SignOptions),
+                                arguments,
+                                out var signOptions))
+                            {
+                                return await _rasaJsonSignerService.Sign(signOptions.OptionsAs<SignOptions>());
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{signOptions.Exception.Message}");
+                            }
+
+                            break;
                         }
 
                     case Command.Verify:

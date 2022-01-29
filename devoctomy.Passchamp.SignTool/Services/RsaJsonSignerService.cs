@@ -23,6 +23,16 @@ namespace devoctomy.Passchamp.SignTool.Services
             }
         }
 
+        public async Task<int> Sign(SignOptions signOptions)
+        {
+            var privateKey = await File.ReadAllTextAsync(signOptions.KeyFile);
+            var signed = await Sign(
+                signOptions.Input,
+                privateKey);
+            await File.WriteAllTextAsync(signOptions.Output, signed);
+            return 0;
+        }
+
         public async Task<string> Sign(
             string path,
             string privateKey)
@@ -48,9 +58,11 @@ namespace devoctomy.Passchamp.SignTool.Services
                 sha256Provider);
             var signatureBase64 = Convert.ToBase64String(signatureBytes);
 
-            var signatrureJson = new JObject();
-            signatrureJson.Add("Algorithm", new JValue("RsaJsonSigner"));
-            signatrureJson.Add("Signature", new JValue(signatureBase64));
+            var signatrureJson = new JObject
+            {
+                { "Algorithm", new JValue("RsaJsonSigner") },
+                { "Signature", new JValue(signatureBase64) }
+            };
             json.Add(
                 "Signature",
                 signatrureJson);
