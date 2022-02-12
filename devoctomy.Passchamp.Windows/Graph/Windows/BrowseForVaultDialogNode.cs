@@ -1,19 +1,19 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
-using devoctomy.Passchamp.Windows.Views;
+using Microsoft.Win32;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Windows.Graph.Windows
 {
-    public class PasswordEnterDialogNode : NodeBase
+    public class BrowseForVaultDialogNode : NodeBase
     {
         [NodeOutputPin(ValueType = typeof(string))]
-        public IDataPin<string> Password
+        public IDataPin<string> FileName
         {
             get
             {
-                return GetOutput<string>("Password");
+                return GetOutput<string>("FileName");
             }
         }
 
@@ -21,7 +21,7 @@ namespace devoctomy.Passchamp.Windows.Graph.Windows
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            if(!graph.ExtendedParams.ContainsKey("dispatcher"))
+            if (!graph.ExtendedParams.ContainsKey("dispatcher"))
             {
                 throw new InvalidOperationException("Extended parameter 'dispatcher' must be set prior to execution.");
             }
@@ -32,12 +32,14 @@ namespace devoctomy.Passchamp.Windows.Graph.Windows
 
         private void DoWork()
         {
-            var passwordEnterDialog = new PasswordEnterDialog();
-            var result = passwordEnterDialog.ShowDialog();
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "vault files (*.vault)|*.vault|All files (*.*)|*.*"
+            };
+            var result = openFileDialog.ShowDialog();
             if (result.GetValueOrDefault())
             {
-                var networkCredential = new System.Net.NetworkCredential(string.Empty, passwordEnterDialog.Password);
-                Password.Value = networkCredential.Password;
+                FileName.Value = openFileDialog.FileName;
             }
         }
     }
