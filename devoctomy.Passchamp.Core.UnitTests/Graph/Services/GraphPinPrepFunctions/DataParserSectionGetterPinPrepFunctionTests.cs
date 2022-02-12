@@ -66,7 +66,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinPrepFunction
             // Act
             Assert.ThrowsAny<KeyNotFoundException>(() =>
             {
-                var result = sut.Execute(
+                sut.Execute(
                     null,
                     value,
                     null,

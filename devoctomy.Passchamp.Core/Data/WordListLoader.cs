@@ -24,7 +24,9 @@ namespace devoctomy.Passchamp.Core.Data
                 foreach (var curListFile in allListFiles)
                 {
                     var name = new FileInfo(curListFile).Name.Replace(_config.Pattern.TrimStart('*'), string.Empty);
-                    var allLines = await File.ReadAllLinesAsync(curListFile, cancellationToken);
+                    var allLines = await File.ReadAllLinesAsync(
+                        curListFile,
+                        cancellationToken).ConfigureAwait(false);
                     _cachedLists.Add(name, new List<string>(allLines));
                 }
             }

@@ -42,10 +42,12 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             if (!argumentString.StartsWith("-"))
             {
                 var argContainsSpace = argumentString.IndexOf(" ") > 0;
-                defaultOptionValue = argContainsSpace ? argumentString.Substring(
-                    0,
-                    argumentString.IndexOf(" ")) : argumentString;
-                argumentString = argContainsSpace ? argumentString.Substring(argumentString.IndexOf(" ") + 1) : String.Empty;
+                defaultOptionValue = argContainsSpace
+                    ? argumentString[..argumentString.IndexOf(" ")]
+                    : argumentString;
+                argumentString = argContainsSpace
+                    ? argumentString[(argumentString.IndexOf(" ") + 1)..]
+                    : String.Empty;
             }
             var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
             if (defaultOption.Key != null && !string.IsNullOrEmpty(defaultOptionValue))

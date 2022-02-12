@@ -70,7 +70,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
         public async Task ThenTheOptionsShouldMatch(string expectedOptionsFile)
         {
             var optionsType = _scenarioContext["OptionsType"] as Type;
-            var expectedOptionsJson = await File.ReadAllTextAsync(expectedOptionsFile);
+            var expectedOptionsJson = await File.ReadAllTextAsync(expectedOptionsFile).ConfigureAwait(false);
             var expectedOptions = JsonConvert.DeserializeObject(expectedOptionsJson, optionsType);
             var parseResults = _scenarioContext.Get<ParseResults>("ParseResults");
             var mismatchedProperties = GetNotEqualsProperties(

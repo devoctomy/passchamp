@@ -25,7 +25,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             // Arrange
             var jsonData = await System.IO.File.ReadAllTextAsync(
                 fileName,
-                CancellationToken.None);
+                CancellationToken.None).ConfigureAwait(false);
             var pinsJson = JObject.Parse(jsonData);
             var sut = new PinsJsonParserService();
 
@@ -47,8 +47,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         {
             // Arrange
             var jsonData = new JArray();
-            var pin = new JObject();
-            pin.Add("Type", new JValue("Pants"));
+            var pin = new JObject
+            {
+                { "Type", new JValue("Pants") }
+            };
             jsonData.Add(pin);
             var sut = new PinsJsonParserService();
 
@@ -64,8 +66,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         {
             // Arrange
             var jsonData = new JArray();
-            var pin = new JObject();
-            pin.Add("Type", new JValue("System.Double"));
+            var pin = new JObject
+            {
+                { "Type", new JValue("System.Double") }
+            };
             jsonData.Add(pin);
             var sut = new PinsJsonParserService();
 

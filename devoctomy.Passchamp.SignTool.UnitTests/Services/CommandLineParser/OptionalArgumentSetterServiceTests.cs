@@ -1,6 +1,5 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Xunit;
@@ -18,11 +17,11 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             var propertyValueSetterService = new PropertyValueSetterService();
             var sut = new OptionalArgumentSetterService(mockPropertyValueSetterService.Object);
             var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
-            AddProperty(typeof(CommandLineTestOptions), "StringValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "BoolValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "IntValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "FloatValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "OptionalStringValue", allOptions);
+            AddProperty("StringValue", allOptions);
+            AddProperty("BoolValue", allOptions);
+            AddProperty("IntValue", allOptions);
+            AddProperty("FloatValue", allOptions);
+            AddProperty("OptionalStringValue", allOptions);
 
             mockPropertyValueSetterService.Setup(x => x.SetPropertyValue(
                 It.IsAny<object>(),
@@ -42,8 +41,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             Assert.Equal("Hello World", optionsInstance.OptionalStringValue);
         }
 
-        private void AddProperty(
-            Type type,
+        private static void AddProperty(
             string name,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> options)
         {

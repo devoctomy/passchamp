@@ -1,6 +1,5 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Xunit;
@@ -19,12 +18,12 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             var sut = new DefaultArgumentParserService(mockPropertyValueSetterService.Object);
             var argumentsString = "helloworld -b=true -i=2 -f=5.55 -o=pants -e=Apple";
             var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
-            AddProperty<CommandLineTestOptions>(typeof(CommandLineTestOptions), "StringValue", allOptions);
-            AddProperty<CommandLineTestOptions>(typeof(CommandLineTestOptions), "BoolValue", allOptions);
-            AddProperty<CommandLineTestOptions>(typeof(CommandLineTestOptions), "IntValue", allOptions);
-            AddProperty<CommandLineTestOptions>(typeof(CommandLineTestOptions), "FloatValue", allOptions);
-            AddProperty<CommandLineTestOptions>(typeof(CommandLineTestOptions), "OptionalStringValue", allOptions);
-            AddProperty<CommandLineTestOptions>(typeof(CommandLineTestOptions), "OptionalEnumValue", allOptions);
+            AddProperty<CommandLineTestOptions>("StringValue", allOptions);
+            AddProperty<CommandLineTestOptions>("BoolValue", allOptions);
+            AddProperty<CommandLineTestOptions>("IntValue", allOptions);
+            AddProperty<CommandLineTestOptions>("FloatValue", allOptions);
+            AddProperty<CommandLineTestOptions>("OptionalStringValue", allOptions);
+            AddProperty<CommandLineTestOptions>("OptionalEnumValue", allOptions);
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
             var invalidArgument = string.Empty;
 
@@ -67,7 +66,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             var optionsInstance = new CommandLineTestOptions2();
             var sut = new DefaultArgumentParserService(new PropertyValueSetterService());
             var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
-            AddProperty<CommandLineTestOptions2>(typeof(CommandLineTestOptions2), "EnumValue", allOptions);
+            AddProperty<CommandLineTestOptions2>("EnumValue", allOptions);
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
             var originalArgumentsString = argumentsString;
             var invalidArgument = string.Empty;
@@ -85,8 +84,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             Assert.Equal(retval ? string.Empty : originalArgumentsString, invalidArgument);
         }
 
-        private void AddProperty<T>(
-            Type type,
+        private static void AddProperty<T>(
             string name,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> options)
         {
