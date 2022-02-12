@@ -14,7 +14,7 @@ namespace devoctomy.Passchamp.Windows.ValueConverters
             CultureInfo culture)
         {
             var secureString = new SecureString();
-            foreach(var curChar in ((string)value).ToCharArray())
+            foreach(var curChar in (string)value)
             {
                 secureString.AppendChar(curChar);
             }
