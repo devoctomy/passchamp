@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace devoctomy.Passchamp.SignTool
 {
     [ExcludeFromCodeCoverage]
-    public class Program
+    public static class Program
     {
         static async Task<int> Main()
         {
