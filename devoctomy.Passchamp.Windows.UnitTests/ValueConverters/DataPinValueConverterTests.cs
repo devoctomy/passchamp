@@ -37,12 +37,11 @@ namespace devoctomy.Passchamp.Windows.UnitTests.ValueConverters
         [InlineData(false, "False")]
         [InlineData(1.23456f, "1.23456")]
         [InlineData(1.23456d, "1.23456")]
-        public void GivenDataPin_WhenConvertBack_ThenCorrectValueReturned(
+        public void GivenValue_WhenConvertBack_ThenCorrectValueReturned(
             object value,
             string returnValue)
         {
             // Arrange
-            var dataPin = DataPinFactory.Instance.Create("Test", value);
             var sut = new DataPinValueConverter();
 
             // Act

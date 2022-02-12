@@ -11,7 +11,7 @@ namespace devoctomy.Passchamp.SignTool.Services
     {
         public async Task<bool> IsApplicable(string path)
         {
-            var jsonData = await File.ReadAllTextAsync(path);
+            var jsonData = await File.ReadAllTextAsync(path).ConfigureAwait(false);
             try
             {
                 JObject.Parse(jsonData);
@@ -25,11 +25,11 @@ namespace devoctomy.Passchamp.SignTool.Services
 
         public async Task<int> Sign(SignOptions signOptions)
         {
-            var privateKey = await File.ReadAllTextAsync(signOptions.KeyFile);
+            var privateKey = await File.ReadAllTextAsync(signOptions.KeyFile).ConfigureAwait(false);
             var signed = await Sign(
                 signOptions.Input,
                 privateKey);
-            await File.WriteAllTextAsync(signOptions.Output, signed);
+            await File.WriteAllTextAsync(signOptions.Output, signed).ConfigureAwait(false);
             return 0;
         }
 

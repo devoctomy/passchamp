@@ -49,7 +49,7 @@ namespace devoctomy.Passchamp.Windows.UnitTests.ViewModels
                 mockFileDialogService.Object);
             var fileName = "HelloWorld.json";
             var startNode = "pop";
-            var nodes = new System.Collections.Generic.Dictionary<string, INode>()
+            var nodes = new System.Collections.Generic.Dictionary<string, INode>
             {
                 { startNode, new NodeBase() }
             };

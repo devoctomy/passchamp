@@ -26,7 +26,7 @@ namespace devoctomy.Passchamp.SignTool.Services
 
             await File.WriteAllTextAsync(
                 "privatekey.json",
-                privateKey);
+                privateKey).ConfigureAwait(false);
 
             if (options.Verbose)
             {

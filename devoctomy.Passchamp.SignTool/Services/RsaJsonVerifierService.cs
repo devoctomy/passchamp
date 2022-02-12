@@ -11,7 +11,7 @@ namespace devoctomy.Passchamp.SignTool.Services
     {
         public async Task<bool> IsApplicable(string path)
         {
-            var jsonData = await File.ReadAllTextAsync(path);
+            var jsonData = await File.ReadAllTextAsync(path).ConfigureAwait(false);
             var json = JObject.Parse(jsonData);
 
             if(!json.ContainsKey("Signature"))
@@ -32,7 +32,7 @@ namespace devoctomy.Passchamp.SignTool.Services
 
         public async Task<int> Verify(VerifyOptions verifyOptions)
         {
-            var publicKey = await File.ReadAllTextAsync(verifyOptions.KeyFile);
+            var publicKey = await File.ReadAllTextAsync(verifyOptions.KeyFile).ConfigureAwait(false);
             var result = await Verify(
                 verifyOptions.Input,
                 publicKey);

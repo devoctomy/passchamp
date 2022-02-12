@@ -95,7 +95,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         public async Task GivenPath_AndInvalidSignature_AndPublicKey_WhenVerify_ThenFalseReturned()
         {
             // Arrange
-            var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
+            var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json").ConfigureAwait(false);
             var sut = new RsaJsonVerifierService();
 
             // Act
