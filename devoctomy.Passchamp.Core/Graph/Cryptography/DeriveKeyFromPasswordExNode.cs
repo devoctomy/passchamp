@@ -1,4 +1,5 @@
-﻿using System;
+﻿using devoctomy.Passchamp.Core.Cryptography;
+using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
@@ -73,38 +74,18 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            IntPtr ptr = Marshal.SecureStringToBSTR(SecurePassword.Value);
-            try
+            var unpacker = new SecureStringUnpacker();
+            Action<byte[]> callback = buffer =>
             {
-                byte[] passwordByteArray = null;
-                int length = Marshal.ReadInt32(ptr, -4);
-                passwordByteArray = new byte[length];
-                GCHandle handle = GCHandle.Alloc(passwordByteArray, GCHandleType.Pinned);
-                try
+                using (var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
+                    buffer,
+                    Salt.Value,
+                    IterationCount.Value))
                 {
-                    for (int i = 0; i < length; i++)
-                    {
-                        passwordByteArray[i] = Marshal.ReadByte(ptr, i);
-                    }
-                    using (var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
-                        passwordByteArray,
-                        Salt.Value,
-                        IterationCount.Value))
-                    {
-                        Key.Value = rfc2898.GetBytes(KeyLength.Value);
-                    }
+                    Key.Value = rfc2898.GetBytes(KeyLength.Value);
                 }
-                finally
-                {
-                    Array.Clear(passwordByteArray, 0, passwordByteArray.Length);
-                    handle.Free();
-                }
-            }
-            finally
-            {
-                Marshal.ZeroFreeBSTR(ptr);
-            }
-
+            };
+            unpacker.Unpack(SecurePassword.Value, callback);
             return Task.CompletedTask;
         }
     }
