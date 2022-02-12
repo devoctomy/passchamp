@@ -13,20 +13,23 @@ namespace devoctomy.Passchamp.SignTool.Services
         private readonly ICommandLineArgumentService _commandLineArgumentService;
         private readonly ICommandLineParserService _commandLineParserService;
         private readonly IGenerateService _generateService;
-        private readonly IRsaJsonSignerService _rasaJsonSignerService;
+        private readonly IRsaJsonSignerService _rsaJsonSignerService;
+        private readonly IRsaJsonVerifierService _rsaJsonVerifierService;
         private readonly IHelpMessageFormatter _helpMessageFormatter;
 
         public SignToolProgram(
             ICommandLineArgumentService commandLineArgumentService,
             ICommandLineParserService commandLineParserService,
             IGenerateService generateService,
-            IRsaJsonSignerService rasaJsonSignerService,
+            IRsaJsonSignerService rsaJsonSignerService,
+            IRsaJsonVerifierService rsaJsonVerifierService,
             IHelpMessageFormatter helpMessageFormatter)
         {
             _commandLineArgumentService = commandLineArgumentService;
             _commandLineParserService = commandLineParserService;
             _generateService = generateService;
-            _rasaJsonSignerService = rasaJsonSignerService;
+            _rsaJsonSignerService = rsaJsonSignerService;
+            _rsaJsonVerifierService = rsaJsonVerifierService;
             _helpMessageFormatter = helpMessageFormatter;
         }
 
@@ -61,7 +64,7 @@ namespace devoctomy.Passchamp.SignTool.Services
                                 arguments,
                                 out var signOptions))
                             {
-                                return await _rasaJsonSignerService.Sign(signOptions.OptionsAs<SignOptions>());
+                                return await _rsaJsonSignerService.Sign(signOptions.OptionsAs<SignOptions>());
                             }
                             else
                             {
@@ -73,7 +76,20 @@ namespace devoctomy.Passchamp.SignTool.Services
 
                     case Command.Verify:
                         {
-                            throw new NotImplementedException();
+                            if (_commandLineParserService.TryParseArgumentsAsOptions(
+                                typeof(VerifyOptions),
+                                arguments,
+                                out var verifyOptions))
+                            {
+                                var exitCode = await _rsaJsonVerifierService.Verify(verifyOptions.OptionsAs<VerifyOptions>());
+                                Console.WriteLine($"Signature verification {(exitCode == 0 ? "successful" : "failed")}");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"{verifyOptions.Exception.Message}");
+                            }
+
+                            break;
                         }
 
                     default:

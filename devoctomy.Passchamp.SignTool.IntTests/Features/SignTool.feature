@@ -38,11 +38,38 @@ Scenario: 01) Sign a JSON file
 	Given sign command
 	And private key file of "<PrivateKeyFile>"
 	And input file of "<InputJsonFile>"
-	And random output filename
+	And output filename of "<OutputFileName>"
 	When run
 	Then signature present in json
 
 	Examples: 
 
-	| Case | InputJsonFile                     | PrivateKeyFile            |
-	| 1    | Data/json/unsigned/unsigned1.json | Data/keys/privatekey.json |
+	| Case | InputJsonFile                     | PrivateKeyFile            | OutputFileName |
+	| 1    | Data/json/unsigned/unsigned1.json | Data/keys/privatekey.json | signed.json    |
+
+@Verify
+Scenario: 02) Verify a signed JSON file
+	Given verify command
+	And public key file of "<PublicKeyFile>"
+	And input file of "<InputJsonFile>"
+	When run
+	Then verify successful
+
+	Examples: 
+
+	| Case | InputJsonFile | PublicKeyFile            |
+	| 1    | signed.json   | Data/keys/publickey.json |
+
+@Verify
+Scenario: 03) Verify a signed JSON file that's been modified
+	Given verify command
+	And public key file of "<PublicKeyFile>"
+	And modify input file "<InputJsonFile>" and save as "<ModifiedInputJsonFile>"
+	And input file of "<ModifiedInputJsonFile>"
+	When run
+	Then verify failed
+
+	Examples: 
+
+	| Case | InputJsonFile | ModifiedInputJsonFile | PublicKeyFile            |
+	| 1    | signed.json   | modified.json         | Data/keys/publickey.json |

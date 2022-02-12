@@ -20,6 +20,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
                 mockCommandLineParserService.Object,
                 null,
                 null,
+                null,
                 Mock.Of<IHelpMessageFormatter>());
 
             var options = new ParseResults
@@ -49,6 +50,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
                 mockGenerateService.Object,
+                null,
                 null,
                 Mock.Of<IHelpMessageFormatter>());
 
@@ -95,6 +97,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
                 mockCommandLineParserService.Object,
                 null,
                 null,
+                null,
                 Mock.Of<IHelpMessageFormatter>());
 
             var preOptions = new ParseResults
@@ -127,6 +130,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
                 mockCommandLineArgumentService.Object,
                 mockCommandLineParserService.Object,
                 mockGenerateService.Object,
+                null,
                 null,
                 Mock.Of<IHelpMessageFormatter>());
 
@@ -199,36 +203,36 @@ namespace devoctomy.Passchamp.SignTool.UnitTests
         //    });
         //}
 
-        [Fact]
-        public async Task GivenVerifyArguments_WhenRun_ThenNotImplementedExceptionThrown()
-        {
-            // Arrange
-            var mockCommandLineArgumentService = new Mock<ICommandLineArgumentService>();
-            var mockCommandLineParserService = new Mock<ICommandLineParserService>();
-            var sut = new SignToolProgram(
-                mockCommandLineArgumentService.Object,
-                mockCommandLineParserService.Object,
-                null,
-                null,
-                Mock.Of<IHelpMessageFormatter>());
+        //[Fact]
+        //public async Task GivenVerifyArguments_WhenRun_ThenNotImplementedExceptionThrown()
+        //{
+        //    // Arrange
+        //    var mockCommandLineArgumentService = new Mock<ICommandLineArgumentService>();
+        //    var mockCommandLineParserService = new Mock<ICommandLineParserService>();
+        //    var sut = new SignToolProgram(
+        //        mockCommandLineArgumentService.Object,
+        //        mockCommandLineParserService.Object,
+        //        null,
+        //        null,
+        //        Mock.Of<IHelpMessageFormatter>());
 
-            var preOptions = new ParseResults
-            {
-                Options = new PreOptions
-                {
-                    Command = Command.Verify
-                }
-            };
-            mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
-                It.Is<Type>(y => y == typeof(PreOptions)),
-                It.IsAny<string>(),
-                out preOptions)).Returns(true);
+        //    var preOptions = new ParseResults
+        //    {
+        //        Options = new PreOptions
+        //        {
+        //            Command = Command.Verify
+        //        }
+        //    };
+        //    mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
+        //        It.Is<Type>(y => y == typeof(PreOptions)),
+        //        It.IsAny<string>(),
+        //        out preOptions)).Returns(true);
 
-            // Act
-            await Assert.ThrowsAnyAsync<NotImplementedException>(async () =>
-            {
-                await sut.Run();
-            });
-        }
+        //    // Act
+        //    await Assert.ThrowsAnyAsync<NotImplementedException>(async () =>
+        //    {
+        //        await sut.Run();
+        //    });
+        //}
     }
 }

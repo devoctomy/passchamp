@@ -30,6 +30,15 @@ namespace devoctomy.Passchamp.SignTool.Services
             return true;
         }
 
+        public async Task<int> Verify(VerifyOptions verifyOptions)
+        {
+            var publicKey = await File.ReadAllTextAsync(verifyOptions.KeyFile);
+            var result = await Verify(
+                verifyOptions.Input,
+                publicKey);
+            return result ? 0 : -1; // !!! TODO: Error code?
+        }
+
         public async Task<bool> Verify(
             string path,
             string publicKey)

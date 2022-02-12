@@ -306,8 +306,8 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
         [Xunit.TraitAttribute("Description", "01) Sign a JSON file")]
         [Xunit.TraitAttribute("Category", "Sign")]
-        [Xunit.InlineDataAttribute("1", "Data/json/unsigned/unsigned1.json", "Data/keys/privatekey.json", new string[0])]
-        public virtual void _01SignAJSONFile(string @case, string inputJsonFile, string privateKeyFile, string[] exampleTags)
+        [Xunit.InlineDataAttribute("1", "Data/json/unsigned/unsigned1.json", "Data/keys/privatekey.json", "signed.json", new string[0])]
+        public virtual void _01SignAJSONFile(string @case, string inputJsonFile, string privateKeyFile, string outputFileName, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "Sign"};
@@ -320,6 +320,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("Case", @case);
             argumentsOfScenario.Add("InputJsonFile", inputJsonFile);
             argumentsOfScenario.Add("PrivateKeyFile", privateKeyFile);
+            argumentsOfScenario.Add("OutputFileName", outputFileName);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Sign a JSON file", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 37
 this.ScenarioInitialize(scenarioInfo);
@@ -351,13 +352,133 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And(string.Format("input file of \"{0}\"", inputJsonFile), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 41
- testRunner.And("random output filename", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("output filename of \"{0}\"", outputFileName), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 42
  testRunner.When("run", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 43
  testRunner.Then("signature present in json", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="02) Verify a signed JSON file")]
+        [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
+        [Xunit.TraitAttribute("Description", "02) Verify a signed JSON file")]
+        [Xunit.TraitAttribute("Category", "Verify")]
+        [Xunit.InlineDataAttribute("1", "signed.json", "Data/keys/publickey.json", new string[0])]
+        public virtual void _02VerifyASignedJSONFile(string @case, string inputJsonFile, string publicKeyFile, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Verify"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Case", @case);
+            argumentsOfScenario.Add("InputJsonFile", inputJsonFile);
+            argumentsOfScenario.Add("PublicKeyFile", publicKeyFile);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Verify a signed JSON file", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 51
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 52
+ testRunner.Given("verify command", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 53
+ testRunner.And(string.Format("public key file of \"{0}\"", publicKeyFile), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 54
+ testRunner.And(string.Format("input file of \"{0}\"", inputJsonFile), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 55
+ testRunner.When("run", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 56
+ testRunner.Then("verify successful", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="03) Verify a signed JSON file that\'s been modified")]
+        [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
+        [Xunit.TraitAttribute("Description", "03) Verify a signed JSON file that\'s been modified")]
+        [Xunit.TraitAttribute("Category", "Verify")]
+        [Xunit.InlineDataAttribute("1", "signed.json", "modified.json", "Data/keys/publickey.json", new string[0])]
+        public virtual void _03VerifyASignedJSONFileThatsBeenModified(string @case, string inputJsonFile, string modifiedInputJsonFile, string publicKeyFile, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "Verify"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("Case", @case);
+            argumentsOfScenario.Add("InputJsonFile", inputJsonFile);
+            argumentsOfScenario.Add("ModifiedInputJsonFile", modifiedInputJsonFile);
+            argumentsOfScenario.Add("PublicKeyFile", publicKeyFile);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Verify a signed JSON file that\'s been modified", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+#line 64
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            bool isScenarioIgnored = default(bool);
+            bool isFeatureIgnored = default(bool);
+            if ((tagsOfScenario != null))
+            {
+                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((this._featureTags != null))
+            {
+                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
+            }
+            if ((isScenarioIgnored || isFeatureIgnored))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 65
+ testRunner.Given("verify command", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 66
+ testRunner.And(string.Format("public key file of \"{0}\"", publicKeyFile), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 67
+ testRunner.And(string.Format("modify input file \"{0}\" and save as \"{1}\"", inputJsonFile, modifiedInputJsonFile), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 68
+ testRunner.And(string.Format("input file of \"{0}\"", modifiedInputJsonFile), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 69
+ testRunner.When("run", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 70
+ testRunner.Then("verify failed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

@@ -37,6 +37,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
                 arguments); 
             var process = Process.Start(processStartInfo);
             process.WaitForExit();
+            _scenarioContext.Set(process.ExitCode, "exitCode");         
         }
 
         [Then(@"private key file generated of (.*) bytes")]
@@ -61,6 +62,12 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
             _scenarioContext.Set("sign", "arguments");
         }
 
+        [Given(@"verify command")]
+        public void GivenVerifyCommand()
+        {
+            _scenarioContext.Set("verify", "arguments");
+        }
+
         [Given("private key file of \"(.*)\"")]
         public void GivenPrivateKeyFileOf(string privateKeyFile)
         {
@@ -70,24 +77,46 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
             _scenarioContext.Set(arguments, "arguments");
         }
 
+        [Given("public key file of \"(.*)\"")]
+        public void GivenPublicKeyFileOf(string publicKeyFile)
+        {
+            Assert.True(File.Exists(publicKeyFile));
+            var arguments = _scenarioContext.Get<string>("arguments");
+            arguments += $" -p=\"{publicKeyFile}\"";
+            _scenarioContext.Set(arguments, "arguments");
+        }
+
         [Given("input file of \"(.*)\"")]
-        public void GivenJsonFileOf(string inputFile)
+        public void GivenInputFileOf(string inputFile)
         {
             Assert.True(File.Exists(inputFile));
             var arguments = _scenarioContext.Get<string>("arguments");
             arguments += $" -i=\"{inputFile}\"";
             _scenarioContext.Set(arguments, "arguments");
+            _scenarioContext.Set(inputFile, "input");
         }
 
-        [Given(@"random output filename")]
-        public void GivenRandomOutputFilename()
+        [Given("output filename of \"(.*)\"")]
+        public void GivenOutputFilenameOf(string outputFile)
         {
-            var outputfile = $"{System.Guid.NewGuid().ToString()}.json";
             var arguments = _scenarioContext.Get<string>("arguments");
-            arguments += $" -o=\"{outputfile}\"";
+            arguments += $" -o=\"{outputFile}\"";
             _scenarioContext.Set(arguments, "arguments");
-            _scenarioContext.Set(outputfile, "outputfile");
+            _scenarioContext.Set(outputFile, "outputfile");
         }
+
+        [Given("modify input file \"(.*)\" and save as \"(.*)\"")]
+        public void GivenModifyInputFileAndSaveAs(
+            string inputFile,
+            string outputFile)
+        {
+            var rawJson = File.ReadAllText(inputFile);
+            var json = JObject.Parse(rawJson);
+            json["SomeField"] = "Bob Hoskins";
+            File.WriteAllText(outputFile, json.ToString(Newtonsoft.Json.Formatting.Indented));
+            _scenarioContext.Set(outputFile, "input");
+        }
+
 
         [Then(@"signature present in json")]
         public void ThenSignaturePresentInJson()
@@ -97,7 +126,20 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Steps
             var outputRaw = File.ReadAllText(output.FullName);
             var outputJson = JObject.Parse(outputRaw);
             Assert.True(outputJson.ContainsKey("Signature"));
-            output.Delete();
+        }
+
+        [Then(@"verify successful")]
+        public void ThenVerifySuccessful()
+        {
+            var exitCode = _scenarioContext.Get<int>("exitCode");
+            Assert.Equal(0, exitCode);
+        }
+
+        [Then(@"verify failed")]
+        public void ThenVerifyFailed()
+        {
+            var exitCode = _scenarioContext.Get<int>("exitCode");
+            Assert.True(exitCode != 0);
         }
     }
 }

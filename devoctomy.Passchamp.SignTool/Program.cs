@@ -27,6 +27,7 @@ namespace devoctomy.Passchamp.SignTool
                     .AddSingleton<ICommandLineParserService, CommandLineParserService>((IServiceProvider _) => { return CommandLineParserService.CreateDefaultInstance(); })
                     .AddSingleton<IGenerateService, GenerateService>()
                     .AddSingleton<IRsaJsonSignerService, RsaJsonSignerService>()
+                    .AddSingleton<IRsaJsonVerifierService, RsaJsonVerifierService>()
                     .AddSingleton<IHelpMessageFormatter, HelpMessageFormatter>()
                     .AddSingleton<IProgram, SignToolProgram>());
     }
