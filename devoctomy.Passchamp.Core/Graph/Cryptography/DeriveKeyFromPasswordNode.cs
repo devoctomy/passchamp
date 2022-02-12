@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
+    [Obsolete("Please use DeriveKeyFromPasswordExNode due to better security.")]
     public class DeriveKeyFromPasswordNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]

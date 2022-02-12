@@ -91,10 +91,21 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
         /// <summary>
         /// Derives bytes from the provided password and optional salt
         /// </summary>
-        /// <param name="password">Password used to derive the bytes from</param>
+        /// <param name="password">Password used to derive the bytes from as a string</param>
         /// <param name="saltInBytes">Salt to use in derivation process</param>
         /// <returns>The derived bytes</returns>
         public byte[] DeriveBytes(string password, byte[] saltInBytes)
+        {
+            return DeriveBytes(Encoding.UTF8.GetBytes(password), saltInBytes);
+        }
+
+        /// <summary>
+        /// Derives bytes from the provided password and optional salt
+        /// </summary>
+        /// <param name="password">Password used to derive the bytes from as a byte array</param>
+        /// <param name="saltInBytes">Salt to use in derivation process</param>
+        /// <returns>The derived bytes</returns>
+        public byte[] DeriveBytes(byte[] password, byte[] saltInBytes)
         {
             var N = IterationCount;
             var r = BlockSize;
@@ -110,9 +121,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
                 throw new InvalidOperationException("Parameters are too large");
             }
 
-            var passwordBytes = Encoding.UTF8.GetBytes(password);
-
-            byte[] hashed = CryptoScrypt(passwordBytes, saltInBytes, N, r, p);
+            byte[] hashed = CryptoScrypt(password, saltInBytes, N, r, p);
 
             return (hashed);
         }

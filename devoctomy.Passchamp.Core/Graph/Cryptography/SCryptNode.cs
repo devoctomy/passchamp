@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
+    [Obsolete("Please use SCryptExNode due to better security.")]
     public class SCryptNode : NodeBase
     {
         [NodeInputPin(ValueType = typeof(int))]
