@@ -66,7 +66,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             // Arrange
             var jsonData = await System.IO.File.ReadAllTextAsync(
                 fileName,
-                CancellationToken.None);
+                CancellationToken.None).ConfigureAwait(false);
             var nodesJson = JObject.Parse(jsonData);
             var sut = new NodesJsonParserService();
 

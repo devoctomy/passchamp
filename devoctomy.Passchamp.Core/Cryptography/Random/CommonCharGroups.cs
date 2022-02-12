@@ -6,7 +6,7 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
     [ExcludeFromCodeCoverage]
     public static class CommonCharGroups
     {
-        public static Dictionary<string, CharGroup> CharGroups = new Dictionary<string, CharGroup>
+        private readonly static Dictionary<string, CharGroup> _charGroups = new()
         {
             { "Lowercase", new CharGroup { Name = "Lowercase", Chars = "abcdefghijklmnopqrstuvwxyz" } },
             { "Uppercase", new CharGroup { Name = "Uppercase", Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" } },
@@ -17,5 +17,7 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
             { "Brackets", new CharGroup { Name = "Brackets", Chars = "[]{}()<>" } },
             { "Other", new CharGroup { Name = "Other", Chars = "!£$%&+@#,.\\/" } },
         };
+
+        public static IReadOnlyDictionary<string, CharGroup> CharGroups => _charGroups;
     }
 }

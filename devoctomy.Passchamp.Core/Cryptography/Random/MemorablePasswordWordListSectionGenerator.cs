@@ -28,7 +28,7 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
             }
 
             var randomWord = GetRandomWordFromList(context.WordLists[argumentParts[0]]);
-            var casing = argumentParts[1].ToLower();
+            var casing = argumentParts[1].ToLowerInvariant();
             if (casing == "rc")
             {
                 var casingOptions = new string[] { "lc", "uc", "ic" };
@@ -39,19 +39,19 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
             {
                 case "lc":
                     {
-                        randomWord = randomWord.ToLower();
+                        randomWord = randomWord.ToLowerInvariant();
                         break;
                     }
 
                 case "uc":
                     {
-                        randomWord = randomWord.ToUpper();
+                        randomWord = randomWord.ToUpperInvariant();
                         break;
                     }
 
                 case "ic":
                     {
-                        randomWord = randomWord[0].ToString().ToUpper() + randomWord.Substring(1);
+                        randomWord = randomWord[0].ToString().ToUpperInvariant() + randomWord[1..];
                         break;
                     }
 
