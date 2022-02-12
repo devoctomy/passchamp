@@ -83,6 +83,7 @@ namespace devoctomy.Passchamp.SignTool.Services
                             {
                                 var exitCode = await _rsaJsonVerifierService.Verify(verifyOptions.OptionsAs<VerifyOptions>());
                                 Console.WriteLine($"Signature verification {(exitCode == 0 ? "successful" : "failed")}");
+                                return exitCode;
                             }
                             else
                             {
