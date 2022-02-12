@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using devoctomy.Passchamp.Core.Graph;
@@ -78,9 +80,9 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new DeriveKeyFromPasswordNode
             {
-                Password = (IDataPin<string>)DataPinFactory.Instance.Create(
-                    "Password",
-                    password),
+                SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                    "SecurePassword",
+                    new NetworkCredential(null, password).SecurePassword),
                 KeyLength = (IDataPin<int>)DataPinFactory.Instance.Create(
                     "KeyLength",
                     keyLength),
@@ -100,9 +102,9 @@ namespace devoctomy.Passchamp.IntTests.Steps
 
             var node = new SCryptNode
             {
-                Password = (IDataPin<string>)DataPinFactory.Instance.Create(
-                    "Password",
-                    password),
+                SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                    "SecurePassword",
+                    new NetworkCredential(null, password).SecurePassword),
                 IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
                     "IterationCount",
                     1024),

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -45,16 +47,16 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
-        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin<string> Password
+        [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
+        public IDataPin<SecureString> SecurePassword
         {
             get
             {
-                return GetInput<string>("Password");
+                return GetInput<SecureString>("SecurePassword");
             }
             set
             {
-                Input["Password"] = value;
+                Input["SecurePassword"] = value;
             }
         }
 
@@ -89,7 +91,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
                 BlockSize.Value,
                 ThreadCount.Value);
             Key.Value = scrypt.DeriveBytes(
-                Password.Value,
+                new NetworkCredential(null, SecurePassword.Value).Password,
                 Salt.Value);
             return Task.CompletedTask;
         }

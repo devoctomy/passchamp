@@ -1,20 +1,22 @@
-﻿using System.Threading;
+﻿using System.Net;
+using System.Security;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class DeriveKeyFromPasswordNode : NodeBase
     {
-        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin<string> Password
+        [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
+        public IDataPin<SecureString> SecurePassword
         {
             get
             {
-                return GetInput<string>("Password");
+                return GetInput<SecureString>("SecurePassword");
             }
             set
             {
-                Input["Password"] = value;
+                Input["SecurePassword"] = value;
             }
         }
 
@@ -71,7 +73,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             CancellationToken cancellationToken)
         {
             using var crypto = new System.Security.Cryptography.Rfc2898DeriveBytes(
-                Password.Value,
+                new NetworkCredential(null, SecurePassword.Value).Password,
                 Salt.Value,
                 IterationCount.Value);
             Key.Value = crypto.GetBytes(KeyLength.Value);

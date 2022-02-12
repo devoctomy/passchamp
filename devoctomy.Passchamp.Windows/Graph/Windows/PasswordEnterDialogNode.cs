@@ -1,6 +1,7 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Windows.Views;
 using System;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,12 +9,12 @@ namespace devoctomy.Passchamp.Windows.Graph.Windows
 {
     public class PasswordEnterDialogNode : NodeBase
     {
-        [NodeOutputPin(ValueType = typeof(string))]
-        public IDataPin<string> Password
+        [NodeOutputPin(ValueType = typeof(SecureString))]
+        public IDataPin<SecureString> SecurePassword
         {
             get
             {
-                return GetOutput<string>("Password");
+                return GetOutput<SecureString>("SecurePassword");
             }
         }
 
@@ -36,8 +37,7 @@ namespace devoctomy.Passchamp.Windows.Graph.Windows
             var result = passwordEnterDialog.ShowDialog();
             if (result.GetValueOrDefault())
             {
-                var networkCredential = new System.Net.NetworkCredential(string.Empty, passwordEnterDialog.Password);
-                Password.Value = networkCredential.Password;
+                SecurePassword.Value = passwordEnterDialog.Password;
             }
         }
     }

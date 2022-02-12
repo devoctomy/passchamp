@@ -2,6 +2,8 @@
 using devoctomy.Passchamp.Core.Graph.Cryptography;
 using Moq;
 using System;
+using System.Net;
+using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,9 +22,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var iterationCount = 10000;
             var sut = new DeriveKeyFromPasswordNode
             {
-                Password = (IDataPin<string>)DataPinFactory.Instance.Create(
-                    "Password",
-                    password),
+                SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                    "SecurePassword",
+                    new NetworkCredential(null, password).SecurePassword),
                 Salt = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
                     "Salt",
                     salt),

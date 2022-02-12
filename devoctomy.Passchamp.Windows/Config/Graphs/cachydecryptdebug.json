@@ -69,8 +69,8 @@
               "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
               "Inputs": [
                 {
-                  "Key": "Password",
-                  "Value": "enterpassword.Password"
+                  "Key": "SecurePassword",
+                  "Value": "enterpassword.SecurePassword"
                 },
                 {
                   "Key": "KeyLength",

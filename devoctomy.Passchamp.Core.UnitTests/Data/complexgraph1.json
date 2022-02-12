@@ -7,7 +7,7 @@
   "InputPins": [
     {
       "Key": "Password",
-      "Type": "System.String",
+      "Type": "System.Security.SecureString",
       "Value": "Password123"
     },
     {
@@ -67,7 +67,7 @@
           "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
           "Inputs": [
             {
-              "Key": "Password",
+              "Key": "SecurePassword",
               "Value": "Pins.Password"
             },
             {

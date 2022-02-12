@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace devoctomy.Passchamp.Core.Graph.Services
 {
@@ -24,11 +25,19 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                             value = curPinJson["Value"].Value<string>();
                             break;
                         }
+
                     case "Int32":
                         {
                             value = curPinJson["Value"].Value<int>();
                             break;
                         }
+
+                    case "SecureString":
+                        {
+                            value = new NetworkCredential(null, curPinJson["Value"].Value<string>()).SecurePassword;
+                            break;
+                        }
+
                     default:
                         {
                             throw new NotSupportedException($"Pin value type '{curPinJson["Type"].Value<string>()}' not supported.");

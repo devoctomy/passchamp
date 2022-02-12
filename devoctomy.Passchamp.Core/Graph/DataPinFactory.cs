@@ -2,12 +2,13 @@
 using devoctomy.Passchamp.Core.Graph.Services;
 using System;
 using System.Collections.Generic;
+using System.Security;
 
 namespace devoctomy.Passchamp.Core.Graph
 {
     public class DataPinFactory : IDataPinFactory
     {
-        private readonly Dictionary<string, Type> _typeMap = new Dictionary<string, Type>
+        private readonly Dictionary<string, Type> _typeMap = new()
         {
             { "Boolean", typeof(bool) },
             { "String", typeof(string) },
@@ -17,7 +18,8 @@ namespace devoctomy.Passchamp.Core.Graph
             { "Byte[]", typeof(byte[]) },
             { "DataPinIntermediateValue", typeof(DataPinIntermediateValue) },
             { "DataParserSection", typeof(DataParserSection) },
-            { "Vault", typeof(Core.Vault.Vault) }
+            { "Vault", typeof(Core.Vault.Vault) },
+            { "SecureString", typeof(SecureString) }
         };
 
         private static IDataPinFactory _instance;

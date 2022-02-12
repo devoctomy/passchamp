@@ -207,14 +207,9 @@ namespace devoctomy.Passchamp.Core.Graph
 
         public void AttachGraph(IGraph graph)
         {
-            if(graph == null)
-            {
-                throw new ArgumentException(
+            _graph = graph ?? throw new ArgumentException(
                     "Value cannot be null",
-                    "graph");
-            }
-
-            _graph = graph;
+                    nameof(graph));
         }
 
         public void OutputMessage(string message)
