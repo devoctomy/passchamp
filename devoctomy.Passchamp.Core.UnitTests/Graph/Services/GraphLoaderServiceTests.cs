@@ -1,4 +1,9 @@
-﻿using devoctomy.Passchamp.Core.Graph.Services;
+﻿using devoctomy.Passchamp.Core.Extensions;
+using devoctomy.Passchamp.Core.Graph.Cryptography;
+using devoctomy.Passchamp.Core.Graph.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,9 +23,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         public async Task GivenFileName_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndDetailsCorrect(string fileName)
         {
             // Arrange
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddPasschampCoreServices();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
                 new PinsJsonParserService(),
-                new NodesJsonParserService(),
+                new NodesJsonParserService(serviceProvider),
                 null,
                 null);
 
@@ -53,9 +61,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         public async Task GivenFileName_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndGraphExecutes_AndOutputFileCreated(string fileName)
         {
             // Arrange
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddPasschampCoreServices();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
                 new PinsJsonParserService(),
-                new NodesJsonParserService(),
+                new NodesJsonParserService(serviceProvider),
                 null,
                 null);
 
@@ -78,9 +89,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         {
             // Arrange
             using var jsonDataStream = File.OpenRead(fileName);
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddPasschampCoreServices();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
                 new PinsJsonParserService(),
-                new NodesJsonParserService(),
+                new NodesJsonParserService(serviceProvider),
                 null,
                 null);
 

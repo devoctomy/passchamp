@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Core.Graph;
+﻿using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Cryptography;
 using Moq;
 using System;
@@ -20,7 +21,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
             var salt = new byte[16];
             var keyLength = 32;
             var iterationCount = 10000;
-            var sut = new DeriveKeyFromPasswordExNode
+            var sut = new DeriveKeyFromPasswordExNode(new SecureStringUnpacker())
             {
                 SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
                     "SecurePassword",

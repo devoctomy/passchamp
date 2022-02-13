@@ -8,6 +8,8 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class SCryptExNode : NodeBase
     {
+        private readonly ISecureStringUnpacker _secureStringUnpacker;
+
         [NodeInputPin(ValueType = typeof(int))]
         public IDataPin<int> IterationCount
         {
@@ -82,11 +84,15 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        public SCryptExNode(ISecureStringUnpacker secureStringUnpacker)
+        {
+            _secureStringUnpacker = secureStringUnpacker;
+        }
+
         protected override Task DoExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            var unpacker = new SecureStringUnpacker();
             Action<byte[]> callback = buffer =>
             {
                 var scrypt = new SCrypt(
@@ -97,7 +103,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
                     buffer,
                     Salt.Value);
             };
-            unpacker.Unpack(SecurePassword.Value, callback);
+            _secureStringUnpacker.Unpack(SecurePassword.Value, callback);
             return Task.CompletedTask;
         }
     }

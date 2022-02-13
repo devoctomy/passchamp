@@ -8,6 +8,8 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
 {
     public class DeriveKeyFromPasswordExNode : NodeBase
     {
+        private readonly ISecureStringUnpacker _secureStringUnpacker;
+
         [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
         public IDataPin<SecureString> SecurePassword
         {
@@ -69,11 +71,15 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             }
         }
 
+        public DeriveKeyFromPasswordExNode(ISecureStringUnpacker secureStringUnpacker)
+        {
+            _secureStringUnpacker = secureStringUnpacker;
+        }
+
         protected override Task DoExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            var unpacker = new SecureStringUnpacker();
             Action<byte[]> callback = buffer =>
             {
                 using (var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
@@ -84,7 +90,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
                     Key.Value = rfc2898.GetBytes(KeyLength.Value);
                 }
             };
-            unpacker.Unpack(SecurePassword.Value, callback);
+            _secureStringUnpacker.Unpack(SecurePassword.Value, callback);
             return Task.CompletedTask;
         }
     }

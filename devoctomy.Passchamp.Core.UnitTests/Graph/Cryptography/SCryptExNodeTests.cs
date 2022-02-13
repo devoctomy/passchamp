@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Core.Graph;
+﻿using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Cryptography;
 using Moq;
 using System;
@@ -28,7 +29,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
         {
             // Arrange
             var mockGraph = new Mock<IGraph>();
-            var sut = new SCryptExNode
+            var sut = new SCryptExNode(new SecureStringUnpacker())
             {
                 IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
                     "IterationCount",

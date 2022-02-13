@@ -59,7 +59,7 @@ namespace devoctomy.Passchamp.Core.Graph
             Nodes = nodes;
             _nodeKeys = Nodes?.ToList().ToDictionary(
                 x => x.Value,
-                x => x.Key);
+                x => x.Key);    // !!! BUG, We don't support more than one node of the same type!
             if(Nodes != null)
             {
                 foreach (var curNode in Nodes)

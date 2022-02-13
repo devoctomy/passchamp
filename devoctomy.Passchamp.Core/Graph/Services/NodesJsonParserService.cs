@@ -34,12 +34,17 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             IServiceProvider serviceProvider)
         {
             var type = curNode["Type"].Value<string>().Split(":");
+            if (type.Length != 2)
+            {
+                throw new TypeLoadException("Node type name should be 'Assembly:Type'.");
+            }
+
             var nodeAssembly = Assembly.Load(type[0]);
             var nodeType = nodeAssembly.GetType(type[1]);
             var node = type.Length == 2 ? serviceProvider.GetService(nodeType) : null;
             if (node == null)
             {
-                throw new TypeLoadException($"Could not activate instance of '{type}'.");
+                throw new TypeLoadException($"Could not activate instance of '{type[0]}:{type[1]}'.");
             }
             var inode = node as INode;
 

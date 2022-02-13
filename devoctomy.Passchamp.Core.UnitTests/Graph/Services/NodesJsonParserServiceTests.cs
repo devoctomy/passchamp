@@ -1,4 +1,6 @@
-﻿using devoctomy.Passchamp.Core.Graph.Services;
+﻿using devoctomy.Passchamp.Core.Graph.Cryptography;
+using devoctomy.Passchamp.Core.Graph.Services;
+using Moq;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
                 fileName,
                 CancellationToken.None).ConfigureAwait(false);
             var nodesJson = JObject.Parse(jsonData);
-            var sut = new NodesJsonParserService();
+            var mockServiceProvider = new Mock<IServiceProvider>();
+            var sut = new NodesJsonParserService(mockServiceProvider.Object);
+
+            mockServiceProvider.Setup(x => x.GetService(
+                It.IsAny<Type>()))
+                .Returns(new RandomByteArrayGeneratorNode());
 
             // Act
             var result = sut.Parse(
@@ -48,7 +55,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
                 fileName,
                 CancellationToken.None).ConfigureAwait(false);
             var nodesJson = JObject.Parse(jsonData);
-            var sut = new NodesJsonParserService();
+            var mockServiceProvider = new Mock<IServiceProvider>();
+            var sut = new NodesJsonParserService(mockServiceProvider.Object);
 
             // Act & Assert
             Assert.ThrowsAny<TypeLoadException>(() =>
@@ -68,7 +76,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
                 fileName,
                 CancellationToken.None).ConfigureAwait(false);
             var nodesJson = JObject.Parse(jsonData);
-            var sut = new NodesJsonParserService();
+            var mockServiceProvider = new Mock<IServiceProvider>();
+            var sut = new NodesJsonParserService(mockServiceProvider.Object);
+
+            mockServiceProvider.Setup(x => x.GetService(
+                It.IsAny<Type>())).Returns(new RandomByteArrayGeneratorNode());
 
             // Act & Assert
             Assert.ThrowsAny<KeyNotFoundException>(() =>
