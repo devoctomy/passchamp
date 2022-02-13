@@ -1,10 +1,12 @@
 ﻿using devoctomy.Passchamp.Core.Extensions;
+using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Windows.Model;
 using devoctomy.Passchamp.Windows.Services;
 using devoctomy.Passchamp.Windows.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.DependencyInjection;
+using System.Linq;
 using System.Windows;
 
 namespace devoctomy.Passchamp.Windows
@@ -27,7 +29,9 @@ namespace devoctomy.Passchamp.Windows
             ConfigureModels(services);
             ConfigureViewModels(services);
             ConfigureServices(services);
-            Ioc.Default.ConfigureServices(services.BuildServiceProvider());
+            AddNodes(services);
+            var serviceProvider = services.BuildServiceProvider();
+            Ioc.Default.ConfigureServices(serviceProvider);
         }
 
         private static void ConfigureServices(IServiceCollection services)
@@ -46,6 +50,17 @@ namespace devoctomy.Passchamp.Windows
         {
             services.AddScoped<MainViewModel>();
             services.AddScoped<GraphTesterViewModel>();
+        }
+
+        private static void AddNodes(IServiceCollection services)
+        {
+            var nodeAssembly = typeof(App).Assembly;
+            var allNodes = nodeAssembly.GetTypes().Where(x => typeof(INode).IsAssignableFrom(x) && !x.IsInterface).ToList();
+            foreach (var node in allNodes)
+            {
+                services.AddScoped(typeof(INode), node);
+                services.AddScoped(node);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Core.Graph.Services;
+﻿using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 
@@ -25,6 +26,19 @@ namespace devoctomy.Passchamp.Core.Extensions
             foreach (var pinOutputFunction in allPinOutputFunctions)
             {
                 services.AddScoped(typeof(IGraphPinOutputFunction), pinOutputFunction);
+            }
+
+            AddNodes(services);
+        }
+
+        private static void AddNodes(this IServiceCollection services)
+        {
+            var nodeAssembly = typeof(INode).Assembly;
+            var allNodes = nodeAssembly.GetTypes().Where(x => typeof(INode).IsAssignableFrom(x) && !x.IsInterface).ToList();
+            foreach (var node in allNodes)
+            {
+                services.AddScoped(typeof(INode), node);
+                services.AddScoped(node);
             }
         }
     }
