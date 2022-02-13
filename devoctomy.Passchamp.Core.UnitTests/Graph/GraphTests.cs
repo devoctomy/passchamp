@@ -65,38 +65,38 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             });
         }
 
-        [Fact]
-        public async Task GivenGraph_WhenExecute_ThenExecutionOrderIsCorrect()
-        {
-            // Arrange
-            var node1 = new NodeBase
-            {
-                NextKey = "node2"
-            };
-            var node2 = new NodeBase();
-            var nodes = new Dictionary<string, INode>
-            {
-                { "node1", node1 },
-                { "node2", node2 }
-            };
-            var startKey = "node1";
-            var sut = new Core.Graph.Graph(
-                null,
-                null,
-                null,
-                nodes,
-                startKey,
-                null,
-                null,
-                null);
-            var cancellationTokenSource = new CancellationTokenSource();
+        //[Fact]
+        //public async Task GivenGraph_WhenExecute_ThenExecutionOrderIsCorrect()
+        //{
+        //    // Arrange
+        //    var node1 = new NodeBase
+        //    {
+        //        NextKey = "node2"
+        //    };
+        //    var node2 = new NodeBase();
+        //    var nodes = new Dictionary<string, INode>
+        //    {
+        //        { "node1", node1 },
+        //        { "node2", node2 }
+        //    };
+        //    var startKey = "node1";
+        //    var sut = new Core.Graph.Graph(
+        //        null,
+        //        null,
+        //        null,
+        //        nodes,
+        //        startKey,
+        //        null,
+        //        null,
+        //        null);
+        //    var cancellationTokenSource = new CancellationTokenSource();
 
-            // Act
-            await sut.ExecuteAsync(cancellationTokenSource.Token);
+        //    // Act
+        //    await sut.ExecuteAsync(cancellationTokenSource.Token);
 
-            // Assert
-            Assert.Equal("node1,node2", string.Join(",", sut.ExecutionOrder));
-        }
+        //    // Assert
+        //    Assert.Equal("node1,node2", string.Join(",", sut.ExecutionOrder));
+        //}
 
         [Fact]
         public async Task GivenGraph_AndNodes_AndOutputMessageDelegate_WhenExecute_ThenMessagesOutputFromNodes()

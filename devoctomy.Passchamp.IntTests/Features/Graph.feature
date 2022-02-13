@@ -24,7 +24,7 @@ Scenario: 01) Encrypt string using a password and write to disk
 	When Execute graph
 	Then Output file <FileName> created of 48 bytes in length
 	And All nodes executed
-	And All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encoder,encrypt,joiner,writer
+	#And All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encoder,encrypt,joiner,writer
 
 	Examples:
 
@@ -48,7 +48,7 @@ Scenario: 02) Decrypt file using a password to correct plain text
 	When Execute graph
 	Then Node <DecoderNodeName> output pin PlainText equals string <PlainText>
 	And All nodes executed
-	And All all nodes executed in correct order of reader,parser,derivekey,decrypt,decode
+	#And All all nodes executed in correct order of reader,parser,derivekey,decrypt,decode
 
 	Examples:
 
@@ -76,7 +76,7 @@ Scenario: 03) Encrypt string using a password with scrypt and write to disk
 	When Execute graph
 	Then Output file <FileName> created of 48 bytes in length
 	And All nodes executed
-	And All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encoder,encrypt,joiner,writer
+	#And All all nodes executed in correct order of saltgenerator,ivgenerator,derive,encoder,encrypt,joiner,writer
 
 	Examples:
 
@@ -100,7 +100,7 @@ Scenario: 04) Decrypt file using a password with scrypt to correct plain text
 	When Execute graph
 	Then Node <DecoderNodeName> output pin PlainText equals string <PlainText>
 	And All nodes executed
-	And All all nodes executed in correct order of reader,parser,derivekey,decrypt,decode
+	#And All all nodes executed in correct order of reader,parser,derivekey,decrypt,decode
 
 	Examples:
 
