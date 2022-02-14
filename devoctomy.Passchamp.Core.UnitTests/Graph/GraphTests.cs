@@ -30,7 +30,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 null,
-                null,
                 null);
 
             // Assert
@@ -59,7 +58,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                     null,
                     nodes,
                     startKey,
-                    null,
                     null,
                     null);
             });
@@ -90,7 +88,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 null,
                 nodes,
                 startKey,
-                null,
                 null,
                 null);
             var cancellationTokenSource = new CancellationTokenSource();
@@ -139,7 +136,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 outputMessageDelegate,
-                null,
                 null);
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -169,7 +165,13 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var startKey = "node1";
             var outputPins = new Dictionary<string, IPin>
             {
-                { "Output", DataPinFactory.Instance.Create("Output", "node1.OutputTest") }
+                {
+                    "Output",
+                    DataPinFactory.Instance.Create(
+                        "Output",
+                        new DataPinIntermediateValue("node1.OutputTest"),
+                        typeof(DataPinIntermediateValue))
+                }
             };
             var sut = new Core.Graph.Graph(
                 null,
@@ -178,7 +180,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 null,
-                null,
                 null);
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -186,16 +187,17 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
-            Assert.Equal("Hello World!", sut.OutputPins["Output"].ObjectValue);
+            Assert.Equal(node1.OutputTest.Value, sut.OutputPins["Output"].ObjectValue);
         }
 
         [Fact]
         public async Task GivenGraph_WithOutputPinMappedToInputPin_WhenExecute_ThenOutputPinValueSet()
         {
             // Arrange
+            var node1 = new TestNode();
             var nodes = new Dictionary<string, INode>
             {
-                { "node1", new TestNode() },
+                { "node1", node1 },
             };
             var startKey = "node1";
             var inputPins = new Dictionary<string, IPin>
@@ -204,7 +206,13 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var outputPins = new Dictionary<string, IPin>
             {
-                { "Output", DataPinFactory.Instance.Create("Output", "Pins.Input") }
+                {
+                    "Output",
+                    DataPinFactory.Instance.Create(
+                        "Output",
+                        new DataPinIntermediateValue("node1.OutputTest"),
+                        typeof(DataPinIntermediateValue))
+                }
             };
             var sut = new Core.Graph.Graph(
                 null,
@@ -213,7 +221,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 null,
-                null,
                 null);
             var cancellationTokenSource = new CancellationTokenSource();
 
@@ -221,25 +228,28 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
-            Assert.Equal(inputPins["Input"].ObjectValue, sut.OutputPins["Output"].ObjectValue);
+            Assert.Equal(node1.OutputTest.Value, sut.OutputPins["Output"].ObjectValue);
         }
 
         [Fact]
         public async Task GivenGraph_WithOutputPinWithOutputFunction_WhenExecute_ThenOutputPinValueSet()
         {
             // Arrange
+            var node1 = new TestNode();
             var nodes = new Dictionary<string, INode>
             {
-                { "node1", new TestNode() },
+                { "node1", node1 },
             };
             var startKey = "node1";
             var outputPins = new Dictionary<string, IPin>
             {
-                { "Output", DataPinFactory.Instance.Create("Output", "TestGraphPinOutputFunction.node1.OutputTest") }
-            };
-            var outputFunctions = new List<IGraphPinOutputFunction>
-            {
-                new TestGraphPinOutputFunction()
+                {
+                    "Output",
+                    DataPinFactory.Instance.Create(
+                        "Output",
+                        new DataPinIntermediateValue("node1.OutputTest"),
+                        typeof(DataPinIntermediateValue))
+                }
             };
             var sut = new Core.Graph.Graph(
                 null,
@@ -248,15 +258,14 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 null,
-                null,
-                outputFunctions);
+                null);
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Act
             await sut.ExecuteAsync(cancellationTokenSource.Token);
 
             // Assert
-            Assert.Equal("Hello World", sut.OutputPins["Output"].ObjectValue);
+            Assert.Equal(node1.OutputTest.Value, sut.OutputPins["Output"].ObjectValue);
         }
 
         [Fact]
@@ -282,8 +291,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 null,
-                prepFunctions,
-                null);
+                prepFunctions);
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Act
@@ -320,8 +328,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
                 nodes,
                 startKey,
                 null,
-                prepFunctions,
-                null);
+                prepFunctions);
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Act

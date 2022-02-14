@@ -57,7 +57,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.IO
             {
                 FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
                     "FileName",
-                    $"{Guid.NewGuid().ToString()}/TestOutputFile1.txt",
+                    $"{Guid.NewGuid()}/TestOutputFile1.txt",
                     typeof(string)),
                 CreateDirectory = (IDataPin<bool>)DataPinFactory.Instance.Create(
                     "CreateDirectory",

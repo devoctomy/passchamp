@@ -14,7 +14,7 @@ namespace devoctomy.Passchamp.Core.Graph
         private readonly Dictionary<string, IPin> _inputPins;
         private readonly Dictionary<string, IPin> _outputPins;
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
-        private readonly IEnumerable<IGraphPinOutputFunction> _pinOutputFunctions;
+        //private readonly IEnumerable<IGraphPinOutputFunction> _pinOutputFunctions;
 
         public GraphSettings Settings { get; set; }
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
@@ -47,17 +47,13 @@ namespace devoctomy.Passchamp.Core.Graph
             Dictionary<string, INode> nodes,
             string startKey,
             IGraph.GraphOutputMessageDelegate outputMessage,
-            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions,
-            IEnumerable<IGraphPinOutputFunction> pinOutputFunctions)
+            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions)
         {
             Settings = settings;
             OutputMessage = outputMessage;
             _inputPins = inputPins;
             _outputPins = outputPins;
             Nodes = nodes;
-            //_nodeKeys = Nodes?.ToList().ToDictionary(
-            //    x => x.Value,
-            //    x => x.Key);    // !!! BUG, We don't support more than one node of the same type!
             if(Nodes != null)
             {
                 foreach (var curNode in Nodes)
@@ -69,7 +65,6 @@ namespace devoctomy.Passchamp.Core.Graph
 
             StartKey = startKey;
             _pinPrepFunctions = pinPrepFunctions ?? new List<IGraphPinPrepFunction>();
-            _pinOutputFunctions = pinOutputFunctions ?? new List<IGraphPinOutputFunction>();
         }
 
         private void PreparePins()
@@ -130,30 +125,13 @@ namespace devoctomy.Passchamp.Core.Graph
                 foreach (var curOutputPinKey in OutputPins.Keys.ToList())
                 {
                     var outputPin = OutputPins[curOutputPinKey];
-                    var path = outputPin.ObjectValue.ToString().Split('.');
-                    if (path[0] == "Pins")
+                    var pinValue = outputPin.ObjectValue as DataPinIntermediateValue;
+                    var path = pinValue.Value.ToString().Split('.');
+                    if (Nodes.ContainsKey(path[0]))
                     {
-                        _outputPins[curOutputPinKey] = InputPins[path[1]];
-                    }
-                    else
-                    {
-                        var pinPrepFunction = _pinOutputFunctions.SingleOrDefault(x => x.IsApplicable(path[0]));
-                        if (pinPrepFunction != null)
-                        {
-                            var result = pinPrepFunction.Execute(
-                                outputPin.ObjectValue.ToString(),
-                                Nodes);
-                            _outputPins[curOutputPinKey] = result;
-                        }
-                        else
-                        {
-                            if(Nodes.ContainsKey(path[0]))
-                            {
-                                var node = Nodes[path[0]];
-                                var nodeOutputPin = node.Output[path[1]];
-                                _outputPins[curOutputPinKey] = nodeOutputPin;
-                            }
-                        }
+                        var node = Nodes[path[0]];
+                        var nodeOutputPin = node.Output[path[1]];
+                        _outputPins[curOutputPinKey] = nodeOutputPin;
                     }
                 }
                 DoOutputMessage("Pins processed");

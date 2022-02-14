@@ -1,6 +1,7 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
 using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Services;
+using devoctomy.Passchamp.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 
@@ -10,9 +11,11 @@ namespace devoctomy.Passchamp.Core.Extensions
     {
         public static void AddPasschampCoreServices(this IServiceCollection services)
         {
+            services.AddScoped<ITypeResolverService, TypeResolverService>();
             services.AddScoped<IGraphLoaderService, GraphLoaderService>();
             services.AddScoped<INodesJsonParserService, NodesJsonParserService>();
-            services.AddScoped<IPinsJsonParserService, PinsJsonParserService>();
+            services.AddScoped<IInputPinsJsonParserService, InputPinsJsonParserService>();
+            services.AddScoped<IOutputPinsJsonParserService, OutputPinsJsonParserService>();
             services.AddScoped<IDataParserSectionParser, DataParserSectionParser>();
             services.AddScoped<ISecureStringUnpacker, SecureStringUnpacker>();
 

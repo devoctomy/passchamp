@@ -13,6 +13,7 @@ namespace devoctomy.Passchamp.Core.Graph
             { "Boolean", typeof(bool) },
             { "String", typeof(string) },
             { "Int32", typeof(int) },
+            { "Int64", typeof(long) },
             { "Single", typeof(float) },
             { "Double", typeof(double) },
             { "Byte[]", typeof(byte[]) },

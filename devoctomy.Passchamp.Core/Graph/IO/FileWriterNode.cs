@@ -45,6 +45,15 @@ namespace devoctomy.Passchamp.Core.Graph.IO
             }
         }
 
+        [NodeOutputPin(ValueType = typeof(long))]
+        public IDataPin<long> OutputLength
+        {
+            get
+            {
+                return GetOutput<long> ("OutputLength");
+            }
+        }
+
         protected override async Task DoExecuteAsync(
             IGraph graph,
             CancellationToken cancellationToken)
@@ -67,6 +76,7 @@ namespace devoctomy.Passchamp.Core.Graph.IO
                 FileName.Value,
                 inputData,
                 cancellationToken).ConfigureAwait(false);
+            OutputLength.Value = outputFile.Length;
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -38,6 +39,10 @@ namespace devoctomy.Passchamp.Windows.ViewModels
             if(Model.Graph != null)
             {
                 await Model.Graph.ExecuteAsync(CancellationToken.None);
+                if (Model.Graph.OutputPins != null)
+                {
+                    var output = Model.Graph.OutputPins.Values.First();
+                }
             }
         }
 

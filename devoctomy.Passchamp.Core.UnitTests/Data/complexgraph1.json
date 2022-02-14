@@ -39,8 +39,8 @@
   "OutputPins": [
     {
       "Key": "Test",
-      "Type": "System.String",
-      "Value": "Hello World!"
+      "Type": "System.Int64",
+      "Value": "writer.OutputLength"
     }
   ],
   "Nodes": [

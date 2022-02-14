@@ -28,9 +28,9 @@
   ],
   "OutputPins": [
     {
-      "Key": "UnencryptedVaultJson",
-      "Type": "System.String",
-      "Value": "JsonSerialiserPinOutputFunction.vaultparse.Vault"
+      "Key": "UnencryptedVault",
+      "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Vault.Vault",
+      "Value": "vaultparse.Vault"
     }
   ],
   "Nodes": [

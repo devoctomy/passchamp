@@ -1,6 +1,7 @@
 ﻿using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Core.Graph.Cryptography;
 using devoctomy.Passchamp.Core.Graph.Services;
+using devoctomy.Passchamp.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
@@ -27,9 +28,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             serviceCollection.AddPasschampCoreServices();
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
-                new PinsJsonParserService(),
+                new InputPinsJsonParserService(new TypeResolverService()),
+                new OutputPinsJsonParserService(),
                 new NodesJsonParserService(serviceProvider),
-                null,
                 null);
 
             // Act
@@ -65,9 +66,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             serviceCollection.AddPasschampCoreServices();
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
-                new PinsJsonParserService(),
+                new InputPinsJsonParserService(new TypeResolverService()),
+                new OutputPinsJsonParserService(),
                 new NodesJsonParserService(serviceProvider),
-                null,
                 null);
 
             // Act
@@ -93,9 +94,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             serviceCollection.AddPasschampCoreServices();
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
-                new PinsJsonParserService(),
+                new InputPinsJsonParserService(new TypeResolverService()),
+                new OutputPinsJsonParserService(),
                 new NodesJsonParserService(serviceProvider),
-                null,
                 null);
 
             // Act

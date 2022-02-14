@@ -22,7 +22,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Extensions
             var provider = serviceCollection.BuildServiceProvider();
             Assert.NotNull(provider.GetService<IGraphLoaderService>());
             Assert.NotNull(provider.GetService<INodesJsonParserService>());
-            Assert.NotNull(provider.GetService<IPinsJsonParserService>());
+            Assert.NotNull(provider.GetService<IInputPinsJsonParserService>());
 
             var pinPrepFunctions = provider.GetServices<IGraphPinPrepFunction>();
             pinPrepFunctions.SingleOrDefault(x => x.GetType() == typeof(DataParserSectionGetterPinPrepFunction));

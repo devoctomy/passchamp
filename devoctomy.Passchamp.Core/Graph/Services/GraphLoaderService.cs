@@ -10,21 +10,21 @@ namespace devoctomy.Passchamp.Core.Graph.Services
 {
     public class GraphLoaderService : IGraphLoaderService
     {
-        private readonly IPinsJsonParserService _pinsJsonParserService;
+        private readonly IInputPinsJsonParserService _inputPinsJsonParserService;
+        private readonly IOutputPinsJsonParserService _outputPinsJsonParserService;
         private readonly INodesJsonParserService _nodeJsonParserService;
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
-        private readonly IEnumerable<IGraphPinOutputFunction> _pinOutputFunctions;
 
         public GraphLoaderService(
-            IPinsJsonParserService pinsJsonParserService,
+            IInputPinsJsonParserService inputPinsJsonParserService,
+            IOutputPinsJsonParserService outputPinsJsonParserService,
             INodesJsonParserService nodeJsonParserService,
-            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions,
-            IEnumerable<IGraphPinOutputFunction> pinOutputFunctions)
+            IEnumerable<IGraphPinPrepFunction> pinPrepFunctions)
         {
-            _pinsJsonParserService = pinsJsonParserService;
+            _inputPinsJsonParserService = inputPinsJsonParserService;
+            _outputPinsJsonParserService = outputPinsJsonParserService;
             _nodeJsonParserService = nodeJsonParserService;
             _pinPrepFunctions = pinPrepFunctions;
-            _pinOutputFunctions = pinOutputFunctions;
         }
 
         public Task<IGraph> LoadAsync(
@@ -53,8 +53,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                     cancellationToken);
 
             var settings = json["Settings"] != null ? JsonConvert.DeserializeObject<GraphSettings>(json["Settings"].ToString()) : new GraphSettings();
-            var inputPins = _pinsJsonParserService.Parse(json["InputPins"].Value<JArray>());
-            var outputPins = _pinsJsonParserService.Parse(json["OutputPins"].Value<JArray>());
+            var inputPins = _inputPinsJsonParserService.Parse(json["InputPins"].Value<JArray>());
+            var outputPins = _outputPinsJsonParserService.Parse(json["OutputPins"].Value<JArray>());
             var nodes = _nodeJsonParserService.Parse(
                 json["Nodes"].Value<JArray>(),
                 out var startNodeKey);
@@ -68,8 +68,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
                 nodes,
                 startNodeKey,
                 outputMessage,
-                _pinPrepFunctions,
-                _pinOutputFunctions);
+                _pinPrepFunctions);
         }
     }
 }
