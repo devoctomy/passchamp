@@ -14,7 +14,6 @@ namespace devoctomy.Passchamp.Core.Graph
         private readonly Dictionary<string, IPin> _inputPins;
         private readonly Dictionary<string, IPin> _outputPins;
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
-        //private readonly IEnumerable<IGraphPinOutputFunction> _pinOutputFunctions;
 
         public GraphSettings Settings { get; set; }
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }

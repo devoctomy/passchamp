@@ -39,10 +39,6 @@ namespace devoctomy.Passchamp.Windows.ViewModels
             if(Model.Graph != null)
             {
                 await Model.Graph.ExecuteAsync(CancellationToken.None);
-                if (Model.Graph.OutputPins != null)
-                {
-                    var output = Model.Graph.OutputPins.Values.First();
-                }
             }
         }
 
