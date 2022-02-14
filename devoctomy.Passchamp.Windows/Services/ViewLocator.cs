@@ -4,6 +4,6 @@ namespace devoctomy.Passchamp.Windows.Services
 {
     public class ViewLocator : IViewLocator
     {
-        public GraphTester GraphTester => new GraphTester();
+        public GraphTester GraphTester => new();
     }
 }

@@ -81,7 +81,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data
             return Task.CompletedTask;
         }
 
-        private void AddPart(
+        private static void AddPart(
             List<byte[]> parts,
             byte[] value)
         {

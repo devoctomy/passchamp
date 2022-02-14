@@ -26,7 +26,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
         {
             Logger.LogInformation("Showing Graph Tester view...");
             var graphTester = _viewLocator.GraphTester;
-            var result = graphTester.ShowDialog();
+            graphTester.ShowDialog();
         }
     }
 }

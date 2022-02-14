@@ -114,13 +114,13 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             var startKey = "node1";
             var nodesOutput = new List<INode>();
 
-            IGraph.GraphOutputMessageDelegate outputMessageDelegate = delegate(INode node, string message)
+            void outputMessageDelegate(INode node, string message)
             {
-                if(node != null)
+                if (node != null)
                 {
                     nodesOutput.Add(node);
                 }
-            };
+            }
 
             var sut = new Core.Graph.Graph(
                 null,

@@ -12,7 +12,7 @@ namespace devoctomy.Passchamp.Core.Graph
         private IGraph _graph;
         private bool _preparedUnsetPins;
 
-        public string Key { get; set; }
+        public string NodeKey { get; set; }
         public Dictionary<string, PropertyInfo> InputPinsProperties { get; }
         public Dictionary<string, PropertyInfo> OutputPinsProperties { get; }
         public Dictionary<string, IPin> Input { get; } = new Dictionary<string, IPin>();

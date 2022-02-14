@@ -69,7 +69,7 @@ namespace devoctomy.Passchamp.Windows.ViewModels
         {
             Dispatcher.Invoke(new Action(() =>
             {
-                var sourceKey = node != null ? $"{Model.Graph.NodeKeys[node]} ({node.GetType().Name})" : "Graph";
+                var sourceKey = node != null ? $"{node.NodeKey} ({node.GetType().Name})" : "Graph";
                 Model.Messages.Add($"{sourceKey} ::  {message}");
             }));
         }

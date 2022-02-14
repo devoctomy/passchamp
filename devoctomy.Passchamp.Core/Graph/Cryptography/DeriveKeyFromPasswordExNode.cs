@@ -80,16 +80,14 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            Action<byte[]> callback = buffer =>
+            void callback(byte[] buffer)
             {
-                using (var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
+                using var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
                     buffer,
                     Salt.Value,
-                    IterationCount.Value))
-                {
-                    Key.Value = rfc2898.GetBytes(KeyLength.Value);
-                }
-            };
+                    IterationCount.Value);
+                Key.Value = rfc2898.GetBytes(KeyLength.Value);
+            }
             _secureStringUnpacker.Unpack(SecurePassword.Value, callback);
             return Task.CompletedTask;
         }

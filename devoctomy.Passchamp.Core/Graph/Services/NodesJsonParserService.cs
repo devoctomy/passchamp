@@ -8,7 +8,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
 {
     public class NodesJsonParserService : INodesJsonParserService
     {
-        private IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
 
         public NodesJsonParserService(IServiceProvider serviceProvider)
         {
@@ -47,7 +47,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             {
                 throw new TypeLoadException($"Could not activate instance of '{type[0]}:{type[1]}'.");
             }
-            ((INode)node).Key = curKey;
+            ((INode)node).NodeKey = curKey;
             var inode = node as INode;
 
             var inputsJson = curNode["Inputs"].Value<JArray>();
@@ -69,7 +69,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             if (curNode.ContainsKey("Next"))
             {
                 var nextNode = curNode["Next"].Value<JObject>();
-                if(nextNode.Children().Count() > 0)
+                if(nextNode.Children().Any())
                 {
                     inode.NextKey = DoParse(
                         nodes,

@@ -10,7 +10,6 @@ namespace devoctomy.Passchamp.Core.Graph
     public class Graph : IGraph
     {
         private string _startKey = string.Empty;
-        private readonly Dictionary<INode, string> _nodeKeys;
         private readonly List<string> _executionOrder = new();
         private readonly Dictionary<string, IPin> _inputPins;
         private readonly Dictionary<string, IPin> _outputPins;
@@ -23,7 +22,6 @@ namespace devoctomy.Passchamp.Core.Graph
         public IReadOnlyDictionary<string, IPin> OutputPins => _outputPins;
         public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public IReadOnlyDictionary<string, INode> Nodes { get; }
-        public IReadOnlyDictionary<INode, string> NodeKeys => _nodeKeys;
         public Dictionary<string, object> ExtendedParams { get; } = new Dictionary<string, object>();
         public string StartKey
         { 
@@ -180,7 +178,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public void BeforeExecute(INode node)
         {
             DoOutputMessage($"Before execute node...");
-            _executionOrder.Add(node.Key);
+            _executionOrder.Add(node.NodeKey);
         }
 
         private void DoOutputMessage(string message)

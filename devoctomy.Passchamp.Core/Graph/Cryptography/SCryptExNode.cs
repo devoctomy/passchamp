@@ -93,7 +93,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
             IGraph graph,
             CancellationToken cancellationToken)
         {
-            Action<byte[]> callback = buffer =>
+            void callback(byte[] buffer)
             {
                 var scrypt = new SCrypt(
                     IterationCount.Value,
@@ -102,7 +102,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography
                 Key.Value = scrypt.DeriveBytes(
                     buffer,
                     Salt.Value);
-            };
+            }
             _secureStringUnpacker.Unpack(SecurePassword.Value, callback);
             return Task.CompletedTask;
         }
