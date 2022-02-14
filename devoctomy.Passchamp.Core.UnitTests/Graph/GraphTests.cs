@@ -65,38 +65,42 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             });
         }
 
-        //[Fact]
-        //public async Task GivenGraph_WhenExecute_ThenExecutionOrderIsCorrect()
-        //{
-        //    // Arrange
-        //    var node1 = new NodeBase
-        //    {
-        //        NextKey = "node2"
-        //    };
-        //    var node2 = new NodeBase();
-        //    var nodes = new Dictionary<string, INode>
-        //    {
-        //        { "node1", node1 },
-        //        { "node2", node2 }
-        //    };
-        //    var startKey = "node1";
-        //    var sut = new Core.Graph.Graph(
-        //        null,
-        //        null,
-        //        null,
-        //        nodes,
-        //        startKey,
-        //        null,
-        //        null,
-        //        null);
-        //    var cancellationTokenSource = new CancellationTokenSource();
+        [Fact]
+        public async Task GivenGraph_WhenExecute_ThenExecutionOrderIsCorrect()
+        {
+            // Arrange
+            var node1 = new NodeBase
+            {
+                NodeKey = "node1",
+                NextKey = "node2"
+            };
+            var node2 = new NodeBase
+            {
+                NodeKey = "node2"
+            };
+            var nodes = new Dictionary<string, INode>
+            {
+                { "node1", node1 },
+                { "node2", node2 }
+            };
+            var startKey = "node1";
+            var sut = new Core.Graph.Graph(
+                null,
+                null,
+                null,
+                nodes,
+                startKey,
+                null,
+                null,
+                null);
+            var cancellationTokenSource = new CancellationTokenSource();
 
-        //    // Act
-        //    await sut.ExecuteAsync(cancellationTokenSource.Token);
+            // Act
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
 
-        //    // Assert
-        //    Assert.Equal("node1,node2", string.Join(",", sut.ExecutionOrder));
-        //}
+            // Assert
+            Assert.Equal("node1,node2", string.Join(",", sut.ExecutionOrder));
+        }
 
         [Fact]
         public async Task GivenGraph_AndNodes_AndOutputMessageDelegate_WhenExecute_ThenMessagesOutputFromNodes()
@@ -113,12 +117,18 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             };
             var startKey = "node1";
             var nodesOutput = new List<INode>();
+            var messages = new List<string>();
 
             void outputMessageDelegate(INode node, string message)
             {
                 if (node != null)
                 {
                     nodesOutput.Add(node);
+                }
+
+                if(!string.IsNullOrEmpty(message))
+                {
+                    messages.Add(message);
                 }
             }
 
@@ -140,7 +150,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
             foreach(var curNode in nodes)
             {
                 Assert.Contains(curNode.Value, nodesOutput);
-            }    
+            }
+            Assert.Equal(22, messages.Count);
         }
 
         [Fact]

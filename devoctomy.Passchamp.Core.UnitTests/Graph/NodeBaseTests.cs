@@ -130,8 +130,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public void GivenTestNode_WhenGetInputGeneric_ThenInputReturned()
         {
             // Arrange
-            var sut = new TestNode();
-            sut.InputTest = new DataPin<string>("InputTest", "Hello World");
+            var sut = new TestNode
+            {
+                InputTest = new DataPin<string>("InputTest", "Hello World")
+            };
 
             // Act
             var input = sut.GetInput<string>("InputTest");
@@ -144,8 +146,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public void GivenTestNode_WhenGetInput_ThenInputReturned()
         {
             // Arrange
-            var sut = new TestNode();
-            sut.InputTest = new DataPin<string>("InputTest", "Hello World");
+            var sut = new TestNode
+            {
+                InputTest = new DataPin<string>("InputTest", "Hello World")
+            };
 
             // Act
             var input = (IDataPin<string>)sut.GetInput("InputTest", typeof(string));
@@ -158,8 +162,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public void GivenTestNode_WhenGetOutputGeneric_ThenOutputReturned()
         {
             // Arrange
-            var sut = new TestNode();
-            sut.OutputTest = new DataPin<string> ("OutputTest", "Hello World");
+            var sut = new TestNode
+            {
+                OutputTest = new DataPin<string>("OutputTest", "Hello World")
+            };
 
             // Act
             var output = sut.GetOutput<string>("OutputTest");
@@ -172,8 +178,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public void GivenTestNode_WhenGetOutput_ThenOutputReturned()
         {
             // Arrange
-            var sut = new TestNode();
-            sut.OutputTest = new DataPin<string>("OutputTest", "Hello World");
+            var sut = new TestNode
+            {
+                OutputTest = new DataPin<string>("OutputTest", "Hello World")
+            };
 
             // Act
             var output = (IDataPin<string>)sut.GetOutput("OutputTest", typeof(string));
@@ -232,8 +240,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public async Task GivenTestNode_AndBypass_AndExecute_ThenExecutedFalse()
         {
             // Arrange
-            var sut = new TestNode();
-            sut.Bypass = new DataPin<bool>("Bypass", true);
+            var sut = new TestNode
+            {
+                Bypass = new DataPin<bool>("Bypass", true)
+            };
             sut.AttachGraph(Mock.Of<IGraph>());
 
             // Act
@@ -247,8 +257,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph
         public async Task GivenTestNode_AndNotBypass_AndExecute_ThenExecutedTrue()
         {
             // Arrange
-            var sut = new TestNode();
-            sut.Bypass = new DataPin<bool>("Bypass", false);
+            var sut = new TestNode
+            {
+                Bypass = new DataPin<bool>("Bypass", false)
+            };
             sut.AttachGraph(Mock.Of<IGraph>());
 
             // Act
