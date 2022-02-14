@@ -11,7 +11,7 @@ namespace devoctomy.Passchamp.Core.Graph
     {
         private string _startKey = string.Empty;
         private readonly Dictionary<INode, string> _nodeKeys;
-        //private readonly List<string> _executionOrder = new();
+        private readonly List<string> _executionOrder = new();
         private readonly Dictionary<string, IPin> _inputPins;
         private readonly Dictionary<string, IPin> _outputPins;
         private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
@@ -21,7 +21,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public IGraph.GraphOutputMessageDelegate OutputMessage { get; set; }
         public IReadOnlyDictionary<string, IPin> InputPins => _inputPins;
         public IReadOnlyDictionary<string, IPin> OutputPins => _outputPins;
-        //public IReadOnlyList<string> ExecutionOrder => _executionOrder;
+        public IReadOnlyList<string> ExecutionOrder => _executionOrder;
         public IReadOnlyDictionary<string, INode> Nodes { get; }
         public IReadOnlyDictionary<INode, string> NodeKeys => _nodeKeys;
         public Dictionary<string, object> ExtendedParams { get; } = new Dictionary<string, object>();
@@ -170,7 +170,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             DoOutputMessage($"Executing graph...");
-            //_executionOrder.Clear();
+            _executionOrder.Clear();
             PreparePins();
             var startNode = GetNode<INode>(StartKey);
             await startNode.ExecuteAsync(cancellationToken).ConfigureAwait(false);
@@ -180,10 +180,7 @@ namespace devoctomy.Passchamp.Core.Graph
         public void BeforeExecute(INode node)
         {
             DoOutputMessage($"Before execute node...");
-            //if (_nodeKeys.TryGetValue(node, out string key))
-            //{
-            //    _executionOrder.Add(key);
-            //}
+            _executionOrder.Add(node.Key);
         }
 
         private void DoOutputMessage(string message)

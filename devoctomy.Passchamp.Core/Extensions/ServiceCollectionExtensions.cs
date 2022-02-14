@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Core.Graph;
+﻿using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace devoctomy.Passchamp.Core.Extensions
             services.AddScoped<INodesJsonParserService, NodesJsonParserService>();
             services.AddScoped<IPinsJsonParserService, PinsJsonParserService>();
             services.AddScoped<IDataParserSectionParser, DataParserSectionParser>();
+            services.AddScoped<ISecureStringUnpacker, SecureStringUnpacker>();
 
             var pinPrepFunctionAssembly = typeof(IGraphPinPrepFunction).Assembly;
             var allPinPrepFunctions = pinPrepFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinPrepFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();
@@ -37,8 +39,8 @@ namespace devoctomy.Passchamp.Core.Extensions
             var allNodes = nodeAssembly.GetTypes().Where(x => typeof(INode).IsAssignableFrom(x) && !x.IsInterface).ToList();
             foreach (var node in allNodes)
             {
-                services.AddScoped(typeof(INode), node);
-                services.AddScoped(node);
+                services.AddTransient(typeof(INode), node);
+                services.AddTransient(node);
             }
         }
     }

@@ -58,8 +58,8 @@ namespace devoctomy.Passchamp.Windows
             var allNodes = nodeAssembly.GetTypes().Where(x => typeof(INode).IsAssignableFrom(x) && !x.IsInterface).ToList();
             foreach (var node in allNodes)
             {
-                services.AddScoped(typeof(INode), node);
-                services.AddScoped(node);
+                services.AddTransient(typeof(INode), node);
+                services.AddTransient(node);
             }
         }
     }

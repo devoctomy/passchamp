@@ -33,6 +33,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             JObject curNode,
             IServiceProvider serviceProvider)
         {
+            var curKey = curNode["Key"].Value<string>();
             var type = curNode["Type"].Value<string>().Split(":");
             if (type.Length != 2)
             {
@@ -46,6 +47,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             {
                 throw new TypeLoadException($"Could not activate instance of '{type[0]}:{type[1]}'.");
             }
+            ((INode)node).Key = curKey;
             var inode = node as INode;
 
             var inputsJson = curNode["Inputs"].Value<JArray>();

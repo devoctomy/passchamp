@@ -58,7 +58,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
 
         [Theory]
         [InlineData("Data/complexgraph1.json")]
-        public async Task GivenFileName_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndGraphExecutes_AndOutputFileCreated(string fileName)
+        public async Task GivenFileName_WhenLoadAsync_henGraphLoadedAndExecuted_AndGraphReturned_AndExecutionOrderCorrect_AndOutputFileCreated(string fileName)
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
@@ -75,17 +75,17 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
                 fileName,
                 null,
                 CancellationToken.None);
+            await result.ExecuteAsync(CancellationToken.None);
 
             // Assert
             Assert.NotNull(result);
-            await result.ExecuteAsync(CancellationToken.None);
-            //Assert.Equal("saltgenerator,ivgenerator,derive,encode,encrypt,joiner,writer", string.Join(",", result.ExecutionOrder));
+            Assert.Equal("saltgenerator,ivgenerator,derive,encode,encrypt,joiner,writer", string.Join(",", result.ExecutionOrder));
             Assert.True(File.Exists("Output/test.dat"));
         }
 
         [Theory]
         [InlineData("Data/complexgraph1.json")]
-        public async Task GivenJsonDataStream_WhenLoadAsync_ThenGraphLoaded_AndGraphReturned_AndGraphExecutes_AndOutputFileCreated(string fileName)
+        public async Task GivenJsonDataStream_WhenLoadAsync_ThenGraphLoadedAndExecuted_AndGraphReturned_AndExecutionOrderCorrect_AndOutputFileCreated(string fileName)
         {
             // Arrange
             using var jsonDataStream = File.OpenRead(fileName);
@@ -103,11 +103,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
                 jsonDataStream,
                 null,
                 CancellationToken.None);
+            await result.ExecuteAsync(CancellationToken.None);
 
             // Assert
             Assert.NotNull(result);
-            await result.ExecuteAsync(CancellationToken.None);
-            //Assert.Equal("saltgenerator,ivgenerator,derive,encode,encrypt,joiner,writer", string.Join(",", result.ExecutionOrder));
+            Assert.Equal("saltgenerator,ivgenerator,derive,encode,encrypt,joiner,writer", string.Join(",", result.ExecutionOrder));
             Assert.True(File.Exists("Output/test.dat"));
         }
     }

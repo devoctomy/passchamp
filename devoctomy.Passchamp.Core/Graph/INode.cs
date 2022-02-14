@@ -8,6 +8,7 @@ namespace devoctomy.Passchamp.Core.Graph
 {
     public interface INode
     {
+        public string Key { get; set; }
         Dictionary<string, PropertyInfo> InputPinsProperties { get; }
         Dictionary<string, PropertyInfo> OutputPinsProperties { get; }
         Dictionary<string, IPin> Input { get; }

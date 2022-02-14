@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -57,6 +58,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services
             var nodes = _nodeJsonParserService.Parse(
                 json["Nodes"].Value<JArray>(),
                 out var startNodeKey);
+
+            var pop = nodes.Values.ToList();
 
             return new Graph(
                 settings,
