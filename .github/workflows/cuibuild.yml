@@ -36,6 +36,8 @@ jobs:
         run: dotnet workload install maui-android maui-ios maui-maccatalyst
       - name: Install dependencies
         run: dotnet restore --source https://api.nuget.org/v3/index.json 
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
       - name: Test
         run: dotnet test --no-restore --verbosity normal --filter "FullyQualifiedName~UnitTests" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../coverage" -p:MergeWith="../coverage.json" -c Release --no-build devoctomy.Passchamp.sln
       - name: Code Coverage
