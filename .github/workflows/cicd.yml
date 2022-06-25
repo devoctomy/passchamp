@@ -15,6 +15,8 @@ jobs:
         uses: actions/setup-dotnet@v1.8.2
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install workloads
+        run: dotnet workload restore
       - name: Install dependencies
         run: dotnet restore --source https://api.nuget.org/v3/index.json 
       - name: Build
