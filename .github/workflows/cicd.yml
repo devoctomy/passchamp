@@ -30,7 +30,8 @@ jobs:
           commit_parent: $(git rev-parse --short "$GITHUB_SHA")
           fail_ci_if_error: true
           verbose: false
-      - uses: shallwefootball/s3-upload-action@master
+      - name: Publish to s3 bucket
+        uses: shallwefootball/s3-upload-action@master
         with:
           aws_key_id: ${{ secrets.AWS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
