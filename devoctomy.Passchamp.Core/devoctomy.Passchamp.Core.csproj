@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+	<TargetFramework Condition="'$(BuildWindowsOnly)' == 'true'">net6.0-windows10.0.19041</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	<PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
