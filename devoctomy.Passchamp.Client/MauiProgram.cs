@@ -1,4 +1,7 @@
-﻿namespace devoctomy.Passchamp.Client
+﻿using devoctomy.Passchamp.Client.Pages;
+using devoctomy.Passchamp.Client.ViewModels;
+
+namespace devoctomy.Passchamp.Client
 {
     public static class MauiProgram
     {
@@ -13,7 +16,20 @@
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            RegisterPages(builder.Services);
+            RegisterViewModels(builder.Services);
+
             return builder.Build();
+        }
+
+        static void RegisterPages(in IServiceCollection services)
+        {
+            services.AddTransient<VaultsPage>();
+        }
+
+        static void RegisterViewModels(in IServiceCollection services)
+        {
+            services.AddTransient<VaultsViewModel>();
         }
     }
 }
