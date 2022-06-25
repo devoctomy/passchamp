@@ -4,19 +4,17 @@
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
              xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
              x:Class="devoctomy.Passchamp.Client.Pages.VaultsPage"
-             x:DataType="vm:VaultsViewModel"
              x:TypeArguments="vm:VaultsViewModel"
              Title="Vaults">
     <pages:BasePage.Content>
         <ListView
                 ItemsSource="{Binding Vaults}"
                 SelectedItem="{Binding ItemSelected, Mode=TwoWay}">
-
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell Height="128">
                         <VerticalStackLayout>
-                            <Label Text="{Binding}"></Label>
+                            <Label Text="{Binding Header.FormatVersion}"></Label>
                         </VerticalStackLayout>
                     </ViewCell>
                 </DataTemplate>
