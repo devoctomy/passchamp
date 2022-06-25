@@ -23,17 +23,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration Tests", "Integr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.IntTests", "devoctomy.Passchamp.IntTests\devoctomy.Passchamp.IntTests.csproj", "{753BC53D-8195-41B8-A021-FB0793F714FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.Windows", "devoctomy.Passchamp.Windows\devoctomy.Passchamp.Windows.csproj", "{80C43AC9-F9EC-46A2-B120-8B9D8D3EDFED}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.Windows.UnitTests", "devoctomy.Passchamp.Windows.UnitTests\devoctomy.Passchamp.Windows.UnitTests.csproj", "{5349A99C-DAAF-4AD1-85CF-FCAA1E3CDCAC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.SignTool", "devoctomy.Passchamp.SignTool\devoctomy.Passchamp.SignTool.csproj", "{082233A1-6390-450D-BADD-305E87516187}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.SignTool.UnitTests", "devoctomy.Passchamp.SignTool.UnitTests\devoctomy.Passchamp.SignTool.UnitTests.csproj", "{9B63D24A-3C99-4AA7-9594-5ADFFC62DEA9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.SignTool.IntTests", "devoctomy.Passchamp.SignTool.IntTests\devoctomy.Passchamp.SignTool.IntTests.csproj", "{36C212D8-0EEF-48D4-9DBB-C3804A737461}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "devoctomy.Passchamp.Client", "devoctomy.Passchamp.Client\devoctomy.Passchamp.Client.csproj", "{5F9BB847-9E17-4985-B1FB-C32A64386F48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.Client", "devoctomy.Passchamp.Client\devoctomy.Passchamp.Client.csproj", "{5F9BB847-9E17-4985-B1FB-C32A64386F48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,14 +49,6 @@ Global
 		{753BC53D-8195-41B8-A021-FB0793F714FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{753BC53D-8195-41B8-A021-FB0793F714FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{753BC53D-8195-41B8-A021-FB0793F714FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80C43AC9-F9EC-46A2-B120-8B9D8D3EDFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80C43AC9-F9EC-46A2-B120-8B9D8D3EDFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80C43AC9-F9EC-46A2-B120-8B9D8D3EDFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80C43AC9-F9EC-46A2-B120-8B9D8D3EDFED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5349A99C-DAAF-4AD1-85CF-FCAA1E3CDCAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5349A99C-DAAF-4AD1-85CF-FCAA1E3CDCAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5349A99C-DAAF-4AD1-85CF-FCAA1E3CDCAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5349A99C-DAAF-4AD1-85CF-FCAA1E3CDCAC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{082233A1-6390-450D-BADD-305E87516187}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{082233A1-6390-450D-BADD-305E87516187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{082233A1-6390-450D-BADD-305E87516187}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,7 +74,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FB094D48-0B24-4C21-8939-47F7CF63883E} = {AACF6A9E-DE7D-432D-8985-730FE1F0248D}
 		{753BC53D-8195-41B8-A021-FB0793F714FA} = {D3B4F07A-F2F2-4767-928D-3A4556385244}
-		{5349A99C-DAAF-4AD1-85CF-FCAA1E3CDCAC} = {AACF6A9E-DE7D-432D-8985-730FE1F0248D}
 		{9B63D24A-3C99-4AA7-9594-5ADFFC62DEA9} = {AACF6A9E-DE7D-432D-8985-730FE1F0248D}
 		{36C212D8-0EEF-48D4-9DBB-C3804A737461} = {D3B4F07A-F2F2-4767-928D-3A4556385244}
 	EndGlobalSection
