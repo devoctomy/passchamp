@@ -26,15 +26,12 @@ jobs:
     runs-on: windows-2022
     name: Unit Tests
     
-    strategy:
-      matrix:
-        dotnet-version: [ '6.0.x' ]
     steps:
       - uses: actions/checkout@v3
-      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+      - name: Setup .NET 6
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: 6.0.x
       - name: Install maui workloads
         run: dotnet workload install maui-android maui-ios maui-maccatalyst
       - name: Install dependencies
