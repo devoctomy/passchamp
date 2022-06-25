@@ -1,4 +1,4 @@
-name: CI Build
+name: Windows MAUI Build
 
 on:
   push:

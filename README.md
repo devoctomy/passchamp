@@ -1,6 +1,8 @@
 # passchamp
 
-[![CICD](https://github.com/devoctomy/passchamp/actions/workflows/cicd.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/cicd.yml)
+[![CI Build](https://github.com/devoctomy/passchamp/actions/workflows/windows-maui.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/windows-maui.yml)
+
+
 [![codecov](https://codecov.io/gh/devoctomy/passchamp/branch/main/graph/badge.svg?token=JU70OAK6OX)](https://codecov.io/gh/devoctomy/passchamp)
 [![Codacy Security Scan](https://github.com/devoctomy/passchamp/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/codacy-analysis.yml)
 
