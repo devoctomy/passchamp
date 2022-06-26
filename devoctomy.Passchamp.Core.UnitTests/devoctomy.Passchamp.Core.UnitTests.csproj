@@ -72,7 +72,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\devoctomy.Passchamp.Core\devoctomy.Passchamp.Core.csproj" />
+    <ProjectReference Include="..\devoctomy.Passchamp.Core\devoctomy.Passchamp.Core.csproj">
+      <Private></Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>
