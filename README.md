@@ -1,15 +1,6 @@
 # passchamp
 
-## Pipelines
-
-[![Unit Tests & Code Coverage](https://github.com/devoctomy/passchamp/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/unit-tests.yml)
-[![Windows MAUI Build](https://github.com/devoctomy/passchamp/actions/workflows/windows-maui.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/windows-maui.yml)
-[![Android MAUI Build](https://github.com/devoctomy/passchamp/actions/workflows/android-maui.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/android-maui.yml)
-[![MAC MAUI Build](https://github.com/devoctomy/passchamp/actions/workflows/mac-maui.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/mac-maui.yml)
-[![IOS MAUI Build](https://github.com/devoctomy/passchamp/actions/workflows/ios-maui.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/ios-maui.yml)
-
-## Coverage & Quality
-
+[![CICD](https://github.com/devoctomy/passchamp/actions/workflows/cicd.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/ciccd.yml)
 [![codecov](https://codecov.io/gh/devoctomy/passchamp/branch/main/graph/badge.svg?token=JU70OAK6OX)](https://codecov.io/gh/devoctomy/passchamp)
 [![Codacy Security Scan](https://github.com/devoctomy/passchamp/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/codacy-analysis.yml)
 
