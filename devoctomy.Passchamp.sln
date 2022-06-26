@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.Client"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "devoctomy.Passchamp.Maui", "devoctomy.Passchamp.Maui\devoctomy.Passchamp.Maui.csproj", "{2F692DD8-8179-4EDB-B140-6547DE80D928}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "devoctomy.Passchamp.Maui.UnitTests", "devoctomy.Passchamp.Maui.UnitTests\devoctomy.Passchamp.Maui.UnitTests.csproj", "{80A10440-5C68-4202-A376-C5FF11715C44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{2F692DD8-8179-4EDB-B140-6547DE80D928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F692DD8-8179-4EDB-B140-6547DE80D928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F692DD8-8179-4EDB-B140-6547DE80D928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80A10440-5C68-4202-A376-C5FF11715C44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A10440-5C68-4202-A376-C5FF11715C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A10440-5C68-4202-A376-C5FF11715C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A10440-5C68-4202-A376-C5FF11715C44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{753BC53D-8195-41B8-A021-FB0793F714FA} = {D3B4F07A-F2F2-4767-928D-3A4556385244}
 		{9B63D24A-3C99-4AA7-9594-5ADFFC62DEA9} = {AACF6A9E-DE7D-432D-8985-730FE1F0248D}
 		{36C212D8-0EEF-48D4-9DBB-C3804A737461} = {D3B4F07A-F2F2-4767-928D-3A4556385244}
+		{80A10440-5C68-4202-A376-C5FF11715C44} = {AACF6A9E-DE7D-432D-8985-730FE1F0248D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {738F39D7-CA1F-4FE5-9103-792B454DD97D}

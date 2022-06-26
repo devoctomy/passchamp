@@ -2,28 +2,47 @@
 {
     public class SecureSettingsServiceBase : ISecureSettingsService
     {
+        private readonly ISecureStorage _secureStorage;
+
+        public SecureSettingsServiceBase(ISecureStorage secureStorage)
+        {
+            _secureStorage = secureStorage;
+        }
+
         public async Task Load()
         {
             var type = GetType();
             var allProperties = type.GetProperties(
                 System.Reflection.BindingFlags.Public |
-                System.Reflection.BindingFlags.Instance);
+                System.Reflection.BindingFlags.Instance).ToList();
             foreach(var curProperty in allProperties)
             {
                 var secureSettingsAttribute = (SecureSettingAttribute)curProperty.GetCustomAttributes(typeof(SecureSettingAttribute), true).FirstOrDefault();
                 if(secureSettingsAttribute != null)
                 {
-                    var setting = await SecureStorage.Default.GetAsync(secureSettingsAttribute.Key);
+                    var setting = await _secureStorage.GetAsync(secureSettingsAttribute.Key);
                     var propertyType = curProperty.PropertyType;
                     switch(propertyType.Name)
                     {
-                        case "System.Int32":
+                        case "Int32":
                             {
                                 curProperty.SetValue(this, Int32.Parse(setting));
                                 break;
                             }
 
-                        case "System.String":
+                        case "Int64":
+                            {
+                                curProperty.SetValue(this, Int64.Parse(setting));
+                                break;
+                            }
+
+                        case "Single":
+                            {
+                                curProperty.SetValue(this, Single.Parse(setting));
+                                break;
+                            }
+
+                        case "String":
                             {
                                 curProperty.SetValue(this, setting);
                                 break;
@@ -45,7 +64,7 @@
                 if (secureSettingsAttribute != null)
                 {
                     var value = curProperty.GetValue(this);
-                    await SecureStorage.Default.SetAsync(secureSettingsAttribute.Key, value.ToString());
+                    await _secureStorage.SetAsync(secureSettingsAttribute.Key, value.ToString());
                 }
             }
         }
