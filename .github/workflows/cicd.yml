@@ -22,8 +22,8 @@ env:
 
 jobs:
 
-  unit-tests:
-    name: Unit Tests
+  tests:
+    name: Tests
     runs-on: windows-2022
     
     steps:
@@ -38,7 +38,7 @@ jobs:
         run: dotnet restore --source https://api.nuget.org/v3/index.json 
       - name: Build
         run: dotnet build --configuration Release --no-restore
-      - name: Test
+      - name: Run Unit Tests
         run: dotnet test --no-restore --verbosity normal --filter "FullyQualifiedName~UnitTests" -p:CollectCoverage=true -p:CoverletOutputFormat="json%2copencover" -p:CoverletOutput="../coverage" -p:MergeWith="../coverage.json" -c Release --no-build devoctomy.Passchamp.sln
       - name: Code Coverage
         uses: codecov/codecov-action@v1
@@ -47,15 +47,18 @@ jobs:
           commit_parent: $(git rev-parse --short "$GITHUB_SHA")
           fail_ci_if_error: true
           verbose: false
-          
+      - name: Run Integration Tests
+        run: dotnet test --no-restore --verbosity normal --filter "FullyQualifiedName~IntTests" -c Release --no-build devoctomy.Passchamp.sln
+
   security-scan:
     name: Security Scan
-    needs: unit-tests
+    needs: tests
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@main
+        uses: actions/checkout@v3
 
       - name: Run Codacy Analysis CLI
         uses: codacy/codacy-analysis-cli-action@master
@@ -78,6 +81,7 @@ jobs:
     name: Windows Build
     needs: security-scan
     runs-on: windows-2022
+    if: always()
     
     steps:
       - name: Checkout
@@ -114,6 +118,7 @@ jobs:
     name: Android Build
     needs: security-scan
     runs-on: windows-2022
+    if: always()
 
     steps:
       - name: Checkout
@@ -151,6 +156,7 @@ jobs:
     name: iOS Build
     needs: security-scan
     runs-on: macos-11
+    if: always()
     
     steps:
       - name: Checkout
@@ -183,6 +189,7 @@ jobs:
     name: MacCatalyst Build
     needs: security-scan
     runs-on: macos-11
+    if: always()
     
     steps:
       - name: Checkout
