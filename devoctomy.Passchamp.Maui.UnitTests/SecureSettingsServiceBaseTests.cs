@@ -17,26 +17,26 @@ namespace devoctomy.Passchamp.Maui.UnitTests
             var sut = new TestSecureSettingsService(mockSecureStorageService.Object);
 
             mockSecureStorageService.Setup(x => x.GetAsync(
-                It.Is<string>(y => y == "Test.TestSetting1"))).ReturnsAsync(testSetting1);
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting1"))).ReturnsAsync(testSetting1);
 
             mockSecureStorageService.Setup(x => x.GetAsync(
-                It.Is<string>(y => y == "Test.TestSetting2"))).ReturnsAsync(testSetting2.ToString());
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting2"))).ReturnsAsync(testSetting2.ToString());
 
             mockSecureStorageService.Setup(x => x.GetAsync(
-                It.Is<string>(y => y == "Test.TestSetting3"))).ReturnsAsync(testSetting3.ToString());
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting3"))).ReturnsAsync(testSetting3.ToString());
 
             // Act
             await sut.Load();
 
             // Assert
             mockSecureStorageService.Verify(x => x.GetAsync(
-                It.Is<string>(y => y == "Test.TestSetting1")), Times.Once);
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting1")), Times.Once);
 
             mockSecureStorageService.Verify(x => x.GetAsync(
-                It.Is<string>(y => y == "Test.TestSetting2")), Times.Once);
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting2")), Times.Once);
 
             mockSecureStorageService.Verify(x => x.GetAsync(
-                It.Is<string>(y => y == "Test.TestSetting3")), Times.Once);
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting3")), Times.Once);
 
             Assert.Equal(testSetting1, sut.TestSetting1);
             Assert.Equal(testSetting2, sut.TestSetting2);
@@ -60,15 +60,15 @@ namespace devoctomy.Passchamp.Maui.UnitTests
 
             // Assert
             mockSecureStorageService.Verify(x => x.SetAsync(
-                It.Is<string>(y => y == "Test.TestSetting1"),
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting1"),
                 It.Is<string>(y => y == sut.TestSetting1.ToString())), Times.Once);
 
             mockSecureStorageService.Verify(x => x.SetAsync(
-                It.Is<string>(y => y == "Test.TestSetting2"),
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting2"),
                 It.Is<string>(y => y == sut.TestSetting2.ToString())), Times.Once);
 
             mockSecureStorageService.Verify(x => x.SetAsync(
-                It.Is<string>(y => y == "Test.TestSetting3"),
+                It.Is<string>(y => y == "TestSecureSettingsService.Test.TestSetting3"),
                 It.Is<string>(y => y == sut.TestSetting3.ToString())), Times.Once);
         }
     }

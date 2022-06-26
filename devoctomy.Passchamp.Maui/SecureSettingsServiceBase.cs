@@ -2,6 +2,8 @@
 {
     public class SecureSettingsServiceBase : ISecureSettingsService
     {
+        public virtual string Group { get; } = "Default";
+
         private readonly ISecureStorage _secureStorage;
 
         public SecureSettingsServiceBase(ISecureStorage secureStorage)
@@ -20,7 +22,8 @@
                 var secureSettingsAttribute = (SecureSettingAttribute)curProperty.GetCustomAttributes(typeof(SecureSettingAttribute), true).FirstOrDefault();
                 if(secureSettingsAttribute != null)
                 {
-                    var setting = await _secureStorage.GetAsync(secureSettingsAttribute.Key);
+                    var key = $"{Group}.{secureSettingsAttribute.Category}.{curProperty.Name}";
+                    var setting = await _secureStorage.GetAsync(key);
                     var propertyType = curProperty.PropertyType;
                     switch(propertyType.Name)
                     {
@@ -63,8 +66,9 @@
                 var secureSettingsAttribute = (SecureSettingAttribute)curProperty.GetCustomAttributes(typeof(SecureSettingAttribute), true).FirstOrDefault();
                 if (secureSettingsAttribute != null)
                 {
+                    var key = $"{Group}.{secureSettingsAttribute.Category}.{curProperty.Name}";
                     var value = curProperty.GetValue(this);
-                    await _secureStorage.SetAsync(secureSettingsAttribute.Key, value.ToString());
+                    await _secureStorage.SetAsync(key, value.ToString());
                 }
             }
         }

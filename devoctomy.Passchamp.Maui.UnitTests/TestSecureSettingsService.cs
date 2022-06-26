@@ -4,13 +4,15 @@ namespace devoctomy.Passchamp.Maui.UnitTests
 {
     public class TestSecureSettingsService : SecureSettingsServiceBase
     {
-        [SecureSetting(Key = "Test.TestSetting1")]
+        public override string Group { get => "TestSecureSettingsService"; }
+
+        [SecureSetting(Category = "Test")]
         public string TestSetting1 { get; set; }
 
-        [SecureSetting(Key = "Test.TestSetting2")]
+        [SecureSetting(Category = "Test")]
         public int TestSetting2 { get; set; }
 
-        [SecureSetting(Key = "Test.TestSetting3")]
+        [SecureSetting(Category = "Test")]
         public float TestSetting3 { get; set; }
 
         public TestSecureSettingsService(ISecureStorage secureStorage)
