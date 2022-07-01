@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Maui.UnitTests
