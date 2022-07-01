@@ -1,7 +1,9 @@
 ﻿using Moq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Maui.UnitTests
@@ -56,6 +58,42 @@ namespace devoctomy.Passchamp.Maui.UnitTests
                 It.IsAny<object>()), Times.Once);
 
             mockSecureSettingStorageService.Verify(x => x.LoadAsync(
+                It.Is<string>(y => y == "TestPartialSecureConfigFile"),
+                It.Is<PropertyInfo>(y => y.Name == "TestSetting3"),
+                It.IsAny<object>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task GivenPartialSecureSettingObject_WhenSave_ThenJsonWrittenToStreamWithoutSecrets()
+        {
+            // Arrange
+            var mockServiceProvier = new Mock<IServiceProvider>();
+            var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
+            var sut = new TestPartialSecureConfigFile(mockSecureSettingStorageService.Object)
+            {
+                TestSetting1 = Guid.NewGuid().ToString(),
+                TestSetting2 = 101,
+                TestSetting3 = "Password123"
+            };
+
+            mockServiceProvier.Setup(x => x.GetService(
+                It.Is<Type>(y => y == typeof(ISecureSettingStorageService))))
+                .Returns(mockSecureSettingStorageService.Object);
+
+            var output = new MemoryStream();
+
+            // Act
+            await sut.SaveAsync(output);
+
+
+            // Assert
+            output.Seek(0, SeekOrigin.Begin);
+            var jsonString = System.Text.Encoding.UTF8.GetString(output.ToArray());
+            var json = JObject.Parse(jsonString);
+            Assert.NotNull(json["TestSetting1"]);
+            Assert.NotNull(json["TestSetting2"]);
+            Assert.False(json.ContainsKey("TestSetting3"));
+            mockSecureSettingStorageService.Verify(x => x.SaveAsync(
                 It.Is<string>(y => y == "TestPartialSecureConfigFile"),
                 It.Is<PropertyInfo>(y => y.Name == "TestSetting3"),
                 It.IsAny<object>()), Times.Once);
