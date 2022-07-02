@@ -34,8 +34,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
                 LastModified = DateTime.Now
             };
 
-            mockConfig.SetupGet(x => x.Path).Returns("pop/");
-            mockConfig.SetupGet(x => x.Bucket).Returns("bucket");
+            mockConfig
+                .SetupGet(x => x.Path)
+                .Returns("pop/");
+            mockConfig
+                .SetupGet(x => x.Bucket)
+                .Returns("bucket");
             var expectedPath = $"{mockConfig.Object.Path}{path}";
 
             mockS3Client.Setup(x => x.GetObjectMetadataAsync(
@@ -81,8 +85,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
                 HttpStatusCode = System.Net.HttpStatusCode.NotFound
             };
 
-            mockConfig.SetupGet(x => x.Path).Returns("pop/");
-            mockConfig.SetupGet(x => x.Bucket).Returns("bucket");
+            mockConfig
+                .SetupGet(x => x.Path)
+                .Returns("pop/");
+            mockConfig
+                .SetupGet(x => x.Bucket)
+                .Returns("bucket");
 
             mockS3Client.Setup(x => x.GetObjectMetadataAsync(
                 It.IsAny<GetObjectMetadataRequest>(),
@@ -123,8 +131,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
                 HttpStatusCode = System.Net.HttpStatusCode.NotFound
             };
 
-            mockConfig.SetupGet(x => x.Path).Returns("pop/");
-            mockConfig.SetupGet(x => x.Bucket).Returns("bucket");
+            mockConfig
+                .SetupGet(x => x.Path)
+                .Returns("pop/");
+            mockConfig
+                .SetupGet(x => x.Bucket)
+                .Returns("bucket");
 
             mockS3Client.Setup(x => x.GetObjectMetadataAsync(
                 It.IsAny<GetObjectMetadataRequest>(),
@@ -203,7 +215,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
         }
 
         [Fact]
-        public async Task GivenInaccessibleBucket_WhenListFilesAsync_ThenErrorReturned()
+        public async Task GivenUnauthorised_WhenListFilesAsync_ThenErrorReturned()
         {
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
@@ -245,11 +257,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             var cancellationTokenSource = new CancellationTokenSource();
 
-            var response = new ListObjectsResponse
-            {
-                HttpStatusCode = System.Net.HttpStatusCode.Unauthorized
-            };
-
             mockS3Client.Setup(x => x.ListObjectsAsync(
                 It.IsAny<ListObjectsRequest>(),
                 It.IsAny<CancellationToken>()))
@@ -265,6 +272,162 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             Assert.False(result.IsSuccessful);
             Assert.Null(result.HttpStatusCode);
             Assert.Null(result.Value);
+        }
+
+        [Fact]
+        public async Task GivenDataStream_AndPath_WhenPutFile_ThenSuccessReturned()
+        {
+            // Arrange
+            var mockConfig = new Mock<IAmazonS3Config>();
+            var mockS3Client = new Mock<IAmazonS3>();
+            var sut = new AmazonS3StorageProviderService(
+                mockConfig.Object,
+                mockS3Client.Object);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+            using var data = new MemoryStream();
+            var path = "somefolder/somefile.ex";
+
+            var response = new PutObjectResponse
+            {
+                HttpStatusCode = System.Net.HttpStatusCode.OK
+            };
+
+            mockConfig
+                .SetupGet(x => x.Path)
+                .Returns("pop/");
+            mockConfig
+                .SetupGet(x => x.Bucket)
+                .Returns("bucket");
+            var fullPath = $"{mockConfig.Object.Path}{path}";
+
+            mockS3Client.Setup(x => x.PutObjectAsync(
+                It.IsAny<PutObjectRequest>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            // Act
+            var result = await sut.PutFileAsync(
+                data,
+                path,
+                cancellationTokenSource.Token);
+
+            // Assert
+            Assert.True(result.IsSuccessful);
+            Assert.Equal(HttpStatusCode.OK, result.HttpStatusCode);
+            mockS3Client.Verify(x => x.PutObjectAsync(
+                It.Is<PutObjectRequest>(y =>
+                y.BucketName == mockConfig.Object.Bucket &&
+                y.Key == fullPath &&
+                y.InputStream == data &&
+                y.AutoCloseStream == true &&
+                y.AutoResetStreamPosition == true),
+                It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+        }
+
+        [Fact]
+        public async Task GivenDataStream_AndPath_AndUnauthorised_WhenPutFile_ThenErrorReturned()
+        {
+            // Arrange
+            var mockConfig = new Mock<IAmazonS3Config>();
+            var mockS3Client = new Mock<IAmazonS3>();
+            var sut = new AmazonS3StorageProviderService(
+                mockConfig.Object,
+                mockS3Client.Object);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+            using var data = new MemoryStream();
+            var path = "somefolder/somefile.ex";
+
+            var response = new PutObjectResponse
+            {
+                HttpStatusCode = System.Net.HttpStatusCode.Unauthorized
+            };
+
+            mockConfig
+                .SetupGet(x => x.Path)
+                .Returns("pop/");
+            mockConfig
+                .SetupGet(x => x.Bucket)
+                .Returns("bucket");
+            var fullPath = $"{mockConfig.Object.Path}{path}";
+
+            mockS3Client.Setup(x => x.PutObjectAsync(
+                It.IsAny<PutObjectRequest>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            // Act
+            var result = await sut.PutFileAsync(
+                data,
+                path,
+                cancellationTokenSource.Token);
+
+            // Assert
+            Assert.False(result.IsSuccessful);
+            Assert.Equal(HttpStatusCode.Unauthorized, result.HttpStatusCode);
+            mockS3Client.Verify(x => x.PutObjectAsync(
+                It.Is<PutObjectRequest>(y =>
+                y.BucketName == mockConfig.Object.Bucket &&
+                y.Key == fullPath &&
+                y.InputStream == data &&
+                y.AutoCloseStream == true &&
+                y.AutoResetStreamPosition == true),
+                It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+        }
+
+        [Fact]
+        public async Task GivenDataStream_AndPath_AndUnknownClientException_WhenPutFile_ThenErrorReturned()
+        {
+            // Arrange
+            var mockConfig = new Mock<IAmazonS3Config>();
+            var mockS3Client = new Mock<IAmazonS3>();
+            var sut = new AmazonS3StorageProviderService(
+                mockConfig.Object,
+                mockS3Client.Object);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+            using var data = new MemoryStream();
+            var path = "somefolder/somefile.ex";
+
+            var response = new PutObjectResponse
+            {
+                HttpStatusCode = System.Net.HttpStatusCode.Unauthorized
+            };
+
+            mockConfig
+                .SetupGet(x => x.Path)
+                .Returns("pop/");
+            mockConfig
+                .SetupGet(x => x.Bucket)
+                .Returns("bucket");
+            var fullPath = $"{mockConfig.Object.Path}{path}";
+
+            mockS3Client.Setup(x => x.PutObjectAsync(
+                It.IsAny<PutObjectRequest>(),
+                It.IsAny<CancellationToken>()))
+                .Callback(() =>
+                {
+                    throw new AmazonS3Exception("Something went wrong!");
+                });
+
+            // Act
+            var result = await sut.PutFileAsync(
+                data,
+                path,
+                cancellationTokenSource.Token);
+
+            // Assert
+            Assert.False(result.IsSuccessful);
+            Assert.Null(result.HttpStatusCode);
+            mockS3Client.Verify(x => x.PutObjectAsync(
+                It.Is<PutObjectRequest>(y =>
+                y.BucketName == mockConfig.Object.Bucket &&
+                y.Key == fullPath &&
+                y.InputStream == data &&
+                y.AutoCloseStream == true &&
+                y.AutoResetStreamPosition == true),
+                It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
         }
     }
 }
