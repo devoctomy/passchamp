@@ -157,7 +157,7 @@ namespace devoctomy.Passchamp.Core.Services
                     isFolder ? name : name.TrimStart('/'),
                     isFolder,
                     isFolder ? curObject.Key.TrimEnd('/') : curObject.Key,
-                    curObject.ETag.ToUpper(),
+                    isFolder ? null : curObject.ETag.ToUpper(),
                     curObject.LastModified));
             }
 
