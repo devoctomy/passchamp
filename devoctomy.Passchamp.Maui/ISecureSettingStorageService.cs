@@ -5,6 +5,7 @@ namespace devoctomy.Passchamp.Maui
 {
     public interface ISecureSettingStorageService
     {
+        public bool IsApplicable(PropertyInfo property);
         public Task<bool> LoadAsync(
             string id,
             PropertyInfo property,

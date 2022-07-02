@@ -13,6 +13,14 @@ namespace devoctomy.Passchamp.Maui
             _secureStorage = secureStorage;
         }
 
+        public bool IsApplicable(PropertyInfo property)
+        {
+            var secureSettingsAttribute = (SecureSettingAttribute)property.GetCustomAttributes(
+                typeof(SecureSettingAttribute),
+                true).FirstOrDefault();
+            return secureSettingsAttribute != null;
+        }
+
         public async Task<bool> LoadAsync(
             string id,
             PropertyInfo property,
@@ -20,15 +28,12 @@ namespace devoctomy.Passchamp.Maui
         {
             var secureSettingsAttribute = (SecureSettingAttribute)property.GetCustomAttributes(
                 typeof(SecureSettingAttribute),
-                true).FirstOrDefault();
-            if (secureSettingsAttribute != null)
-            {
-                AssureJsonIgnoreAttributeIsPresent(property);
+                true).Single();
+            AssureJsonIgnoreAttributeIsPresent(property);
 
-                var key = $"{id}.{secureSettingsAttribute.Group}.{secureSettingsAttribute.Category}.{property.Name}";
-                var setting = await _secureStorage.GetAsync(key);
-                property.SetValue(instance, setting);
-            }
+            var key = $"{id}.{secureSettingsAttribute.Group}.{secureSettingsAttribute.Category}.{property.Name}";
+            var setting = await _secureStorage.GetAsync(key);
+            property.SetValue(instance, setting);
 
             return false;
         }
@@ -40,15 +45,12 @@ namespace devoctomy.Passchamp.Maui
         {
             var secureSettingsAttribute = (SecureSettingAttribute)property.GetCustomAttributes(
                 typeof(SecureSettingAttribute),
-                true).FirstOrDefault();
-            if (secureSettingsAttribute != null)
-            {
-                AssureJsonIgnoreAttributeIsPresent(property);
+                true).Single();
+            AssureJsonIgnoreAttributeIsPresent(property);
 
-                var key = $"{id}.{secureSettingsAttribute.Group}.{secureSettingsAttribute.Category}.{property.Name}";
-                var value = property.GetValue(instance);
-                await _secureStorage.SetAsync(key, value.ToString());
-            }
+            var key = $"{id}.{secureSettingsAttribute.Group}.{secureSettingsAttribute.Category}.{property.Name}";
+            var value = property.GetValue(instance);
+            await _secureStorage.SetAsync(key, value.ToString());
         }
         
         private void AssureJsonIgnoreAttributeIsPresent(PropertyInfo property)
