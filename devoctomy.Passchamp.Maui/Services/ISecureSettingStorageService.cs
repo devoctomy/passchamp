@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace devoctomy.Passchamp.Maui
+namespace devoctomy.Passchamp.Maui.Services
 {
     public interface ISecureSettingStorageService
     {

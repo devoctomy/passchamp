@@ -1,19 +1,21 @@
-﻿using Moq;
+﻿using devoctomy.Passchamp.Maui.Services;
+using devoctomy.Passchamp.Maui.UnitTests.Data;
+using Moq;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Maui.UnitTests
+namespace devoctomy.Passchamp.Maui.UnitTests.Services
 {
-    public class PartialSecureJsonWriterTests
+    public class PartialSecureJsonWriterServiceTests
     {
         [Fact]
         public async Task GivenPartiallySecureObject_WhenSave_ThenSavedOutputShouldNotContainSecureFields_AndSecureFieldSavedSecurely()
         {
             // Arrange
             var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
-            var sut = new PartialSecureJsonWriter(mockSecureSettingStorageService.Object);
+            var sut = new PartialSecureJsonWriterService(mockSecureSettingStorageService.Object);
 
             var value = new TestPartialSecureConfigFile
             {

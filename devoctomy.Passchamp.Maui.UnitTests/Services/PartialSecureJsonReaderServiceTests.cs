@@ -1,4 +1,6 @@
 ﻿using devoctomy.Passchamp.Maui.Exceptions;
+using devoctomy.Passchamp.Maui.Services;
+using devoctomy.Passchamp.Maui.UnitTests.Data;
 using Moq;
 using Newtonsoft.Json;
 using System;
@@ -6,16 +8,16 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Maui.UnitTests
+namespace devoctomy.Passchamp.Maui.UnitTests.Services
 {
-    public class PartialSecureJsonReaderTests
+    public class PartialSecureJsonReadersERVICETests
     {
         [Fact]
         public async Task GivenJson_WhenLoad_ThenUnsecureFieldsParsedFromJson_AndSecureFieldLoadedSecurely()
         {
             // Arrange
             var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
-            var sut = new PartialSecureJsonReader(mockSecureSettingStorageService.Object);
+            var sut = new PartialSecureJsonReaderService(mockSecureSettingStorageService.Object);
 
             var value = new TestPartialSecureConfigFile
             {

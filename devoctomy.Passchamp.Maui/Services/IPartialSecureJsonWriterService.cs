@@ -1,6 +1,6 @@
-﻿namespace devoctomy.Passchamp.Maui
+﻿namespace devoctomy.Passchamp.Maui.Services
 {
-    public interface IPartialSecureJsonWriter
+    public interface IPartialSecureJsonWriterService
     {
         public Task SaveAsync(
             object value,

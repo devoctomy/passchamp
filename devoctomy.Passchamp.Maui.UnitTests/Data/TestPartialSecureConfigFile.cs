@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using devoctomy.Passchamp.Maui.Services;
+using devoctomy.Passchamp.Maui.Services.Attributes;
+using Newtonsoft.Json;
 
-namespace devoctomy.Passchamp.Maui.UnitTests
+namespace devoctomy.Passchamp.Maui.UnitTests.Data
 {
     public class TestPartialSecureConfigFile : IPartiallySecure
     {
