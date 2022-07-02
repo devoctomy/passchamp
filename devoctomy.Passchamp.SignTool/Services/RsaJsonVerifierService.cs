@@ -35,7 +35,7 @@ namespace devoctomy.Passchamp.SignTool.Services
             var result = await Verify(
                 verifyOptions.Input,
                 await File.ReadAllTextAsync(verifyOptions.KeyFile).ConfigureAwait(false));
-            return result ? 0 : -1; // !!! TODO: Error code?
+            return result ? (int)ErrorCodes.Success : (int)ErrorCodes.VerificationFailed;
         }
 
         public async Task<bool> Verify(

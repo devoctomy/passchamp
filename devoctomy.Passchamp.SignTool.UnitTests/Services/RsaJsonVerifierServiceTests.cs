@@ -76,7 +76,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         }
 
         [Fact]
-        public async Task GivenAndVerifyOptions_AndValidSignature_WhenVerify_ThenZeroReturned()
+        public async Task GivenAndVerifyOptions_AndValidSignature_WhenVerify_ThenSuccessReturned()
         {
             // Arrange
             var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
@@ -92,11 +92,11 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             var result = await sut.Verify(verifyOptions);
 
             // Assert
-            Assert.Equal(0, result);
+            Assert.Equal((int)ErrorCodes.Success, result);
         }
 
         [Fact]
-        public async Task GivenAndVerifyOptions_AndTampered_WhenVerify_ThenErrorCodeReturned()
+        public async Task GivenAndVerifyOptions_AndTampered_WhenVerify_ThenVerificationFailedReturned()
         {
             // Arrange
             var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
@@ -112,7 +112,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             var result = await sut.Verify(verifyOptions);
 
             // Assert
-            Assert.Equal(-1, result);
+            Assert.Equal((int)ErrorCodes.VerificationFailed, result);
         }
 
         [Fact]
