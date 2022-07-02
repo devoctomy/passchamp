@@ -1,0 +1,167 @@
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace devoctomy.Passchamp.Core.Services
+{
+    public class AmazonS3StorageProviderService : ICloudStorageProviderService
+    {
+        private readonly IAmazonS3Config _config;
+        private readonly IAmazonS3 _amazonS3;
+
+        public AmazonS3StorageProviderService(
+            IAmazonS3Config config,
+            IAmazonS3 amazonS3)
+        {
+            _config = config;
+            _amazonS3 = amazonS3;
+        }
+
+        public async Task<CloudProviderObjectResponse<ICloudStorageProviderEntry>> GetFileInfoAsync(
+            string path,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var fullPath = $"{_config.Path}{path}";
+                var request = new GetObjectMetadataRequest
+                {
+                    BucketName = _config.Bucket,
+                    Key = path
+                };
+
+                var response = await _amazonS3.GetObjectMetadataAsync(
+                    request,
+                    cancellationToken);
+                if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var file = new AmazonS3StorageProviderEntry(
+                        path,
+                        false,
+                        fullPath,
+                        response.ETag.ToUpper(),
+                        response.LastModified);
+                    return new CloudProviderObjectResponse<ICloudStorageProviderEntry>(
+                        true,
+                        System.Net.HttpStatusCode.OK,
+                        file);
+                }
+
+                return new CloudProviderObjectResponse<ICloudStorageProviderEntry>(
+                    false,
+                    response.HttpStatusCode,
+                    null);
+            }
+            catch(AmazonS3Exception)
+            {
+                return new CloudProviderObjectResponse<ICloudStorageProviderEntry>(
+                    false,
+                    null,
+                    null);
+            }
+        }
+
+        public async Task<CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>> ListFilesAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var request = new ListObjectsRequest
+                {
+                    Prefix = $"{_config.Path}/",
+                    BucketName = _config.Bucket
+                };
+                var response = await _amazonS3.ListObjectsAsync(
+                    request,
+                    cancellationToken);
+                if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return new CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>(
+                        true,
+                        System.Net.HttpStatusCode.OK,
+                        GetEntriesFromResponse(response));
+                }
+
+                return new CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>(
+                    false,
+                    response.HttpStatusCode,
+                    null);
+            }
+            catch (AmazonS3Exception)
+            {
+                return new CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>(
+                    false,
+                    null,
+                    null);
+            }
+        }
+
+        public async Task<CloudProviderResponse> PutFileAsync(
+            Stream data,
+            string path,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var fullPath = $"{_config.Path}{path}";
+                var request = new PutObjectRequest()
+                {
+                    AutoCloseStream = true,
+                    AutoResetStreamPosition = true,
+                    InputStream = data,
+                    Key = fullPath,
+                    BucketName = _config.Bucket
+                };
+                var response = await _amazonS3.PutObjectAsync(
+                    request,
+                    cancellationToken);
+                if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return new CloudProviderResponse(
+                        true,
+                        System.Net.HttpStatusCode.OK);
+                }
+
+                return new CloudProviderResponse(
+                    false,
+                    response.HttpStatusCode);
+            }
+            catch (AmazonS3Exception)
+            {
+                return new CloudProviderResponse(
+                    false,
+                    null);
+            }
+        }
+
+        private List<ICloudStorageProviderEntry> GetEntriesFromResponse(ListObjectsResponse response)
+        {
+            var files = new List<ICloudStorageProviderEntry>();
+            foreach (S3Object curObject in response.S3Objects)
+            {
+                var isFolder = curObject.Key.EndsWith("/");
+                var name = string.Empty;
+                if (isFolder)
+                {
+                    var removedTrailing = curObject.Key.TrimEnd('/');
+                    name = removedTrailing[(removedTrailing.LastIndexOf("/") + 1)..];
+                }
+                else
+                {
+                    name = curObject.Key[curObject.Key.LastIndexOf("/")..];
+                }
+
+                files.Add(new AmazonS3StorageProviderEntry(
+                    isFolder ? name : name.TrimStart('/'),
+                    isFolder,
+                    isFolder ? curObject.Key.TrimEnd('/') : curObject.Key,
+                    curObject.ETag.ToUpper(),
+                    curObject.LastModified));
+            }
+
+            return files;
+        }
+    }
+}
