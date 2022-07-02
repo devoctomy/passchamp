@@ -1,6 +1,4 @@
-﻿using devoctomy.Passchamp.Maui.Exceptions;
-using Moq;
-using Newtonsoft.Json;
+﻿using Moq;
 using System;
 using System.IO;
 using System.Reflection;
@@ -19,6 +17,7 @@ namespace devoctomy.Passchamp.Maui.UnitTests
 
             var value = new TestPartialSecureConfigFile
             {
+                Id = Guid.NewGuid().ToString(),
                 TestSetting1 = "Hello World!",
                 TestSetting2 = 101,
                 TestSetting3 = "This is a secret!"
