@@ -69,6 +69,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
         }
 
         [Given(@"DeriveKeyFromPasswordNode named (.*) with a password of (.*) and key length of (.*) and NextKey of (.*)")]
+        [Obsolete]
         public void GivenDeriveKeyFromPasswordNodeNamedWithAPasswordOfAndKeyLengthOf(
             string name,
             string password,
@@ -92,6 +93,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
         }
 
         [Given(@"SCryptNode named (.*) with a password of (.*) and NextKey of (.*)")]
+        [Obsolete]
         public void GivenSCryptNodeNamedWithAPasswordOfAndKeyLengthOf(
             string name,
             string password,
