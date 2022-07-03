@@ -1,6 +1,7 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using devoctomy.Passchamp.Core.Services;
+using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Core.Cloud.AmazonS3;
 using Moq;
 using System;
 using System.IO;
@@ -10,9 +11,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Services
+namespace devoctomy.Passchamp.Core.UnitTests.Cloud.AmazonS3
 {
-    public class AmazonS3StorageProviderServiceTests
+    public class AmazonS3CloudStorageProviderServiceTests
     {
         [Fact]
         public async Task GivenPath_AndExists_WhenGetFileInfoAsync_ThenEntryReturned()
@@ -20,16 +21,16 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
             var cancellationTokenSource = new CancellationTokenSource();
-            var path = "folder1/folder2/filename.ext";         
+            var path = "folder1/folder2/filename.ext";
 
             var response = new GetObjectMetadataResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.OK,
+                HttpStatusCode = HttpStatusCode.OK,
                 ETag = Guid.NewGuid().ToString(),
                 LastModified = DateTime.Now
             };
@@ -54,7 +55,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             // Assert
             Assert.True(result.IsSuccessful);
-            Assert.Equal(System.Net.HttpStatusCode.OK, result.HttpStatusCode);
+            Assert.Equal(HttpStatusCode.OK, result.HttpStatusCode);
             Assert.Equal(response.LastModified, result.Value.LastModified);
             Assert.Equal(path, result.Value.Name);
             Assert.Equal(expectedPath, result.Value.Path);
@@ -73,16 +74,16 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
             var cancellationTokenSource = new CancellationTokenSource();
             var path = "folder1/folder2/filename.ext";
-            
+
             var response = new GetObjectMetadataResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.NotFound
+                HttpStatusCode = HttpStatusCode.NotFound
             };
 
             mockConfig
@@ -104,7 +105,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             // Assert
             Assert.False(result.IsSuccessful);
-            Assert.Equal(System.Net.HttpStatusCode.NotFound, result.HttpStatusCode);
+            Assert.Equal(HttpStatusCode.NotFound, result.HttpStatusCode);
             Assert.Null(result.Value);
             mockS3Client.Verify(x => x.GetObjectMetadataAsync(
                 It.Is<GetObjectMetadataRequest>(y =>
@@ -119,7 +120,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
@@ -128,7 +129,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             var response = new GetObjectMetadataResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.NotFound
+                HttpStatusCode = HttpStatusCode.NotFound
             };
 
             mockConfig
@@ -168,7 +169,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
@@ -176,7 +177,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             var response = new ListObjectsResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.OK,
+                HttpStatusCode = HttpStatusCode.OK,
                 S3Objects = new System.Collections.Generic.List<S3Object>
                 {
                     new S3Object
@@ -220,7 +221,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
@@ -228,7 +229,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             var response = new ListObjectsResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.Unauthorized
+                HttpStatusCode = HttpStatusCode.Unauthorized
             };
 
             mockS3Client.Setup(x => x.ListObjectsAsync(
@@ -251,7 +252,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
@@ -280,7 +281,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
@@ -290,7 +291,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             var response = new PutObjectResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.OK
+                HttpStatusCode = HttpStatusCode.OK
             };
 
             mockConfig
@@ -331,7 +332,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
@@ -341,7 +342,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             var response = new PutObjectResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.Unauthorized
+                HttpStatusCode = HttpStatusCode.Unauthorized
             };
 
             mockConfig
@@ -382,7 +383,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             // Arrange
             var mockConfig = new Mock<IAmazonS3Config>();
             var mockS3Client = new Mock<IAmazonS3>();
-            var sut = new AmazonS3StorageProviderService(
+            var sut = new AmazonS3CloudStorageProviderService(
                 mockConfig.Object,
                 mockS3Client.Object);
 
@@ -392,7 +393,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 
             var response = new PutObjectResponse
             {
-                HttpStatusCode = System.Net.HttpStatusCode.Unauthorized
+                HttpStatusCode = HttpStatusCode.Unauthorized
             };
 
             mockConfig

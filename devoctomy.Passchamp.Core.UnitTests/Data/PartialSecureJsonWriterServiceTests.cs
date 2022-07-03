@@ -1,12 +1,13 @@
-﻿using devoctomy.Passchamp.Maui.Services;
-using devoctomy.Passchamp.Maui.UnitTests.Data;
+﻿using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.UnitTests.Data;
 using Moq;
 using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Xunit;
 
-namespace devoctomy.Passchamp.Maui.UnitTests.Services
+namespace devoctomy.Passchamp.Core.UnitTests.Services
 {
     public class PartialSecureJsonWriterServiceTests
     {

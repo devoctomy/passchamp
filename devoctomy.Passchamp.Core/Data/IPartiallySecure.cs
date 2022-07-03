@@ -1,4 +1,4 @@
-﻿namespace devoctomy.Passchamp.Maui.Services
+﻿namespace devoctomy.Passchamp.Core.Data
 {
     public interface IPartiallySecure
     {

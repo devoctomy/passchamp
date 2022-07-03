@@ -5,14 +5,16 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Services
+namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
 {
-    public class AmazonS3StorageProviderService : ICloudStorageProviderService
+    public class AmazonS3CloudStorageProviderService : ICloudStorageProviderService
     {
+        public string TypeId => "76EEB72B-28DB-49E5-BE25-A2B625BAB333";
+
         private readonly IAmazonS3Config _config;
         private readonly IAmazonS3 _amazonS3;
 
-        public AmazonS3StorageProviderService(
+        public AmazonS3CloudStorageProviderService(
             IAmazonS3Config config,
             IAmazonS3 amazonS3)
         {
@@ -20,7 +22,7 @@ namespace devoctomy.Passchamp.Core.Services
             _amazonS3 = amazonS3;
         }
 
-        public async Task<CloudProviderObjectResponse<ICloudStorageProviderEntry>> GetFileInfoAsync(
+        public async Task<CloudStorageProviderObjectResponse<ICloudStorageProviderEntry>> GetFileInfoAsync(
             string path,
             CancellationToken cancellationToken)
         {
@@ -38,33 +40,33 @@ namespace devoctomy.Passchamp.Core.Services
                     cancellationToken);
                 if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var file = new AmazonS3StorageProviderEntry(
+                    var file = new AmazonS3CloudStorageProviderEntry(
                         path,
                         false,
                         fullPath,
                         response.ETag.ToUpper(),
                         response.LastModified);
-                    return new CloudProviderObjectResponse<ICloudStorageProviderEntry>(
+                    return new CloudStorageProviderObjectResponse<ICloudStorageProviderEntry>(
                         true,
                         System.Net.HttpStatusCode.OK,
                         file);
                 }
 
-                return new CloudProviderObjectResponse<ICloudStorageProviderEntry>(
+                return new CloudStorageProviderObjectResponse<ICloudStorageProviderEntry>(
                     false,
                     response.HttpStatusCode,
                     null);
             }
-            catch(AmazonS3Exception)
+            catch (AmazonS3Exception)
             {
-                return new CloudProviderObjectResponse<ICloudStorageProviderEntry>(
+                return new CloudStorageProviderObjectResponse<ICloudStorageProviderEntry>(
                     false,
                     null,
                     null);
             }
         }
 
-        public async Task<CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>> ListFilesAsync(CancellationToken cancellationToken)
+        public async Task<CloudStorageProviderObjectResponse<List<ICloudStorageProviderEntry>>> ListFilesAsync(CancellationToken cancellationToken)
         {
             try
             {
@@ -78,27 +80,27 @@ namespace devoctomy.Passchamp.Core.Services
                     cancellationToken);
                 if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return new CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>(
+                    return new CloudStorageProviderObjectResponse<List<ICloudStorageProviderEntry>>(
                         true,
                         System.Net.HttpStatusCode.OK,
                         GetEntriesFromResponse(response));
                 }
 
-                return new CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>(
+                return new CloudStorageProviderObjectResponse<List<ICloudStorageProviderEntry>>(
                     false,
                     response.HttpStatusCode,
                     null);
             }
             catch (AmazonS3Exception)
             {
-                return new CloudProviderObjectResponse<List<ICloudStorageProviderEntry>>(
+                return new CloudStorageProviderObjectResponse<List<ICloudStorageProviderEntry>>(
                     false,
                     null,
                     null);
             }
         }
 
-        public async Task<CloudProviderResponse> PutFileAsync(
+        public async Task<CloudStorageProviderResponse> PutFileAsync(
             Stream data,
             string path,
             CancellationToken cancellationToken)
@@ -119,18 +121,18 @@ namespace devoctomy.Passchamp.Core.Services
                     cancellationToken);
                 if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return new CloudProviderResponse(
+                    return new CloudStorageProviderResponse(
                         true,
                         System.Net.HttpStatusCode.OK);
                 }
 
-                return new CloudProviderResponse(
+                return new CloudStorageProviderResponse(
                     false,
                     response.HttpStatusCode);
             }
             catch (AmazonS3Exception)
             {
-                return new CloudProviderResponse(
+                return new CloudStorageProviderResponse(
                     false,
                     null);
             }
@@ -153,7 +155,7 @@ namespace devoctomy.Passchamp.Core.Services
                     name = curObject.Key[curObject.Key.LastIndexOf("/")..];
                 }
 
-                files.Add(new AmazonS3StorageProviderEntry(
+                files.Add(new AmazonS3CloudStorageProviderEntry(
                     isFolder ? name : name.TrimStart('/'),
                     isFolder,
                     isFolder ? curObject.Key.TrimEnd('/') : curObject.Key,

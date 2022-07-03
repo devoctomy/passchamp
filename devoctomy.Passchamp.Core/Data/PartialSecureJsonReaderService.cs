@@ -1,36 +1,41 @@
-﻿using devoctomy.Passchamp.Maui.Exceptions;
+﻿using devoctomy.Passchamp.Core.Exceptions;
 using Newtonsoft.Json;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Maui.Services
+namespace devoctomy.Passchamp.Core.Data
 {
-    public class PartialSecureJsonWriterService : IPartialSecureJsonWriterService
+    public class PartialSecureJsonReaderService : IPartialSecureJsonReaderService
     {
         private ISecureSettingStorageService _secureSettingStorageService;
 
-        public PartialSecureJsonWriterService(ISecureSettingStorageService secureSettingStorageService)
+        public PartialSecureJsonReaderService(ISecureSettingStorageService secureSettingStorageService)
         {
             _secureSettingStorageService = secureSettingStorageService;
         }
 
-        public async Task SaveAsync(
-            object value,
-            Stream stream)
+        public async Task<T> LoadAsync<T>(Stream stream)
         {
-            await SaveSecureSettingsAsync(value);
-
             JsonSerializer serializer = new JsonSerializer();
-            using StreamWriter sw = new StreamWriter(stream, leaveOpen: true);
-            using JsonWriter writer = new JsonTextWriter(sw);
-            serializer.Serialize(writer, value);
+            T result;
+            using (StreamReader sr = new StreamReader(stream))
+            using (JsonReader reader = new JsonTextReader(sr))
+            {
+                result = serializer.Deserialize<T>(reader);
+            }
+
+            await LoadSecureSettingsAsync(result);
+            return result;
         }
 
-        private async Task SaveSecureSettingsAsync(object value)
+        private async Task LoadSecureSettingsAsync<T>(T value)
         {
             var partiallySecure = value as IPartiallySecure;
             var type = value.GetType();
             var allProperties = type.GetProperties(
                 System.Reflection.BindingFlags.Public |
-                System.Reflection.BindingFlags.Instance);
+                System.Reflection.BindingFlags.Instance).ToList();
             foreach (var curProperty in allProperties)
             {
                 if (_secureSettingStorageService.IsApplicable(curProperty))
@@ -40,7 +45,7 @@ namespace devoctomy.Passchamp.Maui.Services
                         throw new ObjectDoesNotImplementIPartiallySecureException(type);
                     }
 
-                    await _secureSettingStorageService.SaveAsync(
+                    await _secureSettingStorageService.LoadAsync(
                         partiallySecure.Id,
                         curProperty,
                         value);

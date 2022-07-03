@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Maui.Services;
+﻿using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Maui.Data;
 
 namespace devoctomy.Passchamp.Maui.Extensions
 {
@@ -6,8 +7,6 @@ namespace devoctomy.Passchamp.Maui.Extensions
     {
         public static void AddPasschampMauiServices(this IServiceCollection services)
         {
-            services.AddScoped<IPartialSecureJsonReaderService, PartialSecureJsonReaderService>();
-            services.AddScoped<IPartialSecureJsonWriterService, PartialSecureJsonWriterService>();
             services.AddScoped<ISecureSettingStorageService, SecureSettingStorageService>();
         }
     }

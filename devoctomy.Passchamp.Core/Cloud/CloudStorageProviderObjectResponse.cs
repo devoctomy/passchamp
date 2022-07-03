@@ -1,14 +1,14 @@
 ﻿using System.Net;
 
-namespace devoctomy.Passchamp.Core.Services
+namespace devoctomy.Passchamp.Core.Cloud
 {
-    public class CloudProviderObjectResponse<T>
+    public class CloudStorageProviderObjectResponse<T>
     {
         public bool IsSuccessful { get; set; }
         public HttpStatusCode? HttpStatusCode { get; set; }
         public T Value { get; set; }
 
-        public CloudProviderObjectResponse(
+        public CloudStorageProviderObjectResponse(
             bool isSuccessful,
             HttpStatusCode? httpStatusCode,
             T value)

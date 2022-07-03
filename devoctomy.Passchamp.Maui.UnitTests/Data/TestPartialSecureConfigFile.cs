@@ -1,5 +1,5 @@
-﻿using devoctomy.Passchamp.Maui.Services;
-using devoctomy.Passchamp.Maui.Services.Attributes;
+﻿using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Data.Attributes;
 using Newtonsoft.Json;
 
 namespace devoctomy.Passchamp.Maui.UnitTests.Data

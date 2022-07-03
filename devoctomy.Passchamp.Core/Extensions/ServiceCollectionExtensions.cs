@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Services;
@@ -18,6 +19,8 @@ namespace devoctomy.Passchamp.Core.Extensions
             services.AddScoped<IOutputPinsJsonParserService, OutputPinsJsonParserService>();
             services.AddScoped<IDataParserSectionParser, DataParserSectionParser>();
             services.AddScoped<ISecureStringUnpacker, SecureStringUnpacker>();
+            services.AddScoped<IPartialSecureJsonReaderService, PartialSecureJsonReaderService>();
+            services.AddScoped<IPartialSecureJsonWriterService, PartialSecureJsonWriterService>();
 
             var pinPrepFunctionAssembly = typeof(IGraphPinPrepFunction).Assembly;
             var allPinPrepFunctions = pinPrepFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinPrepFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();

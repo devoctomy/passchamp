@@ -30,4 +30,8 @@
   <ItemGroup>
     <ProjectReference Include="..\devoctomy.Passchamp.Maui\devoctomy.Passchamp.Maui.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>

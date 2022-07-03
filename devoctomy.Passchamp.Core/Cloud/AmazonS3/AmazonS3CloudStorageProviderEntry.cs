@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.Core.Services
+namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
 {
-    public class AmazonS3StorageProviderEntry : ICloudStorageProviderEntry
+    public class AmazonS3CloudStorageProviderEntry : ICloudStorageProviderEntry
     {
         public string Name { get; set; }
         public bool IsFolder { get; set; }
@@ -10,7 +10,7 @@ namespace devoctomy.Passchamp.Core.Services
         public string Hash { get; set; }
         public DateTime LastModified { get; set; }
 
-        public AmazonS3StorageProviderEntry(
+        public AmazonS3CloudStorageProviderEntry(
             string name,
             bool isFolder,
             string path,

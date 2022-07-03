@@ -1,9 +1,10 @@
-﻿using devoctomy.Passchamp.Maui.Exceptions;
-using devoctomy.Passchamp.Maui.Services.Attributes;
+﻿using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Data.Attributes;
+using devoctomy.Passchamp.Core.Exceptions;
 using Newtonsoft.Json;
 using System.Reflection;
 
-namespace devoctomy.Passchamp.Maui.Services
+namespace devoctomy.Passchamp.Maui.Data
 {
     public class SecureSettingStorageService : ISecureSettingStorageService
     {

@@ -1,6 +1,6 @@
-﻿namespace devoctomy.Passchamp.Core.Services
+﻿namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
 {
-    public interface IAmazonS3Config 
+    public interface IAmazonS3Config
     {
         public string AccessId { get; set; }
         public string SecretKey { get; set; }

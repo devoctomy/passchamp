@@ -1,4 +1,6 @@
-﻿namespace devoctomy.Passchamp.Maui.Services.Attributes
+﻿using System;
+
+namespace devoctomy.Passchamp.Core.Data.Attributes
 {
     public class SecureSettingAttribute : Attribute
     {

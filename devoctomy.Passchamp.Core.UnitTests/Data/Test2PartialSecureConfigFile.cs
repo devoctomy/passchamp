@@ -2,7 +2,7 @@
 using devoctomy.Passchamp.Core.Data.Attributes;
 using Newtonsoft.Json;
 
-namespace devoctomy.Passchamp.Maui.UnitTests.Data
+namespace devoctomy.Passchamp.Core.UnitTests.Data
 {
     public class Test2PartialSecureConfigFile : IPartiallySecure
     {

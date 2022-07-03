@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.Core.Services
+namespace devoctomy.Passchamp.Core.Cloud
 {
     public interface ICloudStorageProviderEntry
     {

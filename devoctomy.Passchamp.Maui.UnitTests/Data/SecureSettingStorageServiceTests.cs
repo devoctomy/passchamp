@@ -1,11 +1,10 @@
-﻿using devoctomy.Passchamp.Maui.Exceptions;
-using devoctomy.Passchamp.Maui.Services;
-using devoctomy.Passchamp.Maui.UnitTests.Data;
+﻿using devoctomy.Passchamp.Core.Exceptions;
+using devoctomy.Passchamp.Maui.Data;
 using Microsoft.Maui.Storage;
 using Moq;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Maui.UnitTests.Services
+namespace devoctomy.Passchamp.Maui.UnitTests.Data
 {
     public class SecureSettingStorageServiceTests
     {
