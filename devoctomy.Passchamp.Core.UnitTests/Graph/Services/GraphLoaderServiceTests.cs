@@ -25,7 +25,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddPasschampCoreServices(new PasschampCoreServicesOptions());
+            var options = new PasschampCoreServicesOptions
+            {
+                CloudStorageProviderConfigLoaderServiceOptions = new Core.Cloud.CloudStorageProviderConfigLoaderServiceOptions()
+            };
+            serviceCollection.AddPasschampCoreServices(options);
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
                 new InputPinsJsonParserService(new TypeResolverService()),
@@ -63,7 +67,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddPasschampCoreServices(new PasschampCoreServicesOptions());
+            var options = new PasschampCoreServicesOptions
+            {
+                CloudStorageProviderConfigLoaderServiceOptions = new Core.Cloud.CloudStorageProviderConfigLoaderServiceOptions()
+            };
+            serviceCollection.AddPasschampCoreServices(options);
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
                 new InputPinsJsonParserService(new TypeResolverService()),
@@ -91,7 +99,11 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services
             // Arrange
             using var jsonDataStream = File.OpenRead(fileName);
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddPasschampCoreServices(new PasschampCoreServicesOptions());
+            var options = new PasschampCoreServicesOptions
+            {
+                CloudStorageProviderConfigLoaderServiceOptions = new Core.Cloud.CloudStorageProviderConfigLoaderServiceOptions()
+            };
+            serviceCollection.AddPasschampCoreServices(options);
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = new GraphLoaderService(
                 new InputPinsJsonParserService(new TypeResolverService()),
