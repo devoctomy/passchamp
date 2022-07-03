@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Core.Cryptography;
+﻿using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Core.Cryptography;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Services;
@@ -10,8 +11,12 @@ namespace devoctomy.Passchamp.Core.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddPasschampCoreServices(this IServiceCollection services)
+        public static void AddPasschampCoreServices(
+            this IServiceCollection services,
+            PasschampCoreServicesOptions options)
         {
+            services.AddSingleton(options.CloudStorageProviderConfigLoaderServiceOptions);
+
             services.AddScoped<ITypeResolverService, TypeResolverService>();
             services.AddScoped<IGraphLoaderService, GraphLoaderService>();
             services.AddScoped<INodesJsonParserService, NodesJsonParserService>();
@@ -21,6 +26,8 @@ namespace devoctomy.Passchamp.Core.Extensions
             services.AddScoped<ISecureStringUnpacker, SecureStringUnpacker>();
             services.AddScoped<IPartialSecureJsonReaderService, PartialSecureJsonReaderService>();
             services.AddScoped<IPartialSecureJsonWriterService, PartialSecureJsonWriterService>();
+            services.AddScoped<IIOService, IOService>();
+            services.AddScoped<ICloudStorageProviderConfigLoaderService, CloudStorageProviderConfigLoaderService>();
 
             var pinPrepFunctionAssembly = typeof(IGraphPinPrepFunction).Assembly;
             var allPinPrepFunctions = pinPrepFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinPrepFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();

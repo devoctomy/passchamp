@@ -1,4 +1,7 @@
-﻿using devoctomy.Passchamp.Core.Extensions;
+﻿using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Core.Cryptography;
+using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,15 +17,26 @@ namespace devoctomy.Passchamp.Core.UnitTests.Extensions
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
+            var options = new PasschampCoreServicesOptions
+            {
+                CloudStorageProviderConfigLoaderServiceOptions = new Core.Cloud.CloudStorageProviderConfigLoaderServiceOptions()
+            };
 
             // Act
-            serviceCollection.AddPasschampCoreServices();
+            serviceCollection.AddPasschampCoreServices(options);
 
             // Assert
             var provider = serviceCollection.BuildServiceProvider();
             Assert.NotNull(provider.GetService<IGraphLoaderService>());
             Assert.NotNull(provider.GetService<INodesJsonParserService>());
             Assert.NotNull(provider.GetService<IInputPinsJsonParserService>());
+            Assert.NotNull(provider.GetService<IInputPinsJsonParserService>());
+            Assert.NotNull(provider.GetService<IDataParserSectionParser>());
+            Assert.NotNull(provider.GetService<ISecureStringUnpacker>());
+            Assert.NotNull(provider.GetService<IPartialSecureJsonReaderService>());
+            Assert.NotNull(provider.GetService<IPartialSecureJsonWriterService>());
+            Assert.NotNull(provider.GetService<IIOService>());
+            Assert.NotNull(provider.GetService<ICloudStorageProviderConfigLoaderService>());
 
             var pinPrepFunctions = provider.GetServices<IGraphPinPrepFunction>();
             pinPrepFunctions.SingleOrDefault(x => x.GetType() == typeof(DataParserSectionGetterPinPrepFunction));
