@@ -5,6 +5,7 @@ using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using System.Linq;
 using Xunit;
 
@@ -17,13 +18,18 @@ namespace devoctomy.Passchamp.Core.UnitTests.Extensions
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
+            var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
             var options = new PasschampCoreServicesOptions
             {
                 CloudStorageProviderConfigLoaderServiceOptions = new Core.Cloud.CloudStorageProviderConfigLoaderServiceOptions()
             };
 
+            // Services specific to Maui so let's replace them with mocks
+            serviceCollection.AddSingleton(Mock.Of<ISecureSettingStorageService>());
+
             // Act
             serviceCollection.AddPasschampCoreServices(options);
+
 
             // Assert
             var provider = serviceCollection.BuildServiceProvider();
