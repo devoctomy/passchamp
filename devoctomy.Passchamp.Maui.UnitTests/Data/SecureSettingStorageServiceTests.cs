@@ -59,43 +59,5 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data
             mockSecureStorage.Verify(x => x.GetAsync(
                 It.Is<string>(y => y == "id.Group.Category.TestSetting4")), Times.Once);
         }
-
-        [Fact]
-        public async Task GivenId_AndPropertyInfoWithMissingJsonIgnore_AndInstance_WhenLoadAsync_ThenMissingJsonIgnoreAttributeExceptionThrown()
-        {
-            // Arrange
-            var mockSecureStorage = new Mock<ISecureStorage>();
-            var sut = new SecureSettingStorageService(mockSecureStorage.Object);
-            var config = new Test2PartialSecureConfigFile()
-            {
-                TestSetting3 = "Hello World!"
-            };
-            var propertyInfo = typeof(Test2PartialSecureConfigFile).GetProperty("TestSetting3");
-
-            // Act & Assert
-            await Assert.ThrowsAnyAsync<MissingJsonIgnoreAttributeException>(async () =>
-            {
-                await sut.LoadAsync("id", propertyInfo, config);
-            });
-        }
-
-        [Fact]
-        public async Task GivenId_AndPropertyInfoWithMissingJsonIgnore_AndInstance_WhenSaveAsync_ThenMissingJsonIgnoreAttributeExceptionThrown()
-        {
-            // Arrange
-            var mockSecureStorage = new Mock<ISecureStorage>();
-            var sut = new SecureSettingStorageService(mockSecureStorage.Object);
-            var config = new Test2PartialSecureConfigFile()
-            {
-                TestSetting3 = "Hello World!"
-            };
-            var propertyInfo = typeof(Test2PartialSecureConfigFile).GetProperty("TestSetting3");
-
-            // Act & Assert
-            await Assert.ThrowsAnyAsync<MissingJsonIgnoreAttributeException>(async () =>
-            {
-                await sut.SaveAsync("id", propertyInfo, config);
-            });
-        }
     }
 }

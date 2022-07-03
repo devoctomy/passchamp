@@ -1,6 +1,8 @@
 ﻿using devoctomy.Passchamp.Core.Exceptions;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Data
@@ -42,11 +44,24 @@ namespace devoctomy.Passchamp.Core.Data
                         throw new ObjectDoesNotImplementIPartiallySecureException(type);
                     }
 
+                    AssureJsonIgnoreAttributeIsPresent(curProperty);
+
                     await _secureSettingStorageService.SaveAsync(
                         partiallySecure.Id,
                         curProperty,
                         value);
                 }
+            }
+        }
+
+        private void AssureJsonIgnoreAttributeIsPresent(PropertyInfo property)
+        {
+            var secureSettingsAttribute = (JsonIgnoreAttribute)property.GetCustomAttributes(
+                typeof(JsonIgnoreAttribute),
+                true).FirstOrDefault();
+            if (secureSettingsAttribute == null)
+            {
+                throw new MissingJsonIgnoreAttributeException("JsonIgnore Attribute must be used with SecureSetting Attribute.");
             }
         }
     }
