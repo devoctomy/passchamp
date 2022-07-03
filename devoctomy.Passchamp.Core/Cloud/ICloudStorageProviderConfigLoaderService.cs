@@ -7,7 +7,10 @@ namespace devoctomy.Passchamp.Core.Cloud
     public interface ICloudStorageProviderConfigLoaderService
     {
         public List<CloudStorageProviderConfigRef> Refs { get; }
-        public Task Load(CancellationToken cancellationToken);
-        public Task Save(CancellationToken cancellationToken);
+        public Task LoadAsync(CancellationToken cancellationToken);
+        public Task SaveAsync(CancellationToken cancellationToken);
+        public Task<T> UnpackConfigAsync<T>(
+            string id,
+            CancellationToken cancellationToken);
     }
 }

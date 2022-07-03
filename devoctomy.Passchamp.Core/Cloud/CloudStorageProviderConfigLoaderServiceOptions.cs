@@ -2,6 +2,7 @@
 {
     public class CloudStorageProviderConfigLoaderServiceOptions
     {
-        public string ConfigPath { get; set; }
+        public string Path { get; set; }
+        public string FileName { get; set; }
     }
 }
