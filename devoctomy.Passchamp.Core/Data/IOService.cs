@@ -21,6 +21,13 @@ namespace devoctomy.Passchamp.Core.Data
             return File.OpenRead(path);
         }
 
+        public Stream OpenNewWrite(string path)
+        {
+            return File.Open(
+                path,
+                FileMode.Create);
+        }
+
         public async Task<string> ReadAllTextAsync(
             string path,
             CancellationToken cancellationToken)

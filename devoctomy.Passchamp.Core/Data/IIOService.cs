@@ -20,5 +20,6 @@ namespace devoctomy.Passchamp.Core.Data
             byte[] contents,
             CancellationToken cancellationToken);
         public Stream OpenRead(string path);
+        public Stream OpenNewWrite(string path);
     }
 }

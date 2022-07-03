@@ -103,7 +103,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
             // Act & Assert
             await Assert.ThrowsAnyAsync<UnknownCloudStorageProviderConfigIdException>(async () =>
             {
-                await sut.UnpackConfigAsync<object>(
+                await sut.UnpackConfigAsync<IPartiallySecure>(
                     "Unknown",
                     cancellationTokenSource.Token);
             });
@@ -147,7 +147,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
             await sut.LoadAsync(cancellationTokenSource.Token);
 
             // Act
-            var result = await sut.UnpackConfigAsync<object>(
+            var result = await sut.UnpackConfigAsync<IPartiallySecure>(
                 "Hello",
                 cancellationTokenSource.Token);
 

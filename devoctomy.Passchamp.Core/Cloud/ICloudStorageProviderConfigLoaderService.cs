@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using devoctomy.Passchamp.Core.Data;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,9 +9,11 @@ namespace devoctomy.Passchamp.Core.Cloud
     {
         public List<CloudStorageProviderConfigRef> Refs { get; }
         public Task LoadAsync(CancellationToken cancellationToken);
-        public Task SaveAsync(CancellationToken cancellationToken);
+        public Task Add<T>(
+            T configuration,
+            CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig;
         public Task<T> UnpackConfigAsync<T>(
             string id,
-            CancellationToken cancellationToken);
+            CancellationToken cancellationToken) where T : IPartiallySecure;
     }
 }

@@ -1,12 +1,15 @@
-﻿using devoctomy.Passchamp.Core.Data;
+﻿using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Core.Cloud.AmazonS3;
+using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Data.Attributes;
 using Newtonsoft.Json;
 
 namespace devoctomy.Passchamp.Core.UnitTests.Data
 {
-    public class Test2PartialSecureConfigFile : IPartiallySecure
+    public class Test2PartialSecureConfigFile : IPartiallySecure, ICloudStorageProviderConfig
     {
         public string Id { get; set; }
+        public string ProviderTypeId => "Uknown";
         public string TestSetting1 { get; set; }
         public int TestSetting2 { get; set; }
 

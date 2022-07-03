@@ -5,9 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
 {
-    public class AmazonS3CloudStorageProviderConfig : IPartiallySecure
+    public class AmazonS3CloudStorageProviderConfig : IPartiallySecure, ICloudStorageProviderConfig
     {
         public string Id { get; set; }
+        public string ProviderTypeId => AmazonS3CloudStorageProviderService.ProviderTypeId;
         public string AccessId { get; set; }
         [SecureSetting]
         [JsonIgnore]

@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.Core.Exceptions;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,19 +40,28 @@ namespace devoctomy.Passchamp.Core.Cloud
             Refs = JsonConvert.DeserializeObject<List<CloudStorageProviderConfigRef>>(jsonRaw);
         }
 
-        public async Task SaveAsync(CancellationToken cancellationToken)
+        public async Task Add<T>(
+            T configuration,
+            CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig
         {
-            var fullPath = $"{_options.Path}{_options.FileName}";
-            var jsonRaw = JsonConvert.SerializeObject(Refs);
-            await _ioService.WriteDataAsync(
-                fullPath,
-                jsonRaw,
-                cancellationToken);
+            using var data = new MemoryStream();
+            await _partialSecureJsonWriterService.SaveAsync(
+                configuration,
+                data);
+            var fullPath = $"{_options.Path}{configuration.Id}.json";
+            using var output = _ioService.OpenNewWrite(fullPath);
+            await data.CopyToAsync(output);
+            output.Close();
+            Refs.Add(new CloudStorageProviderConfigRef
+            {
+                Id = configuration.Id,
+                ProviderServiceTypeId = configuration.ProviderTypeId
+            });
         }
 
         public Task<T> UnpackConfigAsync<T>(
             string id,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken) where T : IPartiallySecure
         {
             if(!Refs.Any(x => x.Id == id))
             {
