@@ -44,19 +44,26 @@ namespace devoctomy.Passchamp.Core.Cloud
             T configuration,
             CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig
         {
-            using var data = new MemoryStream();
+            using var configData = new MemoryStream();
             await _partialSecureJsonWriterService.SaveAsync(
                 configuration,
-                data);
-            var fullPath = $"{_options.Path}{configuration.Id}.json";
-            using var output = _ioService.OpenNewWrite(fullPath);
-            await data.CopyToAsync(output);
+                configData);
+            var configFullPath = $"{_options.Path}{configuration.Id}.json";
+            using var output = _ioService.OpenNewWrite(configFullPath);
+            await configData.CopyToAsync(output);
             output.Close();
             Refs.Add(new CloudStorageProviderConfigRef
             {
                 Id = configuration.Id,
                 ProviderServiceTypeId = configuration.ProviderTypeId
             });
+
+            var jsonRaw = JsonConvert.SerializeObject(Refs);
+            var refsFullPath = $"{_options.Path}{_options.FileName}"; 
+            await _ioService.WriteDataAsync(
+                refsFullPath,
+                jsonRaw,
+                cancellationToken);
         }
 
         public Task<T> UnpackConfigAsync<T>(

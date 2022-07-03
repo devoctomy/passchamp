@@ -1,8 +1,11 @@
-﻿using devoctomy.Passchamp.Core.Cloud;
+﻿using Castle.Core.Configuration;
+using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Exceptions;
+using devoctomy.Passchamp.Core.UnitTests.Data;
 using Moq;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -156,6 +159,66 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
                 It.Is<string>(y => y == expectedPath)), Times.Once);
             mockPartialSecureJsonReaderService.Verify(x => x.LoadAsync<object>(
                 It.Is<Stream>(y => y == configStream)), Times.Once);
+        }
+
+        [Fact]
+        public async Task GivenConfiguration_WhenAdd_ThenConfigSavedSecurely_AndRefsUpdatedAndSaved()
+        {
+            // Arrange
+            var options = new CloudStorageProviderConfigLoaderServiceOptions
+            {
+                Path = "/",
+                FileName = "config.json"
+            };
+            var mockPartialSecureJsonReaderService = new Mock<IPartialSecureJsonReaderService>();
+            var mockPartialSecureJsonWriterService = new Mock<IPartialSecureJsonWriterService>();
+            var mockIOService = new Mock<IIOService>();
+            var sut = new CloudStorageProviderConfigLoaderService(
+                options,
+                mockPartialSecureJsonReaderService.Object,
+                mockPartialSecureJsonWriterService.Object,
+                mockIOService.Object);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+            using var configOutputStream = new MemoryStream();
+            var config = new TestPartialSecureConfigFile
+            {
+                Id = Guid.NewGuid().ToString(),
+                TestSetting1 = "Hello",
+                TestSetting2 = 101,
+                TestSetting3 = "This is secret!"
+            };
+            var expectedConfigPath = $"{options.Path}{config.Id}.json";
+            var expectedRefs = new List<CloudStorageProviderConfigRef>
+            {
+                new CloudStorageProviderConfigRef
+                {
+                    Id = config.Id,
+                    ProviderServiceTypeId = config.ProviderTypeId
+                }
+            };
+            var expectedRefsPath = $"{options.Path}{options.FileName}";
+
+            mockIOService.Setup(x => x.OpenNewWrite(
+                It.IsAny<string>())).Returns(configOutputStream);
+
+            // Act
+            await sut.Add(
+                config,
+                cancellationTokenSource.Token);
+
+            // Assert
+            mockIOService.Verify(x => x.OpenNewWrite(
+                It.Is<string>(y => y == expectedConfigPath)), Times.Once);
+            mockPartialSecureJsonWriterService.Verify(x => x.SaveAsync(
+                It.Is<object>(y => y == config),
+                It.IsAny<Stream>()), Times.Once);
+            Assert.Single(sut.Refs);
+            Assert.Contains(sut.Refs, x => x.Id == config.Id);
+            mockIOService.Verify(x => x.WriteDataAsync(
+                It.Is<string>(y => y == expectedRefsPath),
+                It.Is<string>(y => y == JsonConvert.SerializeObject(expectedRefs)),
+                It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
         }
     }
 }
