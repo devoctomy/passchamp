@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.Core.Exceptions;
 using devoctomy.Passchamp.Core.UnitTests.Data;
 using Moq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Reflection;
@@ -36,7 +37,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
             await sut.SaveAsync(value, output);
 
             // Assert
-            var json = System.Text.Encoding.UTF8.GetString(output.ToArray());
+            var jsonRaw = System.Text.Encoding.UTF8.GetString(output.ToArray());
+            var json = JObject.Parse(jsonRaw);
+            Assert.True(json.ContainsKey("Id"));
+            Assert.True(json.ContainsKey("TestSetting1"));
+            Assert.True(json.ContainsKey("TestSetting2"));
+            Assert.False(json.ContainsKey("TestSetting3"));
             mockSecureSettingStorageService.Verify(x => x.SaveAsync(
                 It.Is<string>(y => y == value.Id),
                 It.Is<PropertyInfo>(y => y.Name == "TestSetting3"),
