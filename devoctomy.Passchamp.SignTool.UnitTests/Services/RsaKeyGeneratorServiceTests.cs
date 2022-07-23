@@ -1,13 +1,6 @@
 ﻿using devoctomy.Passchamp.SignTool.Services;
-using devoctomy.Passchamp.SignTool.Services.Enums;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace devoctomy.Passchamp.SignTool.UnitTests.Services
