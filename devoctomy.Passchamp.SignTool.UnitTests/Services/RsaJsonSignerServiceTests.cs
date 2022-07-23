@@ -83,7 +83,6 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
                 privateKey);
             var sut = new RsaJsonSignerService();
             var output = $"Output/{Guid.NewGuid()}";
-            using var rsaProvider = new RSACryptoServiceProvider();
 
             // Act
             var result = await sut.Sign(new SignOptions
@@ -128,8 +127,6 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
                 out _);
             var sut = new RsaJsonSignerService();
 
-            using var rsaProvider = new RSACryptoServiceProvider();
-
             // Act
             var signedResult = await sut.Sign(
                 path,
@@ -155,8 +152,6 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
                 out var privateKey,
                 out _);
             var sut = new RsaJsonSignerService();
-
-            using var rsaProvider = new RSACryptoServiceProvider();
 
             // Act
             var signedResult = await sut.Sign(
