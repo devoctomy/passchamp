@@ -13,7 +13,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
     public class DeriveKeyFromPasswordNodeTests
     {
         [Fact]
-        [Obsolete]
+        [Obsolete("DeriveKeyFromPasswordNode is marked as obsolete and will be removed eventually.")]
         public async Task GivenPassword_AndSalt_AndKeyLength_AndIterationCount_AndNextKey_WhenExecute_ThenKeyDerivedFromPassword_AndNextExecuted()
         {
             // Arrange

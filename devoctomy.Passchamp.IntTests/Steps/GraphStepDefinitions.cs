@@ -69,7 +69,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
         }
 
         [Given(@"DeriveKeyFromPasswordNode named (.*) with a password of (.*) and key length of (.*) and NextKey of (.*)")]
-        [Obsolete]
+        [Obsolete("DeriveKeyFromPasswordNode is marked as obsolete and will be removed eventually.")]
         public void GivenDeriveKeyFromPasswordNodeNamedWithAPasswordOfAndKeyLengthOf(
             string name,
             string password,
@@ -93,7 +93,7 @@ namespace devoctomy.Passchamp.IntTests.Steps
         }
 
         [Given(@"SCryptNode named (.*) with a password of (.*) and NextKey of (.*)")]
-        [Obsolete]
+        [Obsolete("SCryptNode is marked as obsolete and will be removed eventually.")]
         public void GivenSCryptNodeNamedWithAPasswordOfAndKeyLengthOf(
             string name,
             string password,

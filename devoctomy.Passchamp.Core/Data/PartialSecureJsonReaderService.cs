@@ -8,7 +8,7 @@ namespace devoctomy.Passchamp.Core.Data
 {
     public class PartialSecureJsonReaderService : IPartialSecureJsonReaderService
     {
-        private ISecureSettingStorageService _secureSettingStorageService;
+        private readonly ISecureSettingStorageService _secureSettingStorageService;
 
         public PartialSecureJsonReaderService(ISecureSettingStorageService secureSettingStorageService)
         {
@@ -17,10 +17,10 @@ namespace devoctomy.Passchamp.Core.Data
 
         public async Task<T> LoadAsync<T>(Stream stream)
         {
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             T result;
-            using (StreamReader sr = new StreamReader(stream))
-            using (JsonReader reader = new JsonTextReader(sr))
+            using (var sr = new StreamReader(stream))
+            using (var reader = new JsonTextReader(sr))
             {
                 result = serializer.Deserialize<T>(reader);
             }

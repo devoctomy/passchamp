@@ -42,7 +42,7 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
 
             if (atLeastOneOfEachGroup && length < groupCount)
             {
-                throw new ArgumentException("Length must be greater than or equal to number of char groups in selection.", "length");
+                throw new ArgumentException($"{nameof(length)} must be greater than or equal to number of char groups in selection.", nameof(length));
             }
 
             var fixing = true;

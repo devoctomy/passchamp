@@ -49,13 +49,13 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             if(requiredOptions.Length > 0)
             {
                 helpMessage.AppendLine("\tRequired");
-                helpMessage.Append(requiredOptions.ToString());
+                helpMessage.Append(requiredOptions);
             }
 
             if(optionalOptions.Length > 0)
             {
                 helpMessage.AppendLine("\tOptional");
-                helpMessage.Append(optionalOptions.ToString());
+                helpMessage.Append(optionalOptions);
             }
 
             return helpMessage.ToString();

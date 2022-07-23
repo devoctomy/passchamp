@@ -32,7 +32,6 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography.Random
             // Arrange
             var count = 2000;
             var allDoubles = new List<double>();
-            var sum = 0.0d;
             var sut = new RandomNumericGenerator();
 
             // Act
@@ -40,7 +39,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography.Random
             {
                 allDoubles.Add(sut.GenerateDouble());
             }
-            sum = allDoubles.Average();
+            double sum = allDoubles.Average();
 
             // Assert
             Assert.Equal(count, allDoubles.Distinct().Count());

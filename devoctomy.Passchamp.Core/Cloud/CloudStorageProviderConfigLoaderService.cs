@@ -50,7 +50,7 @@ namespace devoctomy.Passchamp.Core.Cloud
                 configData);
             var configFullPath = $"{_options.Path}{configuration.Id}.json";
             using var output = _ioService.OpenNewWrite(configFullPath);
-            await configData.CopyToAsync(output);
+            await configData.CopyToAsync(output, cancellationToken);
             output.Close();
             Refs.Add(new CloudStorageProviderConfigRef
             {

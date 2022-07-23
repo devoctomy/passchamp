@@ -15,7 +15,6 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             int publicKeyParamsSize)
         {
             // Arrange
-            var plainBytes = new byte[] { 1, 2, 3, 4, 5, 6 };
             var sut = new JsonWebKeyRsaKeyGeneratorService();
 
             // Act

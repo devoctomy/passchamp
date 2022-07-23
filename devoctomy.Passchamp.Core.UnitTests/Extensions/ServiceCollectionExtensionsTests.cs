@@ -45,7 +45,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Extensions
             Assert.NotNull(provider.GetService<ICloudStorageProviderConfigLoaderService>());
 
             var pinPrepFunctions = provider.GetServices<IGraphPinPrepFunction>();
-            pinPrepFunctions.SingleOrDefault(x => x.GetType() == typeof(DataParserSectionGetterPinPrepFunction));
+            _ = pinPrepFunctions.SingleOrDefault(x => x.GetType() == typeof(DataParserSectionGetterPinPrepFunction));
         }
     }
 }

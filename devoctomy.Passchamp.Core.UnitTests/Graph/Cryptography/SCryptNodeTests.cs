@@ -18,7 +18,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
         [InlineData(16384, 8, 4, "Password123", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, "urIahQMbCigEc/aqPCKBgbr1EQ9mL9EJuh/+5SWEI38=")]
         [InlineData(1024, 8, 4, "Password123", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, "c8B8czWegRIRrH0aQ2B9MgQB8gIcT4huqhPNFLfZ9V0=")]
         [InlineData(1024, 8, 4, "Password123", new byte[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, "Z5UpdzTCXzI5sUHtURhvCtf8r8lJx0V3+ko0Wd967Vs=")]
-        [Obsolete]
+        [Obsolete("SCryptNode is marked as obsolute and will be removed eventually.")]
         public async Task GivenIterationCount_AndBlockSize_AndThreadCount_AndPassword_AndSalt_WhenExecute_ThenExpectedKeyDerived(
             int iterationCount,
             int blockSize,

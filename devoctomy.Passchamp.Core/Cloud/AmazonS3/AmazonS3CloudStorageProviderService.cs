@@ -139,13 +139,13 @@ namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
             }
         }
 
-        private List<ICloudStorageProviderEntry> GetEntriesFromResponse(ListObjectsResponse response)
+        private static List<ICloudStorageProviderEntry> GetEntriesFromResponse(ListObjectsResponse response)
         {
             var files = new List<ICloudStorageProviderEntry>();
             foreach (S3Object curObject in response.S3Objects)
             {
                 var isFolder = curObject.Key.EndsWith("/");
-                var name = string.Empty;
+                string name;
                 if (isFolder)
                 {
                     var removedTrailing = curObject.Key.TrimEnd('/');

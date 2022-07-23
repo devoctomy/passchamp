@@ -28,6 +28,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
             var result = await sut.Generate(options);
 
             // Assert
+            Assert.Equal(0, result);
             File.Exists("privatekey.json");
             File.Exists("publickey.json");
 

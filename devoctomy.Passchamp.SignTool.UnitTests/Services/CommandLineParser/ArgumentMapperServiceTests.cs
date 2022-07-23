@@ -25,11 +25,11 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 mockPropertyValueSetterService.Object);
             var argumentsString = "-s=helloworld -b=true -i=2 -f=5.55 -o=pants";
             var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
-            AddProperty(typeof(CommandLineTestOptions), "StringValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "BoolValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "IntValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "FloatValue", allOptions);
-            AddProperty(typeof(CommandLineTestOptions), "OptionalStringValue", allOptions);
+            AddProperty("StringValue", allOptions);
+            AddProperty("BoolValue", allOptions);
+            AddProperty("IntValue", allOptions);
+            AddProperty("FloatValue", allOptions);
+            AddProperty("OptionalStringValue", allOptions);
             var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
             mockSingleArgumentParserService.Setup(x => x.Parse(
@@ -114,8 +114,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
             }
         }
 
-        private void AddProperty(
-            Type type,
+        private static void AddProperty(
             string name,
             Dictionary<PropertyInfo, CommandLineParserOptionAttribute> options)
         {

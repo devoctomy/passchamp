@@ -9,7 +9,7 @@ namespace devoctomy.Passchamp.Core.Data
 {
     public class PartialSecureJsonWriterService : IPartialSecureJsonWriterService
     {
-        private ISecureSettingStorageService _secureSettingStorageService;
+        private readonly ISecureSettingStorageService _secureSettingStorageService;
 
         public PartialSecureJsonWriterService(ISecureSettingStorageService secureSettingStorageService)
         {
@@ -22,24 +22,23 @@ namespace devoctomy.Passchamp.Core.Data
         {
             await SaveSecureSettingsAsync(value);
 
-            JsonSerializer serializer = new JsonSerializer();
-            using StreamWriter sw = new StreamWriter(stream, leaveOpen: true);
-            using JsonWriter writer = new JsonTextWriter(sw);
+            var serializer = new JsonSerializer();
+            using var sw = new StreamWriter(stream, leaveOpen: true);
+            using var writer = new JsonTextWriter(sw);
             serializer.Serialize(writer, value);
         }
 
         private async Task SaveSecureSettingsAsync(object value)
         {
-            var partiallySecure = value as IPartiallySecure;
             var type = value.GetType();
             var allProperties = type.GetProperties(
-                System.Reflection.BindingFlags.Public |
-                System.Reflection.BindingFlags.Instance);
+                BindingFlags.Public |
+                BindingFlags.Instance);
             foreach (var curProperty in allProperties)
             {
                 if (_secureSettingStorageService.IsApplicable(curProperty))
                 {
-                    if (partiallySecure == null)
+                    if (value is not IPartiallySecure partiallySecure)
                     {
                         throw new ObjectDoesNotImplementIPartiallySecureException(type);
                     }
@@ -54,7 +53,7 @@ namespace devoctomy.Passchamp.Core.Data
             }
         }
 
-        private void AssureJsonIgnoreAttributeIsPresent(PropertyInfo property)
+        private static void AssureJsonIgnoreAttributeIsPresent(PropertyInfo property)
         {
             var secureSettingsAttribute = (JsonIgnoreAttribute)property.GetCustomAttributes(
                 typeof(JsonIgnoreAttribute),

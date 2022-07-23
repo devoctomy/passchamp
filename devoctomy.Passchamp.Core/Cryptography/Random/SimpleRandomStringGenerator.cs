@@ -24,7 +24,7 @@ namespace devoctomy.Passchamp.Core.Cryptography.Random
             var randomString = new StringBuilder();
             while (randomString.Length < length)
             {
-                randomString.Append(GetRandomCharFromChars(chars).ToString());
+                randomString.Append(GetRandomCharFromChars(chars));
             }
 
             return randomString.ToString();

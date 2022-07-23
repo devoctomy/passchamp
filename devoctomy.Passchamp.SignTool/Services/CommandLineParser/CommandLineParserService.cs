@@ -52,7 +52,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
         {
             if (string.IsNullOrWhiteSpace(argumentString))
             {
-                results = default(ParseResults);
+                results = default;
                 return false;
             }
 
@@ -100,7 +100,7 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
             return !missingRequired.Any();
         }
 
-        private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions(Type optionsType)
+        private static Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions(Type optionsType)
         {
             var propeties = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
             var allProperties = optionsType.GetProperties();

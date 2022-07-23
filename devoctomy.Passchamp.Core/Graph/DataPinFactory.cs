@@ -29,10 +29,7 @@ namespace devoctomy.Passchamp.Core.Graph
         {
             get
             {
-                if(_instance == null)
-                {
-                    _instance = new DataPinFactory();
-                }
+                _instance ??= new DataPinFactory();
 
                 return _instance;
             }

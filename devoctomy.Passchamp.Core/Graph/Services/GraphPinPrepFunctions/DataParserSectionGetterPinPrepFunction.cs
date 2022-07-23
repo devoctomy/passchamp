@@ -26,8 +26,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions
                 throw new KeyNotFoundException($"No node found in graph with the key '{nodeName}'.");
             }
 
-            var node = nodes[nodeName] as DataParserNode;
-            if (node == null)
+            if (nodes[nodeName] is not DataParserNode node)
             {
                 throw new InvalidOperationException($"Node '{nodeName}' is not of type DataParserNode.");
             }

@@ -20,8 +20,8 @@ namespace devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions
             IReadOnlyDictionary<string, INode> nodes)
         {
             var pathParts = value.Split(".");
-            var parserSections = default(string);
-            if(pathParts[1] == "Pins")
+            string parserSections;
+            if (pathParts[1] == "Pins")
             {
                 parserSections = inputPins[pathParts[2]].ObjectValue.ToString();
             }
@@ -32,8 +32,7 @@ namespace devoctomy.Passchamp.Core.Graph.Services.GraphPinPrepFunctions
 
             var allSections = _sectionsParser.Parse(parserSections);
 
-            var curNode = nodes[curNodeKey] as DataParserNode;
-            if (curNode == null)
+            if (nodes[curNodeKey] is not DataParserNode curNode)
             {
                 throw new InvalidOperationException($"Node '{curNodeKey}' is not of type DataParserNode.");
             }

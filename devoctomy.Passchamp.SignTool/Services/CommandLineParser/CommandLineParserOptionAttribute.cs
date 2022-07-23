@@ -2,6 +2,7 @@
 
 namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
+    [AttributeUsage(AttributeTargets.Property)]
     public class CommandLineParserOptionAttribute : Attribute
     {
         public string ShortName { get; set; }

@@ -16,10 +16,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography
             var sut = new SecureStringUnpacker();
             var result = string.Empty;
 
-            Action<byte[]> callback = buffer =>
+            void callback(byte[] buffer)
             {
                 result = System.Text.Encoding.Unicode.GetString(buffer);
-            };
+            }
 
             // Act
             sut.Unpack(secureString, callback);

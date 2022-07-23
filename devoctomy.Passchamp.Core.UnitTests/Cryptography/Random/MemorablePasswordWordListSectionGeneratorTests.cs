@@ -91,7 +91,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography.Random
             var result = sut.Generate(context, "fruits_ic");
 
             // Assert
-            Assert.Contains(result, context.WordLists["fruits"].Select(x => x[0].ToString().ToUpper() + x.Substring(1)));
+            Assert.Contains(result, context.WordLists["fruits"].Select(x => string.Concat(x[0].ToString().ToUpper(), x.AsSpan(1))));
         }
 
         [Fact]
@@ -113,7 +113,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cryptography.Random
             // Assert
             var allLowerCase = context.WordLists["fruits"].Select(x => x.ToLower()).ToList();
             var allUpperCase = context.WordLists["fruits"].Select(x => x.ToLower()).ToList();
-            var allInitialCaps = context.WordLists["fruits"].Select(x => x[0].ToString().ToUpper() + x.Substring(1)).ToList();
+            var allInitialCaps = context.WordLists["fruits"].Select(x => string.Concat(x[0].ToString().ToUpper(), x.AsSpan(1))).ToList();
             Assert.True(
                 allLowerCase.Contains(result) ||
                 allUpperCase.Contains(result) ||

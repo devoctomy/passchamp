@@ -137,7 +137,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
                 It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
         }
 
-        private Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions<T>()
+        private static Dictionary<PropertyInfo, CommandLineParserOptionAttribute> GetAllOptions<T>()
         {
             var propeties = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
             var allProperties = typeof(T).GetProperties();
