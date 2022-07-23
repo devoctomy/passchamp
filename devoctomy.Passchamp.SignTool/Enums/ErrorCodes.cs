@@ -1,4 +1,4 @@
-﻿namespace devoctomy.Passchamp.SignTool
+﻿namespace devoctomy.Passchamp.SignTool.Enums
 {
     public enum ErrorCodes
     {

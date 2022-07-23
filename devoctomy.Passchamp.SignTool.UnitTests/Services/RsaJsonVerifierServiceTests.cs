@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.SignTool.Services;
+﻿using devoctomy.Passchamp.SignTool.Enums;
+using devoctomy.Passchamp.SignTool.Services;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;

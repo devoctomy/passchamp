@@ -1,4 +1,6 @@
 ﻿using devoctomy.Passchamp.SignTool.Services;
+using devoctomy.Passchamp.SignTool.Services.Enums;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,7 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         [InlineData(2048, 1631, 439)]
         [InlineData(3072, 2387, 607)]
         [InlineData(4096, 3171, 779)]
-        public void GivenKeySize_WhenGenerate_ThenKeyPairGenerated_AndKeysCorrectSize_AndKeyPairValid(
+        public void GivenKeyTypeJsonRsaParameters_AndKeySize_WhenGenerate_ThenKeyPairGenerated_AndKeysCorrectSize_AndKeyPairValid(
             int keySize,
             int privateKeyParamsSize,
             int publicKeyParamsSize)

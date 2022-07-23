@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Xunit;
 

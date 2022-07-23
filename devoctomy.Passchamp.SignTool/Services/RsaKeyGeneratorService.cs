@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using devoctomy.Passchamp.SignTool.Services.Enums;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography;
 

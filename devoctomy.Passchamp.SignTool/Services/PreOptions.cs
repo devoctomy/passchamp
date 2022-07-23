@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+using devoctomy.Passchamp.SignTool.Services.Enums;
 using System.Diagnostics.CodeAnalysis;
 
 namespace devoctomy.Passchamp.SignTool.Services

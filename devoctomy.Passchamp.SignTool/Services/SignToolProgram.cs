@@ -1,5 +1,5 @@
-﻿using devoctomy.Passchamp.SignTool.Services;
-using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+using devoctomy.Passchamp.SignTool.Services.Enums;
 using System;
 using System.IO;
 using System.Linq;

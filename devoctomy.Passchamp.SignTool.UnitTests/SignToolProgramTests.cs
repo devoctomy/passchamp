@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.SignTool.Services;
 using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+using devoctomy.Passchamp.SignTool.Services.Enums;
 using Moq;
 using System;
 using System.Threading.Tasks;

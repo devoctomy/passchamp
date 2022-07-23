@@ -1,4 +1,6 @@
-﻿namespace devoctomy.Passchamp.SignTool.Services
+﻿using devoctomy.Passchamp.SignTool.Services.Enums;
+
+namespace devoctomy.Passchamp.SignTool.Services
 {
     public interface IRsaKeyGeneratorService
     {
