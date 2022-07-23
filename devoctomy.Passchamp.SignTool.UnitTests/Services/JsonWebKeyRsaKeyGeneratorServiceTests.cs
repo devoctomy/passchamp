@@ -7,12 +7,10 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
     public class JsonWebKeyRsaKeyGeneratorServiceTests
     {
         [Theory]
-        [InlineData(2048, 2035, 851)]
-        [InlineData(4096, 3572, 1192)]
-        public void GivenKeyTypeRsaJsonWebKey_AndKeySize_WhenGenerate_ThenKeyPairGenerated_AndKeysCorrectSize_AndKeyPairValid(
-            int keySize,
-            int privateKeyParamsSize,
-            int publicKeyParamsSize)
+        [InlineData(2048)]
+        [InlineData(4096)]
+        public void GivenKeyTypeRsaJsonWebKey_AndKeySize_WhenGenerate_ThenKeyPairGenerated_AndKeyPairValid(
+            int keySize)
         {
             // Arrange
             var sut = new JsonWebKeyRsaKeyGeneratorService();
@@ -24,8 +22,6 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
                 out var publicKey);
 
             // Assert
-            Assert.Equal(privateKeyParamsSize, privateKey.Length);
-            Assert.Equal(publicKeyParamsSize, publicKey.Length);
             var privateJWK = new JsonWebKey(privateKey);
             var publicJWK = new JsonWebKey(publicKey);
 
