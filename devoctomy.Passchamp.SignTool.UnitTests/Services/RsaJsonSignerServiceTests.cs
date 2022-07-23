@@ -59,6 +59,55 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         }
 
         [Fact]
+        public async Task GivenSignOptions_WhenSign_ThenJsonSigned_AndSignatureAdded()
+        {
+            // Arrange
+            var testObject = new SimpleObject
+            {
+                Name = "Bob Hoskins",
+                Age = 100
+            };
+            var testObjectJson = JsonConvert.SerializeObject(testObject, Formatting.Indented);
+            var path = $"Output/{Guid.NewGuid()}";
+            await File.WriteAllTextAsync(
+                path,
+                testObjectJson);
+            var keyGen = new RsaKeyGeneratorService();
+            keyGen.Generate(
+                1024,
+                out var privateKey,
+                out _);
+            var keyFile = $"Output/{Guid.NewGuid()}";
+            await File.WriteAllTextAsync(
+                keyFile,
+                privateKey);
+            var sut = new RsaJsonSignerService();
+            var output = $"Output/{Guid.NewGuid()}";
+            using var rsaProvider = new RSACryptoServiceProvider();
+
+            // Act
+            var result = await sut.Sign(new SignOptions
+            {
+                Input = path,
+                KeyFile = keyFile,
+                Output = output
+            });
+
+            // Assert
+            Assert.Equal(0, result);
+            var signedResult = await File.ReadAllTextAsync(output);
+            var signedJson = JObject.Parse(signedResult);
+            Assert.True(signedJson.ContainsKey("Signature"));
+            Assert.Equal("RsaJsonSigner", signedJson["Signature"]["Algorithm"].Value<string>());
+            Assert.False(String.IsNullOrEmpty(signedJson["Signature"]["Signature"].Value<string>()));
+
+            // Cleanup
+            File.Delete(path);
+            File.Delete(keyFile);
+            File.Delete(output);
+        }
+
+        [Fact]
         public async Task GivenPath_AndValidJson_AndKey_WhenSign_ThenJsonSigned_AndSignatureAdded()
         {
             // Arrange
