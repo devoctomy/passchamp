@@ -1,7 +1,7 @@
-﻿using devoctomy.Passchamp.Core.Exceptions;
-using devoctomy.Passchamp.Maui.Data;
+﻿using devoctomy.Passchamp.Maui.Data;
 using Microsoft.Maui.Storage;
 using Moq;
+using System;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Maui.UnitTests.Data
@@ -48,16 +48,41 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data
             };
             var propertyInfo = typeof(Test2PartialSecureConfigFile).GetProperty("TestSetting4");
             var newValue = "Bob Hoskins";
+            var id = Guid.NewGuid().ToString();
+            var expectedKey = $"{id}.Group.Category.TestSetting4";
             mockSecureStorage.Setup(x => x.GetAsync(
                 It.IsAny<string>())).ReturnsAsync(newValue);
 
             // Act
-            await sut.LoadAsync("id", propertyInfo, config);
+            await sut.LoadAsync(id, propertyInfo, config);
 
             // Assert
             Assert.Equal(newValue, config.TestSetting4);
             mockSecureStorage.Verify(x => x.GetAsync(
-                It.Is<string>(y => y == "id.Group.Category.TestSetting4")), Times.Once);
+                It.Is<string>(y => y == expectedKey)), Times.Once);
+        }
+
+        [Fact]
+        public async Task GivenId_AndPropertyInfo_AndInstance_WhenSaveAsync_ThenSetToStorageWithCorrectKey()
+        {
+            // Arrange
+            var mockSecureStorage = new Mock<ISecureStorage>();
+            var sut = new SecureSettingStorageService(mockSecureStorage.Object);
+            var config = new Test2PartialSecureConfigFile()
+            {
+                TestSetting4 = "Hello World!"
+            };
+            var id = Guid.NewGuid().ToString();
+            var propertyInfo = typeof(Test2PartialSecureConfigFile).GetProperty("TestSetting4");
+            var expectedKey = $"{id}.Group.Category.TestSetting4";
+
+            // Act
+            await sut.SaveAsync(id, propertyInfo, config);
+
+            // Assert
+            mockSecureStorage.Verify(x => x.SetAsync(
+                It.Is<string>(y => y == expectedKey),
+                It.Is<string>(y => y == config.TestSetting4)), Times.Once);
         }
     }
 }
