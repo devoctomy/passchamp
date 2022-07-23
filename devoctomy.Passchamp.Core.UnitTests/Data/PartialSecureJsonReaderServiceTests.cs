@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Exceptions;
 using devoctomy.Passchamp.Core.UnitTests.Data;
 using Moq;
 using Newtonsoft.Json;
@@ -12,6 +13,31 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
 {
     public class PartialSecureJsonReadersERVICETests
     {
+        [Fact]
+        public async Task GivenInvalidValueType_WhenLoadSecureSettingsAsync_ThenObjectDoesNotImplementIPartiallySecureExceptionThrown()
+        {
+            // Arrange
+            var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
+            var sut = new PartialSecureJsonReaderService(mockSecureSettingStorageService.Object);
+
+            var value = new Test3PartialSecureConfigFile
+            {
+                Id = Guid.NewGuid().ToString(),
+                TestSetting3 = "Bob Hoskins"
+            };
+            var json = JsonConvert.SerializeObject(value);
+            var input = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(json));
+
+            mockSecureSettingStorageService.Setup(x => x.IsApplicable(
+                It.Is<PropertyInfo>(y => y.Name == "TestSetting3"))).Returns(true);
+
+            // Act & Assert
+            await Assert.ThrowsAnyAsync<ObjectDoesNotImplementIPartiallySecureException>(async () =>
+            {
+                await sut.LoadAsync<Test3PartialSecureConfigFile>(input);
+            });
+        }
+
         [Fact]
         public async Task GivenJson_WhenLoad_ThenUnsecureFieldsParsedFromJson_AndSecureFieldLoadedSecurely()
         {
