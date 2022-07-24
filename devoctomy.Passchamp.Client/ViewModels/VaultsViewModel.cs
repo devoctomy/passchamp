@@ -7,10 +7,10 @@ namespace devoctomy.Passchamp.Client.ViewModels
 {
     public partial class VaultsViewModel : BaseViewModel
     {
-        [ObservableProperty]
-        Vault itemSelected = null;
-
         public ObservableCollection<Vault> Vaults { get; } = new ObservableCollection<Vault>();
+
+        [ObservableProperty]
+        private Vault itemSelected = null;
 
         public VaultsViewModel()
         {

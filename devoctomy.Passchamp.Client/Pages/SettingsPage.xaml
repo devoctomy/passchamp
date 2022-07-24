@@ -10,8 +10,11 @@
     <VerticalStackLayout>
         <Label Text="Cloud Storage Providers" Style="{StaticResource MediumLabelStyle}"></Label>
         <HorizontalStackLayout>
-            <Button Text="Add" Command="{Binding AddCloudStorageProviderCommand}"></Button>
-            <Button Text="Remove"></Button>
+            <Button Text="Add"
+                    Command="{Binding AddCloudStorageProviderCommand}"></Button>
+            <Button Text="Remove"
+                    Command="{Binding RemoveSelectedCloudStorageProviderCommand}"
+                    IsEnabled="{Binding RemoveSelectedCloudStorageProviderCommandCanExecute}"></Button>
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </pages:BasePage>

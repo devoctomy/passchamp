@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using System.Collections.ObjectModel;
@@ -12,15 +13,14 @@ namespace devoctomy.Passchamp.Client.ViewModels
         public IAsyncRelayCommand AddCloudStorageProviderCommand { get; }
         public IAsyncRelayCommand RemoveSelectedCloudStorageProviderCommand { get; }
 
+        [ObservableProperty]
+        private bool removeSelectedCloudStorageProviderCommandCanExecute;
+
         public SettingsViewModel()
         {
             AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProvider);
             RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProvider);
-        }
-
-        public void Load()
-        {
-            // Load the settings here
+            removeSelectedCloudStorageProviderCommandCanExecute = false;
         }
 
         private async Task AddCloudStorageProvider()

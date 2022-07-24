@@ -31,7 +31,6 @@ namespace devoctomy.Passchamp.Core.Data
 
         private async Task LoadSecureSettingsAsync<T>(T value)
         {
-            var partiallySecure = value as IPartiallySecure;
             var type = value.GetType();
             var allProperties = type.GetProperties(
                 System.Reflection.BindingFlags.Public |
@@ -40,7 +39,7 @@ namespace devoctomy.Passchamp.Core.Data
             {
                 if (_secureSettingStorageService.IsApplicable(curProperty))
                 {
-                    if (partiallySecure == null)
+                    if (value is not IPartiallySecure partiallySecure)
                     {
                         throw new ObjectDoesNotImplementIPartiallySecureException(type);
                     }

@@ -99,7 +99,6 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services
         public async Task GivenAndVerifyOptions_AndTampered_WhenVerify_ThenVerificationFailedReturned()
         {
             // Arrange
-            var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
             var sut = new RsaJsonVerifierService();
 
             var verifyOptions = new VerifyOptions
