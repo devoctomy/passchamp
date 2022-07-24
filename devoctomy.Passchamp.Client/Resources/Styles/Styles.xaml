@@ -23,7 +23,7 @@
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
-    <Style TargetType="Button">
+    <Style x:Key="DefaultButtonStyle" TargetType="Button">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}" />
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
@@ -43,6 +43,9 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
     </Style>
 
     <Style TargetType="CheckBox">
@@ -145,7 +148,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="Label">
+    <Style x:Key="DefaultLabelStyle" TargetType="Label">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
         <Setter Property="FontSize" Value="14" />
@@ -161,6 +164,13 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource DefaultLabelStyle}" TargetType="Label">
+    </Style>
+
+    <Style x:Key="MediumLabelStyle" BasedOn="{StaticResource DefaultLabelStyle}" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
     </Style>
 
     <Style TargetType="ListView">

@@ -25,11 +25,13 @@ namespace devoctomy.Passchamp.Client
         static void RegisterPages(in IServiceCollection services)
         {
             services.AddTransient<VaultsPage>();
+            services.AddTransient<SettingsPage>();
         }
 
         static void RegisterViewModels(in IServiceCollection services)
         {
             services.AddTransient<VaultsViewModel>();
+            services.AddTransient<SettingsViewModel>();
         }
     }
 }

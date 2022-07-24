@@ -3,7 +3,6 @@
     x:Class="devoctomy.Passchamp.Client.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:devoctomy.Passchamp.Client"
     xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages"
     Shell.FlyoutBehavior="Flyout">
 
@@ -15,7 +14,10 @@
     </FlyoutItem>
 
     <ShellContent
+        Title="Settings"
+        ContentTemplate="{DataTemplate pages:SettingsPage}"/>
+    <ShellContent
         Title="About"
-        ContentTemplate="{DataTemplate local:AboutPage}"/>
+        ContentTemplate="{DataTemplate pages:AboutPage}"/>
 
 </Shell>
