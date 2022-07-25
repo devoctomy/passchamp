@@ -2,13 +2,18 @@
 using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Core.Cloud.AmazonS3;
+using devoctomy.Passchamp.Core.Cloud.Utility;
 using System.Collections.ObjectModel;
 
 namespace devoctomy.Passchamp.Client.ViewModels
 {
     public partial class SettingsViewModel : BaseViewModel
     {
-        public ObservableCollection<ICloudStorageProviderConfig> CloudStorageProviderConfigs { get; set; }
+        public ObservableCollection<CloudStorageProviderConfigRef> CloudStorageProviderConfigRefs { get; set; } = new ObservableCollection<CloudStorageProviderConfigRef>();
+
+        [ObservableProperty]
+        CloudStorageProviderConfigRef selectedCloudStorageProviderConfigRef;
 
         public IAsyncRelayCommand AddCloudStorageProviderCommand { get; }
         public IAsyncRelayCommand RemoveSelectedCloudStorageProviderCommand { get; }
@@ -18,6 +23,18 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         public SettingsViewModel()
         {
+            CloudStorageProviderConfigRefs.Add(
+                new CloudStorageProviderConfigRef
+                {
+                    Id = "Bob Hoskins",
+                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get<AmazonS3CloudStorageProviderService>().TypeId
+                });
+            CloudStorageProviderConfigRefs.Add(
+                new CloudStorageProviderConfigRef
+                {
+                    Id = "Another Test",
+                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get<AmazonS3CloudStorageProviderService>().TypeId
+                });
             AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProvider);
             RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProvider);
             removeSelectedCloudStorageProviderCommandCanExecute = false;

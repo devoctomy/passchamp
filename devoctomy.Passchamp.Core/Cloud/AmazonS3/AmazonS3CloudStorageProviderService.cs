@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
 {
+    [CloudStorageProviderServiceAttribute(
+        TypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333",
+        DisplayName = "Amazon S3 Cloud Storage Provider")]
     public class AmazonS3CloudStorageProviderService : ICloudStorageProviderService
     {
-        public const string ProviderTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333";
-        public string TypeId => ProviderTypeId;
+        public string DisplayName => "";
+        public string TypeId => "";
 
         private readonly IAmazonS3Config _config;
         private readonly IAmazonS3 _amazonS3;

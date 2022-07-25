@@ -7,6 +7,7 @@ namespace devoctomy.Passchamp.Core.Cloud
 {
     public interface ICloudStorageProviderService
     {
+        public string DisplayName { get; }
         public string TypeId { get; }
 
         public Task<CloudStorageProviderObjectResponse<ICloudStorageProviderEntry>> GetFileInfoAsync(
