@@ -27,13 +27,13 @@ namespace devoctomy.Passchamp.Client.ViewModels
                 new CloudStorageProviderConfigRef
                 {
                     Id = "Bob Hoskins",
-                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get<AmazonS3CloudStorageProviderService>().TypeId
+                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId
                 });
             CloudStorageProviderConfigRefs.Add(
                 new CloudStorageProviderConfigRef
                 {
                     Id = "Another Test",
-                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get<AmazonS3CloudStorageProviderService>().TypeId
+                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId
                 });
             AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProvider);
             RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProvider);
