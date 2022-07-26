@@ -170,6 +170,10 @@
     </Style>
 
     <Style x:Key="MediumLabelStyle" BasedOn="{StaticResource DefaultLabelStyle}" TargetType="Label">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <Style x:Key="LargeLabelStyle" BasedOn="{StaticResource DefaultLabelStyle}" TargetType="Label">
         <Setter Property="FontSize" Value="20" />
     </Style>
 

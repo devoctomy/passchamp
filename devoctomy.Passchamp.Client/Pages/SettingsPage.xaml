@@ -13,17 +13,45 @@
         <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
     </pages:BasePage.Resources>
     <VerticalStackLayout>
-        <Label Text="Cloud Storage Providers" Style="{StaticResource MediumLabelStyle}"></Label>
+        <Label Text="Cloud Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
+        <HorizontalStackLayout>
+            <ImageButton
+                Source="add_new_dark.png"
+                WidthRequest="48"
+                Command="{Binding AddCloudStorageProviderCommand}">
+            </ImageButton>
+            <ImageButton
+                Source="garbage_closed_dark.png"
+                WidthRequest="48"
+                Command="{Binding RemoveSelectedCloudStorageProviderCommand}">
+            </ImageButton>
+        </HorizontalStackLayout>
         <ListView
                 ItemsSource="{Binding CloudStorageProviderConfigRefs}"
                 SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="cloud:CloudStorageProviderConfigRef">
                     <ViewCell Height="128">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"></Label>
-                            <Label Text="{Binding Id}"></Label>
-                        </VerticalStackLayout>
+                        <Grid Padding="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Column="0"
+                                Source="amazon_dark.png"
+                                WidthRequest="32">
+                            </Image>
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"
+                                       Style="{StaticResource MediumLabelStyle}"/>
+                                <Label Text="{Binding Id}"
+                                       Style="{StaticResource DefaultLabelStyle}"/>
+                            </VerticalStackLayout>
+                        </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
