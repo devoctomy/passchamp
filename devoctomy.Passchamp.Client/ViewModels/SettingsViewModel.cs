@@ -1,8 +1,6 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using devoctomy.Passchamp.Client.Popups;
-using devoctomy.Passchamp.Client.Popups.Base;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Cloud.AmazonS3;
@@ -26,35 +24,44 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         public SettingsViewModel()
         {
-            AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProvider);
-            RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProvider);
+            AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProviderCommandHandler);
+            RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProviderHandler);
             removeSelectedCloudStorageProviderCommandCanExecute = false;
         }
 
-        private async Task AddCloudStorageProvider()
+        public async Task Return(BaseViewModel viewModel)
         {
-            var model = new CloudStorageProviderEditorViewModel
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+
+            if (viewModel is CloudStorageProviderEditorViewModel)
+            {
+                var cloudStorageProviderEditorViewModel = viewModel as CloudStorageProviderEditorViewModel;
+                var providerRef = new CloudStorageProviderConfigRef
+                {
+                    Id = cloudStorageProviderEditorViewModel.DisplayName,
+                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId
+                };
+                CloudStorageProviderConfigRefs.Add(providerRef);
+            }
+        }
+
+        private async Task AddCloudStorageProviderCommandHandler()
+        {
+            var viewModel = new CloudStorageProviderEditorViewModel
             {
                 DisplayName = "a",
                 AccessId = "b",
                 SecretKey = "c",
                 Region = "d",
                 Bucket = "e",
-                Path = "f"
+                Path = "f",
+                ReturnViewModel = this
             };
-            var popup = new CloudStorageProviderEditor(model);
-            await Application.Current.MainPage.ShowPopupAsync(popup);
-
-            await Task.Yield();
-            CloudStorageProviderConfigRefs.Add(
-                new CloudStorageProviderConfigRef
-                {
-                    Id = "Another Test",
-                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId
-                });
+            var page = new Pages.CloudStorageProviderEditorPage(viewModel);
+            await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
         }
 
-        private async Task RemoveSelectedCloudStorageProvider()
+        private async Task RemoveSelectedCloudStorageProviderHandler()
         {
             await Task.Yield();
 
