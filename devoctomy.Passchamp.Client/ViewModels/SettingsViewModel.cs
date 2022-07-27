@@ -1,5 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using devoctomy.Passchamp.Client.Popups;
+using devoctomy.Passchamp.Client.Popups.Base;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Cloud.AmazonS3;
@@ -30,6 +33,18 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         private async Task AddCloudStorageProvider()
         {
+            var model = new CloudStorageProviderEditorViewModel
+            {
+                DisplayName = "a",
+                AccessId = "b",
+                SecretKey = "c",
+                Region = "d",
+                Bucket = "e",
+                Path = "f"
+            };
+            var popup = new CloudStorageProviderEditor(model);
+            await Application.Current.MainPage.ShowPopupAsync(popup);
+
             await Task.Yield();
             CloudStorageProviderConfigRefs.Add(
                 new CloudStorageProviderConfigRef

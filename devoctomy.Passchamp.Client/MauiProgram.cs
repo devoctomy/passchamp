@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Client.Pages;
+﻿using CommunityToolkit.Maui;
+using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels;
 
 namespace devoctomy.Passchamp.Client
@@ -10,6 +11,7 @@ namespace devoctomy.Passchamp.Client
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
