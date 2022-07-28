@@ -9,6 +9,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Data
     {
         public string Id { get; set; }
         public string ProviderTypeId => "Uknown";
+        public string DisplayName { get; set; }
         public string TestSetting1 { get; set; }
         public int TestSetting2 { get; set; }
 

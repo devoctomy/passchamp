@@ -36,27 +36,32 @@ namespace devoctomy.Passchamp.Client.ViewModels
             if (viewModel is CloudStorageProviderEditorViewModel)
             {
                 var cloudStorageProviderEditorViewModel = viewModel as CloudStorageProviderEditorViewModel;
-                var providerRef = new CloudStorageProviderConfigRef
+                switch(cloudStorageProviderEditorViewModel.EditorMode)
                 {
-                    Id = cloudStorageProviderEditorViewModel.DisplayName,
-                    ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId
-                };
-                CloudStorageProviderConfigRefs.Add(providerRef);
+                    case Enums.PageEditorMode.Create:
+                        {
+                            var providerRef = new CloudStorageProviderConfigRef
+                            {
+                                Id = cloudStorageProviderEditorViewModel.DisplayName,
+                                ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId
+                            };
+                            CloudStorageProviderConfigRefs.Add(providerRef);
+                            break;
+                        }
+
+                    case Enums.PageEditorMode.Edit:
+                        {
+                            // Apply any updates required here (if required)
+                            break;
+                        }
+                }
+
             }
         }
 
         private async Task AddCloudStorageProviderCommandHandler()
         {
-            var viewModel = new CloudStorageProviderEditorViewModel
-            {
-                DisplayName = "a",
-                AccessId = "b",
-                SecretKey = "c",
-                Region = "d",
-                Bucket = "e",
-                Path = "f",
-                ReturnViewModel = this
-            };
+            var viewModel = new CloudStorageProviderEditorViewModel(this);
             var page = new Pages.CloudStorageProviderEditorPage(viewModel);
             await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
         }
