@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using devoctomy.Passchamp.Client.ViewModels.Base;
+using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Vault;
 using System.Collections.ObjectModel;
 
@@ -12,8 +13,11 @@ namespace devoctomy.Passchamp.Client.ViewModels
         [ObservableProperty]
         private Vault itemSelected = null;
 
-        public VaultsViewModel()
+        private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
+
+        public VaultsViewModel(ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
         {
+            _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
             Vaults.Add(new Vault
             {
                 Header = new VaultHeader

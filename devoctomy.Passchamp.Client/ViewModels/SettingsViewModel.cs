@@ -1,17 +1,18 @@
-﻿using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Cloud.AmazonS3;
 using devoctomy.Passchamp.Core.Cloud.Utility;
+using devoctomy.Passchamp.Core.Data;
 using System.Collections.ObjectModel;
 
 namespace devoctomy.Passchamp.Client.ViewModels
 {
     public partial class SettingsViewModel : BaseViewModel
     {
-        public ObservableCollection<CloudStorageProviderConfigRef> CloudStorageProviderConfigRefs { get; set; } = new ObservableCollection<CloudStorageProviderConfigRef>();
+        [ObservableProperty]
+        ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs; //{ get; set; } = new ObservableCollection<CloudStorageProviderConfigRef>();
 
         [ObservableProperty]
         CloudStorageProviderConfigRef selectedCloudStorageProviderConfigRef;
@@ -22,11 +23,34 @@ namespace devoctomy.Passchamp.Client.ViewModels
         [ObservableProperty]
         private bool removeSelectedCloudStorageProviderCommandCanExecute;
 
-        public SettingsViewModel()
+        private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
+        private static SemaphoreSlim _loaderLock = new SemaphoreSlim(1, 1);
+        private bool _loaded = false;
+
+        public SettingsViewModel(ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
         {
             AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProviderCommandHandler);
             RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProviderHandler);
             removeSelectedCloudStorageProviderCommandCanExecute = false;
+            _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
+        }
+
+        public override async Task OnAppearingAsync()
+        {
+            await _loaderLock.WaitAsync();
+            try
+            {
+                if (!_loaded)
+                {
+                    await _cloudStorageProviderConfigLoaderService.LoadAsync(CancellationToken.None);
+                    CloudStorageProviderConfigRefs = new ObservableCollection<CloudStorageProviderConfigRef>(_cloudStorageProviderConfigLoaderService.Refs);
+                    _loaded = true;
+                }
+            }
+            finally
+            {
+                _loaderLock.Release();
+            }  
         }
 
         public override async Task Return(BaseViewModel viewModel)
@@ -40,12 +64,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
                 {
                     case Enums.PageEditorMode.Create:
                         {
-                            var providerRef = new CloudStorageProviderConfigRef
-                            {
-                                Id = cloudStorageProviderEditorViewModel.DisplayName,
-                                ProviderServiceTypeId = CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId
-                            };
-                            CloudStorageProviderConfigRefs.Add(providerRef);
+                            await CreateCloudStorageProvider(cloudStorageProviderEditorViewModel);
                             break;
                         }
 
@@ -56,6 +75,21 @@ namespace devoctomy.Passchamp.Client.ViewModels
                         }
                 }
             }
+        }
+
+        private async Task CreateCloudStorageProvider(CloudStorageProviderEditorViewModel model)
+        {
+            var config = new AmazonS3CloudStorageProviderConfig
+            {
+                DisplayName = model.DisplayName,
+                AccessId = model.AccessId,
+                SecretKey = model.SecretKey,
+                Region = model.Region,
+                Bucket = model.Bucket,
+                Path = model.Path
+            };
+            var newRef = await _cloudStorageProviderConfigLoaderService.Add(config, CancellationToken.None);
+            CloudStorageProviderConfigRefs.Add(newRef);
         }
 
         private async Task AddCloudStorageProviderCommandHandler()

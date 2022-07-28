@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels;
+using devoctomy.Passchamp.Core.Extensions;
+using devoctomy.Passchamp.Maui.Extensions;
 
 namespace devoctomy.Passchamp.Client
 {
@@ -17,23 +19,35 @@ namespace devoctomy.Passchamp.Client
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
-            RegisterPages(builder.Services);
+            builder.Services.AddTransient(x => SecureStorage.Default);
+            var passchampCoreServiceOptions = new PasschampCoreServicesOptions
+            {
+                CloudStorageProviderConfigLoaderServiceOptions = new Core.Cloud.CloudStorageProviderConfigLoaderServiceOptions
+                {
+                    FileName = "providers.json",
+                    Path = Path.Combine(FileSystem.AppDataDirectory, $"config\\")
+                }
+            };
+            builder.Services.AddPasschampCoreServices(passchampCoreServiceOptions);
+            builder.Services.AddPasschampMauiServices();
             RegisterViewModels(builder.Services);
+            RegisterPages(builder.Services);
 
             return builder.Build();
         }
 
-        static void RegisterPages(in IServiceCollection services)
+        static void RegisterPages(IServiceCollection services)
         {
             services.AddTransient<VaultsPage>();
             services.AddTransient<SettingsPage>();
+            services.AddTransient<CloudStorageProviderEditorPage>();
         }
 
-        static void RegisterViewModels(in IServiceCollection services)
+        static void RegisterViewModels(IServiceCollection services)
         {
             services.AddTransient<VaultsViewModel>();
             services.AddTransient<SettingsViewModel>();
+            services.AddTransient<CloudStorageProviderEditorViewModel>();
         }
     }
 }

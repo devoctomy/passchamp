@@ -27,7 +27,7 @@ namespace devoctomy.Passchamp.Core.Extensions
             services.AddScoped<IPartialSecureJsonReaderService, PartialSecureJsonReaderService>();
             services.AddScoped<IPartialSecureJsonWriterService, PartialSecureJsonWriterService>();
             services.AddScoped<IIOService, IOService>();
-            services.AddScoped<ICloudStorageProviderConfigLoaderService, CloudStorageProviderConfigLoaderService>();
+            services.AddSingleton<ICloudStorageProviderConfigLoaderService, CloudStorageProviderConfigLoaderService>();
 
             var pinPrepFunctionAssembly = typeof(IGraphPinPrepFunction).Assembly;
             var allPinPrepFunctions = pinPrepFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinPrepFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();

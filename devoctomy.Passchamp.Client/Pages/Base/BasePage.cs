@@ -14,8 +14,11 @@ namespace devoctomy.Passchamp.Client.Pages.Base
 
     public abstract class BasePage : ContentPage
     {
+        private BaseViewModel _viewModel;
+
         public BasePage(object viewModel = null)
         {
+            _viewModel = viewModel as BaseViewModel;
             BindingContext = viewModel;
             Padding = 12;
 
@@ -30,8 +33,9 @@ namespace devoctomy.Passchamp.Client.Pages.Base
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
             Debug.WriteLine($"OnAppearing: {Title}");
+            
+            Task.Run(_viewModel.OnAppearingAsync);
         }
 
         protected override void OnDisappearing()

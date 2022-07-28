@@ -53,10 +53,17 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
                 It.IsAny<string>(),
                 It.IsAny<CancellationToken>())).ReturnsAsync(JsonConvert.SerializeObject(configRefs));
 
+            mockIOService.Setup(x => x.Exists(
+                It.IsAny<string>())).Returns(true);
+
             // Act
             await sut.LoadAsync(cancellationTokenSource.Token);
 
             // Assert
+            mockIOService.Verify(x => x.Exists(
+                It.Is<string>(y => y == expectedPath)), Times.Once);
+            mockIOService.Verify(x => x.CreatePathDirectory(
+                It.Is<string>(y => y == expectedPath)), Times.Once);
             Assert.Equal(2, sut.Refs.Count);
             Assert.NotNull(sut.Refs.SingleOrDefault(x => x.Id == "Hello"));
             Assert.NotNull(sut.Refs.SingleOrDefault(x => x.Id == "World"));
@@ -131,7 +138,8 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
                 mockIOService.Object);
 
             var cancellationTokenSource = new CancellationTokenSource();
-            var expectedPath = $"{options.Path}Hello.json";
+            var expectedConfigPath = $"{options.Path}{options.FileName}";
+            var expectedProviderConfigPath = $"{options.Path}Hello.json";
             using var configStream = new MemoryStream();
             var configRefs = new List<CloudStorageProviderConfigRef>
             {
@@ -147,6 +155,9 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
                 It.IsAny<string>(),
                 It.IsAny<CancellationToken>())).ReturnsAsync(JsonConvert.SerializeObject(configRefs));
 
+            mockIOService.Setup(x => x.Exists(
+                It.IsAny<string>())).Returns(true);
+
             await sut.LoadAsync(cancellationTokenSource.Token);
 
             // Act
@@ -155,8 +166,12 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
                 cancellationTokenSource.Token);
 
             // Assert
+            mockIOService.Verify(x => x.Exists(
+                It.Is<string>(y => y == expectedConfigPath)), Times.Once);
+            mockIOService.Verify(x => x.CreatePathDirectory(
+                It.Is<string>(y => y == expectedConfigPath)), Times.Once);
             mockIOService.Verify(x => x.OpenRead(
-                It.Is<string>(y => y == expectedPath)), Times.Once);
+                It.Is<string>(y => y == expectedProviderConfigPath)), Times.Once);
             mockPartialSecureJsonReaderService.Verify(x => x.LoadAsync<object>(
                 It.Is<Stream>(y => y == configStream)), Times.Once);
         }

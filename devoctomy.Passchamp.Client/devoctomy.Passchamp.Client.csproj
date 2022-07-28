@@ -54,6 +54,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\devoctomy.Passchamp.Core\devoctomy.Passchamp.Core.csproj" />
+	  <ProjectReference Include="..\devoctomy.Passchamp.Maui\devoctomy.Passchamp.Maui.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

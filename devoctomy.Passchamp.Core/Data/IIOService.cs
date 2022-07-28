@@ -21,5 +21,6 @@ namespace devoctomy.Passchamp.Core.Data
             CancellationToken cancellationToken);
         public Stream OpenRead(string path);
         public Stream OpenNewWrite(string path);
+        public void CreatePathDirectory(string path);
     }
 }

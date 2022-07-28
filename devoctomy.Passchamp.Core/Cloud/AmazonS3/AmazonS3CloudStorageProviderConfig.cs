@@ -1,8 +1,8 @@
 ﻿using devoctomy.Passchamp.Core.Cloud.Utility;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Data.Attributes;
+using Newtonsoft.Json;
 using System;
-using System.Text.Json.Serialization;
 
 namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
 {

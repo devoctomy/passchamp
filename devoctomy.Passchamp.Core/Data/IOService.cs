@@ -58,5 +58,11 @@ namespace devoctomy.Passchamp.Core.Data
                 contents,
                 cancellationToken);
         }
+
+        public void CreatePathDirectory(string path)
+        {
+            var fileInfo = new FileInfo(path);
+            fileInfo.Directory.Create();
+        }
     }
 }

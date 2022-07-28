@@ -34,13 +34,17 @@ namespace devoctomy.Passchamp.Core.Cloud
         public async Task LoadAsync(CancellationToken cancellationToken)
         {
             var fullPath = $"{_options.Path}{_options.FileName}";
-            var jsonRaw = await _ioService.ReadAllTextAsync(
-                fullPath,
-                cancellationToken);
-            Refs = JsonConvert.DeserializeObject<List<CloudStorageProviderConfigRef>>(jsonRaw);
+            _ioService.CreatePathDirectory(fullPath);
+            if (_ioService.Exists(fullPath))
+            {
+                var jsonRaw = await _ioService.ReadAllTextAsync(
+                    fullPath,
+                    cancellationToken);
+                Refs = JsonConvert.DeserializeObject<List<CloudStorageProviderConfigRef>>(jsonRaw);
+            }
         }
 
-        public async Task Add<T>(
+        public async Task<CloudStorageProviderConfigRef> Add<T>(
             T configuration,
             CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig
         {
@@ -52,11 +56,12 @@ namespace devoctomy.Passchamp.Core.Cloud
             using var output = _ioService.OpenNewWrite(configFullPath);
             await configData.CopyToAsync(output, cancellationToken);
             output.Close();
-            Refs.Add(new CloudStorageProviderConfigRef
+            var newRef = new CloudStorageProviderConfigRef
             {
                 Id = configuration.Id,
                 ProviderServiceTypeId = configuration.ProviderTypeId
-            });
+            };
+            Refs.Add(newRef);
 
             var jsonRaw = JsonConvert.SerializeObject(Refs);
             var refsFullPath = $"{_options.Path}{_options.FileName}"; 
@@ -64,6 +69,7 @@ namespace devoctomy.Passchamp.Core.Cloud
                 refsFullPath,
                 jsonRaw,
                 cancellationToken);
+            return newRef;
         }
 
         public Task<T> UnpackConfigAsync<T>(
