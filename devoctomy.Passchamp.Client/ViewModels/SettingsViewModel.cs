@@ -29,7 +29,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             removeSelectedCloudStorageProviderCommandCanExecute = false;
         }
 
-        public async Task Return(BaseViewModel viewModel)
+        public override async Task Return(BaseViewModel viewModel)
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
 
@@ -55,7 +55,6 @@ namespace devoctomy.Passchamp.Client.ViewModels
                             break;
                         }
                 }
-
             }
         }
 

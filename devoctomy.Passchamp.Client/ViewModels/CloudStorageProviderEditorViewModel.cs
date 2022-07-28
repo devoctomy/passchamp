@@ -30,20 +30,20 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         private readonly string _id;
 
-        public SettingsViewModel SettingsViewModel { get; set; }
+        public BaseViewModel ReturnViewModel { get; set; }
 
         public IAsyncRelayCommand OkCommand { get; }
 
-        public CloudStorageProviderEditorViewModel(SettingsViewModel settingsViewModel)
+        public CloudStorageProviderEditorViewModel(BaseViewModel returnViewModel)
         {
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
 
-            SettingsViewModel = settingsViewModel;
+            ReturnViewModel = returnViewModel;
         }
 
         public CloudStorageProviderEditorViewModel(
             AmazonS3CloudStorageProviderConfig amazonS3CloudStorageProviderConfig,
-            SettingsViewModel settingsViewModel)
+            BaseViewModel returnViewModel)
         {
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
 
@@ -55,12 +55,12 @@ namespace devoctomy.Passchamp.Client.ViewModels
             Bucket = amazonS3CloudStorageProviderConfig.Bucket;
             Path = amazonS3CloudStorageProviderConfig.Path;
 
-            SettingsViewModel = settingsViewModel;
+            ReturnViewModel = returnViewModel;
         }
 
         private Task OkCommandHandler()
         {
-            return SettingsViewModel.Return(this);
+            return ReturnViewModel.Return(this);
         }
     }
 }
