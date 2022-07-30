@@ -18,6 +18,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
         CloudStorageProviderConfigRef selectedCloudStorageProviderConfigRef;
 
         public IAsyncRelayCommand AddCloudStorageProviderCommand { get; }
+        public IAsyncRelayCommand EditSelectedCloudStorageProviderCommand { get; }
         public IAsyncRelayCommand RemoveSelectedCloudStorageProviderCommand { get; }
 
         [ObservableProperty]
@@ -30,6 +31,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
         public SettingsViewModel(ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
         {
             AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProviderCommandHandler);
+            EditSelectedCloudStorageProviderCommand = new AsyncRelayCommand(EditCloudStorageProviderCommandHandler);
             RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProviderHandler);
             removeSelectedCloudStorageProviderCommandCanExecute = false;
             _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
@@ -88,7 +90,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
                 Bucket = model.Bucket,
                 Path = model.Path
             };
-            var newRef = await _cloudStorageProviderConfigLoaderService.Add(config, CancellationToken.None);
+            var newRef = await _cloudStorageProviderConfigLoaderService.AddAsync(config, CancellationToken.None);
             CloudStorageProviderConfigRefs.Add(newRef);
         }
 
@@ -99,10 +101,25 @@ namespace devoctomy.Passchamp.Client.ViewModels
             await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
         }
 
+        private async Task EditCloudStorageProviderCommandHandler()
+        {
+            if (SelectedCloudStorageProviderConfigRef == null)
+            {
+                return;
+            }
+
+            var config = await _cloudStorageProviderConfigLoaderService.UnpackConfigAsync<AmazonS3CloudStorageProviderConfig>(
+                SelectedCloudStorageProviderConfigRef.Id,
+                CancellationToken.None);
+            var viewModel = new CloudStorageProviderEditorViewModel(
+                config,
+                this);
+            var page = new Pages.CloudStorageProviderEditorPage(viewModel);
+            await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
+        }
+
         private async Task RemoveSelectedCloudStorageProviderHandler()
         {
-            await Task.Yield();
-
             if(SelectedCloudStorageProviderConfigRef == null)
             {
                 return;
@@ -110,6 +127,9 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
             var selected = SelectedCloudStorageProviderConfigRef;
             CloudStorageProviderConfigRefs.Remove(selected);
+            await _cloudStorageProviderConfigLoaderService.RemoveAsync(
+                selected.Id,
+                CancellationToken.None);
             SelectedCloudStorageProviderConfigRef = null;
         }
     }

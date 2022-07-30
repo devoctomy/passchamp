@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,12 +11,13 @@ namespace devoctomy.Passchamp.Core.Cloud
 {
     public class CloudStorageProviderConfigLoaderService : ICloudStorageProviderConfigLoaderService
     {
-        public List<CloudStorageProviderConfigRef> Refs { get; private set; }
+        public IReadOnlyList<CloudStorageProviderConfigRef> Refs => _refs;
 
         private readonly CloudStorageProviderConfigLoaderServiceOptions _options;
         private readonly IPartialSecureJsonReaderService _partialSecureJsonReaderService;
         private readonly IPartialSecureJsonWriterService _partialSecureJsonWriterService;
         private readonly IIOService _ioService;
+        private List<CloudStorageProviderConfigRef> _refs;
 
         public CloudStorageProviderConfigLoaderService(
             CloudStorageProviderConfigLoaderServiceOptions options,
@@ -26,7 +26,7 @@ namespace devoctomy.Passchamp.Core.Cloud
             IIOService ioService)
         {
             _options = options;
-            Refs = new List<CloudStorageProviderConfigRef>();
+            _refs = new List<CloudStorageProviderConfigRef>();
             _partialSecureJsonReaderService = partialSecureJsonReaderService;
             _partialSecureJsonWriterService = partialSecureJsonWriterService;
             _ioService = ioService;
@@ -41,11 +41,11 @@ namespace devoctomy.Passchamp.Core.Cloud
                 var jsonRaw = await _ioService.ReadAllTextAsync(
                     fullPath,
                     cancellationToken);
-                Refs = JsonConvert.DeserializeObject<List<CloudStorageProviderConfigRef>>(jsonRaw);
+                _refs = JsonConvert.DeserializeObject<List<CloudStorageProviderConfigRef>>(jsonRaw);
             }
         }
 
-        public async Task<CloudStorageProviderConfigRef> Add<T>(
+        public async Task<CloudStorageProviderConfigRef> AddAsync<T>(
             T configuration,
             CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig
         {
@@ -64,7 +64,7 @@ namespace devoctomy.Passchamp.Core.Cloud
                 Id = configuration.Id,
                 ProviderServiceTypeId = configuration.ProviderTypeId
             };
-            Refs.Add(newRef);
+            _refs.Add(newRef);
 
             var jsonRaw = JsonConvert.SerializeObject(Refs);
             var refsFullPath = $"{_options.Path}{_options.FileName}"; 
@@ -73,6 +73,25 @@ namespace devoctomy.Passchamp.Core.Cloud
                 jsonRaw,
                 cancellationToken);
             return newRef;
+        }
+
+        public async Task RemoveAsync(
+            string id,
+            CancellationToken cancellationToken)
+        {
+            var toRemove = Refs.SingleOrDefault(x => x.Id == id);
+            if(toRemove != null)
+            {
+                _refs.Remove(toRemove);
+                var jsonRaw = JsonConvert.SerializeObject(Refs);
+                var refsFullPath = $"{_options.Path}{_options.FileName}";
+                await _ioService.WriteDataAsync(
+                    refsFullPath,
+                    jsonRaw,
+                    cancellationToken);
+                var configFullPath = $"{_options.Path}{id}.json";
+                _ioService.Delete(configFullPath);
+            }
         }
 
         public Task<T> UnpackConfigAsync<T>(

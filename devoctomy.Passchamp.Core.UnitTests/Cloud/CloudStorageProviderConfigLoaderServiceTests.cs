@@ -178,7 +178,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
         }
 
         [Fact]
-        public async Task GivenConfiguration_WhenAdd_ThenConfigSavedSecurely_AndRefsUpdatedAndSaved()
+        public async Task GivenConfiguration_WhenAddAsync_ThenConfigSavedSecurely_AndRefsUpdatedAndSaved()
         {
             // Arrange
             var options = new CloudStorageProviderConfigLoaderServiceOptions
@@ -230,7 +230,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
                 It.IsAny<string>())).Returns(configOutputStream);
 
             // Act
-            await sut.Add(
+            await sut.AddAsync(
                 config,
                 cancellationTokenSource.Token);
 
@@ -250,6 +250,60 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
             var outputJson = Encoding.UTF8.GetString(configOutputStream.ToArray());
             var savedConfig = JsonConvert.DeserializeObject<TestPartialSecureConfigFile>(outputJson);
             Assert.Equal(config.Id, savedConfig.Id);
+        }
+
+        [Fact]
+        public async Task GivenId_WhenRemoveAsync_ThenConfigurationRemoved_AndRefsUpdatedAndSaved_AndConfigFileDeleted()
+        {
+            // Arrange
+            var options = new CloudStorageProviderConfigLoaderServiceOptions
+            {
+                Path = "path/",
+                FileName = "filename.json"
+            };
+            var mockPartialSecureJsonReaderService = new Mock<IPartialSecureJsonReaderService>();
+            var mockPartialSecureJsonWriterService = new Mock<IPartialSecureJsonWriterService>();
+            var mockIOService = new Mock<IIOService>();
+            var sut = new CloudStorageProviderConfigLoaderService(
+                options,
+                mockPartialSecureJsonReaderService.Object,
+                mockPartialSecureJsonWriterService.Object,
+                mockIOService.Object);
+            var cancellationTokenSource = new CancellationTokenSource();
+            var id = Guid.NewGuid().ToString();
+            var config = new List<CloudStorageProviderConfigRef>
+            {
+                new CloudStorageProviderConfigRef
+                {
+                    Id = id,
+                    ProviderServiceTypeId = Guid.NewGuid().ToString()
+                }
+            };
+
+            mockIOService.Setup(x => x.Exists(
+                It.IsAny<string>()))
+                .Returns(true);
+
+            mockIOService.Setup(x => x.ReadAllTextAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(JsonConvert.SerializeObject(config));
+
+            await sut.LoadAsync(cancellationTokenSource.Token);
+
+            // Act
+            await sut.RemoveAsync(
+                id,
+                cancellationTokenSource.Token);
+
+            // Assert
+            Assert.Empty(sut.Refs);
+            mockIOService.Verify(x => x.WriteDataAsync(
+                It.IsAny<string>(),
+                It.Is<string>(y => y == "[]"),
+                It.IsAny<CancellationToken>()), Times.Once);
+            mockIOService.Verify(x => x.Delete(
+                It.Is<string>(y => y == $"{options.Path}{id}.json")), Times.Once);
         }
     }
 }
