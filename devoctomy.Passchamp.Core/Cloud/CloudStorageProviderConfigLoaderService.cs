@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -54,7 +55,9 @@ namespace devoctomy.Passchamp.Core.Cloud
                 configData);
             var configFullPath = $"{_options.Path}{configuration.Id}.json";
             using var output = _ioService.OpenNewWrite(configFullPath);
+            configData.Seek(0, SeekOrigin.Begin);
             await configData.CopyToAsync(output, cancellationToken);
+            await output.FlushAsync();
             output.Close();
             var newRef = new CloudStorageProviderConfigRef
             {

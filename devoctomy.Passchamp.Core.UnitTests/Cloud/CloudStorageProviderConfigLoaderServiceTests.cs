@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -214,6 +215,17 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
             };
             var expectedRefsPath = $"{options.Path}{options.FileName}";
 
+            mockPartialSecureJsonWriterService.Setup(x => x.SaveAsync(
+                It.IsAny<object>(),
+                It.IsAny<Stream>()))
+                .Callback((object value, Stream stream) =>
+                {
+                    var json = JsonConvert.SerializeObject(config);
+                    var data = Encoding.UTF8.GetBytes(json);
+                    configOutputStream.WriteAsync(data, 0, data.Length, CancellationToken.None);
+                })
+                .Returns(Task.CompletedTask);
+
             mockIOService.Setup(x => x.OpenNewWrite(
                 It.IsAny<string>())).Returns(configOutputStream);
 
@@ -234,6 +246,10 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
                 It.Is<string>(y => y == expectedRefsPath),
                 It.Is<string>(y => y == JsonConvert.SerializeObject(expectedRefs)),
                 It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+
+            var outputJson = Encoding.UTF8.GetString(configOutputStream.ToArray());
+            var savedConfig = JsonConvert.DeserializeObject<TestPartialSecureConfigFile>(outputJson);
+            Assert.Equal(config.Id, savedConfig.Id);
         }
     }
 }
