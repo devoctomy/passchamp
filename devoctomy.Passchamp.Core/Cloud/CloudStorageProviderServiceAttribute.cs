@@ -6,6 +6,6 @@ namespace devoctomy.Passchamp.Core.Cloud
     public class CloudStorageProviderServiceAttribute : Attribute
     {
         public string DisplayName { get; set; }
-        public string TypeId { get; set; }
+        public string ProviderTypeId { get; set; }
     }
 }

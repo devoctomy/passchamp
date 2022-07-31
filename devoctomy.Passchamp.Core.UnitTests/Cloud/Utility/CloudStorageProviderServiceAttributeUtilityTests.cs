@@ -27,7 +27,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud.Utility
             var result = CloudStorageProviderServiceAttributeUtility.Get(type);
 
             // Assert
-            Assert.Equal(expectedTypeId, result.TypeId);
+            Assert.Equal(expectedTypeId, result.ProviderTypeId);
         }
 
         [Theory]

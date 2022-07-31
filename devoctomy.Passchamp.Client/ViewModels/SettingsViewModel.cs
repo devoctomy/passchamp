@@ -25,7 +25,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
         private bool removeSelectedCloudStorageProviderCommandCanExecute;
 
         private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
-        private static SemaphoreSlim _loaderLock = new SemaphoreSlim(1, 1);
+        private readonly static SemaphoreSlim _loaderLock = new(1, 1);
         private bool _loaded = false;
 
         public SettingsViewModel(ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
@@ -77,7 +77,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
                     case Enums.PageEditorMode.Edit:
                         {
-                            // Apply any updates required here (if required)
+                            await UpdateCloudStorageProvider(cloudStorageProviderEditorViewModel);
                             break;
                         }
                 }
@@ -95,8 +95,27 @@ namespace devoctomy.Passchamp.Client.ViewModels
                 Bucket = model.Bucket,
                 Path = model.Path
             };
-            var newRef = await _cloudStorageProviderConfigLoaderService.AddAsync(config, CancellationToken.None);
+            var newRef = await _cloudStorageProviderConfigLoaderService.AddAsync(
+                config,
+                CancellationToken.None);
             CloudStorageProviderConfigRefs.Add(newRef);
+        }
+
+        private async Task UpdateCloudStorageProvider(CloudStorageProviderEditorViewModel model)
+        {
+            var update = new AmazonS3CloudStorageProviderConfig
+            {
+                Id = model.Id,
+                DisplayName = model.DisplayName,
+                AccessId = model.AccessId,
+                SecretKey = model.SecretKey,
+                Region = model.Region,
+                Bucket = model.Bucket,
+                Path = model.Path
+            };
+            await _cloudStorageProviderConfigLoaderService.UpdateAsync(
+                update,
+                CancellationToken.None);
         }
 
         private async Task AddCloudStorageProviderCommandHandler()

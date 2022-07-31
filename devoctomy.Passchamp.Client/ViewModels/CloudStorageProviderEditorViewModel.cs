@@ -10,6 +10,8 @@ namespace devoctomy.Passchamp.Client.ViewModels
     {
         public PageEditorMode EditorMode { get; }
 
+        public string Id { get; set; }
+
         [ObservableProperty]
         private string displayName;
 
@@ -27,8 +29,6 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         [ObservableProperty]
         private string path;
-
-        private readonly string _id;
 
         public BaseViewModel ReturnViewModel { get; set; }
 
@@ -49,7 +49,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             BackCommand = new AsyncRelayCommand(BackCommandHandler);
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
 
-            _id = amazonS3CloudStorageProviderConfig.Id;
+            Id = amazonS3CloudStorageProviderConfig.Id;
             DisplayName = amazonS3CloudStorageProviderConfig.DisplayName;
             AccessId = amazonS3CloudStorageProviderConfig.AccessId;
             SecretKey = amazonS3CloudStorageProviderConfig.SecretKey;

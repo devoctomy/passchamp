@@ -13,7 +13,7 @@ namespace devoctomy.Passchamp.Core.Cloud.Utility
         {
             CacheAll();
 
-            return _attributeCache.Single(x => x.Value.TypeId == typeId).Value;
+            return _attributeCache.Single(x => x.Value.ProviderTypeId == typeId).Value;
         }
 
         public static CloudStorageProviderServiceAttribute Get(Type type)
