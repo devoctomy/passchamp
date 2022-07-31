@@ -15,6 +15,9 @@ namespace devoctomy.Passchamp.Core.Cloud
         public Task RemoveAsync(
             string id,
             CancellationToken cancellationToken);
+        public Task UpdateAsync<T>(
+            T update,
+            CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig;
         public Task<T> UnpackConfigAsync<T>(
             string id,
             CancellationToken cancellationToken) where T : IPartiallySecure;

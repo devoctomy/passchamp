@@ -59,6 +59,11 @@ namespace devoctomy.Passchamp.Client.ViewModels
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
 
+            if(viewModel == null)
+            {
+                return;
+            }
+
             if (viewModel is CloudStorageProviderEditorViewModel)
             {
                 var cloudStorageProviderEditorViewModel = viewModel as CloudStorageProviderEditorViewModel;
@@ -111,6 +116,8 @@ namespace devoctomy.Passchamp.Client.ViewModels
             var config = await _cloudStorageProviderConfigLoaderService.UnpackConfigAsync<AmazonS3CloudStorageProviderConfig>(
                 SelectedCloudStorageProviderConfigRef.Id,
                 CancellationToken.None);
+            config = (AmazonS3CloudStorageProviderConfig)config.Clone();
+
             var viewModel = new CloudStorageProviderEditorViewModel(
                 config,
                 this);

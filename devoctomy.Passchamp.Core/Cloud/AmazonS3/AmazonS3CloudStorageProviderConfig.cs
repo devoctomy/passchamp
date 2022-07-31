@@ -6,7 +6,7 @@ using System;
 
 namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
 {
-    public class AmazonS3CloudStorageProviderConfig : IPartiallySecure, ICloudStorageProviderConfig
+    public class AmazonS3CloudStorageProviderConfig : IPartiallySecure, ICloudStorageProviderConfig, ICloneable
     {
         public string Id { get; set; }
         public string ProviderTypeId => CloudStorageProviderServiceAttributeUtility.Get(typeof(AmazonS3CloudStorageProviderService)).TypeId;
@@ -22,6 +22,21 @@ namespace devoctomy.Passchamp.Core.Cloud.AmazonS3
         public AmazonS3CloudStorageProviderConfig()
         {
             Id = Guid.NewGuid().ToString();
+        }
+
+        public object Clone()
+        {
+            var clone = new AmazonS3CloudStorageProviderConfig
+            {
+                Id = Id,
+                DisplayName = DisplayName,
+                AccessId = AccessId,
+                SecretKey = SecretKey,
+                Region = Region,
+                Bucket = Bucket,
+                Path = Path
+            };
+            return clone;
         }
     }
 }

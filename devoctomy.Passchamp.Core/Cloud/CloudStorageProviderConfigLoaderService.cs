@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Exceptions;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -49,23 +50,16 @@ namespace devoctomy.Passchamp.Core.Cloud
             T configuration,
             CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig
         {
-            using var configData = new MemoryStream();
-            await _partialSecureJsonWriterService.SaveAsync(
+            await SaveConfigurationAsync(
                 configuration,
-                configData);
-            var configFullPath = $"{_options.Path}{configuration.Id}.json";
-            using var output = _ioService.OpenNewWrite(configFullPath);
-            configData.Seek(0, SeekOrigin.Begin);
-            await configData.CopyToAsync(output, cancellationToken);
-            await output.FlushAsync();
-            output.Close();
+                cancellationToken);
+
             var newRef = new CloudStorageProviderConfigRef
             {
                 Id = configuration.Id,
                 ProviderServiceTypeId = configuration.ProviderTypeId
             };
             _refs.Add(newRef);
-
             var jsonRaw = JsonConvert.SerializeObject(Refs);
             var refsFullPath = $"{_options.Path}{_options.FileName}"; 
             await _ioService.WriteDataAsync(
@@ -94,6 +88,19 @@ namespace devoctomy.Passchamp.Core.Cloud
             }
         }
 
+        public async Task UpdateAsync<T>(
+            T update, 
+            CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig
+        {
+            var toUpdate = Refs.SingleOrDefault(x => x.Id == update.Id);
+            if (toUpdate != null)
+            {
+                await SaveConfigurationAsync(
+                    update,
+                    cancellationToken);
+            }
+        }
+
         public Task<T> UnpackConfigAsync<T>(
             string id,
             CancellationToken cancellationToken) where T : IPartiallySecure
@@ -107,6 +114,22 @@ namespace devoctomy.Passchamp.Core.Cloud
             var stream = _ioService.OpenRead(fullPath);
             var config = _partialSecureJsonReaderService.LoadAsync<T>(stream);
             return config;
+        }
+
+        private async Task SaveConfigurationAsync<T>(
+            T configuration,
+            CancellationToken cancellationToken) where T : IPartiallySecure, ICloudStorageProviderConfig
+        {
+            using var configData = new MemoryStream();
+            await _partialSecureJsonWriterService.SaveAsync(
+                configuration,
+                configData);
+            var configFullPath = $"{_options.Path}{configuration.Id}.json";
+            using var output = _ioService.OpenNewWrite(configFullPath);
+            configData.Seek(0, SeekOrigin.Begin);
+            await configData.CopyToAsync(output, cancellationToken);
+            await output.FlushAsync(cancellationToken);
+            output.Close();
         }
     }
 }

@@ -32,6 +32,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         public BaseViewModel ReturnViewModel { get; set; }
 
+        public IAsyncRelayCommand BackCommand { get; set; }
         public IAsyncRelayCommand OkCommand { get; }
 
         public CloudStorageProviderEditorViewModel(BaseViewModel returnViewModel)
@@ -45,6 +46,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             AmazonS3CloudStorageProviderConfig amazonS3CloudStorageProviderConfig,
             BaseViewModel returnViewModel)
         {
+            BackCommand = new AsyncRelayCommand(BackCommandHandler);
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
 
             _id = amazonS3CloudStorageProviderConfig.Id;
@@ -58,9 +60,14 @@ namespace devoctomy.Passchamp.Client.ViewModels
             ReturnViewModel = returnViewModel;
         }
 
-        private Task OkCommandHandler()
+        public async Task BackCommandHandler()
         {
-            return ReturnViewModel.Return(this);
+            await ReturnViewModel.Return(null);
+        }
+
+        private async Task OkCommandHandler()
+        {
+            await ReturnViewModel.Return(this);
         }
     }
 }

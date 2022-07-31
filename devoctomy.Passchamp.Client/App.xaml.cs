@@ -4,7 +4,7 @@
     {
         public App()
         {
-            UserAppTheme = Application.Current.RequestedTheme;
+            // UserAppTheme = Application.Current.RequestedTheme;
             InitializeComponent();
             MainPage = new AppShell();
         }

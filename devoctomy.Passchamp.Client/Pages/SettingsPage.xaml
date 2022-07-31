@@ -16,19 +16,19 @@
         <Label Text="Cloud Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
         <HorizontalStackLayout>
             <ImageButton
-                Source="add_new_dark.png"
-                WidthRequest="48"
-                Command="{Binding AddCloudStorageProviderCommand}">
+                    Source="add_new_dark.png"
+                    WidthRequest="48"
+                    Command="{Binding AddCloudStorageProviderCommand}">
             </ImageButton>
             <ImageButton
-                Source="data_edit_dark.png"
-                WidthRequest="48"
-                Command="{Binding EditSelectedCloudStorageProviderCommand}">
-            </ImageButton>            
+                    Source="data_edit_dark.png"
+                    WidthRequest="48"
+                    Command="{Binding EditSelectedCloudStorageProviderCommand}">
+            </ImageButton>
             <ImageButton
-                Source="garbage_closed_dark.png"
-                WidthRequest="48"
-                Command="{Binding RemoveSelectedCloudStorageProviderCommand}">
+                    Source="garbage_closed_dark.png"
+                    WidthRequest="48"
+                    Command="{Binding RemoveSelectedCloudStorageProviderCommand}">
             </ImageButton>
         </HorizontalStackLayout>
         <ListView

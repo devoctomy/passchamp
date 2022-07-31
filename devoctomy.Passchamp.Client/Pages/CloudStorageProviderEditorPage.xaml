@@ -7,32 +7,55 @@
              x:DataType="vm:CloudStorageProviderEditorViewModel"
              x:TypeArguments="vm:CloudStorageProviderEditorViewModel"
              Title="CloudStorageProviderEditorPage">
-    <VerticalStackLayout BackgroundColor="Black">
-        <Label Text="Cloud Storage Provider" Style="{StaticResource LargeLabelStyle}"></Label>
-        <Label Text="Display Name" Style="{StaticResource MediumLabelStyle}"></Label>
-        <Entry
-            MaxLength="64"
-            Text="{Binding DisplayName, Mode=TwoWay}" />
-        <Label Text="Access Id" Style="{StaticResource MediumLabelStyle}"></Label>
-        <Entry
-            MaxLength="20"
-            Text="{Binding AccessId, Mode=TwoWay}" />
-        <Label Text="Secret Key" Style="{StaticResource MediumLabelStyle}"></Label>
-        <Entry
-            MaxLength="20"
-            Text="{Binding SecretKey, Mode=TwoWay}" />
-        <Label Text="Region" Style="{StaticResource MediumLabelStyle}"></Label>
-        <Entry
-            MaxLength="20"
-            Text="{Binding Region, Mode=TwoWay}" />
-        <Label Text="Bucket" Style="{StaticResource MediumLabelStyle}"></Label>
-        <Entry
-            MaxLength="20"
-            Text="{Binding Bucket, Mode=TwoWay}" />
-        <Label Text="Path" Style="{StaticResource MediumLabelStyle}"></Label>
-        <Entry
-            MaxLength="20"
-            Text="{Binding Path, Mode=TwoWay}" />
-        <Button Text="OK" Command="{Binding OkCommand}"></Button>
-    </VerticalStackLayout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ImageButton
+                    Source="command_undo_dark.png"
+                    WidthRequest="48"
+                    Command="{Binding BackCommand}">
+            </ImageButton>
+            <Label
+                Grid.Column="1"
+                Text="Cloud Storage Provider"
+                Style="{StaticResource LargeLabelStyle}"
+                VerticalOptions="CenterAndExpand"
+                HorizontalTextAlignment="Start"
+                Margin="16,0,0,0"></Label>
+        </Grid>
+        <VerticalStackLayout Grid.Row="1" BackgroundColor="Black">
+            <Label Text="Display Name" Style="{StaticResource MediumLabelStyle}"></Label>
+            <Entry
+                MaxLength="64"
+                Text="{Binding DisplayName, Mode=TwoWay}" />
+            <Label Text="Access Id" Style="{StaticResource MediumLabelStyle}"></Label>
+            <Entry
+                MaxLength="20"
+                Text="{Binding AccessId, Mode=TwoWay}" />
+            <Label Text="Secret Key" Style="{StaticResource MediumLabelStyle}"></Label>
+            <Entry
+                MaxLength="20"
+                Text="{Binding SecretKey, Mode=TwoWay}" />
+            <Label Text="Region" Style="{StaticResource MediumLabelStyle}"></Label>
+            <Entry
+                MaxLength="20"
+                Text="{Binding Region, Mode=TwoWay}" />
+            <Label Text="Bucket" Style="{StaticResource MediumLabelStyle}"></Label>
+            <Entry
+                MaxLength="20"
+                Text="{Binding Bucket, Mode=TwoWay}" />
+            <Label Text="Path" Style="{StaticResource MediumLabelStyle}"></Label>
+            <Entry
+                MaxLength="20"
+                Text="{Binding Path, Mode=TwoWay}" />
+            <Button Text="OK" Command="{Binding OkCommand}"></Button>
+        </VerticalStackLayout>
+    </Grid>
 </pages:BasePage>

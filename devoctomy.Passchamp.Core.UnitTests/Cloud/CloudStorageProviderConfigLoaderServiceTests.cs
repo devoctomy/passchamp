@@ -1,5 +1,6 @@
 ﻿using Castle.Core.Configuration;
 using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Core.Cloud.AmazonS3;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Exceptions;
 using devoctomy.Passchamp.Core.UnitTests.Data;
@@ -250,6 +251,83 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud
             var outputJson = Encoding.UTF8.GetString(configOutputStream.ToArray());
             var savedConfig = JsonConvert.DeserializeObject<TestPartialSecureConfigFile>(outputJson);
             Assert.Equal(config.Id, savedConfig.Id);
+        }
+
+        [Fact]
+        public async Task GivenConfiguration_WhenUpdateAsync_ThenConfigurationUpdated()
+        {
+            // Arrange
+            var options = new CloudStorageProviderConfigLoaderServiceOptions
+            {
+                Path = "path/",
+                FileName = "filename.json"
+            };
+            var mockPartialSecureJsonReaderService = new Mock<IPartialSecureJsonReaderService>();
+            var mockPartialSecureJsonWriterService = new Mock<IPartialSecureJsonWriterService>();
+            var mockIOService = new Mock<IIOService>();
+            var sut = new CloudStorageProviderConfigLoaderService(
+                options,
+                mockPartialSecureJsonReaderService.Object,
+                mockPartialSecureJsonWriterService.Object,
+                mockIOService.Object);
+            var cancellationTokenSource = new CancellationTokenSource();
+            var id = Guid.NewGuid().ToString();
+            var config = new List<CloudStorageProviderConfigRef>
+            {
+                new CloudStorageProviderConfigRef
+                {
+                    Id = id,
+                    ProviderServiceTypeId = Guid.NewGuid().ToString()
+                }
+            };
+            var update = new AmazonS3CloudStorageProviderConfig
+            {
+                Id = id,
+                AccessId = Guid.NewGuid().ToString(),
+                SecretKey = Guid.NewGuid().ToString(),
+                DisplayName = Guid.NewGuid().ToString(),
+                Bucket = Guid.NewGuid().ToString(),
+                Path = Guid.NewGuid().ToString(),
+                Region = Guid.NewGuid().ToString(),
+            };
+            using var configOutputStream = new MemoryStream();
+            var expectedConfigPath = $"{options.Path}{update.Id}.json";
+
+            mockIOService.Setup(x => x.Exists(
+                It.IsAny<string>()))
+                .Returns(true);
+
+            mockIOService.Setup(x => x.ReadAllTextAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+                .ReturnsAsync(JsonConvert.SerializeObject(config));
+
+            mockPartialSecureJsonWriterService.Setup(x => x.SaveAsync(
+                It.IsAny<object>(),
+                It.IsAny<Stream>()))
+                .Callback((object value, Stream stream) =>
+                {
+                    var json = JsonConvert.SerializeObject(config);
+                    var data = Encoding.UTF8.GetBytes(json);
+                    configOutputStream.WriteAsync(data, 0, data.Length, CancellationToken.None);
+                })
+                .Returns(Task.CompletedTask);
+
+            mockIOService.Setup(x => x.OpenNewWrite(
+                It.IsAny<string>())).Returns(configOutputStream);
+
+            await sut.LoadAsync(cancellationTokenSource.Token);
+
+            // Act
+            await sut.UpdateAsync(
+                update,
+                cancellationTokenSource.Token);
+
+            // Assert
+            Assert.Single(sut.Refs);
+            Assert.Contains(sut.Refs, x => x.Id == id);
+            mockIOService.Verify(x => x.OpenNewWrite(
+                It.Is<string>(y => y == expectedConfigPath)), Times.Once);
         }
 
         [Fact]
