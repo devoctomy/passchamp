@@ -12,7 +12,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
     public partial class SettingsViewModel : BaseViewModel
     {
         [ObservableProperty]
-        ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs; //{ get; set; } = new ObservableCollection<CloudStorageProviderConfigRef>();
+        ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs;
 
         [ObservableProperty]
         CloudStorageProviderConfigRef selectedCloudStorageProviderConfigRef;
