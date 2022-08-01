@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+             xmlns:converters="clr-namespace:devoctomy.Passchamp.Client.Converters"
              x:Class="devoctomy.Passchamp.Client.Pages.CloudStorageProviderEditorPage"
              x:DataType="vm:CloudStorageProviderEditorViewModel"
              x:TypeArguments="vm:CloudStorageProviderEditorViewModel"
@@ -42,7 +43,7 @@
             <Label Text="Secret Key" Style="{StaticResource MediumLabelStyle}"></Label>
             <Entry
                 MaxLength="20"
-                Text="{Binding SecretKey, Mode=TwoWay}" />
+                Text="{Binding SecretKey, Mode=TwoWay}"/>
             <Label Text="Region" Style="{StaticResource MediumLabelStyle}"></Label>
             <Entry
                 MaxLength="20"

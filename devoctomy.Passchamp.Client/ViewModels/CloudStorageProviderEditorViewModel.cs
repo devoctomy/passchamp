@@ -8,9 +8,10 @@ namespace devoctomy.Passchamp.Client.ViewModels
 {
     public partial class CloudStorageProviderEditorViewModel : BaseViewModel
     {
-        public PageEditorMode EditorMode { get; }
-
         public string Id { get; set; }
+
+        [ObservableProperty]
+        private PageEditorMode editorMode;
 
         [ObservableProperty]
         private string displayName;
@@ -39,6 +40,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
         {
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
 
+            EditorMode = PageEditorMode.Create;
             ReturnViewModel = returnViewModel;
         }
 
@@ -49,6 +51,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             BackCommand = new AsyncRelayCommand(BackCommandHandler);
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
 
+            EditorMode = PageEditorMode.Edit;
             Id = amazonS3CloudStorageProviderConfig.Id;
             DisplayName = amazonS3CloudStorageProviderConfig.DisplayName;
             AccessId = amazonS3CloudStorageProviderConfig.AccessId;
