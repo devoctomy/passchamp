@@ -37,6 +37,23 @@ namespace devoctomy.Passchamp.Maui.Data
             return false;
         }
 
+        public void RemoveAll()
+        {
+            _secureStorage.RemoveAll();
+        }
+
+        public bool Remove(
+            string id,
+            PropertyInfo property)
+        {
+            var secureSettingsAttribute = (SecureSettingAttribute)property.GetCustomAttributes(
+                typeof(SecureSettingAttribute),
+                true).Single();
+
+            var key = $"{id}.{secureSettingsAttribute.Group}.{secureSettingsAttribute.Category}.{property.Name}";
+            return _secureStorage.Remove(key);
+        }
+
         public async Task SaveAsync(
             string id,
             PropertyInfo property,

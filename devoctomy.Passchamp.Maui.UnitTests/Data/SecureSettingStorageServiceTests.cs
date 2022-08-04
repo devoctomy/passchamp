@@ -84,5 +84,41 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data
                 It.Is<string>(y => y == expectedKey),
                 It.Is<string>(y => y == config.TestSetting4)), Times.Once);
         }
+
+        [Fact]
+        public void GivenId_AndPropertyInfo_WhenRemove_ThenSettingRemovedFromStorageWithCorrectKey()
+        {
+            // Arrange
+            var mockSecureStorage = new Mock<ISecureStorage>();
+            var sut = new SecureSettingStorageService(mockSecureStorage.Object);
+            var config = new Test2PartialSecureConfigFile()
+            {
+                TestSetting4 = "Hello World!"
+            };
+            var id = Guid.NewGuid().ToString();
+            var propertyInfo = typeof(Test2PartialSecureConfigFile).GetProperty("TestSetting4");
+            var expectedKey = $"{id}.Group.Category.TestSetting4";
+
+            // Act
+            sut.Remove(id, propertyInfo);
+
+            // Assert
+            mockSecureStorage.Verify(x => x.Remove(
+                It.Is<string>(y => y == expectedKey)), Times.Once);
+        }
+
+        [Fact]
+        public void GivenNoParams_WhenRemoveAll_ThenAllSettingsRemovedFromStorage()
+        {
+            // Arrange
+            var mockSecureStorage = new Mock<ISecureStorage>();
+            var sut = new SecureSettingStorageService(mockSecureStorage.Object);
+
+            // Act
+            sut.RemoveAll();
+
+            // Assert
+            mockSecureStorage.Verify(x => x.RemoveAll(), Times.Once);
+        }
     }
 }

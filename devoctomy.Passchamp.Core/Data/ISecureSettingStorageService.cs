@@ -7,6 +7,7 @@ namespace devoctomy.Passchamp.Core.Data
     public interface ISecureSettingStorageService
     {
         public bool IsApplicable(PropertyInfo property);
+
         public Task<bool> LoadAsync(
             string id,
             PropertyInfo property,
@@ -15,5 +16,9 @@ namespace devoctomy.Passchamp.Core.Data
             string id,
             PropertyInfo property,
             object instance);
+        public bool Remove(
+            string id,
+            PropertyInfo property);
+        public void RemoveAll();
     }
 }
