@@ -45,9 +45,9 @@
                 MaxLength="20"
                 Text="{Binding SecretKey, Mode=TwoWay}"/>
             <Label Text="Region" Style="{StaticResource MediumLabelStyle}"></Label>
-            <Entry
-                MaxLength="20"
-                Text="{Binding Region, Mode=TwoWay}" />
+            <Picker
+                ItemsSource="{Binding Regions, Mode=OneWay}"
+                SelectedItem="{Binding Region, Mode=TwoWay}"></Picker>
             <Label Text="Bucket" Style="{StaticResource MediumLabelStyle}"></Label>
             <Entry
                 MaxLength="20"

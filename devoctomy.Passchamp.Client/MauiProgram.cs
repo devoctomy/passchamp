@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels;
+using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Maui.Extensions;
 

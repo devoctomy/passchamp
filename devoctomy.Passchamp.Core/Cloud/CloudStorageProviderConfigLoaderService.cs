@@ -84,6 +84,7 @@ namespace devoctomy.Passchamp.Core.Cloud
                     jsonRaw,
                     cancellationToken);
                 var configFullPath = $"{_options.Path}{id}.json";
+                _partialSecureJsonWriterService.RemoveAll(toRemove);
                 _ioService.Delete(configFullPath);
             }
         }

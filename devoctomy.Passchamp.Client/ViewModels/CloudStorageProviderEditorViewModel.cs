@@ -23,13 +23,16 @@ namespace devoctomy.Passchamp.Client.ViewModels
         private string secretKey;
 
         [ObservableProperty]
-        private string region;
+        private string region = Amazon.RegionEndpoint.EUWest2.DisplayName;
 
         [ObservableProperty]
         private string bucket;
 
         [ObservableProperty]
         private string path;
+
+        [ObservableProperty]
+        public List<string> regions = Amazon.RegionEndpoint.EnumerableAllRegions.Select(x => x.DisplayName).ToList();
 
         public BaseViewModel ReturnViewModel { get; set; }
 
