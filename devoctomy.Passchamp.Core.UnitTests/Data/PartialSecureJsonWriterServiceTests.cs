@@ -75,5 +75,39 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services
                 await sut.SaveAsync(value, output);
             });
         }
+
+        [Fact]
+        public void GivenPartiallySecureObject_WhenRemoveAll_ThenAllSecureSettingsRemoved()
+        {
+            // Arrange
+            var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
+            var sut = new PartialSecureJsonWriterService(mockSecureSettingStorageService.Object);
+
+            var value = new Test4PartialSecureConfigFile
+            {
+                Id = Guid.NewGuid().ToString(),
+                TestSetting1 = "Hello World!",
+                TestSetting2 = 101,
+                TestSetting3 = "This is secret 3",
+                TestSetting4 = "This is secret 4"
+            };
+
+            mockSecureSettingStorageService.Setup(x => x.IsApplicable(
+                It.Is<PropertyInfo>(y => y.Name == "TestSetting3"))).Returns(true);
+
+            mockSecureSettingStorageService.Setup(x => x.IsApplicable(
+                It.Is<PropertyInfo>(y => y.Name == "TestSetting4"))).Returns(true);
+
+            // Act
+            sut.RemoveAll(value);
+
+            // Assert
+            mockSecureSettingStorageService.Verify(x => x.Remove(
+                It.Is<string>(y => y == value.Id),
+                It.Is<PropertyInfo>(y => y.Name == "TestSetting3")), Times.Once);
+            mockSecureSettingStorageService.Verify(x => x.Remove(
+                It.Is<string>(y => y == value.Id),
+                It.Is<PropertyInfo>(y => y.Name == "TestSetting4")), Times.Once);
+        }
     }
 }

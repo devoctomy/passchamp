@@ -16,6 +16,30 @@ namespace devoctomy.Passchamp.Core.Data
             _secureSettingStorageService = secureSettingStorageService;
         }
 
+        public void RemoveAll(object value)
+        {
+            var type = value.GetType();
+            var allProperties = type.GetProperties(
+                BindingFlags.Public |
+                BindingFlags.Instance);
+            foreach (var curProperty in allProperties)
+            {
+                if (_secureSettingStorageService.IsApplicable(curProperty))
+                {
+                    if (value is not IPartiallySecure partiallySecure)
+                    {
+                        throw new ObjectDoesNotImplementIPartiallySecureException(type);
+                    }
+
+                    AssureJsonIgnoreAttributeIsPresent(curProperty);
+
+                    _secureSettingStorageService.Remove(
+                        partiallySecure.Id,
+                        curProperty);
+                }
+            }
+        }
+
         public async Task SaveAsync(
             object value,
             Stream stream)
