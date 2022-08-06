@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace devoctomy.Passchamp.Client.Converters
+namespace devoctomy.Passchamp.Maui.Converters
 {
     public class EnumEqualityConverter : IValueConverter
     {
@@ -12,7 +12,7 @@ namespace devoctomy.Passchamp.Client.Converters
         {
             var enumType = value.GetType();
             var compValue = Enum.Parse(enumType, parameter.ToString());
-            return value == compValue;
+            return value.Equals(compValue);
         }
 
         public object ConvertBack(

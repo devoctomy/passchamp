@@ -4,7 +4,7 @@ using devoctomy.Passchamp.Core.Graph.Services;
 using System;
 using System.Globalization;
 
-namespace devoctomy.Passchamp.Client.Converters
+namespace devoctomy.Passchamp.Maui.Converters
 {
     public class ProviderServiceTypeIdToDisplayNameConverter : IValueConverter
     {

@@ -4,7 +4,7 @@
                 xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
                 xmlns:cloud="clr-namespace:devoctomy.Passchamp.Core.Cloud;assembly=devoctomy.Passchamp.Core"
                 xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
-                xmlns:converters="clr-namespace:devoctomy.Passchamp.Client.Converters"
+                xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
                 x:Class="devoctomy.Passchamp.Client.Pages.SettingsPage"
                 x:DataType="vm:SettingsViewModel"
                 x:TypeArguments="vm:SettingsViewModel"
