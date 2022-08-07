@@ -19,6 +19,7 @@ namespace devoctomy.Passchamp.Maui.Data
         {
             _options = options;
             _ioService = ioService;
+            _vaults = new List<VaultIndex>();
         }
 
         public async Task LoadAsync(CancellationToken cancellationToken)
