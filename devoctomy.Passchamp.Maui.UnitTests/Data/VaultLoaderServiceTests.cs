@@ -7,7 +7,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -171,7 +170,7 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data
                 It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
         }
 
-        private bool CheckVaultJson(
+        private static bool CheckVaultJson(
             List<VaultIndex> expectedVaults,
             string rawJson,
             bool validateId)

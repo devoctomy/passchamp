@@ -14,7 +14,7 @@ namespace devoctomy.Passchamp.Client.Pages.Base
 
     public abstract class BasePage : ContentPage
     {
-        private BaseViewModel _viewModel;
+        private readonly BaseViewModel _viewModel;
 
         public BasePage(object viewModel = null)
         {
