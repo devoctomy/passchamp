@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Client.Models;
+using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Maui.Data;
 using Moq;
@@ -100,9 +101,6 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data
 
             var cancellationTokenSource = new CancellationTokenSource();
 
-            mockIoService.Setup(x => x.CreatePathDirectory(
-                It.IsAny<string>()));
-
             mockIoService.Setup(x => x.Exists(
                 It.IsAny<string>()))
                 .Returns(false);
@@ -121,6 +119,91 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data
                 It.Is<string>(y => y == expectedPath),
                 It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Never);
             Assert.Empty(sut.Vaults);
+        }
+
+        [Fact]
+        public async Task GivenCloudStorageProviderConfigRef_AndCloudProviderPath_WhenAddFromCloudProviderAsync_ThenPathCreated_AndJsonWrittenToCorrectPath()
+        {
+            // Arrange
+            var mockIoService = new Mock<IIOService>();
+            var options = new VaultLoaderServiceOptions
+            {
+                Path = "folder1/folder2/",
+                FileName = "somefile.json"
+            };
+            var sut = new VaultLoaderService(
+                options,
+                mockIoService.Object);
+
+            var cloudStorageProviderConfigRef = new CloudStorageProviderConfigRef
+            {
+                Id = Guid.NewGuid().ToString(),
+                ProviderServiceTypeId = Guid.NewGuid().ToString()
+            };
+            var cloudProviderPath = "somedir/somefile";
+
+            var expectedVaults = new List<VaultIndex>
+            {
+                new VaultIndex
+                {
+                    Name = "Not yet decrypted",
+                    Description = "Not yet decrypted",
+                    CloudProviderId = cloudStorageProviderConfigRef.ProviderServiceTypeId,
+                    CloudProviderPath = cloudProviderPath
+                }
+            };
+
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.AddFromCloudProviderAsync(
+                cloudStorageProviderConfigRef,
+                cloudProviderPath,
+                cancellationTokenSource.Token);
+
+            // Assert
+            var expectedPath = $"{options.Path}{options.FileName}";
+            mockIoService.Verify(x => x.CreatePathDirectory(
+                It.Is<string>(y => y == expectedPath)), Times.Once);
+            mockIoService.Verify(x => x.WriteDataAsync(
+                It.Is<string>(y => y == expectedPath),
+                It.Is<string>(y => CheckVaultJson(expectedVaults, y, false)),
+                It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+        }
+
+        private bool CheckVaultJson(
+            List<VaultIndex> expectedVaults,
+            string rawJson,
+            bool validateId)
+        {
+            var actualVaults = JsonConvert.DeserializeObject<List<VaultIndex>>(rawJson);
+            foreach(var curExpectedVault in expectedVaults)
+            {
+                var matchedVault = default(VaultIndex);
+                if(validateId)
+                {
+                    matchedVault = actualVaults.SingleOrDefault(x =>
+                    x.Id == curExpectedVault.Id &&
+                    x.CloudProviderId == curExpectedVault.CloudProviderId &&
+                    x.CloudProviderPath == curExpectedVault.CloudProviderPath &&
+                    x.Name == curExpectedVault.Name &&
+                    x.Description == curExpectedVault.Description &&
+                    !x.HasBeenUnlockedAtLeastOnce);
+                }
+                else
+                {
+                    matchedVault = actualVaults.SingleOrDefault(x =>
+                    x.CloudProviderId == curExpectedVault.CloudProviderId &&
+                    x.CloudProviderPath == curExpectedVault.CloudProviderPath &&
+                    x.Name == curExpectedVault.Name &&
+                    x.Description == curExpectedVault.Description &&
+                    !x.HasBeenUnlockedAtLeastOnce);
+                }
+
+                return matchedVault != null;
+            }
+
+            return false;
         }
     }
 }

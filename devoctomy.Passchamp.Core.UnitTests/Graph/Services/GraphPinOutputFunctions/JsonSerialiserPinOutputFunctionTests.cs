@@ -36,7 +36,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinOutputFuncti
                 "Sections",
                 new Core.Vault.Vault
                 {
-                    ID = "Hello World!"
+                    Id = "Hello World!"
                 });
 
             var sut = new JsonSerialiserPinOutputFunction();
@@ -64,7 +64,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinOutputFuncti
                 "Sections",
                 new Core.Vault.Vault
                 {
-                    ID = "Hello World!"
+                    Id = "Hello World!"
                 });
 
             var sut = new JsonSerialiserPinOutputFunction();

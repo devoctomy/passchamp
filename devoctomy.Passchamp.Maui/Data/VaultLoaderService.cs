@@ -1,5 +1,7 @@
 ﻿using devoctomy.Passchamp.Client.Models;
+using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Vault;
 using Newtonsoft.Json;
 
 namespace devoctomy.Passchamp.Maui.Data
@@ -33,6 +35,34 @@ namespace devoctomy.Passchamp.Maui.Data
                     cancellationToken);
                 _vaults = JsonConvert.DeserializeObject<List<VaultIndex>>(jsonRaw);
             }
+        }
+
+        public async Task AddFromCloudProviderAsync(
+            CloudStorageProviderConfigRef cloudStorageProviderConfigRef,
+            string cloudProviderPath,
+            CancellationToken cancellationToken)
+        {
+            var index = new VaultIndex
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Not yet decrypted",
+                Description = "Not yet decrypted",
+                CloudProviderId = cloudStorageProviderConfigRef.ProviderServiceTypeId,
+                CloudProviderPath = cloudProviderPath,
+            };
+            _vaults.Add(index);
+            await SaveAsync(cancellationToken);
+        }
+
+        private async Task SaveAsync(CancellationToken cancellationToken)
+        {
+            var fullPath = $"{_options.Path}{_options.FileName}";
+            _ioService.CreatePathDirectory(fullPath);
+            var jsonRaw = JsonConvert.SerializeObject(Vaults);
+            await _ioService.WriteDataAsync(
+                fullPath,
+                jsonRaw,
+                cancellationToken);
         }
     }
 }

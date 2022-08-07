@@ -7,5 +7,6 @@
         public string Description { get; set; }
         public string CloudProviderId { get; set; }
         public string CloudProviderPath { get; set; }
+        public bool HasBeenUnlockedAtLeastOnce { get; set; }
     }
 }

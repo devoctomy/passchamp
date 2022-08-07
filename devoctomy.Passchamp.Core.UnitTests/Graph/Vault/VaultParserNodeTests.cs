@@ -24,7 +24,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Vault
                 {
                     FormatVersion = "format version"
                 },
-                ID = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 Name = "vault name",
                 Description = "vault description",
                 CreatedAt = now.Subtract(TimeSpan.FromDays(1)).ToString("dd-MM-yyyy HH:mm:ss"),
