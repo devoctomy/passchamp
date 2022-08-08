@@ -1,6 +1,7 @@
 ﻿using devoctomy.Passchamp.Client.Models;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Maui.Exceptions;
 using Newtonsoft.Json;
 
 namespace devoctomy.Passchamp.Maui.Data
@@ -14,6 +15,7 @@ namespace devoctomy.Passchamp.Maui.Data
 
         private List<VaultIndex> _vaults;
 
+        [ActivatorUtilitiesConstructor]
         public VaultLoaderService(
             VaultLoaderServiceOptions options,
             IIOService ioService)
@@ -22,6 +24,19 @@ namespace devoctomy.Passchamp.Maui.Data
             _ioService = ioService;
             _vaults = new List<VaultIndex>();
         }
+
+#if DEBUG
+        // Used purely for unit testing purposes
+        public VaultLoaderService(
+            VaultLoaderServiceOptions options,
+            IIOService ioService,
+            List<VaultIndex> vaults)
+        {
+            _options = options;
+            _ioService = ioService;
+            _vaults = vaults;
+        }
+#endif
 
         public async Task LoadAsync(CancellationToken cancellationToken)
         {
@@ -62,6 +77,19 @@ namespace devoctomy.Passchamp.Maui.Data
                 fullPath,
                 jsonRaw,
                 cancellationToken);
+        }
+
+        public async Task RemoveAsync(
+            VaultIndex vaultIndex,
+            CancellationToken cancellationToken)
+        {
+            if(!_vaults.Contains(vaultIndex))
+            {
+                throw new VaultIndexNotFoundException(vaultIndex.Id);
+            }
+
+            _vaults.Remove(vaultIndex);
+            await SaveAsync(cancellationToken);
         }
     }
 }

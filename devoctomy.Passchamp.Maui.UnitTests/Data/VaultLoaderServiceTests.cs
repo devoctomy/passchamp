@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Maui.Data;
+using devoctomy.Passchamp.Maui.Exceptions;
 using Moq;
 using Newtonsoft.Json;
 using System;
@@ -168,6 +169,87 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data
                 It.Is<string>(y => y == expectedPath),
                 It.Is<string>(y => CheckVaultJson(expectedVaults, y, false)),
                 It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+        }
+
+        [Fact]
+        public async Task GivenVaultIndexId_AndVaultIndexExists_WhenRemoveAsync_ThenVaultIndexRemoved_AndPathCreated_AndJsonWrittenToCorrectPath()
+        {
+            // Arrange
+            var mockIoService = new Mock<IIOService>();
+            var options = new VaultLoaderServiceOptions
+            {
+                Path = "folder1/folder2/",
+                FileName = "somefile.json"
+            };
+            var expectedVaults = new List<VaultIndex>
+            {
+                new VaultIndex
+                {
+                    Id = Guid.NewGuid().ToString()
+                },
+                new VaultIndex
+                {
+                    Id = Guid.NewGuid().ToString()
+                }
+            };
+            var sut = new VaultLoaderService(
+                options,
+                mockIoService.Object,
+                expectedVaults);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act
+            await sut.RemoveAsync(
+                expectedVaults[0],
+                cancellationTokenSource.Token);
+
+            // Assert
+            var expectedPath = $"{options.Path}{options.FileName}";
+            mockIoService.Verify(x => x.CreatePathDirectory(
+                It.Is<string>(y => y == expectedPath)), Times.Once);
+            mockIoService.Verify(x => x.WriteDataAsync(
+                It.Is<string>(y => y == expectedPath),
+                It.Is<string>(y => CheckVaultJson(expectedVaults, y, false)),
+                It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+            Assert.Single(sut.Vaults);
+        }
+
+        [Fact]
+        public async Task GivenVaultIndexId_AndVaultIndexNotExists_WhenRemoveAsync_ThenVaultIndexNotFoundExceptionThrown()
+        {
+            // Arrange
+            var mockIoService = new Mock<IIOService>();
+            var options = new VaultLoaderServiceOptions
+            {
+                Path = "folder1/folder2/",
+                FileName = "somefile.json"
+            };
+            var expectedVaults = new List<VaultIndex>
+            {
+                new VaultIndex
+                {
+                    Id = Guid.NewGuid().ToString()
+                },
+                new VaultIndex
+                {
+                    Id = Guid.NewGuid().ToString()
+                }
+            };
+            var sut = new VaultLoaderService(
+                options,
+                mockIoService.Object,
+                expectedVaults);
+
+            var cancellationTokenSource = new CancellationTokenSource();
+
+            // Act & Assert
+            await Assert.ThrowsAnyAsync<VaultIndexNotFoundException>(async () =>
+            {
+                await sut.RemoveAsync(
+                    new VaultIndex(),
+                    cancellationTokenSource.Token);
+            });
         }
 
         private static bool CheckVaultJson(

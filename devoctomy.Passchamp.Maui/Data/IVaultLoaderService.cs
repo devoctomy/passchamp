@@ -12,5 +12,8 @@ namespace devoctomy.Passchamp.Maui.Data
             CloudStorageProviderConfigRef cloudStorageProviderConfigRef,
             string cloudProviderPath,
             CancellationToken cancellationToken);
+        public Task RemoveAsync(
+            VaultIndex vaultIndex,
+            CancellationToken cancellationToken);
     }
 }
