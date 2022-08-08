@@ -25,7 +25,6 @@ namespace devoctomy.Passchamp.Maui.Data
             _vaults = new List<VaultIndex>();
         }
 
-#if DEBUG
         // Used purely for unit testing purposes
         public VaultLoaderService(
             VaultLoaderServiceOptions options,
@@ -36,7 +35,6 @@ namespace devoctomy.Passchamp.Maui.Data
             _ioService = ioService;
             _vaults = vaults;
         }
-#endif
 
         public async Task LoadAsync(CancellationToken cancellationToken)
         {
