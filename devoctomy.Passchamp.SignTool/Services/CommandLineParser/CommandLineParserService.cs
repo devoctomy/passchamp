@@ -7,18 +7,15 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
 {
     public class CommandLineParserService : ICommandLineParserService
     {
-        private readonly ISingleArgumentParserService _singleArgumentParser;
         private readonly IDefaultArgumentParserService _defaultArgumentParserService;
         private readonly IArgumentMapperService _argumentMapper;
         private readonly IOptionalArgumentSetterService _optionalArgumentSetterSevice;
 
         public CommandLineParserService(
-            ISingleArgumentParserService singleArgumentParser,
             IDefaultArgumentParserService defaultArgumentParserService,
             IArgumentMapperService arumentMapper,
             IOptionalArgumentSetterService optionalArgumentSetterSevice)
         {
-            _singleArgumentParser = singleArgumentParser;
             _defaultArgumentParserService = defaultArgumentParserService;
             _argumentMapper = arumentMapper;
             _optionalArgumentSetterSevice = optionalArgumentSetterSevice;
@@ -28,7 +25,6 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
         {
             var propertyValueSetterService = new PropertyValueSetterService();
             return new CommandLineParserService(
-                new SingleArgumentParserService(),
                 new DefaultArgumentParserService(propertyValueSetterService),
                 new ArgumentMapperService(
                     new ArgumentMapperOptions(),

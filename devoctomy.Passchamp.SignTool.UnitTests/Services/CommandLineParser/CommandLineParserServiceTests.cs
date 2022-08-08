@@ -26,12 +26,10 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
         public void GivenMissingArguments_AndOptionsType_WhenParseArgumentsAsOptions_ThenFalseReturned()
         {
             // Arrange
-            var mockSingleArgumentParserService = new Mock<ISingleArgumentParserService>();
             var mockDefaultArgumentParserService = new Mock<IDefaultArgumentParserService>();
             var mockArgumentMapperService = new Mock<IArgumentMapperService>();
             var mockOptionalArgumentSetterService = new Mock<IOptionalArgumentSetterService>();
             var sut = new CommandLineParserService(
-                mockSingleArgumentParserService.Object,
                 mockDefaultArgumentParserService.Object,
                 mockArgumentMapperService.Object,
                 mockOptionalArgumentSetterService.Object);
@@ -75,12 +73,10 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
         public void GivenRequiredArguments_AndOptionsType_WhenParseArgumentsAsOptions_ThenTrueReturned_AndOptionsSet()
         {
             // Arrange
-            var mockSingleArgumentParserService = new Mock<ISingleArgumentParserService>();
             var mockDefaultArgumentParserService = new Mock<IDefaultArgumentParserService>();
             var mockArgumentMapperService = new Mock<IArgumentMapperService>();
             var mockOptionalArgumentSetterService = new Mock<IOptionalArgumentSetterService>();
             var sut = new CommandLineParserService(
-                mockSingleArgumentParserService.Object,
                 mockDefaultArgumentParserService.Object,
                 mockArgumentMapperService.Object,
                 mockOptionalArgumentSetterService.Object);
