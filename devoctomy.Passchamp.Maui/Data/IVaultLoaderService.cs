@@ -1,6 +1,5 @@
 ﻿using devoctomy.Passchamp.Client.Models;
 using devoctomy.Passchamp.Core.Cloud;
-using devoctomy.Passchamp.Core.Vault;
 
 namespace devoctomy.Passchamp.Maui.Data
 {
