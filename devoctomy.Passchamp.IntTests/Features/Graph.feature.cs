@@ -24,7 +24,7 @@ namespace devoctomy.Passchamp.IntTests.Features
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private static string[] featureTags = ((string[])(null));
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -40,7 +40,7 @@ namespace devoctomy.Passchamp.IntTests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Graph", "Method of building up many small actions into a larger, more complex task.", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Graph", "Method of building up many small actions into a larger, more complex task.", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -50,27 +50,27 @@ namespace devoctomy.Passchamp.IntTests.Features
             testRunner = null;
         }
         
-        public virtual void TestInitialize()
+        public void TestInitialize()
         {
         }
         
-        public virtual void TestTearDown()
+        public void TestTearDown()
         {
             testRunner.OnScenarioEnd();
         }
         
-        public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
+        public void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
             testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
-        public virtual void ScenarioStart()
+        public void ScenarioStart()
         {
             testRunner.OnScenarioStart();
         }
         
-        public virtual void ScenarioCleanup()
+        public void ScenarioCleanup()
         {
             testRunner.CollectScenarioErrors();
         }
@@ -85,7 +85,7 @@ namespace devoctomy.Passchamp.IntTests.Features
         [Xunit.TraitAttribute("Description", "01) Encrypt string using a password and write to disk")]
         [Xunit.TraitAttribute("Category", "graph")]
         [Xunit.InlineDataAttribute("saltgenerator", "16", "ivgenerator", "16", "derive", "123", "32", "Hello World!", "encoder", "encrypt", "joiner", "writer", "Output/test.dat", new string[0])]
-        public virtual void _01EncryptStringUsingAPasswordAndWriteToDisk(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string plainText, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string fileWriterNodeName, string fileName, string[] exampleTags)
+        public void _01EncryptStringUsingAPasswordAndWriteToDisk(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string plainText, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string fileWriterNodeName, string fileName, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "graph"};
@@ -108,21 +108,11 @@ namespace devoctomy.Passchamp.IntTests.Features
             argumentsOfScenario.Add("JoinerNodeName", joinerNodeName);
             argumentsOfScenario.Add("FileWriterNodeName", fileWriterNodeName);
             argumentsOfScenario.Add("FileName", fileName);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Encrypt string using a password and write to disk", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Encrypt string using a password and write to disk", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -198,7 +188,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "02) Decrypt file using a password to correct plain text")]
         [Xunit.InlineDataAttribute("reader", "Output/testdec.dat", "parser", "Iv,0,16;Cipher,16,~16;Salt,~16,~0", "derivekey", "123", "32", "decrypt", "Iv", "Cipher", "Salt", "decode", "Hello World!", new string[0])]
-        public virtual void _02DecryptFileUsingAPasswordToCorrectPlainText(string fileReaderNodeName, string fileName, string dataParserNodeName, string parserSections, string deriveKeyNodeName, string password, string keyLength, string decryptNodeName, string ivSectionKey, string cipherSectionKey, string saltSectionKey, string decoderNodeName, string plainText, string[] exampleTags)
+        public void _02DecryptFileUsingAPasswordToCorrectPlainText(string fileReaderNodeName, string fileName, string dataParserNodeName, string parserSections, string deriveKeyNodeName, string password, string keyLength, string decryptNodeName, string ivSectionKey, string cipherSectionKey, string saltSectionKey, string decoderNodeName, string plainText, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -215,21 +205,11 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("SaltSectionKey", saltSectionKey);
             argumentsOfScenario.Add("DecoderNodeName", decoderNodeName);
             argumentsOfScenario.Add("PlainText", plainText);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Decrypt file using a password to correct plain text", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Decrypt file using a password to correct plain text", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 34
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -293,7 +273,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "03) Encrypt string using a password with scrypt and write to disk")]
         [Xunit.InlineDataAttribute("saltgenerator", "16", "ivgenerator", "16", "derive", "123", "32", "Hello World!", "encoder", "encrypt", "joiner", "writer", "Output/test2.dat", new string[0])]
-        public virtual void _03EncryptStringUsingAPasswordWithScryptAndWriteToDisk(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string plainText, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string fileWriterNodeName, string fileName, string[] exampleTags)
+        public void _03EncryptStringUsingAPasswordWithScryptAndWriteToDisk(string saltGeneratorNodeName, string saltLength, string ivGeneratorNodeName, string ivLength, string deriveKeyNodeName, string password, string keyLength, string plainText, string utf8EncoderNodeName, string encryptNodeName, string joinerNodeName, string fileWriterNodeName, string fileName, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -310,21 +290,11 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("JoinerNodeName", joinerNodeName);
             argumentsOfScenario.Add("FileWriterNodeName", fileWriterNodeName);
             argumentsOfScenario.Add("FileName", fileName);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Encrypt string using a password with scrypt and write to disk", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Encrypt string using a password with scrypt and write to disk", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 58
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -399,7 +369,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "Graph")]
         [Xunit.TraitAttribute("Description", "04) Decrypt file using a password with scrypt to correct plain text")]
         [Xunit.InlineDataAttribute("reader", "Output/test2.dat", "parser", "Iv,0,16;Cipher,16,~16;Salt,~16,~0", "derivekey", "123", "32", "decrypt", "Iv", "Cipher", "Salt", "decode", "Hello World!", new string[0])]
-        public virtual void _04DecryptFileUsingAPasswordWithScryptToCorrectPlainText(string fileReaderNodeName, string fileName, string dataParserNodeName, string parserSections, string deriveKeyNodeName, string password, string keyLength, string decryptNodeName, string ivSectionKey, string cipherSectionKey, string saltSectionKey, string decoderNodeName, string plainText, string[] exampleTags)
+        public void _04DecryptFileUsingAPasswordWithScryptToCorrectPlainText(string fileReaderNodeName, string fileName, string dataParserNodeName, string parserSections, string deriveKeyNodeName, string password, string keyLength, string decryptNodeName, string ivSectionKey, string cipherSectionKey, string saltSectionKey, string decoderNodeName, string plainText, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
@@ -416,21 +386,11 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("SaltSectionKey", saltSectionKey);
             argumentsOfScenario.Add("DecoderNodeName", decoderNodeName);
             argumentsOfScenario.Add("PlainText", plainText);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("04) Decrypt file using a password with scrypt to correct plain text", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("04) Decrypt file using a password with scrypt to correct plain text", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 86
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }

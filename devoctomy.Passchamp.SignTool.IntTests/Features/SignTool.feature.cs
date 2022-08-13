@@ -24,7 +24,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-        private string[] _featureTags = ((string[])(null));
+        private static string[] featureTags = ((string[])(null));
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
@@ -40,7 +40,7 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "SignTool", "RSA Key pair generation", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "SignTool", "RSA Key pair generation", ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -50,27 +50,27 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
             testRunner = null;
         }
         
-        public virtual void TestInitialize()
+        public void TestInitialize()
         {
         }
         
-        public virtual void TestTearDown()
+        public void TestTearDown()
         {
             testRunner.OnScenarioEnd();
         }
         
-        public virtual void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
+        public void ScenarioInitialize(TechTalk.SpecFlow.ScenarioInfo scenarioInfo)
         {
             testRunner.OnScenarioInitialize(scenarioInfo);
             testRunner.ScenarioContext.ScenarioContainer.RegisterInstanceAs<Xunit.Abstractions.ITestOutputHelper>(_testOutputHelper);
         }
         
-        public virtual void ScenarioStart()
+        public void ScenarioStart()
         {
             testRunner.OnScenarioStart();
         }
         
-        public virtual void ScenarioCleanup()
+        public void ScenarioCleanup()
         {
             testRunner.CollectScenarioErrors();
         }
@@ -84,26 +84,16 @@ namespace devoctomy.Passchamp.SignTool.IntTests.Features
         [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
         [Xunit.TraitAttribute("Description", "01) Generate a key pair")]
         [Xunit.TraitAttribute("Category", "Generate")]
-        public virtual void _01GenerateAKeyPair()
+        public void _01GenerateAKeyPair()
         {
             string[] tagsOfScenario = new string[] {
                     "Generate"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Generate a key pair", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Generate a key pair", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -129,25 +119,15 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableFactAttribute(DisplayName="02) Generate a 1024 bit key pair")]
         [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
         [Xunit.TraitAttribute("Description", "02) Generate a 1024 bit key pair")]
-        public virtual void _02GenerateA1024BitKeyPair()
+        public void _02GenerateA1024BitKeyPair()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Generate a 1024 bit key pair", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Generate a 1024 bit key pair", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 12
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -173,25 +153,15 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableFactAttribute(DisplayName="03) Generate a 2048 bit key pair")]
         [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
         [Xunit.TraitAttribute("Description", "03) Generate a 2048 bit key pair")]
-        public virtual void _03GenerateA2048BitKeyPair()
+        public void _03GenerateA2048BitKeyPair()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Generate a 2048 bit key pair", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Generate a 2048 bit key pair", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -217,25 +187,15 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableFactAttribute(DisplayName="04) Generate a 3072 bit key pair")]
         [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
         [Xunit.TraitAttribute("Description", "04) Generate a 3072 bit key pair")]
-        public virtual void _04GenerateA3072BitKeyPair()
+        public void _04GenerateA3072BitKeyPair()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("04) Generate a 3072 bit key pair", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("04) Generate a 3072 bit key pair", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 24
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -261,25 +221,15 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableFactAttribute(DisplayName="05) Generate a 4096 bit key pair")]
         [Xunit.TraitAttribute("FeatureTitle", "SignTool")]
         [Xunit.TraitAttribute("Description", "05) Generate a 4096 bit key pair")]
-        public virtual void _05GenerateA4096BitKeyPair()
+        public void _05GenerateA4096BitKeyPair()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("05) Generate a 4096 bit key pair", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("05) Generate a 4096 bit key pair", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 30
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -307,7 +257,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("Description", "01) Sign a JSON file")]
         [Xunit.TraitAttribute("Category", "Sign")]
         [Xunit.InlineDataAttribute("1", "Data/json/unsigned/unsigned1.json", "Data/keys/privatekey.json", "signed.json", new string[0])]
-        public virtual void _01SignAJSONFile(string @case, string inputJsonFile, string privateKeyFile, string outputFileName, string[] exampleTags)
+        public void _01SignAJSONFile(string @case, string inputJsonFile, string privateKeyFile, string outputFileName, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "Sign"};
@@ -321,21 +271,11 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("InputJsonFile", inputJsonFile);
             argumentsOfScenario.Add("PrivateKeyFile", privateKeyFile);
             argumentsOfScenario.Add("OutputFileName", outputFileName);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Sign a JSON file", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("01) Sign a JSON file", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 37
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -369,7 +309,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("Description", "02) Verify a signed JSON file")]
         [Xunit.TraitAttribute("Category", "Verify")]
         [Xunit.InlineDataAttribute("1", "signed.json", "Data/keys/publickey.json", new string[0])]
-        public virtual void _02VerifyASignedJSONFile(string @case, string inputJsonFile, string publicKeyFile, string[] exampleTags)
+        public void _02VerifyASignedJSONFile(string @case, string inputJsonFile, string publicKeyFile, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "Verify"};
@@ -382,21 +322,11 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("Case", @case);
             argumentsOfScenario.Add("InputJsonFile", inputJsonFile);
             argumentsOfScenario.Add("PublicKeyFile", publicKeyFile);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Verify a signed JSON file", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("02) Verify a signed JSON file", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 51
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }
@@ -427,7 +357,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("Description", "03) Verify a signed JSON file that\'s been modified")]
         [Xunit.TraitAttribute("Category", "Verify")]
         [Xunit.InlineDataAttribute("1", "signed.json", "modified.json", "Data/keys/publickey.json", new string[0])]
-        public virtual void _03VerifyASignedJSONFileThatsBeenModified(string @case, string inputJsonFile, string modifiedInputJsonFile, string publicKeyFile, string[] exampleTags)
+        public void _03VerifyASignedJSONFileThatsBeenModified(string @case, string inputJsonFile, string modifiedInputJsonFile, string publicKeyFile, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "Verify"};
@@ -441,21 +371,11 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("InputJsonFile", inputJsonFile);
             argumentsOfScenario.Add("ModifiedInputJsonFile", modifiedInputJsonFile);
             argumentsOfScenario.Add("PublicKeyFile", publicKeyFile);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Verify a signed JSON file that\'s been modified", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("03) Verify a signed JSON file that\'s been modified", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 64
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
-            bool isScenarioIgnored = default(bool);
-            bool isFeatureIgnored = default(bool);
-            if ((tagsOfScenario != null))
-            {
-                isScenarioIgnored = tagsOfScenario.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((this._featureTags != null))
-            {
-                isFeatureIgnored = this._featureTags.Where(__entry => __entry != null).Where(__entry => String.Equals(__entry, "ignore", StringComparison.CurrentCultureIgnoreCase)).Any();
-            }
-            if ((isScenarioIgnored || isFeatureIgnored))
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
             {
                 testRunner.SkipScenario();
             }

@@ -33,11 +33,12 @@
         </HorizontalStackLayout>
         <ListView
                 ItemsSource="{Binding CloudStorageProviderConfigRefs}"
-                SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}">
+                SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}"
+                HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="cloud:CloudStorageProviderConfigRef">
-                    <ViewCell Height="128">
-                        <Grid Padding="8">
+                    <ViewCell>
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -48,9 +49,9 @@
                             <Image
                                 Grid.Column="0"
                                 Source="amazon_dark.png"
-                                WidthRequest="32">
+                                HorizontalOptions="StartAndExpand">
                             </Image>
-                            <VerticalStackLayout Grid.Column="1">
+                            <VerticalStackLayout Grid.Column="1" Padding="8">
                                 <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"
                                        Style="{StaticResource MediumLabelStyle}"/>
                                 <Label Text="{Binding Id}"
