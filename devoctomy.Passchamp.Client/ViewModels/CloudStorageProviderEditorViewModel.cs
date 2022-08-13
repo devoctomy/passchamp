@@ -34,14 +34,19 @@ namespace devoctomy.Passchamp.Client.ViewModels
         [ObservableProperty]
         public List<string> regions = Amazon.RegionEndpoint.EnumerableAllRegions.Select(x => x.DisplayName).ToList();
 
+        [ObservableProperty]
+        public bool okCommandEnabled;
+
         public BaseViewModel ReturnViewModel { get; set; }
 
-        public IAsyncRelayCommand BackCommand { get; set; }
+        public IAsyncRelayCommand BackCommand { get; }
         public IAsyncRelayCommand OkCommand { get; }
+        public IAsyncRelayCommand ValidateInputCommand { get; private set; }
 
         public CloudStorageProviderEditorViewModel(BaseViewModel returnViewModel)
         {
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
+            AttachValidators();
 
             EditorMode = PageEditorMode.Create;
             ReturnViewModel = returnViewModel;
@@ -53,6 +58,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
         {
             BackCommand = new AsyncRelayCommand(BackCommandHandler);
             OkCommand = new AsyncRelayCommand(OkCommandHandler);
+            AttachValidators();
 
             EditorMode = PageEditorMode.Edit;
             Id = amazonS3CloudStorageProviderConfig.Id;
@@ -66,7 +72,14 @@ namespace devoctomy.Passchamp.Client.ViewModels
             ReturnViewModel = returnViewModel;
         }
 
-        public async Task BackCommandHandler()
+        private void AttachValidators()
+        {
+            ValidateInputCommand = new AsyncRelayCommand(ValidateInputCommandHandler, OkCommandCanExecute);
+
+            OkCommand.NotifyCanExecuteChanged();
+        }
+
+        private async Task BackCommandHandler()
         {
             await ReturnViewModel.Return(null);
         }
@@ -74,6 +87,30 @@ namespace devoctomy.Passchamp.Client.ViewModels
         private async Task OkCommandHandler()
         {
             await ReturnViewModel.Return(this);
+        }
+
+        private bool OkCommandCanExecute()
+        {
+            var validateInput = () =>
+            {
+                if (DisplayName == null || DisplayName.Length == 0) return false;
+                if (AccessId == null || AccessId.Length == 0) return false;
+                if (SecretKey == null || SecretKey.Length == 0) return false;
+                if (Region == null || Region.Length == 0) return false;
+                if (Bucket == null || Bucket.Length == 0) return false;
+                if (Path == null || Path.Length == 0) return false;
+
+                return true;
+            };
+
+            OkCommandEnabled = validateInput();
+            return OkCommandEnabled;
+        }
+
+        private Task ValidateInputCommandHandler()
+        {
+            OkCommand.NotifyCanExecuteChanged();
+            return Task.CompletedTask;
         }
     }
 }
