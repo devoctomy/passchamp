@@ -1,4 +1,4 @@
-﻿namespace devoctomy.Passchamp.Client.Models
+﻿namespace devoctomy.Passchamp.Maui.Models
 {
     public class VaultIndex
     {

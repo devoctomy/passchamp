@@ -1,8 +1,8 @@
-﻿using devoctomy.Passchamp.Client.Models;
-using devoctomy.Passchamp.Core.Cloud;
+﻿using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Exceptions;
+using devoctomy.Passchamp.Maui.Models;
 using Moq;
 using Newtonsoft.Json;
 using System;

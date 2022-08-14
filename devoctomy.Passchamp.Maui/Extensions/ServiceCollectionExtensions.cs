@@ -5,9 +5,14 @@ namespace devoctomy.Passchamp.Maui.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddPasschampMauiServices(this IServiceCollection services)
+        public static void AddPasschampMauiServices(
+            this IServiceCollection services,
+            PasschampMauiServicesOptions options)
         {
+            services.AddSingleton(options.VaultLoaderServiceOptions);
+
             services.AddScoped<ISecureSettingStorageService, SecureSettingStorageService>();
+            services.AddScoped<IVaultLoaderService, VaultLoaderService>();
         }
     }
 }

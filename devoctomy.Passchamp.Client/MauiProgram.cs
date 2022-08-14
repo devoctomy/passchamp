@@ -30,7 +30,14 @@ namespace devoctomy.Passchamp.Client
                 }
             };
             builder.Services.AddPasschampCoreServices(passchampCoreServiceOptions);
-            builder.Services.AddPasschampMauiServices();
+            builder.Services.AddPasschampMauiServices(new PasschampMauiServicesOptions
+            {
+                VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions
+                {
+                    FileName = "vaults.json",
+                    Path = Path.Combine(FileSystem.AppDataDirectory, $"vaults\\")
+                }
+            });
             RegisterViewModels(builder.Services);
             RegisterPages(builder.Services);
 

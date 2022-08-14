@@ -2,25 +2,44 @@
 <pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
-             xmlns:vault="clr-namespace:devoctomy.Passchamp.Core.Vault;assembly=devoctomy.Passchamp.Core"
              xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
              x:Class="devoctomy.Passchamp.Client.Pages.VaultsPage"
              x:DataType="vm:VaultsViewModel"
              x:TypeArguments="vm:VaultsViewModel"
              Title="Vaults">
     <pages:BasePage.Content>
-        <ListView
+        <VerticalStackLayout>
+            <HorizontalStackLayout>
+                <ImageButton
+                    Source="add_new_dark.png"
+                    WidthRequest="48">
+                </ImageButton>
+                <ImageButton
+                    Source="data_edit_dark.png"
+                    WidthRequest="48">
+                </ImageButton>
+                <ImageButton
+                    Source="garbage_closed_dark.png"
+                    WidthRequest="48">
+                </ImageButton>
+            </HorizontalStackLayout>
+            <!--<ListView
                 ItemsSource="{Binding Vaults}"
-                SelectedItem="{Binding ItemSelected, Mode=TwoWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="vault:Vault">
-                    <ViewCell Height="128">
-                        <VerticalStackLayout>
-                            <Label Text="{Binding Header.FormatVersion}"></Label>
-                        </VerticalStackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                SelectedItem="{Binding ItemSelected, Mode=TwoWay}"
+                HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:VaultIndex">
+                        <ViewCell>
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name}"
+                                       Style="{StaticResource MediumLabelStyle}"/>
+                                <Label Text="{Binding Description}"
+                                       Style="{StaticResource DefaultLabelStyle}"/>
+                            </VerticalStackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+        </VerticalStackLayout>
     </pages:BasePage.Content>
 </pages:BasePage>
