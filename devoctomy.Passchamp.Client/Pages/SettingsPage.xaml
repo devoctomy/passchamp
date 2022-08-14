@@ -11,6 +11,7 @@
                 Title="Settings">
     <pages:BasePage.Resources>
         <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
+        <converters:NotNullConverter x:Key="NotNullConverter" />
     </pages:BasePage.Resources>
     <VerticalStackLayout>
         <Label Text="Cloud Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
@@ -28,7 +29,8 @@
             <ImageButton
                     Source="garbage_closed_dark.png"
                     WidthRequest="48"
-                    Command="{Binding RemoveSelectedCloudStorageProviderCommand}">
+                    Command="{Binding RemoveSelectedCloudStorageProviderCommand}"
+                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
             </ImageButton>
         </HorizontalStackLayout>
         <ListView
