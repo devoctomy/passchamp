@@ -24,7 +24,8 @@
             <ImageButton
                     Source="data_edit_dark.png"
                     WidthRequest="48"
-                    Command="{Binding EditSelectedCloudStorageProviderCommand}">
+                    Command="{Binding EditSelectedCloudStorageProviderCommand}"
+                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
             </ImageButton>
             <ImageButton
                     Source="garbage_closed_dark.png"
