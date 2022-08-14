@@ -39,13 +39,13 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         public BaseViewModel ReturnViewModel { get; set; }
 
-        public IAsyncRelayCommand BackCommand { get; }
-        public IAsyncRelayCommand OkCommand { get; }
+        public IAsyncRelayCommand BackCommand { get; private set; }
+        public IAsyncRelayCommand OkCommand { get; private set; }
         public IAsyncRelayCommand ValidateInputCommand { get; private set; }
 
         public CloudStorageProviderEditorViewModel(BaseViewModel returnViewModel)
         {
-            OkCommand = new AsyncRelayCommand(OkCommandHandler);
+            AttachCommandHandlers();
             AttachValidators();
 
             EditorMode = PageEditorMode.Create;
@@ -56,8 +56,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             AmazonS3CloudStorageProviderConfig amazonS3CloudStorageProviderConfig,
             BaseViewModel returnViewModel)
         {
-            BackCommand = new AsyncRelayCommand(BackCommandHandler);
-            OkCommand = new AsyncRelayCommand(OkCommandHandler);
+            AttachCommandHandlers();
             AttachValidators();
 
             EditorMode = PageEditorMode.Edit;
@@ -70,6 +69,12 @@ namespace devoctomy.Passchamp.Client.ViewModels
             Path = amazonS3CloudStorageProviderConfig.Path;
 
             ReturnViewModel = returnViewModel;
+        }
+
+        private void AttachCommandHandlers()
+        {
+            BackCommand = new AsyncRelayCommand(BackCommandHandler);
+            OkCommand = new AsyncRelayCommand(OkCommandHandler);
         }
 
         private void AttachValidators()
