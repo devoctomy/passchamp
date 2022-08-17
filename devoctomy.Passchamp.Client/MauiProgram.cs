@@ -49,6 +49,7 @@ namespace devoctomy.Passchamp.Client
             services.AddTransient<VaultsPage>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<CloudStorageProviderEditorPage>();
+            services.AddTransient<VaultEditorPage>();
         }
 
         static void RegisterViewModels(IServiceCollection services)
@@ -56,6 +57,7 @@ namespace devoctomy.Passchamp.Client
             services.AddTransient<VaultsViewModel>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<CloudStorageProviderEditorViewModel>();
+            services.AddTransient<VaultEditorViewModel>();
         }
     }
 }

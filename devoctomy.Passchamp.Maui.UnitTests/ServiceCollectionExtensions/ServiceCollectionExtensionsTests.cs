@@ -16,7 +16,10 @@ namespace devoctomy.Passchamp.Maui.UnitTests.ServiceCollectionExtensions
             serviceCollection.AddSingleton<ISecureStorage>(Mock.Of<ISecureStorage>());
 
             // Act
-            serviceCollection.AddPasschampMauiServices();
+            serviceCollection.AddPasschampMauiServices(new PasschampMauiServicesOptions
+            {
+                VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions()
+            });
 
             // Assert
             var provider = serviceCollection.BuildServiceProvider();

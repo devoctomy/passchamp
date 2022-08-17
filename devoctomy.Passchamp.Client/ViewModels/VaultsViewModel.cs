@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Vault;
@@ -10,11 +11,15 @@ namespace devoctomy.Passchamp.Client.ViewModels
 {
     public partial class VaultsViewModel : BaseViewModel
     {
+        public IAsyncRelayCommand AddVaultCommand { get; }
+        public IAsyncRelayCommand EditSelectedVaultCommand { get; }
+        public IAsyncRelayCommand RemoveSelectedVaultCommand { get; }
+
         [ObservableProperty]
         private ObservableCollection<VaultIndex> vaults;
 
         [ObservableProperty]
-        private Vault itemSelected = null;
+        private Vault selectedVaultIndex = null;
 
         private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
         private readonly IVaultLoaderService _vaultLoaderService;
@@ -25,8 +30,22 @@ namespace devoctomy.Passchamp.Client.ViewModels
             ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService,
             IVaultLoaderService vaultLoaderService)
         {
+            AddVaultCommand = new AsyncRelayCommand(AddVaultCommandHandler);
+            EditSelectedVaultCommand = new AsyncRelayCommand(EditSelectedVaultCommandHandler);
+            RemoveSelectedVaultCommand = new AsyncRelayCommand(RemoveSelectedVaultCommandHandler);
             _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
             _vaultLoaderService = vaultLoaderService;
+            Vaults = new ObservableCollection<VaultIndex>();
+        }
+
+        public override async Task Return(BaseViewModel viewModel)
+        {
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+
+            if (viewModel == null)
+            {
+                return;
+            }
         }
 
         public override async Task OnAppearingAsync()
@@ -37,13 +56,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
                 if (!_loaded)
                 {
                     await _vaultLoaderService.LoadAsync(CancellationToken.None);
-                    vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);
-
-                    vaults.Add(new VaultIndex
-                    {
-                        Name = "Test",
-                        Description = "Hello World!"
-                    });
+                    Vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);
                     _loaded = true;
                 }
             }
@@ -51,6 +64,49 @@ namespace devoctomy.Passchamp.Client.ViewModels
             {
                 _loaderLock.Release();
             }
+        }
+
+        private async Task AddVaultCommandHandler()
+        {
+            var viewModel = new VaultEditorViewModel(this);
+            var page = new Pages.VaultEditorPage(viewModel);
+            await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
+        }
+
+        private async Task EditSelectedVaultCommandHandler()
+        {
+            await Task.Yield();
+            /*if (SelectedCloudStorageProviderConfigRef == null)
+            {
+                return;
+            }
+
+            var config = await _cloudStorageProviderConfigLoaderService.UnpackConfigAsync<AmazonS3CloudStorageProviderConfig>(
+                SelectedCloudStorageProviderConfigRef.Id,
+                CancellationToken.None);
+            config = (AmazonS3CloudStorageProviderConfig)config.Clone();
+
+            var viewModel = new CloudStorageProviderEditorViewModel(
+                config,
+                this);
+            var page = new Pages.CloudStorageProviderEditorPage(viewModel);
+            await Application.Current.MainPage.Navigation.PushModalAsync(page, true);*/
+        }
+
+        private async Task RemoveSelectedVaultCommandHandler()
+        {
+            await Task.Yield();
+            /*if (SelectedCloudStorageProviderConfigRef == null)
+            {
+                return;
+            }
+
+            var selected = SelectedCloudStorageProviderConfigRef;
+            CloudStorageProviderConfigRefs.Remove(selected);
+            await _cloudStorageProviderConfigLoaderService.RemoveAsync(
+                selected.Id,
+                CancellationToken.None);
+            SelectedCloudStorageProviderConfigRef = null;*/
         }
     }
 }
