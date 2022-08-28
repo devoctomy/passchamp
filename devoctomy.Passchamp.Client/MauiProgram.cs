@@ -9,6 +9,8 @@ namespace devoctomy.Passchamp.Client
 {
     public static class MauiProgram
     {
+        public static MauiApp MauiApp { get; private set; }
+
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
@@ -41,11 +43,13 @@ namespace devoctomy.Passchamp.Client
             RegisterViewModels(builder.Services);
             RegisterPages(builder.Services);
 
-            return builder.Build();
+            MauiApp = builder.Build();
+            return MauiApp;
         }
 
         static void RegisterPages(IServiceCollection services)
         {
+            services.AddTransient<AppShell>();
             services.AddTransient<VaultsPage>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<CloudStorageProviderEditorPage>();
@@ -54,6 +58,7 @@ namespace devoctomy.Passchamp.Client
 
         static void RegisterViewModels(IServiceCollection services)
         {
+            services.AddTransient<AppShellViewModel>();
             services.AddTransient<VaultsViewModel>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<CloudStorageProviderEditorViewModel>();

@@ -3,13 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Cloud.AmazonS3;
-using devoctomy.Passchamp.Core.Cloud.Utility;
-using devoctomy.Passchamp.Core.Data;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.ViewModels
 {
-    public partial class SettingsViewModel : BaseViewModel
+    public partial class SettingsViewModel : BaseAppShellPageViewModel
     {
         [ObservableProperty]
         ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs;
@@ -17,6 +16,8 @@ namespace devoctomy.Passchamp.Client.ViewModels
         [ObservableProperty]
         CloudStorageProviderConfigRef selectedCloudStorageProviderConfigRef;
 
+        public ICommand AcceptCommand { get; }
+        public ICommand CancelCommand { get; }
         public IAsyncRelayCommand AddCloudStorageProviderCommand { get; }
         public IAsyncRelayCommand EditSelectedCloudStorageProviderCommand { get; }
         public IAsyncRelayCommand RemoveSelectedCloudStorageProviderCommand { get; }
@@ -30,11 +31,14 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         public SettingsViewModel(ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
         {
+            AcceptCommand = new Command(AcceptCommandHandler);
+            CancelCommand = new Command(CancelCommandHandler);
             AddCloudStorageProviderCommand = new AsyncRelayCommand(AddCloudStorageProviderCommandHandler);
             EditSelectedCloudStorageProviderCommand = new AsyncRelayCommand(EditCloudStorageProviderCommandHandler);
             RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProviderHandler);
             removeSelectedCloudStorageProviderCommandCanExecute = false;
             _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
+            SetupMenuItems();
         }
 
         public override async Task OnAppearingAsync()
@@ -48,6 +52,9 @@ namespace devoctomy.Passchamp.Client.ViewModels
                     CloudStorageProviderConfigRefs = new ObservableCollection<CloudStorageProviderConfigRef>(_cloudStorageProviderConfigLoaderService.Refs);
                     _loaded = true;
                 }
+
+                var appShellViewModel = Shell.Current.BindingContext as AppShellViewModel;
+                await appShellViewModel.OnCurrentPageChangeAsync();
             }
             finally
             {
@@ -82,6 +89,30 @@ namespace devoctomy.Passchamp.Client.ViewModels
                         }
                 }
             }
+        }
+
+        public override void OnSetupMenuItems()
+        {
+            MenuItems.Add(new MenuItem
+            {
+                Text = "Accept",
+                Command = AcceptCommand
+            });
+            MenuItems.Add(new MenuItem
+            {
+                Text = "Cancel",
+                Command = CancelCommand
+            });
+        }
+
+        private void CancelCommandHandler(object param)
+        {
+            Shell.Current.GoToAsync("//Vaults");    // Need to go back to previous here ".." does not work
+        }
+
+        private void AcceptCommandHandler(object param)
+        {
+            Shell.Current.GoToAsync("//Vaults");    // Need to go back to previous here ".." does not work
         }
 
         private async Task CreateCloudStorageProvider(CloudStorageProviderEditorViewModel model)

@@ -1,16 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.ViewModels
 {
-    public partial class VaultsViewModel : BaseViewModel
+    public partial class VaultsViewModel : BaseAppShellPageViewModel
     {
+        public ICommand SettingsCommand { get; }
         public IAsyncRelayCommand AddVaultCommand { get; }
         public IAsyncRelayCommand EditSelectedVaultCommand { get; }
         public IAsyncRelayCommand RemoveSelectedVaultCommand { get; }
@@ -30,12 +33,35 @@ namespace devoctomy.Passchamp.Client.ViewModels
             ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService,
             IVaultLoaderService vaultLoaderService)
         {
+            SettingsCommand = new Command(SettingsCommandHandler);
             AddVaultCommand = new AsyncRelayCommand(AddVaultCommandHandler);
             EditSelectedVaultCommand = new AsyncRelayCommand(EditSelectedVaultCommandHandler);
             RemoveSelectedVaultCommand = new AsyncRelayCommand(RemoveSelectedVaultCommandHandler);
             _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
             _vaultLoaderService = vaultLoaderService;
             Vaults = new ObservableCollection<VaultIndex>();
+            SetupMenuItems();
+        }
+
+        public override void OnSetupMenuItems()
+        {
+            MenuItems.Add(new MenuItem
+            {
+                Text = "Create Vault"
+            });
+            MenuItems.Add(new MenuItem
+            {
+                Text = "Add Existing Vault"
+            });
+            MenuItems.Add(new MenuItem
+            {
+                Text = "Synchronise"
+            });
+            MenuItems.Add(new MenuItem
+            {
+                Text = "Settings",
+                Command = SettingsCommand
+            });
         }
 
         public override async Task Return(BaseViewModel viewModel)
@@ -59,11 +85,21 @@ namespace devoctomy.Passchamp.Client.ViewModels
                     Vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);
                     _loaded = true;
                 }
+
+                var appShellViewModel = Shell.Current.BindingContext as AppShellViewModel;
+                await appShellViewModel.OnCurrentPageChangeAsync();
             }
             finally
             {
                 _loaderLock.Release();
             }
+        }
+
+        private void SettingsCommandHandler(object param)
+        {
+            //var settingsPage = (SettingsPage)MauiProgram.MauiApp.Services.GetService(typeof(SettingsPage));
+            //Shell.Current.Navigation.PushModalAsync(settingsPage);
+            Shell.Current.GoToAsync("//Settings");
         }
 
         private async Task AddVaultCommandHandler()

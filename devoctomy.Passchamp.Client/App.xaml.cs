@@ -5,7 +5,8 @@
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            var appShell = (AppShell)MauiProgram.MauiApp.Services.GetService(typeof(AppShell));
+            MainPage = appShell;
         }
     }
 }

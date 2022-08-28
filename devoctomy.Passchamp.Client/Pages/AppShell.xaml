@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<basepages:BaseShell
+    x:Class="devoctomy.Passchamp.Client.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
+    xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages"
+    xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+    xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    Shell.FlyoutBehavior="Flyout"
+    x:DataType="vm:AppShellViewModel"
+    x:TypeArguments="vm:AppShellViewModel"
+    x:Name="shell">
+
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid HeightRequest="200">
+                <Button
+                    Text="Home"
+                    Command="{Binding HomeCommand}"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    <ShellContent
+            Title="Vaults"
+            ContentTemplate="{DataTemplate pages:VaultsPage}"
+            Route="Vaults"
+            Shell.FlyoutItemIsVisible="False"/>
+
+
+    <ShellContent
+        Title="Settings"
+        ContentTemplate="{DataTemplate pages:SettingsPage}"
+        Route="Settings"
+        Shell.FlyoutItemIsVisible="False"/>
+    
+    <ShellContent
+        Title="About"
+        ContentTemplate="{DataTemplate pages:AboutPage}"
+        Route="About"
+        Shell.FlyoutItemIsVisible="False"/>
+
+    <Shell.FlyoutContent>
+        <CollectionView x:Name="collectionView"
+                        IsGrouped="true"
+                        ItemsSource="{Binding FlyoutItems, Source={Reference shell}}"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding MenuSelectionChangedCommand}"
+                        SelectionChangedCommandParameter="{Binding Source={Reference collectionView}}">
+            <CollectionView.Behaviors>
+                <behaviors:EventToCommandBehavior EventName="PropertyChanged"
+                                                  Command="{Binding MenuSelectionPropertyChangedCommand}"
+                                                  CommandParameter="{Binding Source={Reference collectionView}}" />
+            </CollectionView.Behaviors>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="BaseShellItem">
+                    <Grid x:Name="FlyoutItemLayout"
+                          HeightRequest="{OnPlatform Default=44, Android=50}"
+                          ColumnSpacing="{OnPlatform WinUI=0}"
+                          RowSpacing="{OnPlatform WinUI=0}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Text="{Binding Title}"
+                                    ImageSource="dotnet_bot.png"
+                                    HorizontalOptions="Start"
+                                    AnchorX="0"
+                                    BackgroundColor="Transparent"
+                                    BorderWidth="0"
+                                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
+                                    IsEnabled="False"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Shell.FlyoutContent>
+</basepages:BaseShell>
