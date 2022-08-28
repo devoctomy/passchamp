@@ -11,7 +11,7 @@
     x:DataType="vm:AppShellViewModel"
     x:TypeArguments="vm:AppShellViewModel"
     x:Name="shell">
-
+    
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <Grid HeightRequest="200">
@@ -26,20 +26,19 @@
             Title="Vaults"
             ContentTemplate="{DataTemplate pages:VaultsPage}"
             Route="Vaults"
-            Shell.FlyoutItemIsVisible="False"/>
-
+            Shell.FlyoutItemIsVisible="False" />
 
     <ShellContent
         Title="Settings"
         ContentTemplate="{DataTemplate pages:SettingsPage}"
         Route="Settings"
-        Shell.FlyoutItemIsVisible="False"/>
+        Shell.FlyoutItemIsVisible="False" />
     
-    <ShellContent
+    <!--<ShellContent
         Title="About"
         ContentTemplate="{DataTemplate pages:AboutPage}"
         Route="About"
-        Shell.FlyoutItemIsVisible="False"/>
+        Shell.FlyoutItemIsVisible="False"/>-->
 
     <Shell.FlyoutContent>
         <CollectionView x:Name="collectionView"
