@@ -5,8 +5,8 @@ namespace devoctomy.Passchamp.Client.Pages;
 
 public partial class SettingsPage : BasePage<SettingsViewModel>
 {
-	public SettingsPage(SettingsViewModel model)
-		: base(model)
+	public SettingsPage(SettingsViewModel viewModel)
+		: base(viewModel)
 	{
 		InitializeComponent();
 	}

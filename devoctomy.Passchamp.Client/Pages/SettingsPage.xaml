@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<basepages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
                 xmlns:cloud="clr-namespace:devoctomy.Passchamp.Core.Cloud;assembly=devoctomy.Passchamp.Core"
-                xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
                 xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
+                xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
                 x:Class="devoctomy.Passchamp.Client.Pages.SettingsPage"
                 x:DataType="vm:SettingsViewModel"
                 x:TypeArguments="vm:SettingsViewModel"
                 Title="Settings">
-    <pages:BasePage.Resources>
+    <basepages:BasePage.Resources>
         <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
         <converters:NotNullConverter x:Key="NotNullConverter" />
-    </pages:BasePage.Resources>
+    </basepages:BasePage.Resources>
     <VerticalStackLayout>
         <Label Text="Cloud Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
         <HorizontalStackLayout>
@@ -66,4 +66,4 @@
             </ListView.ItemTemplate>
         </ListView>
     </VerticalStackLayout>
-</pages:BasePage>
+</basepages:BasePage>

@@ -21,9 +21,6 @@ public partial class AppShellViewModel : BaseViewModel
     private BaseAppShellPageViewModel _currentPageViewModel;
     private readonly IShellNavigationService _shellNavigationService;
 
-    //private readonly static SemaphoreSlim _loaderLock = new(1, 1);
-    //private bool _loaded = false;
-
     public AppShellViewModel(IShellNavigationService shellNavigationService)
     {
         _shellNavigationService = shellNavigationService;
@@ -45,23 +42,6 @@ public partial class AppShellViewModel : BaseViewModel
             await AddMenuItems();
         }
     }
-
-    //public override async Task OnAppearingAsync()
-    //{
-    //    await _loaderLock.WaitAsync();
-    //    try
-    //    {
-    //        if (!_loaded)
-    //        {
-    //            _shellNavigationService.Set
-    //            _loaded = true;
-    //        }
-    //    }
-    //    finally
-    //    {
-    //        _loaderLock.Release();
-    //    }
-    //}
 
     private async Task RemoveMenuItems()
     {
