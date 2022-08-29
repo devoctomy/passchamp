@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Maui.Data;
+using devoctomy.Passchamp.Maui.Services;
 
 namespace devoctomy.Passchamp.Maui.Extensions
 {
@@ -10,6 +11,9 @@ namespace devoctomy.Passchamp.Maui.Extensions
             PasschampMauiServicesOptions options)
         {
             services.AddSingleton(options.VaultLoaderServiceOptions);
+            services.AddSingleton(options.ShellNavigationServiceOptions);
+
+            services.AddSingleton<IShellNavigationService, ShellNavigationService>();
 
             services.AddScoped<ISecureSettingStorageService, SecureSettingStorageService>();
             services.AddScoped<IVaultLoaderService, VaultLoaderService>();

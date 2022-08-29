@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using devoctomy.Passchamp.Client.ViewModels.Base;
+using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Maui.Services;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
@@ -16,9 +19,14 @@ public partial class AppShellViewModel : BaseViewModel
     public ICommand menuSelectionPropertyChangedCommand;
 
     private BaseAppShellPageViewModel _currentPageViewModel;
+    private readonly IShellNavigationService _shellNavigationService;
 
-    public AppShellViewModel()
+    //private readonly static SemaphoreSlim _loaderLock = new(1, 1);
+    //private bool _loaded = false;
+
+    public AppShellViewModel(IShellNavigationService shellNavigationService)
     {
+        _shellNavigationService = shellNavigationService;
         HomeCommand = new Command(HomeCommandhandler);
         menuSelectionChangedCommand = new Command(MenuSelectionChangedCommandHandler);
         menuSelectionPropertyChangedCommand = new Command(MenuSelectionPropertyChangedCommandHandler);
@@ -37,6 +45,23 @@ public partial class AppShellViewModel : BaseViewModel
             await AddMenuItems();
         }
     }
+
+    //public override async Task OnAppearingAsync()
+    //{
+    //    await _loaderLock.WaitAsync();
+    //    try
+    //    {
+    //        if (!_loaded)
+    //        {
+    //            _shellNavigationService.Set
+    //            _loaded = true;
+    //        }
+    //    }
+    //    finally
+    //    {
+    //        _loaderLock.Release();
+    //    }
+    //}
 
     private async Task RemoveMenuItems()
     {

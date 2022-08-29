@@ -6,6 +6,7 @@ using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Models;
+using devoctomy.Passchamp.Maui.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -26,12 +27,14 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
         private readonly IVaultLoaderService _vaultLoaderService;
+        private readonly IShellNavigationService _shellNavigationService;
         private readonly static SemaphoreSlim _loaderLock = new(1, 1);
         private bool _loaded = false;
 
         public VaultsViewModel(
             ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService,
-            IVaultLoaderService vaultLoaderService)
+            IVaultLoaderService vaultLoaderService,
+            IShellNavigationService shellNavigationService)
         {
             SettingsCommand = new Command(SettingsCommandHandler);
             AddVaultCommand = new AsyncRelayCommand(AddVaultCommandHandler);
@@ -39,6 +42,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             RemoveSelectedVaultCommand = new AsyncRelayCommand(RemoveSelectedVaultCommandHandler);
             _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
             _vaultLoaderService = vaultLoaderService;
+            _shellNavigationService = shellNavigationService;
             Vaults = new ObservableCollection<VaultIndex>();
             SetupMenuItems();
         }
@@ -99,7 +103,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
         {
             //var settingsPage = (SettingsPage)MauiProgram.MauiApp.Services.GetService(typeof(SettingsPage));
             //Shell.Current.Navigation.PushModalAsync(settingsPage);
-            Shell.Current.GoToAsync("//Settings");
+            _shellNavigationService.GoToAsync("//Settings");
         }
 
         private async Task AddVaultCommandHandler()

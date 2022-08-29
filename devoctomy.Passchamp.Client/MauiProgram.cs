@@ -38,6 +38,10 @@ namespace devoctomy.Passchamp.Client
                 {
                     FileName = "vaults.json",
                     Path = Path.Combine(FileSystem.AppDataDirectory, $"vaults\\")
+                },
+                ShellNavigationServiceOptions = new Maui.Services.ShellNavigationServiceOptions
+                {
+                    HomeRoute = "//Vaults"
                 }
             });
             RegisterViewModels(builder.Services);

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Cloud.AmazonS3;
+using devoctomy.Passchamp.Maui.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -26,10 +27,13 @@ namespace devoctomy.Passchamp.Client.ViewModels
         private bool removeSelectedCloudStorageProviderCommandCanExecute;
 
         private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
+        private readonly IShellNavigationService _shellNavigationService;
         private readonly static SemaphoreSlim _loaderLock = new(1, 1);
         private bool _loaded = false;
 
-        public SettingsViewModel(ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
+        public SettingsViewModel(
+            ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService,
+            IShellNavigationService shellNavigationService)
         {
             AcceptCommand = new Command(AcceptCommandHandler);
             CancelCommand = new Command(CancelCommandHandler);
@@ -38,6 +42,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             RemoveSelectedCloudStorageProviderCommand = new AsyncRelayCommand(RemoveSelectedCloudStorageProviderHandler);
             removeSelectedCloudStorageProviderCommandCanExecute = false;
             _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
+            _shellNavigationService = shellNavigationService;
             SetupMenuItems();
         }
 
@@ -107,12 +112,12 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         private void CancelCommandHandler(object param)
         {
-            Shell.Current.GoToAsync("//Vaults");    // Need to go back to previous here ".." does not work
+            _shellNavigationService.GoBackAsync();
         }
 
         private void AcceptCommandHandler(object param)
         {
-            Shell.Current.GoToAsync("//Vaults");    // Need to go back to previous here ".." does not work
+            _shellNavigationService.GoToAsync("//Vaults");
         }
 
         private async Task CreateCloudStorageProvider(CloudStorageProviderEditorViewModel model)

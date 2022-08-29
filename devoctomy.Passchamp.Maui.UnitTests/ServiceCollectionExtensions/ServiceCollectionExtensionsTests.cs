@@ -13,12 +13,13 @@ namespace devoctomy.Passchamp.Maui.UnitTests.ServiceCollectionExtensions
         {
             // Arrange
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddSingleton<ISecureStorage>(Mock.Of<ISecureStorage>());
+            serviceCollection.AddSingleton(Mock.Of<ISecureStorage>());
 
             // Act
             serviceCollection.AddPasschampMauiServices(new PasschampMauiServicesOptions
             {
-                VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions()
+                VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions(),
+                ShellNavigationServiceOptions = new Services.ShellNavigationServiceOptions()
             });
 
             // Assert
