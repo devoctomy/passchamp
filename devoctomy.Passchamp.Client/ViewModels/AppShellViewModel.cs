@@ -51,7 +51,7 @@ public partial class AppShellViewModel : BaseViewModel
         }
 
         var page = Shell.Current.CurrentPage;
-        var appShell = Shell.Current as AppShell;
+        var appShell = Shell.Current as AppShellPage;
         await page.Dispatcher.DispatchAsync(() =>
         {
             foreach (var curItem in _currentPageViewModel.MenuItems)
@@ -70,12 +70,14 @@ public partial class AppShellViewModel : BaseViewModel
         }
 
         var page = Shell.Current.CurrentPage;
-        var appShell = Shell.Current as AppShell;
+        var appShell = Shell.Current as AppShellPage;
         await page.Dispatcher.DispatchAsync(() =>
         {
             foreach (var curItem in _currentPageViewModel.MenuItems)
             {
                 appShell.Items.Add(curItem);
+                var shellItem = curItem.Parent as ShellItem;
+                shellItem.Icon = curItem.IconImageSource;
             }
         });
     }

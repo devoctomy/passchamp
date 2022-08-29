@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Vault;
@@ -64,7 +63,8 @@ namespace devoctomy.Passchamp.Client.ViewModels
             MenuItems.Add(new MenuItem
             {
                 Text = "Settings",
-                Command = SettingsCommand
+                Command = SettingsCommand,
+                IconImageSource = "settings_dark.png"
             });
         }
 

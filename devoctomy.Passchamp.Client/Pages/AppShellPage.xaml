@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <basepages:BaseShell
-    x:Class="devoctomy.Passchamp.Client.AppShell"
+    x:Class="devoctomy.Passchamp.Client.AppShellPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
@@ -11,7 +11,7 @@
     x:DataType="vm:AppShellViewModel"
     x:TypeArguments="vm:AppShellViewModel"
     x:Name="shell">
-    
+
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <Grid HeightRequest="200">
@@ -63,13 +63,14 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Button Text="{Binding Title}"
-                                    ImageSource="dotnet_bot.png"
+                                    ImageSource="{Binding Icon}"
                                     HorizontalOptions="Start"
                                     AnchorX="0"
                                     BackgroundColor="Transparent"
                                     BorderWidth="0"
                                     TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                                    IsEnabled="False"/>
+                                    IsEnabled="False">
+                            </Button>
                         </Grid>
                     </Grid>
                 </DataTemplate>

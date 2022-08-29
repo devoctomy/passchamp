@@ -3,9 +3,9 @@ using devoctomy.Passchamp.Client.ViewModels;
 
 namespace devoctomy.Passchamp.Client
 {
-    public partial class AppShell : BaseShell<AppShellViewModel>
+    public partial class AppShellPage : BaseShell<AppShellViewModel>
     {
-        public AppShell(AppShellViewModel model)
+        public AppShellPage(AppShellViewModel model)
             : base(model)
         {
             InitializeComponent();

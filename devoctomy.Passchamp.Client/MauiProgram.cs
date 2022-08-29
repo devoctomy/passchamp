@@ -53,7 +53,7 @@ namespace devoctomy.Passchamp.Client
 
         static void RegisterPages(IServiceCollection services)
         {
-            services.AddTransient<AppShell>();
+            services.AddTransient<AppShellPage>();
             services.AddTransient<VaultsPage>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<CloudStorageProviderEditorPage>();
