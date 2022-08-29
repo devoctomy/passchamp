@@ -2,6 +2,7 @@
 {
     public interface IShellNavigationService
     {
+        Task GoHomeAsync(bool clearStack);
         Task GoToAsync(ShellNavigationState shellNavigationState);
         Task GoBackAsync();
     }

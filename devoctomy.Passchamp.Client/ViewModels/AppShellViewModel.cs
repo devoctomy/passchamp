@@ -102,7 +102,7 @@ public partial class AppShellViewModel : BaseViewModel
 
     private void HomeCommandhandler()
     {
-        // Go home!
+        _shellNavigationService.GoHomeAsync(true);
     }
 
     private void MenuSelectionChangedCommandHandler(object obj)

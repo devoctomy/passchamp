@@ -12,6 +12,16 @@
             _stateStack = new Stack<ShellNavigationState>();
         }
 
+        public Task GoHomeAsync(bool clearStack)
+        {
+            if(clearStack)
+            {
+                _stateStack.Clear();
+            }
+
+            return GoToAsync(_options.HomeRoute);
+        }
+
         public async Task GoBackAsync()
         {
             _stateStack.Pop();
