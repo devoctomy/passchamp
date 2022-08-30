@@ -33,12 +33,6 @@
         ContentTemplate="{DataTemplate pages:SettingsPage}"
         Route="Settings"
         Shell.FlyoutItemIsVisible="False" />
-    
-    <!--<ShellContent
-        Title="About"
-        ContentTemplate="{DataTemplate pages:AboutPage}"
-        Route="About"
-        Shell.FlyoutItemIsVisible="False"/>-->
 
     <Shell.FlyoutContent>
         <CollectionView x:Name="collectionView"
@@ -77,4 +71,13 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
     </Shell.FlyoutContent>
+
+    <!--<Shell.FlyoutFooterTemplate>
+        <DataTemplate>
+            <VerticalStackLayout>
+                <Button Text="Settings"/>
+                <Button Text="About"/>
+            </VerticalStackLayout>
+        </DataTemplate>
+    </Shell.FlyoutFooterTemplate>-->
 </basepages:BaseShell>
