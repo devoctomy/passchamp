@@ -1,4 +1,6 @@
-﻿namespace devoctomy.Passchamp.Client.ViewModels.Base;
+﻿using System.Collections.ObjectModel;
+
+namespace devoctomy.Passchamp.Client.ViewModels.Base;
 
 public abstract partial class BaseAppShellPageViewModel : BaseViewModel
 {

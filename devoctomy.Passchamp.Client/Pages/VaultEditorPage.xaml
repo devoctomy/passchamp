@@ -3,6 +3,7 @@
              xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+             xmlns:controls="clr-namespace:devoctomy.Passchamp.Client.Controls;assembly=devoctomy.Passchamp.Client"
              x:Class="devoctomy.Passchamp.Client.Pages.VaultEditorPage"
              Title="VaultEditorPage"
              x:DataType="vm:VaultEditorViewModel"

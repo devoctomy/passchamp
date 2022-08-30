@@ -10,7 +10,7 @@
              Title="Vaults">
     <pages:BasePage.Content>
         <VerticalStackLayout>
-            <HorizontalStackLayout>
+            <!--<HorizontalStackLayout>
                 <ImageButton
                     Source="add_new_dark.png"
                     WidthRequest="48"
@@ -26,7 +26,7 @@
                     WidthRequest="48"
                     Command="{Binding RemoveSelectedVaultCommand}">
                 </ImageButton>
-            </HorizontalStackLayout>
+            </HorizontalStackLayout>-->
             <ListView
                 ItemsSource="{Binding Vaults}"
                 SelectedItem="{Binding SelectedVaultIndex, Mode=TwoWay}"
