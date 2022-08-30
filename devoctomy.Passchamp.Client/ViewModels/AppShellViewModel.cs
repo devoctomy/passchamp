@@ -104,12 +104,20 @@ public partial class AppShellViewModel : BaseViewModel
         }
         else
         {
+            // !!! HACK !!!
+            // This is being done as I do not want these menu items
+            // to ever be selected.  I'm sure some special style can be applied
+            // to have the same effect but this is in place for now.
             collectionView.SelectionMode = SelectionMode.None;
         }
     }
 
     private void MenuSelectionPropertyChangedCommandHandler(object obj)
     {
+        // !!! HACK !!!
+        // This is being done as I do not want these menu items
+        // to ever be selected.  I'm sure some special style can be applied
+        // to have the same effect but this is in place for now.
         var collectionView = obj as CollectionView;
         if (collectionView.SelectionMode == SelectionMode.None)
         {
