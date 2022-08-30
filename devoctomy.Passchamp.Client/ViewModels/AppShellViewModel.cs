@@ -76,6 +76,11 @@ public partial class AppShellViewModel : BaseViewModel
             foreach (var curItem in _currentPageViewModel.MenuItems)
             {
                 appShell.Items.Add(curItem);
+
+                // !!! HACK !!!
+                // This has been done due to accessibility issues with IconImageSource not
+                // being accessible from within XAML template, and accessibility issues with
+                // ShellMenuItem.
                 var shellItem = curItem.Parent as ShellItem;
                 shellItem.Icon = curItem.IconImageSource;
             }
