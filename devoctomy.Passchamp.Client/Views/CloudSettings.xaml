@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseviews:BaseView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cloud="clr-namespace:devoctomy.Passchamp.Core.Cloud;assembly=devoctomy.Passchamp.Core"
+             xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
+             xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+             xmlns:baseviews="clr-namespace:devoctomy.Passchamp.Client.Views.Base"
+             x:Class="devoctomy.Passchamp.Client.Views.CloudSettings"
+             x:DataType="vm:SettingsViewModel"
+             x:TypeArguments="vm:SettingsViewModel">
+    <baseviews:BaseView.Resources>
+        <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
+        <converters:NotNullConverter x:Key="NotNullConverter" />
+    </baseviews:BaseView.Resources>
+    <VerticalStackLayout>
+        <Label Text="Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
+        <HorizontalStackLayout>
+            <ImageButton
+                    Source="add_new_dark.png"
+                    WidthRequest="48"
+                    Command="{Binding AddCloudStorageProviderCommand}">
+            </ImageButton>
+            <ImageButton
+                    Source="data_edit_dark.png"
+                    WidthRequest="48"
+                    Command="{Binding EditSelectedCloudStorageProviderCommand}"
+                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
+            </ImageButton>
+            <ImageButton
+                    Source="garbage_closed_dark.png"
+                    WidthRequest="48"
+                    Command="{Binding RemoveSelectedCloudStorageProviderCommand}"
+                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
+            </ImageButton>
+        </HorizontalStackLayout>
+        <ListView
+                ItemsSource="{Binding CloudStorageProviderConfigRefs}"
+                SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}"
+                HasUnevenRows="True">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="cloud:CloudStorageProviderConfigRef">
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Column="0"
+                                Source="amazon_dark.png"
+                                HorizontalOptions="StartAndExpand">
+                            </Image>
+                            <VerticalStackLayout Grid.Column="1" Padding="8">
+                                <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"
+                                       Style="{StaticResource MediumLabelStyle}"/>
+                                <Label Text="{Binding Id}"
+                                       Style="{StaticResource DefaultLabelStyle}"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
+</baseviews:BaseView>

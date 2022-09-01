@@ -15,5 +15,8 @@ public partial class TabViewPage : ObservableObject
 
     [ObservableProperty]
     private Type contentType;
+
+    [ObservableProperty]
+    private object bindingContext;
 }
 

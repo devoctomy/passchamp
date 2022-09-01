@@ -99,9 +99,9 @@ public partial class TabView : ContentView
         var selectedTabPage = TabPageCollection.SelectedItem as TabViewPage;
         if (selectedTabPage != null && selectedTabPage.ContentType != null)
         {
-            // !!! Here we should use the container service provider to create instance of the view
-            // but for the sake of this demo app, this works.
-            var content = (View)Activator.CreateInstance(selectedTabPage.ContentType);
+            // !!! HACK !!! This is a bit of a hack for now just to test. Need to pass binding along without any object access
+            var binding = selectedTabPage.BindingContext as Binding;
+            var content = (View)Activator.CreateInstance(selectedTabPage.ContentType, ((Page)binding.Source).BindingContext);
             TabContent.Content = content;
         }
         else

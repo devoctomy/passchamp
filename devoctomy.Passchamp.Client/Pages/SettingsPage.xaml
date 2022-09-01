@@ -3,67 +3,17 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
                 xmlns:cloud="clr-namespace:devoctomy.Passchamp.Core.Cloud;assembly=devoctomy.Passchamp.Core"
-                xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
                 xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
+                xmlns:controls="clr-namespace:devoctomy.Passchamp.Client.Controls"
+                xmlns:views="clr-namespace:devoctomy.Passchamp.Client.Views"
                 x:Class="devoctomy.Passchamp.Client.Pages.SettingsPage"
                 x:DataType="vm:SettingsViewModel"
                 x:TypeArguments="vm:SettingsViewModel"
-                Title="Settings">
-    <basepages:BasePage.Resources>
-        <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
-        <converters:NotNullConverter x:Key="NotNullConverter" />
-    </basepages:BasePage.Resources>
-    <VerticalStackLayout>
-        <Label Text="Cloud Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
-        <HorizontalStackLayout>
-            <ImageButton
-                    Source="add_new_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding AddCloudStorageProviderCommand}">
-            </ImageButton>
-            <ImageButton
-                    Source="data_edit_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding EditSelectedCloudStorageProviderCommand}"
-                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
-            </ImageButton>
-            <ImageButton
-                    Source="garbage_closed_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding RemoveSelectedCloudStorageProviderCommand}"
-                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
-            </ImageButton>
-        </HorizontalStackLayout>
-        <ListView
-                ItemsSource="{Binding CloudStorageProviderConfigRefs}"
-                SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}"
-                HasUnevenRows="True">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="cloud:CloudStorageProviderConfigRef">
-                    <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Image
-                                Grid.Column="0"
-                                Source="amazon_dark.png"
-                                HorizontalOptions="StartAndExpand">
-                            </Image>
-                            <VerticalStackLayout Grid.Column="1" Padding="8">
-                                <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"
-                                       Style="{StaticResource MediumLabelStyle}"/>
-                                <Label Text="{Binding Id}"
-                                       Style="{StaticResource DefaultLabelStyle}"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+                Title="Settings"
+                x:Name="Root">
+    <controls:TabView>
+        <controls:TabView.TabPages>
+            <controls:TabViewPage Title="Cloud" ContentType="{x:Type views:CloudSettings}" BindingContext="{Binding BindingContext, Source={x:Reference Root}}" />
+        </controls:TabView.TabPages>
+    </controls:TabView>
 </basepages:BasePage>
