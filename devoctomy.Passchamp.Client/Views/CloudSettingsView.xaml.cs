@@ -3,9 +3,9 @@ using devoctomy.Passchamp.Client.Views.Base;
 
 namespace devoctomy.Passchamp.Client.Views;
 
-public partial class CloudSettings : BaseView<SettingsViewModel>
+public partial class CloudSettingsView : BaseView<CloudSettingsViewModel>
 {
-	public CloudSettings(SettingsViewModel viewModel)
+	public CloudSettingsView(CloudSettingsViewModel viewModel)
 		: base(viewModel)
 	{
 		InitializeComponent();

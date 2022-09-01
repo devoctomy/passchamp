@@ -100,8 +100,17 @@ public partial class TabView : ContentView
         if (selectedTabPage != null && selectedTabPage.ContentType != null)
         {
             // !!! HACK !!! This is a bit of a hack for now just to test. Need to pass binding along without any object access
-            var binding = selectedTabPage.BindingContext as Binding;
-            var content = (View)Activator.CreateInstance(selectedTabPage.ContentType, ((Page)binding.Source).BindingContext);
+            // this is currently being done like this due to [ObservaleProperty] attribute not being compatible with BindableObject
+            // and i'm not entirely sure how to make them work.
+            var page = Parent;
+            while(page.GetType().IsAssignableFrom(typeof(Page)))
+            {
+                page = page.Parent;
+            }
+            var context = page.BindingContext;
+            var propInfo = context.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).ToList().SingleOrDefault(x => x.Name == selectedTabPage.ViewModelPropertyName);
+            var viewModel = propInfo.GetValue(context);
+            var content = (View)Activator.CreateInstance(selectedTabPage.ContentType, viewModel);
             TabContent.Content = content;
         }
         else

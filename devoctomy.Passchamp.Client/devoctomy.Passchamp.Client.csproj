@@ -70,6 +70,9 @@
 	  <Compile Update="Pages\VaultsPage.xaml.cs">
 	    <DependentUpon>VaultsPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\CloudSettingsView.xaml.cs">
+	    <DependentUpon>CloudSettingsView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -91,7 +94,7 @@
 	  <MauiXaml Update="Pages\VaultsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CloudSettings.xaml">
+	  <MauiXaml Update="Views\CloudSettingsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

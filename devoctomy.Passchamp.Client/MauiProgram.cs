@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels;
+using devoctomy.Passchamp.Client.Views;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Maui.Extensions;
@@ -56,6 +57,7 @@ namespace devoctomy.Passchamp.Client
             services.AddTransient<AppShellPage>();
             services.AddTransient<VaultsPage>();
             services.AddTransient<SettingsPage>();
+            services.AddTransient<CloudSettingsView>();
             services.AddTransient<CloudStorageProviderEditorPage>();
             services.AddTransient<VaultEditorPage>();
         }
@@ -65,6 +67,7 @@ namespace devoctomy.Passchamp.Client
             services.AddTransient<AppShellViewModel>();
             services.AddTransient<VaultsViewModel>();
             services.AddTransient<SettingsViewModel>();
+            services.AddTransient<CloudSettingsViewModel>();
             services.AddTransient<CloudStorageProviderEditorViewModel>();
             services.AddTransient<VaultEditorViewModel>();
         }

@@ -13,7 +13,10 @@
                 x:Name="Root">
     <controls:TabView>
         <controls:TabView.TabPages>
-            <controls:TabViewPage Title="Cloud" ContentType="{x:Type views:CloudSettings}" BindingContext="{Binding BindingContext, Source={x:Reference Root}}" />
+            <controls:TabViewPage
+                Title="Cloud"
+                ContentType="{x:Type views:CloudSettingsView}"
+                ViewModelPropertyName="CloudSettings" />
         </controls:TabView.TabPages>
     </controls:TabView>
 </basepages:BasePage>

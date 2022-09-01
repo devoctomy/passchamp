@@ -5,9 +5,9 @@
              xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
              xmlns:baseviews="clr-namespace:devoctomy.Passchamp.Client.Views.Base"
-             x:Class="devoctomy.Passchamp.Client.Views.CloudSettings"
-             x:DataType="vm:SettingsViewModel"
-             x:TypeArguments="vm:SettingsViewModel">
+             x:Class="devoctomy.Passchamp.Client.Views.CloudSettingsView"
+             x:DataType="vm:CloudSettingsViewModel"
+             x:TypeArguments="vm:CloudSettingsViewModel">
     <baseviews:BaseView.Resources>
         <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
         <converters:NotNullConverter x:Key="NotNullConverter" />
