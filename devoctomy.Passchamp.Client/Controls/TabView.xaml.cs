@@ -1,5 +1,4 @@
 using devoctomy.Passchamp.Client.ViewModels.Base;
-using System.Diagnostics;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.Controls;
@@ -163,14 +162,15 @@ public partial class TabView : ContentView
         {
             TabContent.Content = null;
         }
+        var args = new SelectedTabViewPageChangedEventArgs
+        {
+            SelectedTabViewPage = selectedTabPage,
+            ViewModel = viewModel
+        };
         SelectedTabViewPageChanged?.Invoke(
             this,
-            new SelectedTabViewPageChangedEventArgs
-            {
-                SelectedTabViewPage = selectedTabPage,
-                ViewModel = viewModel
-            });
-        SelectedTabChangedCommand?.Execute(selectedTabPage);
+            args);
+        SelectedTabChangedCommand?.Execute(args);
     }
 
     private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)

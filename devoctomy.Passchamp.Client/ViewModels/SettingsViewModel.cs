@@ -12,7 +12,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         public ICommand AcceptCommand { get; }
         public ICommand CancelCommand { get; }
-        public ICommand TabChanged { get; }
+        public ICommand TabChangedCommand { get; }
 
 
         private readonly IShellNavigationService _shellNavigationService;
@@ -27,7 +27,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
             AcceptCommand = new Command(AcceptCommandHandler);
             CancelCommand = new Command(CancelCommandHandler);
-            TabChanged = new Command(TabChangedHandler);
+            TabChangedCommand = new Command(TabChangedCommandHandler);
             _shellNavigationService = shellNavigationService;
             SetupMenuItems();
         }
@@ -76,7 +76,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
             _shellNavigationService.GoToAsync("//Vaults");
         }
 
-        private void TabChangedHandler(object param)
+        private void TabChangedCommandHandler(object param)
         {
         }
     }

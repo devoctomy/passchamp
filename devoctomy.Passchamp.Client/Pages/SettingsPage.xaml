@@ -12,7 +12,7 @@
                 Title="Settings"
                 x:Name="Root"
                 Padding="0">
-    <controls:TabView SelectedTabChangedCommand="{Binding TabChanged}">
+    <controls:TabView SelectedTabChangedCommand="{Binding TabChangedCommand}">
         <controls:TabView.TabPages>
             <controls:TabViewPage
                 Title="Cloud"
