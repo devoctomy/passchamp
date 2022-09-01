@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
+             xmlns:local="clr-namespace:devoctomy.Passchamp.Client.Controls"
+             x:Class="devoctomy.Passchamp.Client.Controls.TabView"
+             x:DataType="local:TabView"
+             x:Name="Root">
+    <ContentView.Resources>
+        <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
+        <converters:BoolToColourConverter x:Key="BoolToColourConverter" />
+    </ContentView.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding TabHeight, Source={x:Reference Root}, Converter={StaticResource DoubleToGridLengthConverter}, ConverterParameter=Absolute}"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollView
+            Orientation="Horizontal"
+            HorizontalScrollBarVisibility="Default">
+            <HorizontalStackLayout x:Name="pop">
+                <CollectionView
+                    x:Name="TabPageCollection"
+                    ItemsSource="{Binding TabPages, Source={x:Reference Root}}"
+                    ItemsUpdatingScrollMode="KeepScrollOffset"
+                    SelectionMode="Single"
+                    SelectionChanged="CollectionView_SelectionChanged">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout
+                            Orientation="Horizontal"
+                            ItemSpacing="0" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="local:TabViewPage">
+                            <Grid HeightRequest="{Binding TabHeight, Source={x:Reference Root}}"
+                                  WidthRequest="100">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="8"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label
+                                    Text="{Binding Title}"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"/>
+                                <Rectangle
+                                    x:Name="TabAccent"
+                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColourConverter}, ConverterParameter='Blue,Red'}"
+                                    Grid.Row="1">
+                                </Rectangle>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </HorizontalStackLayout>
+        </ScrollView>
+        <ScrollView Grid.Row="2">
+            <ContentView x:Name="TabContent">
+            </ContentView>
+        </ScrollView>
+    </Grid>
+</ContentView>
