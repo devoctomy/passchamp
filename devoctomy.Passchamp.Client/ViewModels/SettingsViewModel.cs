@@ -40,9 +40,6 @@ namespace devoctomy.Passchamp.Client.ViewModels
                 if (!_loaded)
                 {
                     await cloudSettings.Init();
-
-                    //!!! Need to select first tab either here on in TabView
-
                     _loaded = true;
                 }
 

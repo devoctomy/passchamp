@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.Controls;
@@ -174,5 +175,16 @@ public partial class TabView : ContentView
         }
 
         UpdateContentView();
+    }
+
+    private void TabPageCollection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        // !!! HACK !!! This gets the initial selected tab working in Windows.  For some reason
+        // this works fine in Android but not in Windows so we have to do this hack.
+        if (e.PropertyName == nameof(TabPageCollection.SelectedItem)
+            && TabPageCollection.SelectedItem == null)
+        {
+            SelectSingleIsSelectedPage();
+        }
     }
 }

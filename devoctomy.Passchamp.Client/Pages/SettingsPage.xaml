@@ -10,7 +10,8 @@
                 x:DataType="vm:SettingsViewModel"
                 x:TypeArguments="vm:SettingsViewModel"
                 Title="Settings"
-                x:Name="Root">
+                x:Name="Root"
+                Padding="0">
     <controls:TabView SelectedTabChangedCommand="{Binding TabChanged}">
         <controls:TabView.TabPages>
             <controls:TabViewPage
@@ -18,6 +19,10 @@
                 ContentType="{x:Type views:CloudSettingsView}"
                 ViewModelPropertyName="CloudSettings"
                 IsSelected="True"/>
+            <controls:TabViewPage
+                Title="Test"
+                ContentType="{x:Type views:CloudSettingsView}"
+                ViewModelPropertyName="CloudSettings"/>            
         </controls:TabView.TabPages>
     </controls:TabView>
 </basepages:BasePage>
