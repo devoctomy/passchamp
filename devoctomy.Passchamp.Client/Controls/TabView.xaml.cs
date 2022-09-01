@@ -1,3 +1,4 @@
+using devoctomy.Passchamp.Client.ViewModels.Base;
 using System.Diagnostics;
 using System.Windows.Input;
 
@@ -128,22 +129,33 @@ public partial class TabView : ContentView
         TabPageCollection.SelectedItem = tabViewPage;
     }
 
+    public BaseViewModel GetTabViewPageViewModel(TabViewPage tabViewPage)
+    {
+        if(tabViewPage == null)
+        {
+            return null;
+        }
+
+        var page = Parent;
+        while (page.GetType().IsAssignableFrom(typeof(Page)))
+        {
+            page = page.Parent;
+        }
+        var context = page.BindingContext;
+        var propInfo = context.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).ToList().SingleOrDefault(x => x.Name == tabViewPage.ViewModelPropertyName);
+        var viewModel = propInfo.GetValue(context) as BaseViewModel;
+        return viewModel;
+    }
+
     private void UpdateContentView()
     {
         var selectedTabPage = TabPageCollection.SelectedItem as TabViewPage;
+        var viewModel = GetTabViewPageViewModel(selectedTabPage);
         if (selectedTabPage != null && selectedTabPage.ContentType != null)
         {
             // !!! HACK !!! This is a bit of a hack for now just to test. Need to pass binding along without any object access
             // this is currently being done like this due to [ObservaleProperty] attribute not being compatible with BindableObject
-            // and i'm not entirely sure how to make them work.
-            var page = Parent;
-            while(page.GetType().IsAssignableFrom(typeof(Page)))
-            {
-                page = page.Parent;
-            }
-            var context = page.BindingContext;
-            var propInfo = context.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).ToList().SingleOrDefault(x => x.Name == selectedTabPage.ViewModelPropertyName);
-            var viewModel = propInfo.GetValue(context);
+            // and i'm not entirely sure how to make them work.           
             var content = (View)Activator.CreateInstance(selectedTabPage.ContentType, viewModel);
             TabContent.Content = content;
         }
@@ -155,7 +167,8 @@ public partial class TabView : ContentView
             this,
             new SelectedTabViewPageChangedEventArgs
             {
-                SelectedTabViewPage = selectedTabPage
+                SelectedTabViewPage = selectedTabPage,
+                ViewModel = viewModel
             });
         SelectedTabChangedCommand?.Execute(selectedTabPage);
     }
