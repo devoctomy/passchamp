@@ -30,6 +30,12 @@ public partial class TabView : ContentView
         typeof(TabView),
         Colors.Blue);
 
+    public static BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
+        nameof(TabPages),
+        typeof(ICommand),
+        typeof(TabView),
+        null);
+
     public double TabHeight
     {
         get
@@ -78,12 +84,29 @@ public partial class TabView : ContentView
         }
     }
 
+    public ICommand SelectedTabChangedCommand
+    {
+        get
+        {
+            return (ICommand)GetValue(SelectedTabChangedCommandProperty);
+        }
+        set
+        {
+            SetValue(SelectedTabChangedCommandProperty, value);
+        }
+    }
+
     public ICommand SelectionChangedCommand { get; }
 
     public TabView()
 	{
         InitializeComponent();
-	}
+    }
+
+    protected override void OnApplyTemplate()
+    {
+        base.OnApplyTemplate();
+    }
 
     public void SelectPage(TabViewPage tabViewPage)
     {
@@ -123,6 +146,7 @@ public partial class TabView : ContentView
             {
                 SelectedTabViewPage = selectedTabPage
             });
+        SelectedTabChangedCommand?.Execute(selectedTabPage);
     }
 
     private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)

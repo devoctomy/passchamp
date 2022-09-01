@@ -12,6 +12,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
         public ICommand AcceptCommand { get; }
         public ICommand CancelCommand { get; }
+        public ICommand TabChanged { get; }
 
 
         private readonly IShellNavigationService _shellNavigationService;
@@ -26,6 +27,7 @@ namespace devoctomy.Passchamp.Client.ViewModels
 
             AcceptCommand = new Command(AcceptCommandHandler);
             CancelCommand = new Command(CancelCommandHandler);
+            TabChanged = new Command(TabChangedHandler);
             _shellNavigationService = shellNavigationService;
             SetupMenuItems();
         }
@@ -38,6 +40,9 @@ namespace devoctomy.Passchamp.Client.ViewModels
                 if (!_loaded)
                 {
                     await cloudSettings.Init();
+
+                    //!!! Need to select first tab either here on in TabView
+
                     _loaded = true;
                 }
 
@@ -72,6 +77,10 @@ namespace devoctomy.Passchamp.Client.ViewModels
         private void AcceptCommandHandler(object param)
         {
             _shellNavigationService.GoToAsync("//Vaults");
+        }
+
+        private void TabChangedHandler(object param)
+        {
         }
     }
 }
