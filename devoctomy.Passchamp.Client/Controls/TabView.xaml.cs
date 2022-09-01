@@ -103,9 +103,19 @@ public partial class TabView : ContentView
         InitializeComponent();
     }
 
-    protected override void OnApplyTemplate()
+    protected override void OnParentChanged()
     {
-        base.OnApplyTemplate();
+        base.OnParentChanged();
+        SelectSingleIsSelectedPage();    // This immediately gets set back to null
+    }
+
+    public void SelectSingleIsSelectedPage()
+    {
+        var selected = TabPages.SingleOrDefault(x => x.IsSelected);
+        if (selected != null)
+        {
+            SelectPage(selected);
+        }
     }
 
     public void SelectPage(TabViewPage tabViewPage)
