@@ -5,38 +5,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Graph.Text
+namespace devoctomy.Passchamp.Core.UnitTests.Graph.Text;
+
+public class Utf8DecoderNodeTests
 {
-    public class Utf8DecoderNodeTests
+    [Fact]
+    public async Task GivenEncodedBytes_WhenExecute_ThenPlainTextCorrect_AndNextExecuted()
     {
-        [Fact]
-        public async Task GivenEncodedBytes_WhenExecute_ThenPlainTextCorrect_AndNextExecuted()
+        // Arrange
+        const string expectedPlainText = "Hello";
+        var sut = new Utf8DecoderNode
         {
-            // Arrange
-            const string expectedPlainText = "Hello";
-            var sut = new Utf8DecoderNode
-            {
-                EncodedBytes = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
-                    "EncodedBytes",
-                    new byte[] { 72, 101, 108, 108, 111 }),
-                NextKey = "hello"
-            };
-            var mockGraph = new Mock<IGraph>();
-            var mockNextNode = new Mock<INode>();
-            mockGraph.Setup(x => x.GetNode<INode>(
-                It.Is<string>(x => x == sut.NextKey)))
-                .Returns(mockNextNode.Object);
-            var cancellationTokenSource = new CancellationTokenSource();
-            sut.AttachGraph(mockGraph.Object);
+            EncodedBytes = (IDataPin<byte[]>)DataPinFactory.Instance.Create(
+                "EncodedBytes",
+                new byte[] { 72, 101, 108, 108, 111 }),
+            NextKey = "hello"
+        };
+        var mockGraph = new Mock<IGraph>();
+        var mockNextNode = new Mock<INode>();
+        mockGraph.Setup(x => x.GetNode<INode>(
+            It.Is<string>(x => x == sut.NextKey)))
+            .Returns(mockNextNode.Object);
+        var cancellationTokenSource = new CancellationTokenSource();
+        sut.AttachGraph(mockGraph.Object);
 
-            // Act
-            await sut.ExecuteAsync(cancellationTokenSource.Token);
+        // Act
+        await sut.ExecuteAsync(cancellationTokenSource.Token);
 
-            // Assert
-            Assert.Equal(expectedPlainText, sut.PlainText.Value);
-            mockGraph.Verify(x => x.GetNode<INode>(
-                It.Is<string>(x => x == sut.NextKey)), Times.Once);
-            mockNextNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
-        }
+        // Assert
+        Assert.Equal(expectedPlainText, sut.PlainText.Value);
+        mockGraph.Verify(x => x.GetNode<INode>(
+            It.Is<string>(x => x == sut.NextKey)), Times.Once);
+        mockNextNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
     }
 }

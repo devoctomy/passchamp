@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Security;
 
-namespace devoctomy.Passchamp.Core.Cryptography
+namespace devoctomy.Passchamp.Core.Cryptography;
+
+public interface ISecureStringUnpacker
 {
-    public interface ISecureStringUnpacker
-    {
-        void Unpack(SecureString value, Action<byte[]> callback);
-    }
+    void Unpack(SecureString value, Action<byte[]> callback);
 }

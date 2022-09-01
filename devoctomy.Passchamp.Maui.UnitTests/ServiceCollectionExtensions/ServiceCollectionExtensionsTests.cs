@@ -4,27 +4,26 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.Storage;
 using Moq;
 
-namespace devoctomy.Passchamp.Maui.UnitTests.ServiceCollectionExtensions
+namespace devoctomy.Passchamp.Maui.UnitTests.ServiceCollectionExtensions;
+
+public class ServiceCollectionExtensionsTests
 {
-    public class ServiceCollectionExtensionsTests
+    [Fact]
+    public void GivenServiceCollection_WhenAddPasschampMauiServices_ThenServicesAdded()
     {
-        [Fact]
-        public void GivenServiceCollection_WhenAddPasschampMauiServices_ThenServicesAdded()
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddSingleton(Mock.Of<ISecureStorage>());
+
+        // Act
+        serviceCollection.AddPasschampMauiServices(new PasschampMauiServicesOptions
         {
-            // Arrange
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddSingleton(Mock.Of<ISecureStorage>());
+            VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions(),
+            ShellNavigationServiceOptions = new Services.ShellNavigationServiceOptions()
+        });
 
-            // Act
-            serviceCollection.AddPasschampMauiServices(new PasschampMauiServicesOptions
-            {
-                VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions(),
-                ShellNavigationServiceOptions = new Services.ShellNavigationServiceOptions()
-            });
-
-            // Assert
-            var provider = serviceCollection.BuildServiceProvider();
-            Assert.NotNull(provider.GetService<ISecureSettingStorageService>());
-        }
+        // Assert
+        var provider = serviceCollection.BuildServiceProvider();
+        Assert.NotNull(provider.GetService<ISecureSettingStorageService>());
     }
 }

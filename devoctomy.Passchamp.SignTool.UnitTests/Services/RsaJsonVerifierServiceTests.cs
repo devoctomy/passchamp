@@ -4,146 +4,145 @@ using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace devoctomy.Passchamp.SignTool.UnitTests.Services
+namespace devoctomy.Passchamp.SignTool.UnitTests.Services;
+
+public class RsaJsonVerifierServiceTests
 {
-    public class RsaJsonVerifierServiceTests
+    [Fact]
+    public async Task GivenPath_AndValidJson_WhenIsApplicable_ThenTrueReturned()
     {
-        [Fact]
-        public async Task GivenPath_AndValidJson_WhenIsApplicable_ThenTrueReturned()
+        // Arrange
+        var sut = new RsaJsonVerifierService();
+
+        // Act
+        var result = await sut.IsApplicable("Data/ValidSignedJson.json");
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public async Task GivenPath_AndInvalidAlgorithm_WhenIsApplicable_ThenFalseReturned()
+    {
+        // Arrange
+        var sut = new RsaJsonVerifierService();
+
+        // Act
+        var result = await sut.IsApplicable("Data/InvalidAlgorithmSignedJson.json");
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task GivenPath_AndMissingSignature_WhenIsApplicable_ThenFalseReturned()
+    {
+        // Arrange
+        var sut = new RsaJsonVerifierService();
+
+        // Act
+        var result = await sut.IsApplicable("Data/MissingSignatureSignedJson.json");
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task GivenPath_AndUnsignedJson_WhenIsApplicable_ThenFalseReturned()
+    {
+        // Arrange
+        var sut = new RsaJsonVerifierService();
+
+        // Act
+        var result = await sut.IsApplicable("Data/UnsignedJson.json");
+
+        // Assert
+        Assert.False(result);
+    }
+
+    [Fact]
+    public async Task GivenPath_AndValidSignature_AndPublicKey_WhenVerify_ThenTrueReturned()
+    {
+        // Arrange
+        var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
+        var sut = new RsaJsonVerifierService();
+
+        // Act
+        var result = await sut.Verify(
+            "Data/ValidSignedJson.json",
+            publicKeyText);
+
+        // Assert
+        Assert.True(result);
+    }
+
+    [Fact]
+    public async Task GivenAndVerifyOptions_AndValidSignature_WhenVerify_ThenSuccessReturned()
+    {
+        // Arrange
+        var sut = new RsaJsonVerifierService();
+
+        var verifyOptions = new VerifyOptions
         {
-            // Arrange
-            var sut = new RsaJsonVerifierService();
+            KeyFile = "Data/PublicKey.json",
+            Input = "Data/ValidSignedJson.json"
+        };
 
-            // Act
-            var result = await sut.IsApplicable("Data/ValidSignedJson.json");
+        // Act
+        var result = await sut.Verify(verifyOptions);
 
-            // Assert
-            Assert.True(result);
-        }
+        // Assert
+        Assert.Equal((int)ErrorCodes.Success, result);
+    }
 
-        [Fact]
-        public async Task GivenPath_AndInvalidAlgorithm_WhenIsApplicable_ThenFalseReturned()
+    [Fact]
+    public async Task GivenAndVerifyOptions_AndTampered_WhenVerify_ThenVerificationFailedReturned()
+    {
+        // Arrange
+        var sut = new RsaJsonVerifierService();
+
+        var verifyOptions = new VerifyOptions
         {
-            // Arrange
-            var sut = new RsaJsonVerifierService();
+            KeyFile = "Data/PublicKey.json",
+            Input = "Data/TamperedSignedJson.json"
+        };
 
-            // Act
-            var result = await sut.IsApplicable("Data/InvalidAlgorithmSignedJson.json");
+        // Act
+        var result = await sut.Verify(verifyOptions);
 
-            // Assert
-            Assert.False(result);
-        }
+        // Assert
+        Assert.Equal((int)ErrorCodes.VerificationFailed, result);
+    }
 
-        [Fact]
-        public async Task GivenPath_AndMissingSignature_WhenIsApplicable_ThenFalseReturned()
-        {
-            // Arrange
-            var sut = new RsaJsonVerifierService();
+    [Fact]
+    public async Task GivenPath_AndTampered_AndPublicKey_WhenVerify_ThenFalseReturned()
+    {
+        // Arrange
+        var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
+        var sut = new RsaJsonVerifierService();
 
-            // Act
-            var result = await sut.IsApplicable("Data/MissingSignatureSignedJson.json");
-
-            // Assert
-            Assert.False(result);
-        }
-
-        [Fact]
-        public async Task GivenPath_AndUnsignedJson_WhenIsApplicable_ThenFalseReturned()
-        {
-            // Arrange
-            var sut = new RsaJsonVerifierService();
-
-            // Act
-            var result = await sut.IsApplicable("Data/UnsignedJson.json");
-
-            // Assert
-            Assert.False(result);
-        }
-
-        [Fact]
-        public async Task GivenPath_AndValidSignature_AndPublicKey_WhenVerify_ThenTrueReturned()
-        {
-            // Arrange
-            var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
-            var sut = new RsaJsonVerifierService();
-
-            // Act
-            var result = await sut.Verify(
-                "Data/ValidSignedJson.json",
+        // Act
+        var result = await sut.Verify(
+                "Data/TamperedSignedJson.json",
                 publicKeyText);
 
-            // Assert
-            Assert.True(result);
-        }
+        // Assert
+        Assert.False(result);
+    }
 
-        [Fact]
-        public async Task GivenAndVerifyOptions_AndValidSignature_WhenVerify_ThenSuccessReturned()
-        {
-            // Arrange
-            var sut = new RsaJsonVerifierService();
+    [Fact]
+    public async Task GivenPath_AndInvalidSignature_AndPublicKey_WhenVerify_ThenFalseReturned()
+    {
+        // Arrange
+        var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json").ConfigureAwait(false);
+        var sut = new RsaJsonVerifierService();
 
-            var verifyOptions = new VerifyOptions
-            {
-                KeyFile = "Data/PublicKey.json",
-                Input = "Data/ValidSignedJson.json"
-            };
+        // Act
+        var result = await sut.Verify(
+                "Data/InvalidSignatureSignedJson.json",
+                publicKeyText);
 
-            // Act
-            var result = await sut.Verify(verifyOptions);
-
-            // Assert
-            Assert.Equal((int)ErrorCodes.Success, result);
-        }
-
-        [Fact]
-        public async Task GivenAndVerifyOptions_AndTampered_WhenVerify_ThenVerificationFailedReturned()
-        {
-            // Arrange
-            var sut = new RsaJsonVerifierService();
-
-            var verifyOptions = new VerifyOptions
-            {
-                KeyFile = "Data/PublicKey.json",
-                Input = "Data/TamperedSignedJson.json"
-            };
-
-            // Act
-            var result = await sut.Verify(verifyOptions);
-
-            // Assert
-            Assert.Equal((int)ErrorCodes.VerificationFailed, result);
-        }
-
-        [Fact]
-        public async Task GivenPath_AndTampered_AndPublicKey_WhenVerify_ThenFalseReturned()
-        {
-            // Arrange
-            var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
-            var sut = new RsaJsonVerifierService();
-
-            // Act
-            var result = await sut.Verify(
-                    "Data/TamperedSignedJson.json",
-                    publicKeyText);
-
-            // Assert
-            Assert.False(result);
-        }
-
-        [Fact]
-        public async Task GivenPath_AndInvalidSignature_AndPublicKey_WhenVerify_ThenFalseReturned()
-        {
-            // Arrange
-            var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json").ConfigureAwait(false);
-            var sut = new RsaJsonVerifierService();
-
-            // Act
-            var result = await sut.Verify(
-                    "Data/InvalidSignatureSignedJson.json",
-                    publicKeyText);
-
-            // Assert
-            Assert.False(result);
-        }
+        // Assert
+        Assert.False(result);
     }
 }

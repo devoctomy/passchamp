@@ -1,48 +1,47 @@
 ﻿using devoctomy.Passchamp.Client.ViewModels.Base;
 using System.Diagnostics;
 
-namespace devoctomy.Passchamp.Client.Pages.Base
-{
-    public abstract class BasePage<TViewModel> : BasePage where TViewModel : BaseViewModel
-    {
-        public BasePage(TViewModel viewModel) : base(viewModel)
-        {
-        }
+namespace devoctomy.Passchamp.Client.Pages.Base;
 
-        public new TViewModel BindingContext => (TViewModel)base.BindingContext;
+public abstract class BasePage<TViewModel> : BasePage where TViewModel : BaseViewModel
+{
+    public BasePage(TViewModel viewModel) : base(viewModel)
+    {
     }
 
-    public abstract class BasePage : ContentPage
+    public new TViewModel BindingContext => (TViewModel)base.BindingContext;
+}
+
+public abstract class BasePage : ContentPage
+{
+    private readonly BaseViewModel _viewModel;
+
+    public BasePage(object viewModel = null)
     {
-        private readonly BaseViewModel _viewModel;
+        _viewModel = viewModel as BaseViewModel;
+        BindingContext = viewModel;
+        Padding = 12;
 
-        public BasePage(object viewModel = null)
+        SetDynamicResource(BackgroundColorProperty, "AppBackgroundColor");
+
+        if (string.IsNullOrWhiteSpace(Title))
         {
-            _viewModel = viewModel as BaseViewModel;
-            BindingContext = viewModel;
-            Padding = 12;
-
-            SetDynamicResource(BackgroundColorProperty, "AppBackgroundColor");
-
-            if (string.IsNullOrWhiteSpace(Title))
-            {
-                Title = GetType().Name;
-            }
+            Title = GetType().Name;
         }
+    }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            Debug.WriteLine($"OnAppearing: {Title}");
-            
-            Task.Run(_viewModel.OnAppearingAsync);
-        }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Debug.WriteLine($"OnAppearing: {Title}");
+        
+        Task.Run(_viewModel.OnAppearingAsync);
+    }
 
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
 
-            Debug.WriteLine($"OnDisappearing: {Title}");
-        }
+        Debug.WriteLine($"OnDisappearing: {Title}");
     }
 }

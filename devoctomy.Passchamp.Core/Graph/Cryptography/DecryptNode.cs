@@ -4,78 +4,77 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Cryptography
+namespace devoctomy.Passchamp.Core.Graph.Cryptography;
+
+public class DecryptNode : NodeBase
 {
-    public class DecryptNode : NodeBase
+    private const string AesAlgorithmName = "AesManaged";
+
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Cipher
     {
-        private const string AesAlgorithmName = "AesManaged";
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Cipher
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("Cipher");
-            }
-            set
-            {
-                Input["Cipher"] = value;
-            }
+            return GetInput<byte[]>("Cipher");
         }
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Iv
+        set
         {
-            get
-            {
-                return GetInput<byte[]>("Iv");
-            }
-            set
-            {
-                Input["Iv"] = value;
-            }
+            Input["Cipher"] = value;
         }
+    }
 
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Key
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Iv
+    {
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("Key");
-            }
-            set
-            {
-                Input["Key"] = value;
-            }
+            return GetInput<byte[]>("Iv");
         }
-
-        [NodeOutputPin(ValueType = typeof(byte[]))]
-        public IDataPin<byte[]> DecryptedBytes
+        set
         {
-            get
-            {
-                return GetOutput<byte[]>("DecryptedBytes");
-            }
+            Input["Iv"] = value;
         }
+    }
 
-        protected override async Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Key
+    {
+        get
         {
-            using var crypto = Aes.Create(AesAlgorithmName);
-            using var decryptStream = crypto.CreateDecryptor(
-                    Key.Value,
-                    Iv.Value);
-            using var cryptoStream = new CryptoStream(
-                new MemoryStream(Cipher.Value),
-                decryptStream,
-                CryptoStreamMode.Read);
-            using var output = new MemoryStream();
-            await cryptoStream.CopyToAsync(
-                output,
-                cancellationToken).ConfigureAwait(false);
-
-            DecryptedBytes.Value = output.ToArray();
+            return GetInput<byte[]>("Key");
         }
+        set
+        {
+            Input["Key"] = value;
+        }
+    }
+
+    [NodeOutputPin(ValueType = typeof(byte[]))]
+    public IDataPin<byte[]> DecryptedBytes
+    {
+        get
+        {
+            return GetOutput<byte[]>("DecryptedBytes");
+        }
+    }
+
+    protected override async Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        using var crypto = Aes.Create(AesAlgorithmName);
+        using var decryptStream = crypto.CreateDecryptor(
+                Key.Value,
+                Iv.Value);
+        using var cryptoStream = new CryptoStream(
+            new MemoryStream(Cipher.Value),
+            decryptStream,
+            CryptoStreamMode.Read);
+        using var output = new MemoryStream();
+        await cryptoStream.CopyToAsync(
+            output,
+            cancellationToken).ConfigureAwait(false);
+
+        DecryptedBytes.Value = output.ToArray();
     }
 }

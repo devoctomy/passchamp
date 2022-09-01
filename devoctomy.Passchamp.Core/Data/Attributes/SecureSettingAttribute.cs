@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.Core.Data.Attributes
+namespace devoctomy.Passchamp.Core.Data.Attributes;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class SecureSettingAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class SecureSettingAttribute : Attribute
-    {
-        public string Group { get; set; }
-        public string Category { get; set; }
-    }
+    public string Group { get; set; }
+    public string Category { get; set; }
 }

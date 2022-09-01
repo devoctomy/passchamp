@@ -3,81 +3,80 @@ using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Maui.Services;
 using System.Windows.Input;
 
-namespace devoctomy.Passchamp.Client.ViewModels
+namespace devoctomy.Passchamp.Client.ViewModels;
+
+public partial class SettingsViewModel : BaseAppShellPageViewModel
 {
-    public partial class SettingsViewModel : BaseAppShellPageViewModel
+    [ObservableProperty]
+    public CloudSettingsViewModel cloudSettings;
+
+    public ICommand AcceptCommand { get; }
+    public ICommand CancelCommand { get; }
+    public ICommand TabChangedCommand { get; }
+
+
+    private readonly IShellNavigationService _shellNavigationService;
+    private readonly static SemaphoreSlim _loaderLock = new(1, 1);
+    private bool _loaded = false;
+
+    public SettingsViewModel(
+        CloudSettingsViewModel cloudSettingsViewModel,
+        IShellNavigationService shellNavigationService)
     {
-        [ObservableProperty]
-        public CloudSettingsViewModel cloudSettings;
+        CloudSettings = cloudSettingsViewModel;
 
-        public ICommand AcceptCommand { get; }
-        public ICommand CancelCommand { get; }
-        public ICommand TabChangedCommand { get; }
+        AcceptCommand = new Command(AcceptCommandHandler);
+        CancelCommand = new Command(CancelCommandHandler);
+        TabChangedCommand = new Command(TabChangedCommandHandler);
+        _shellNavigationService = shellNavigationService;
+        SetupMenuItems();
+    }
 
-
-        private readonly IShellNavigationService _shellNavigationService;
-        private readonly static SemaphoreSlim _loaderLock = new(1, 1);
-        private bool _loaded = false;
-
-        public SettingsViewModel(
-            CloudSettingsViewModel cloudSettingsViewModel,
-            IShellNavigationService shellNavigationService)
+    public override async Task OnAppearingAsync()
+    {
+        await _loaderLock.WaitAsync();
+        try
         {
-            CloudSettings = cloudSettingsViewModel;
-
-            AcceptCommand = new Command(AcceptCommandHandler);
-            CancelCommand = new Command(CancelCommandHandler);
-            TabChangedCommand = new Command(TabChangedCommandHandler);
-            _shellNavigationService = shellNavigationService;
-            SetupMenuItems();
-        }
-
-        public override async Task OnAppearingAsync()
-        {
-            await _loaderLock.WaitAsync();
-            try
+            if (!_loaded)
             {
-                if (!_loaded)
-                {
-                    await cloudSettings.Init();
-                    _loaded = true;
-                }
-
-                var appShellViewModel = Shell.Current.BindingContext as AppShellViewModel;
-                await appShellViewModel.OnCurrentPageChangeAsync();
+                await cloudSettings.Init();
+                _loaded = true;
             }
-            finally
-            {
-                _loaderLock.Release();
-            }  
-        }
 
-        public override void OnSetupMenuItems()
-        {
-            MenuItems.Add(new MenuItem
-            {
-                Text = "Accept",
-                Command = AcceptCommand
-            });
-            MenuItems.Add(new MenuItem
-            {
-                Text = "Cancel",
-                Command = CancelCommand
-            });
+            var appShellViewModel = Shell.Current.BindingContext as AppShellViewModel;
+            await appShellViewModel.OnCurrentPageChangeAsync();
         }
+        finally
+        {
+            _loaderLock.Release();
+        }  
+    }
 
-        private void CancelCommandHandler(object param)
+    public override void OnSetupMenuItems()
+    {
+        MenuItems.Add(new MenuItem
         {
-            _shellNavigationService.GoBackAsync();
-        }
+            Text = "Accept",
+            Command = AcceptCommand
+        });
+        MenuItems.Add(new MenuItem
+        {
+            Text = "Cancel",
+            Command = CancelCommand
+        });
+    }
 
-        private void AcceptCommandHandler(object param)
-        {
-            _shellNavigationService.GoToAsync("//Vaults");
-        }
+    private void CancelCommandHandler(object param)
+    {
+        _shellNavigationService.GoBackAsync();
+    }
 
-        private void TabChangedCommandHandler(object param)
-        {
-        }
+    private void AcceptCommandHandler(object param)
+    {
+        _shellNavigationService.GoToAsync("//Vaults");
+    }
+
+    private void TabChangedCommandHandler(object param)
+    {
     }
 }

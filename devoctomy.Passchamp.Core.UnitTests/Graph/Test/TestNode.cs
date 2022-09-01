@@ -2,54 +2,53 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Graph.Test
+namespace devoctomy.Passchamp.Core.UnitTests.Graph.Test;
+
+public class TestNode : NodeBase
 {
-    public class TestNode : NodeBase
+    public new bool Executed { get; private set; }
+
+    [NodeInputPin(ValueType = typeof(string), DefaultValue = "Hello World")]
+    public IDataPin<string> InputTest
     {
-        public new bool Executed { get; private set; }
-
-        [NodeInputPin(ValueType = typeof(string), DefaultValue = "Hello World")]
-        public IDataPin<string> InputTest
+        get
         {
-            get
-            {
-                return GetInput<string>("InputTest");
-            }
-            set
-            {
-                Input["InputTest"] = value;
-            }
+            return GetInput<string>("InputTest");
         }
-
-        [NodeOutputPin(ValueType = typeof(string), DefaultValue = "Hello World")]
-        public IDataPin<string> OutputTest
+        set
         {
-            get
-            {
-                return GetOutput<string>("OutputTest");
-            }
-            set
-            {
-                Output["OutputTest"] = value;
-            }
+            Input["InputTest"] = value;
         }
+    }
 
-        public TestNode()
+    [NodeOutputPin(ValueType = typeof(string), DefaultValue = "Hello World")]
+    public IDataPin<string> OutputTest
+    {
+        get
         {
+            return GetOutput<string>("OutputTest");
         }
+        set
+        {
+            Output["OutputTest"] = value;
+        }
+    }
 
-        public TestNode(string inputTestValue)
-        {
-            InputTest.Value = inputTestValue;
-        }
+    public TestNode()
+    {
+    }
 
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
-        {
-            Executed = true;
-            OutputMessage("Hello from TestNode!");
-            return Task.CompletedTask;
-        }
+    public TestNode(string inputTestValue)
+    {
+        InputTest.Value = inputTestValue;
+    }
+
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        Executed = true;
+        OutputMessage("Hello from TestNode!");
+        return Task.CompletedTask;
     }
 }

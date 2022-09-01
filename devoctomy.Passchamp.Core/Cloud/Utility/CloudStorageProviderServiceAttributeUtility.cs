@@ -2,51 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace devoctomy.Passchamp.Core.Cloud.Utility
+namespace devoctomy.Passchamp.Core.Cloud.Utility;
+
+public class CloudStorageProviderServiceAttributeUtility
 {
-    public class CloudStorageProviderServiceAttributeUtility
+    private static Dictionary<Type, CloudStorageProviderServiceAttribute> _attributeCache;
+    private static readonly object _lock = new();
+
+    public static CloudStorageProviderServiceAttribute Get(string typeId)
     {
-        private static Dictionary<Type, CloudStorageProviderServiceAttribute> _attributeCache;
-        private static readonly object _lock = new();
+        CacheAll();
 
-        public static CloudStorageProviderServiceAttribute Get(string typeId)
+        return _attributeCache.Single(x => x.Value.ProviderTypeId == typeId).Value;
+    }
+
+    public static CloudStorageProviderServiceAttribute Get(Type type)
+    {
+        CacheAll();
+
+        if (_attributeCache.ContainsKey(type))
         {
-            CacheAll();
-
-            return _attributeCache.Single(x => x.Value.ProviderTypeId == typeId).Value;
+            return _attributeCache[type];
         }
 
-        public static CloudStorageProviderServiceAttribute Get(Type type)
-        {
-            CacheAll();
+        return null;
+    }
 
-            if (_attributeCache.ContainsKey(type))
+    private static void CacheAll()
+    {
+        lock (_lock)
+        {
+            if (_attributeCache != null)
             {
-                return _attributeCache[type];
+                return;
             }
 
-            return null;
-        }
-
-        private static void CacheAll()
-        {
-            lock (_lock)
+            var attributeCache = new Dictionary<Type, CloudStorageProviderServiceAttribute>();
+            var assembly = typeof(ICloudStorageProviderService).Assembly;
+            var providerServices = assembly.GetTypes().Where(x => typeof(ICloudStorageProviderService).IsAssignableFrom(x) && !x.IsInterface).ToList();
+            foreach (var curProviderService in providerServices)
             {
-                if (_attributeCache != null)
-                {
-                    return;
-                }
-
-                var attributeCache = new Dictionary<Type, CloudStorageProviderServiceAttribute>();
-                var assembly = typeof(ICloudStorageProviderService).Assembly;
-                var providerServices = assembly.GetTypes().Where(x => typeof(ICloudStorageProviderService).IsAssignableFrom(x) && !x.IsInterface).ToList();
-                foreach (var curProviderService in providerServices)
-                {
-                    var attribute = (CloudStorageProviderServiceAttribute)curProviderService.GetCustomAttributes(typeof(CloudStorageProviderServiceAttribute), true).Single();
-                    attributeCache.Add(curProviderService, attribute);
-                }
-                _attributeCache = attributeCache;
+                var attribute = (CloudStorageProviderServiceAttribute)curProviderService.GetCustomAttributes(typeof(CloudStorageProviderServiceAttribute), true).Single();
+                attributeCache.Add(curProviderService, attribute);
             }
+            _attributeCache = attributeCache;
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.Maui.UnitTests.Converters.Enums
+﻿namespace devoctomy.Passchamp.Maui.UnitTests.Converters.Enums;
+
+public enum TestEnum
 {
-    public enum TestEnum
-    {
-        Value1,
-        Value2
-    }
+    Value1,
+    Value2
 }

@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.Core.Exceptions
+namespace devoctomy.Passchamp.Core.Exceptions;
+
+public class PasschampCoreException : Exception
 {
-    public class PasschampCoreException : Exception
+    public PasschampCoreException(string message)
+        : base(message)
     {
-        public PasschampCoreException(string message)
-            : base(message)
-        {
-        }
     }
 }

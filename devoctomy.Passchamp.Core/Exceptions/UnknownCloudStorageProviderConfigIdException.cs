@@ -1,10 +1,9 @@
-﻿namespace devoctomy.Passchamp.Core.Exceptions
+﻿namespace devoctomy.Passchamp.Core.Exceptions;
+
+public class UnknownCloudStorageProviderConfigIdException : PasschampCoreException
 {
-    public class UnknownCloudStorageProviderConfigIdException : PasschampCoreException
+    public UnknownCloudStorageProviderConfigIdException(string id)
+        : base($"Unknown cloud storage provider configuration of '{id}'.")
     {
-        public UnknownCloudStorageProviderConfigIdException(string id)
-            : base($"Unknown cloud storage provider configuration of '{id}'.")
-        {
-        }
     }
 }

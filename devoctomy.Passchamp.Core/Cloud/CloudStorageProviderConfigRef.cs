@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.Core.Cloud
+﻿namespace devoctomy.Passchamp.Core.Cloud;
+
+public class CloudStorageProviderConfigRef
 {
-    public class CloudStorageProviderConfigRef
-    {
-        public string Id { get; set; }
-        public string ProviderServiceTypeId { get; set; }
-    }
+    public string Id { get; set; }
+    public string ProviderServiceTypeId { get; set; }
 }

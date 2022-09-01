@@ -2,40 +2,39 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace devoctomy.Passchamp.Core.Cryptography
+namespace devoctomy.Passchamp.Core.Cryptography;
+
+public class SecureStringUnpacker : ISecureStringUnpacker
 {
-    public class SecureStringUnpacker : ISecureStringUnpacker
+    public void Unpack(
+        SecureString value,
+        Action<byte[]> callback)
     {
-        public void Unpack(
-            SecureString value,
-            Action<byte[]> callback)
+        IntPtr ptr = Marshal.SecureStringToBSTR(value);
+        try
         {
-            IntPtr ptr = Marshal.SecureStringToBSTR(value);
+            byte[] passwordByteArray = null;
+            int length = Marshal.ReadInt32(ptr, -4);
+            passwordByteArray = new byte[length];
+            GCHandle handle = GCHandle.Alloc(passwordByteArray, GCHandleType.Pinned);
             try
             {
-                byte[] passwordByteArray = null;
-                int length = Marshal.ReadInt32(ptr, -4);
-                passwordByteArray = new byte[length];
-                GCHandle handle = GCHandle.Alloc(passwordByteArray, GCHandleType.Pinned);
-                try
+                for (int i = 0; i < length; i++)
                 {
-                    for (int i = 0; i < length; i++)
-                    {
-                        passwordByteArray[i] = Marshal.ReadByte(ptr, i);
-                    }
+                    passwordByteArray[i] = Marshal.ReadByte(ptr, i);
+                }
 
-                    callback(passwordByteArray);
-                }
-                finally
-                {
-                    Array.Clear(passwordByteArray, 0, passwordByteArray.Length);
-                    handle.Free();
-                }
+                callback(passwordByteArray);
             }
             finally
             {
-                Marshal.ZeroFreeBSTR(ptr);
+                Array.Clear(passwordByteArray, 0, passwordByteArray.Length);
+                handle.Free();
             }
+        }
+        finally
+        {
+            Marshal.ZeroFreeBSTR(ptr);
         }
     }
 }

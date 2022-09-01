@@ -2,39 +2,38 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Vault
+namespace devoctomy.Passchamp.Core.Graph.Vault;
+
+public class VaultParserNode : NodeBase
 {
-    public class VaultParserNode : NodeBase
+    [NodeInputPin(ValueType = typeof(string), DefaultValue = default(string))]
+    public IDataPin<string> VaultJson
     {
-        [NodeInputPin(ValueType = typeof(string), DefaultValue = default(string))]
-        public IDataPin<string> VaultJson
+        get
         {
-            get
-            {
-                return GetInput<string>("VaultJson");
-            }
-            set
-            {
-                Input["VaultJson"] = value;
-            }
+            return GetInput<string>("VaultJson");
         }
+        set
+        {
+            Input["VaultJson"] = value;
+        }
+    }
 
-        [NodeOutputPin(ValueType = typeof(Core.Vault.Vault), DefaultValue = default(Core.Vault.Vault))]
-        public IDataPin<Core.Vault.Vault> Vault
+    [NodeOutputPin(ValueType = typeof(Core.Vault.Vault), DefaultValue = default(Core.Vault.Vault))]
+    public IDataPin<Core.Vault.Vault> Vault
+    {
+        get
         {
-            get
-            {
-                return GetOutput<Core.Vault.Vault>("Vault");
-            }
+            return GetOutput<Core.Vault.Vault>("Vault");
         }
+    }
 
 
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
-        {
-            Vault.Value = JsonConvert.DeserializeObject<Core.Vault.Vault>(VaultJson.Value);
-            return Task.CompletedTask;
-        }
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        Vault.Value = JsonConvert.DeserializeObject<Core.Vault.Vault>(VaultJson.Value);
+        return Task.CompletedTask;
     }
 }

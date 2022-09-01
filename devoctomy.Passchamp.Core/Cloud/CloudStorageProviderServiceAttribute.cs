@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.Core.Cloud
+namespace devoctomy.Passchamp.Core.Cloud;
+
+[AttributeUsage(AttributeTargets.Class)]
+public class CloudStorageProviderServiceAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class CloudStorageProviderServiceAttribute : Attribute
-    {
-        public string DisplayName { get; set; }
-        public string ProviderTypeId { get; set; }
-    }
+    public string DisplayName { get; set; }
+    public string ProviderTypeId { get; set; }
 }

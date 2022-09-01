@@ -1,14 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿namespace devoctomy.Passchamp.Client;
 
-namespace devoctomy.Passchamp.Client
+public partial class App : Application
 {
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            InitializeComponent();
-            var appShell = MauiProgram.MauiApp.Services.GetService<AppShellPage>();
-            MainPage = appShell;
-        }
+        InitializeComponent();
+        var appShell = MauiProgram.MauiApp.Services.GetService<AppShellPage>();
+        MainPage = appShell;
     }
 }

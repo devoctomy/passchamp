@@ -1,7 +1,6 @@
-﻿namespace devoctomy.Passchamp.Core.Data
+﻿namespace devoctomy.Passchamp.Core.Data;
+
+public interface IPartiallySecure
 {
-    public interface IPartiallySecure
-    {
-        public string Id { get; set; }
-    }
+    public string Id { get; set; }
 }
