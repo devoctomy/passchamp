@@ -15,24 +15,21 @@
     </baseviews:BaseView.Resources>
     <VerticalStackLayout>
         <Label Text="Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
-        <HorizontalStackLayout>
-            <ImageButton
-                    Source="data_edit_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding EditSelectedCloudStorageProviderCommand}"
-                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
+        <HorizontalStackLayout IsVisible="{OnPlatform WinUI=true, Default=false}">
+            <ImageButton Source="data_edit_dark.png"
+                         WidthRequest="48"
+                         Command="{Binding EditSelectedCloudStorageProviderCommand}"
+                         IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
             </ImageButton>
-            <ImageButton
-                    Source="garbage_closed_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding RemoveSelectedCloudStorageProviderCommand}"
-                    IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
+            <ImageButton Source="garbage_closed_dark.png"
+                         WidthRequest="48"
+                         Command="{Binding RemoveSelectedCloudStorageProviderCommand}"
+                         IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
             </ImageButton>
         </HorizontalStackLayout>
-        <ListView
-                ItemsSource="{Binding CloudStorageProviderConfigRefs}"
-                SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}"
-                HasUnevenRows="True">
+        <ListView ItemsSource="{Binding CloudStorageProviderConfigRefs}"
+                  SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}"
+                  HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="cloud:CloudStorageProviderConfigRef">
                     <ViewCell>
@@ -61,9 +58,9 @@
                                 </Image>
                                 <VerticalStackLayout Grid.Column="1" Padding="8">
                                     <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"
-                                        Style="{StaticResource MediumLabelStyle}"/>
+                                           Style="{StaticResource MediumLabelStyle}"/>
                                     <Label Text="{Binding Id}"
-                                        Style="{StaticResource DefaultLabelStyle}"/>
+                                           Style="{StaticResource DefaultLabelStyle}"/>
                                 </VerticalStackLayout>
                             </Grid>
                         </SwipeView>
