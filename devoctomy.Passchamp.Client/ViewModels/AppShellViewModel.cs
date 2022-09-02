@@ -40,6 +40,10 @@ public partial class AppShellViewModel : BaseViewModel
             await RemoveMenuItems();
             _currentPageViewModel = nextPageViewModel;
             await AddMenuItems();
+
+            // !!! HACK !!!
+            // This is done as in Android, the flyout doesn't go back after pressing a menu item as it
+            // does with Windows. So we force it back here.
             Shell.Current.FlyoutIsPresented = false;
         }
     }
