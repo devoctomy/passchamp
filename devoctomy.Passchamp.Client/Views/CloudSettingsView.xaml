@@ -16,12 +16,12 @@
     <VerticalStackLayout>
         <Label Text="Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
         <HorizontalStackLayout IsVisible="{OnPlatform WinUI=true, Default=false}">
-            <ImageButton Source="data_edit_dark.png"
+            <ImageButton Source="{AppThemeBinding Light=data_edit_light.png, Dark=data_edit_dark.png}"
                          WidthRequest="48"
                          Command="{Binding EditSelectedCloudStorageProviderCommand}"
                          IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
             </ImageButton>
-            <ImageButton Source="garbage_closed_dark.png"
+            <ImageButton Source="{AppThemeBinding Light=garbage_closed_dark.png, Dark=garbage_closed_dark.png}"
                          WidthRequest="48"
                          Command="{Binding RemoveSelectedCloudStorageProviderCommand}"
                          IsEnabled="{Binding SelectedCloudStorageProviderConfigRef, Converter={StaticResource NotNullConverter}}">
@@ -36,12 +36,12 @@
                         <SwipeView>
                             <SwipeView.LeftItems>
                                 <SwipeItem Text="Delete"
-                                           BackgroundColor="Red"
+                                           BackgroundColor="{StaticResource Danger}"
                                            Command="{Binding BindingContext.RemoveSelectedCloudStorageProviderCommand, Source={Reference Root}}"/>
                             </SwipeView.LeftItems>
                             <SwipeView.RightItems>
                                 <SwipeItem Text="Edit"
-                                           BackgroundColor="DarkOrange"
+                                           BackgroundColor="{StaticResource Info}"
                                            Command="{Binding BindingContext.EditSelectedCloudStorageProviderCommand, Source={Reference Root}}"/>
                             </SwipeView.RightItems>
                             <Grid>
@@ -53,7 +53,7 @@
                                     <RowDefinition Height="Auto"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Image Grid.Column="0"
-                                       Source="amazon_dark.png"
+                                       Source="{AppThemeBinding Light=amazon_light.png, Dark=amazon_dark.png}"
                                        HorizontalOptions="StartAndExpand">
                                 </Image>
                                 <VerticalStackLayout Grid.Column="1" Padding="8">
@@ -83,9 +83,9 @@
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
                                     <Setter Property="BackgroundColor"
-                                            Value="Green" />
+                                            Value="{StaticResource Info}" />
                                     <Setter Property="TextColor"
-                                            Value="White" />
+                                            Value="{StaticResource White}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Disabled" />

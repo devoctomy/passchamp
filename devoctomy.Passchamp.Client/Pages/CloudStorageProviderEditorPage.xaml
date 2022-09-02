@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="48"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <ImageButton
-                Source="command_undo_dark.png"
+                Source="{AppThemeBinding Light=command_undo_light.png, Dark=command_undo_dark.png}"
                 WidthRequest="48"
                 Command="{Binding BackCommand}">
             </ImageButton>
@@ -35,13 +35,13 @@
             </Label>
             <ImageButton
                 Grid.Column="2"
-                Source="check_dark.png"
+                Source="{AppThemeBinding Light=check_light.png, Dark=check_dark.png}"
                 WidthRequest="48"
                 Command="{Binding OkCommand}"
                 IsEnabled="{Binding OkCommandEnabled}">
             </ImageButton>
         </Grid>
-        <VerticalStackLayout Grid.Row="1" BackgroundColor="Black">
+        <VerticalStackLayout Grid.Row="1">
             <Label Text="Display Name" Style="{StaticResource MediumLabelStyle}"></Label>
             <Entry
                 MaxLength="64"

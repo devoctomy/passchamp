@@ -10,10 +10,9 @@
              Title="Vaults">
     <pages:BasePage.Content>
         <VerticalStackLayout>
-            <ListView
-                ItemsSource="{Binding Vaults}"
-                SelectedItem="{Binding SelectedVaultIndex, Mode=TwoWay}"
-                HasUnevenRows="True">
+            <ListView ItemsSource="{Binding Vaults}"
+                      SelectedItem="{Binding SelectedVaultIndex, Mode=TwoWay}"
+                      HasUnevenRows="True">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:VaultIndex">
                         <ViewCell>
@@ -25,10 +24,9 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <Image
-                                    Grid.Column="0"
-                                    Source="locker_dark.png"
-                                    HorizontalOptions="StartAndExpand">
+                                <Image Grid.Column="0"
+                                       Source="locker_dark.png"
+                                       HorizontalOptions="StartAndExpand">
                                 </Image>
                                 <VerticalStackLayout Grid.Column="1" Padding="8">
                                     <Label Text="{Binding Name}"
