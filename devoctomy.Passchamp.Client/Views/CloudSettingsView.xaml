@@ -7,7 +7,8 @@
              xmlns:baseviews="clr-namespace:devoctomy.Passchamp.Client.Views.Base"
              x:Class="devoctomy.Passchamp.Client.Views.CloudSettingsView"
              x:DataType="vm:CloudSettingsViewModel"
-             x:TypeArguments="vm:CloudSettingsViewModel">
+             x:TypeArguments="vm:CloudSettingsViewModel"
+             x:Name="Root">
     <baseviews:BaseView.Resources>
         <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
         <converters:NotNullConverter x:Key="NotNullConverter" />
@@ -35,26 +36,37 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="cloud:CloudStorageProviderConfigRef">
                     <ViewCell>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Image
-                                Grid.Column="0"
-                                Source="amazon_dark.png"
-                                HorizontalOptions="StartAndExpand">
-                            </Image>
-                            <VerticalStackLayout Grid.Column="1" Padding="8">
-                                <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"
-                                       Style="{StaticResource MediumLabelStyle}"/>
-                                <Label Text="{Binding Id}"
-                                       Style="{StaticResource DefaultLabelStyle}"/>
-                            </VerticalStackLayout>
-                        </Grid>
+                        <SwipeView>
+                            <SwipeView.LeftItems>
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="Red"
+                                           Command="{Binding BindingContext.RemoveSelectedCloudStorageProviderCommand, Source={Reference Root}}"/>
+                            </SwipeView.LeftItems>
+                            <SwipeView.RightItems>
+                                <SwipeItem Text="Edit"
+                                           BackgroundColor="DarkOrange"
+                                           Command="{Binding BindingContext.EditSelectedCloudStorageProviderCommand, Source={Reference Root}}"/>
+                            </SwipeView.RightItems>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Column="0"
+                                       Source="amazon_dark.png"
+                                       HorizontalOptions="StartAndExpand">
+                                </Image>
+                                <VerticalStackLayout Grid.Column="1" Padding="8">
+                                    <Label Text="{Binding ProviderServiceTypeId, Converter={StaticResource ProviderServiceTypeIdToDisplayNameConverter}}"
+                                        Style="{StaticResource MediumLabelStyle}"/>
+                                    <Label Text="{Binding Id}"
+                                        Style="{StaticResource DefaultLabelStyle}"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </SwipeView>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

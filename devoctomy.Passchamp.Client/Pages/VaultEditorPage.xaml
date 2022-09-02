@@ -19,24 +19,21 @@
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="48"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ImageButton
-                Source="command_undo_dark.png"
-                WidthRequest="48"
-                Command="{Binding BackCommand}">
+            <ImageButton Source="command_undo_dark.png"
+                         WidthRequest="48"
+                         Command="{Binding BackCommand}">
             </ImageButton>
-            <Label
-                Grid.Column="1"
-                Text="Vault"
-                Style="{StaticResource LargeLabelStyle}"
-                VerticalOptions="CenterAndExpand"
-                HorizontalTextAlignment="Start"
-                Margin="16,0,0,0">
+            <Label Grid.Column="1"
+                   Text="Vault"
+                   Style="{StaticResource LargeLabelStyle}"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalTextAlignment="Start"
+                   Margin="16,0,0,0">
             </Label>
-            <ImageButton
-                Grid.Column="2"
-                Source="check_dark.png"
-                WidthRequest="48"
-                Command="{Binding OkCommand}">
+            <ImageButton Grid.Column="2"
+                         Source="check_dark.png"
+                         WidthRequest="48"
+                         Command="{Binding OkCommand}">
             </ImageButton>
         </Grid>
     </Grid>

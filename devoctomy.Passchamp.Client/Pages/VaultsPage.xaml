@@ -10,23 +10,6 @@
              Title="Vaults">
     <pages:BasePage.Content>
         <VerticalStackLayout>
-            <!--<HorizontalStackLayout>
-                <ImageButton
-                    Source="add_new_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding AddVaultCommand}">
-                </ImageButton>
-                <ImageButton
-                    Source="data_edit_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding EditSelectedVaultCommand}">
-                </ImageButton>
-                <ImageButton
-                    Source="garbage_closed_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding RemoveSelectedVaultCommand}">
-                </ImageButton>
-            </HorizontalStackLayout>-->
             <ListView
                 ItemsSource="{Binding Vaults}"
                 SelectedItem="{Binding SelectedVaultIndex, Mode=TwoWay}"
@@ -49,9 +32,9 @@
                                 </Image>
                                 <VerticalStackLayout Grid.Column="1" Padding="8">
                                     <Label Text="{Binding Name}"
-                                       Style="{StaticResource MediumLabelStyle}"/>
+                                           Style="{StaticResource MediumLabelStyle}"/>
                                     <Label Text="{Binding Description}"
-                                       Style="{StaticResource DefaultLabelStyle}"/>
+                                           Style="{StaticResource DefaultLabelStyle}"/>
                                 </VerticalStackLayout>
                             </Grid>
                         </ViewCell>
