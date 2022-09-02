@@ -43,6 +43,10 @@ public static class MauiProgram
             ShellNavigationServiceOptions = new Maui.Services.ShellNavigationServiceOptions
             {
                 HomeRoute = "//Vaults"
+            },
+            ThemeAwareImageResourceServiceOptions = new Maui.Services.ThemeAwareImageResourceServiceOptions
+            {
+                SupportedThemes = new[] { "light", "dark" }
             }
         });
         RegisterViewModels(builder.Services);

@@ -2,9 +2,24 @@
 {
     public class ThemeAwareImageResourceService : IThemeAwareImageResourceService
     {
+        public string[] SupportedThemes => _options.SupportedThemes;
+
+        private ThemeAwareImageResourceServiceOptions _options;
+
+        public ThemeAwareImageResourceService(ThemeAwareImageResourceServiceOptions options)
+        {
+            _options = options;
+        }
+
         public string Get(string prefix)
         {
-            return $"{prefix}_{Application.Current.RequestedTheme.ToString().ToLower()}.png";
+            var requestedTheme = Application.Current.RequestedTheme.ToString().ToLower();
+            if(SupportedThemes.Contains(requestedTheme))
+            {
+                return $"{prefix}_{requestedTheme}.png";
+            }
+
+            return $"{prefix}.png";
         }
     }
 }

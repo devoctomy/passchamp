@@ -12,6 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton(options.VaultLoaderServiceOptions);
         services.AddSingleton(options.ShellNavigationServiceOptions);
+        services.AddSingleton(options.ThemeAwareImageResourceServiceOptions);
 
         services.AddSingleton<IThemeAwareImageResourceService, ThemeAwareImageResourceService>();
         services.AddSingleton<IShellNavigationService, ShellNavigationService>();

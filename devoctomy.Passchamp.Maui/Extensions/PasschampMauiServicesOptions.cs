@@ -7,4 +7,5 @@ public class PasschampMauiServicesOptions
 {
     public VaultLoaderServiceOptions VaultLoaderServiceOptions { get; set; }
     public ShellNavigationServiceOptions ShellNavigationServiceOptions { get; set; }
+    public ThemeAwareImageResourceServiceOptions ThemeAwareImageResourceServiceOptions { get; set; }
 }
