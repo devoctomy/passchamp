@@ -1,36 +1,35 @@
 using System;
 
-namespace devoctomy.Passchamp.Core.Graph.Data
+namespace devoctomy.Passchamp.Core.Graph.Data;
+
+public class ArrayLocation
 {
-    public class ArrayLocation
+    public Offset Offset { get; set; }
+    public int Count { get; set; }
+
+    public ArrayLocation(
+        Offset offset,
+        int count)
     {
-        public Offset Offset { get; set; }
-        public int Count { get; set; }
+        Offset = offset;
+        Count = count;
+    }
 
-        public ArrayLocation(
-            Offset offset,
-            int count)
+    public int GetIndex(int dataLength)
+    {
+        switch(Offset)
         {
-            Offset = offset;
-            Count = count;
-        }
-
-        public int GetIndex(int dataLength)
-        {
-            switch(Offset)
+            case Offset.Absolute:
             {
-                case Offset.Absolute:
-                {
-                    return Count;
-                }
-                case Offset.FromEnd:
-                {
-                    return dataLength - Count;
-                }
-                default:
-                {
-                    throw new NotImplementedException();
-                }
+                return Count;
+            }
+            case Offset.FromEnd:
+            {
+                return dataLength - Count;
+            }
+            default:
+            {
+                throw new NotImplementedException();
             }
         }
     }

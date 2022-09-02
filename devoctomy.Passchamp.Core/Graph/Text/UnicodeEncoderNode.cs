@@ -1,38 +1,37 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Text
+namespace devoctomy.Passchamp.Core.Graph.Text;
+
+public class UnicodeEncoderNode : NodeBase
 {
-    public class UnicodeEncoderNode : NodeBase
+    [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
+    public IDataPin<string> PlainText
     {
-        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin<string> PlainText
+        get
         {
-            get
-            {
-                return GetInput<string>("PlainText");
-            }
-            set
-            {
-                Input["PlainText"] = value;
-            }
+            return GetInput<string>("PlainText");
         }
+        set
+        {
+            Input["PlainText"] = value;
+        }
+    }
 
-        [NodeOutputPin(ValueType = typeof(byte[]))]
-        public IDataPin<byte[]> EncodedBytes
+    [NodeOutputPin(ValueType = typeof(byte[]))]
+    public IDataPin<byte[]> EncodedBytes
+    {
+        get
         {
-            get
-            {
-                return GetOutput<byte[]>("EncodedBytes");
-            }
+            return GetOutput<byte[]>("EncodedBytes");
         }
+    }
 
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
-        {
-            EncodedBytes.Value = System.Text.Encoding.Unicode.GetBytes(PlainText.Value);
-            return Task.CompletedTask;
-        }
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        EncodedBytes.Value = System.Text.Encoding.Unicode.GetBytes(PlainText.Value);
+        return Task.CompletedTask;
     }
 }

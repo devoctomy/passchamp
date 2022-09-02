@@ -5,87 +5,86 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinOutputFunctions
+namespace devoctomy.Passchamp.Core.UnitTests.Graph.Services.GraphPinOutputFunctions;
+
+public class JsonSerialiserPinOutputFunctionTests
 {
-    public class JsonSerialiserPinOutputFunctionTests
+    [Theory]
+    [InlineData("JsonSerialiserPinOutputFunction", true)]
+    [InlineData("Pop", false)]
+    public void GivenKey_WhenIsApplicable_ThenCorrectValueReturned(
+        string key,
+        bool expectedResult)
     {
-        [Theory]
-        [InlineData("JsonSerialiserPinOutputFunction", true)]
-        [InlineData("Pop", false)]
-        public void GivenKey_WhenIsApplicable_ThenCorrectValueReturned(
-            string key,
-            bool expectedResult)
-        {
-            // Arrange
-            var sut = new JsonSerialiserPinOutputFunction();
+        // Arrange
+        var sut = new JsonSerialiserPinOutputFunction();
 
-            // Act
-            var result = sut.IsApplicable(key);
+        // Act
+        var result = sut.IsApplicable(key);
 
-            // Assert
-            Assert.Equal(expectedResult, result);
-        }
+        // Assert
+        Assert.Equal(expectedResult, result);
+    }
 
-        [Fact]
-        public void GivenValueWithWrongNodeName_AndNodeList_WhenExecute_ThenKeyNotFoundExceptionThrown()
-        {
-            // Arrange
-            var value = "JsonSerialiserPinOutputFunction.wrongname.Vault";
-            var vaultParserNode = new VaultParserNode();
-            vaultParserNode.Output["Vault"] = (IDataPin<Core.Vault.Vault>)DataPinFactory.Instance.Create(
-                "Sections",
-                new Core.Vault.Vault
-                {
-                    Id = "Hello World!"
-                });
-
-            var sut = new JsonSerialiserPinOutputFunction();
-            var nodes = new Dictionary<string, INode>
+    [Fact]
+    public void GivenValueWithWrongNodeName_AndNodeList_WhenExecute_ThenKeyNotFoundExceptionThrown()
+    {
+        // Arrange
+        var value = "JsonSerialiserPinOutputFunction.wrongname.Vault";
+        var vaultParserNode = new VaultParserNode();
+        vaultParserNode.Output["Vault"] = (IDataPin<Core.Vault.Vault>)DataPinFactory.Instance.Create(
+            "Sections",
+            new Core.Vault.Vault
             {
-                { "parser", vaultParserNode }
-            };
-
-            // Act & Assert
-            Assert.ThrowsAny<KeyNotFoundException>(() =>
-            {
-                sut.Execute(
-                    value,
-                    nodes);
+                Id = "Hello World!"
             });
-        }
 
-        [Fact]
-        public void GivenValue_AndNodeList_WhenExecute_ThenCorrectValueSet()
+        var sut = new JsonSerialiserPinOutputFunction();
+        var nodes = new Dictionary<string, INode>
         {
-            // Arrange
-            var value = "JsonSerialiserPinOutputFunction.parser.Vault";
-            var vaultParserNode = new VaultParserNode();
-            vaultParserNode.Output["Vault"] = (IDataPin<Core.Vault.Vault>)DataPinFactory.Instance.Create(
-                "Sections",
-                new Core.Vault.Vault
-                {
-                    Id = "Hello World!"
-                });
+            { "parser", vaultParserNode }
+        };
 
-            var sut = new JsonSerialiserPinOutputFunction();
-            var nodes = new Dictionary<string, INode>
-            {
-                { "parser", vaultParserNode }
-            };
-
-            // Act
-            var result = sut.Execute(
+        // Act & Assert
+        Assert.ThrowsAny<KeyNotFoundException>(() =>
+        {
+            sut.Execute(
                 value,
                 nodes);
+        });
+    }
 
-            // Assert
-            Assert.Equal("Value", result.Name);
-            Assert.IsType<string>(result.ObjectValue);
-            var resultJson = result.ObjectValue as string;
-            var expectedJson = JsonConvert.SerializeObject(
-                vaultParserNode.Output["Vault"].ObjectValue,
-                Formatting.Indented);
-            Assert.Equal(expectedJson, resultJson);
-        }
+    [Fact]
+    public void GivenValue_AndNodeList_WhenExecute_ThenCorrectValueSet()
+    {
+        // Arrange
+        var value = "JsonSerialiserPinOutputFunction.parser.Vault";
+        var vaultParserNode = new VaultParserNode();
+        vaultParserNode.Output["Vault"] = (IDataPin<Core.Vault.Vault>)DataPinFactory.Instance.Create(
+            "Sections",
+            new Core.Vault.Vault
+            {
+                Id = "Hello World!"
+            });
+
+        var sut = new JsonSerialiserPinOutputFunction();
+        var nodes = new Dictionary<string, INode>
+        {
+            { "parser", vaultParserNode }
+        };
+
+        // Act
+        var result = sut.Execute(
+            value,
+            nodes);
+
+        // Assert
+        Assert.Equal("Value", result.Name);
+        Assert.IsType<string>(result.ObjectValue);
+        var resultJson = result.ObjectValue as string;
+        var expectedJson = JsonConvert.SerializeObject(
+            vaultParserNode.Output["Vault"].ObjectValue,
+            Formatting.Indented);
+        Assert.Equal(expectedJson, resultJson);
     }
 }

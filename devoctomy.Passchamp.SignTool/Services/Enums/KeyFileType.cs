@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.SignTool.Services.Enums
+﻿namespace devoctomy.Passchamp.SignTool.Services.Enums;
+
+public enum KeyFileType
 {
-    public enum KeyFileType
-    {
-        JsonRsaParameters = 0,
-        RsaJsonWebKey = 1
-    }
+    JsonRsaParameters = 0,
+    RsaJsonWebKey = 1
 }

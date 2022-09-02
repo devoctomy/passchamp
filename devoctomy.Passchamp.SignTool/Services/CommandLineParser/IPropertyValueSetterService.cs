@@ -1,12 +1,11 @@
 ﻿using System.Reflection;
 
-namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
+namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+
+public interface IPropertyValueSetterService
 {
-    public interface IPropertyValueSetterService
-    {
-        bool SetPropertyValue<T>(
-            T option,
-            PropertyInfo property,
-            string value);
-    }
+    bool SetPropertyValue<T>(
+        T option,
+        PropertyInfo property,
+        string value);
 }

@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Data
+namespace devoctomy.Passchamp.Core.Data;
+
+public interface IPartialSecureJsonWriterService
 {
-    public interface IPartialSecureJsonWriterService
-    {
-        public void RemoveAll(object value);
-        public Task SaveAsync(
-            object value,
-            Stream stream);
-    }
+    public void RemoveAll(object value);
+    public Task SaveAsync(
+        object value,
+        Stream stream);
 }

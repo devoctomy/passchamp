@@ -24,7 +24,8 @@
                     ItemsSource="{Binding TabPages, Source={x:Reference Root}}"
                     ItemsUpdatingScrollMode="KeepScrollOffset"
                     SelectionMode="Single"
-                    SelectionChanged="CollectionView_SelectionChanged">
+                    SelectionChanged="CollectionView_SelectionChanged"
+                    PropertyChanged="TabPageCollection_PropertyChanged">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout
                             Orientation="Horizontal"

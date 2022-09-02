@@ -6,57 +6,56 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.SignTool.Services
+namespace devoctomy.Passchamp.SignTool.Services;
+
+public class RsaJsonVerifierService : IRsaJsonVerifierService
 {
-    public class RsaJsonVerifierService : IRsaJsonVerifierService
+    public async Task<bool> IsApplicable(string path)
     {
-        public async Task<bool> IsApplicable(string path)
+        var jsonData = await File.ReadAllTextAsync(path).ConfigureAwait(false);
+        var json = JObject.Parse(jsonData);
+
+        if(!json.ContainsKey("Signature"))
         {
-            var jsonData = await File.ReadAllTextAsync(path).ConfigureAwait(false);
-            var json = JObject.Parse(jsonData);
-
-            if(!json.ContainsKey("Signature"))
-            {
-                return false;
-            }
-
-            var signature = (JObject)json["Signature"];
-            if (!signature.ContainsKey("Algorithm") ||
-                signature["Algorithm"].Value<string>() != "RsaJsonSigner" ||
-                !signature.ContainsKey("Signature"))
-            {
-                return false;
-            }
-
-            return true;
+            return false;
         }
 
-        public async Task<int> Verify(VerifyOptions verifyOptions)
+        var signature = (JObject)json["Signature"];
+        if (!signature.ContainsKey("Algorithm") ||
+            signature["Algorithm"].Value<string>() != "RsaJsonSigner" ||
+            !signature.ContainsKey("Signature"))
         {
-            var result = await Verify(
-                verifyOptions.Input,
-                await File.ReadAllTextAsync(verifyOptions.KeyFile).ConfigureAwait(false));
-            return result ? (int)ErrorCodes.Success : (int)ErrorCodes.VerificationFailed;
+            return false;
         }
 
-        public async Task<bool> Verify(
-            string path,
-            string publicKey)
-        {
-            var jsonData = await File.ReadAllTextAsync(path);
-            var json = JObject.Parse(jsonData);
+        return true;
+    }
 
-            var signatureBase64 = json["Signature"]["Signature"].Value<string>();
-            var signature = Convert.FromBase64String(signatureBase64);
+    public async Task<int> Verify(VerifyOptions verifyOptions)
+    {
+        var result = await Verify(
+            verifyOptions.Input,
+            await File.ReadAllTextAsync(verifyOptions.KeyFile).ConfigureAwait(false));
+        return result ? (int)ErrorCodes.Success : (int)ErrorCodes.VerificationFailed;
+    }
 
-            json.Remove("Signature");
-            using var sha256Provider = SHA256.Create();
-            var unsignedBytes = sha256Provider.ComputeHash(System.Text.Encoding.UTF8.GetBytes(json.ToString(Newtonsoft.Json.Formatting.None)));
+    public async Task<bool> Verify(
+        string path,
+        string publicKey)
+    {
+        var jsonData = await File.ReadAllTextAsync(path);
+        var json = JObject.Parse(jsonData);
 
-            using var rsaProvider = new RSACryptoServiceProvider();
-            var publicKeyParams = JsonConvert.DeserializeObject<RSAParameters>(publicKey);
-            rsaProvider.ImportParameters(publicKeyParams);
-            return rsaProvider.VerifyData(unsignedBytes, sha256Provider, signature);
-        }
+        var signatureBase64 = json["Signature"]["Signature"].Value<string>();
+        var signature = Convert.FromBase64String(signatureBase64);
+
+        json.Remove("Signature");
+        using var sha256Provider = SHA256.Create();
+        var unsignedBytes = sha256Provider.ComputeHash(System.Text.Encoding.UTF8.GetBytes(json.ToString(Newtonsoft.Json.Formatting.None)));
+
+        using var rsaProvider = new RSACryptoServiceProvider();
+        var publicKeyParams = JsonConvert.DeserializeObject<RSAParameters>(publicKey);
+        rsaProvider.ImportParameters(publicKeyParams);
+        return rsaProvider.VerifyData(unsignedBytes, sha256Provider, signature);
     }
 }

@@ -5,122 +5,121 @@ using System.Collections.Generic;
 using System.Reflection;
 using Xunit;
 
-namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
+namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser;
+
+public class ArgumentMapperServiceTests
 {
-    public class ArgumentMapperServiceTests
+    [Fact]
+    public void GivenOptionsInstance_AndAllOptions_AndArgumentsString_AndAllSetOptions_WhenMapArguments_ThenArgumentsMapped_AndSetOptionsAdded()
     {
-        [Fact]
-        public void GivenOptionsInstance_AndAllOptions_AndArgumentsString_AndAllSetOptions_WhenMapArguments_ThenArgumentsMapped_AndSetOptionsAdded()
-        {
-            // Arrange
-            var optionsInstance = new CommandLineTestOptions();
-            var options = new ArgumentMapperOptions();
-            var mockSingleArgumentParserService = new Mock<ISingleArgumentParserService>();
-            var singleArgumentParserService = new SingleArgumentParserService();
-            var mockPropertyValueSetterService = new Mock<IPropertyValueSetterService>();
-            var propertyValueSetterService = new PropertyValueSetterService();
-            var sut = new ArgumentMapperService(
-                options,
-                mockSingleArgumentParserService.Object,
-                mockPropertyValueSetterService.Object);
-            var argumentsString = "-s=helloworld -b=true -i=2 -f=5.55 -o=pants";
-            var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
-            AddProperty("StringValue", allOptions);
-            AddProperty("BoolValue", allOptions);
-            AddProperty("IntValue", allOptions);
-            AddProperty("FloatValue", allOptions);
-            AddProperty("OptionalStringValue", allOptions);
-            var allSetOptions = new List<CommandLineParserOptionAttribute>();
+        // Arrange
+        var optionsInstance = new CommandLineTestOptions();
+        var options = new ArgumentMapperOptions();
+        var mockSingleArgumentParserService = new Mock<ISingleArgumentParserService>();
+        var singleArgumentParserService = new SingleArgumentParserService();
+        var mockPropertyValueSetterService = new Mock<IPropertyValueSetterService>();
+        var propertyValueSetterService = new PropertyValueSetterService();
+        var sut = new ArgumentMapperService(
+            options,
+            mockSingleArgumentParserService.Object,
+            mockPropertyValueSetterService.Object);
+        var argumentsString = "-s=helloworld -b=true -i=2 -f=5.55 -o=pants";
+        var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
+        AddProperty("StringValue", allOptions);
+        AddProperty("BoolValue", allOptions);
+        AddProperty("IntValue", allOptions);
+        AddProperty("FloatValue", allOptions);
+        AddProperty("OptionalStringValue", allOptions);
+        var allSetOptions = new List<CommandLineParserOptionAttribute>();
 
-            mockSingleArgumentParserService.Setup(x => x.Parse(
-                It.Is<string>(y => y == "s=helloworld")))
-                .Returns(singleArgumentParserService.Parse("s=helloworld"));
+        mockSingleArgumentParserService.Setup(x => x.Parse(
+            It.Is<string>(y => y == "s=helloworld")))
+            .Returns(singleArgumentParserService.Parse("s=helloworld"));
 
-            mockSingleArgumentParserService.Setup(x => x.Parse(
-                It.Is<string>(y => y == "b=true")))
-                .Returns(singleArgumentParserService.Parse("b=true"));
+        mockSingleArgumentParserService.Setup(x => x.Parse(
+            It.Is<string>(y => y == "b=true")))
+            .Returns(singleArgumentParserService.Parse("b=true"));
 
-            mockSingleArgumentParserService.Setup(x => x.Parse(
-                It.Is<string>(y => y == "i=2")))
-                .Returns(singleArgumentParserService.Parse("i=2"));
+        mockSingleArgumentParserService.Setup(x => x.Parse(
+            It.Is<string>(y => y == "i=2")))
+            .Returns(singleArgumentParserService.Parse("i=2"));
 
-            mockSingleArgumentParserService.Setup(x => x.Parse(
-                It.Is<string>(y => y == "f=5.55")))
-                .Returns(singleArgumentParserService.Parse("f=5.55"));
+        mockSingleArgumentParserService.Setup(x => x.Parse(
+            It.Is<string>(y => y == "f=5.55")))
+            .Returns(singleArgumentParserService.Parse("f=5.55"));
 
-            mockSingleArgumentParserService.Setup(x => x.Parse(
-                It.Is<string>(y => y == "o=pants")))
-                .Returns(singleArgumentParserService.Parse("o=pants"));
+        mockSingleArgumentParserService.Setup(x => x.Parse(
+            It.Is<string>(y => y == "o=pants")))
+            .Returns(singleArgumentParserService.Parse("o=pants"));
 
-            mockPropertyValueSetterService.Setup(x => x.SetPropertyValue(
-                It.IsAny<object>(),
-                It.IsAny<PropertyInfo>(),
-                It.IsAny<string>()))
-                .Callback((object o, PropertyInfo p, string s) =>
-                {
-                    propertyValueSetterService.SetPropertyValue(o, p, s);
-                });
-
-
-            // Act
-            sut.MapArguments(
-                optionsInstance,
-                allOptions,
-                argumentsString,
-                allSetOptions);
-
-            // Assert
-            Assert.Equal(5, allSetOptions.Count);
-            foreach(var curOption in allOptions)
+        mockPropertyValueSetterService.Setup(x => x.SetPropertyValue(
+            It.IsAny<object>(),
+            It.IsAny<PropertyInfo>(),
+            It.IsAny<string>()))
+            .Callback((object o, PropertyInfo p, string s) =>
             {
-                switch(curOption.Key.Name)
-                {
-                    case "StringValue":
-                        {
-                            Assert.Equal("helloworld", curOption.Key.GetValue(optionsInstance));
-                            break;
-                        }
+                propertyValueSetterService.SetPropertyValue(o, p, s);
+            });
 
-                    case "IntValue":
-                        {
-                            Assert.Equal(2, curOption.Key.GetValue(optionsInstance));
-                            break;
-                        }
 
-                    case "BoolValue":
-                        {
-                            Assert.Equal(true, curOption.Key.GetValue(optionsInstance));
-                            break;
-                        }
+        // Act
+        sut.MapArguments(
+            optionsInstance,
+            allOptions,
+            argumentsString,
+            allSetOptions);
 
-                    case "FloatValue":
-                        {
-                            Assert.Equal(5.55f, curOption.Key.GetValue(optionsInstance));
-                            break;
-                        }
+        // Assert
+        Assert.Equal(5, allSetOptions.Count);
+        foreach(var curOption in allOptions)
+        {
+            switch(curOption.Key.Name)
+            {
+                case "StringValue":
+                    {
+                        Assert.Equal("helloworld", curOption.Key.GetValue(optionsInstance));
+                        break;
+                    }
 
-                    case "OptionalStringValue":
-                        {
-                            Assert.Equal("pants", curOption.Key.GetValue(optionsInstance));
-                            break;
-                        }
+                case "IntValue":
+                    {
+                        Assert.Equal(2, curOption.Key.GetValue(optionsInstance));
+                        break;
+                    }
 
-                    default:
-                        {
-                            Assert.True(false, $"Untested option '{curOption.Key.Name}'.");
-                            break;
-                        }
-                }
+                case "BoolValue":
+                    {
+                        Assert.Equal(true, curOption.Key.GetValue(optionsInstance));
+                        break;
+                    }
+
+                case "FloatValue":
+                    {
+                        Assert.Equal(5.55f, curOption.Key.GetValue(optionsInstance));
+                        break;
+                    }
+
+                case "OptionalStringValue":
+                    {
+                        Assert.Equal("pants", curOption.Key.GetValue(optionsInstance));
+                        break;
+                    }
+
+                default:
+                    {
+                        Assert.True(false, $"Untested option '{curOption.Key.Name}'.");
+                        break;
+                    }
             }
         }
+    }
 
-        private static void AddProperty(
-            string name,
-            Dictionary<PropertyInfo, CommandLineParserOptionAttribute> options)
-        {
-            var propertyInfo = typeof(CommandLineTestOptions).GetProperty(name);
-            var attribute = propertyInfo.GetCustomAttribute<CommandLineParserOptionAttribute>();
-            options.Add(propertyInfo, attribute);
-        }
+    private static void AddProperty(
+        string name,
+        Dictionary<PropertyInfo, CommandLineParserOptionAttribute> options)
+    {
+        var propertyInfo = typeof(CommandLineTestOptions).GetProperty(name);
+        var attribute = propertyInfo.GetCustomAttribute<CommandLineParserOptionAttribute>();
+        options.Add(propertyInfo, attribute);
     }
 }

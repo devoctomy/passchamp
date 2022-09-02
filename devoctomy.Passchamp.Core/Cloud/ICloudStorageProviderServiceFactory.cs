@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Cloud
+namespace devoctomy.Passchamp.Core.Cloud;
+
+public interface ICloudStorageProviderServiceFactory
 {
-    public interface ICloudStorageProviderServiceFactory
-    {
-        public Task<ICloudStorageProviderService> Create(string id);
-    }
+    public Task<ICloudStorageProviderService> Create(string id);
 }

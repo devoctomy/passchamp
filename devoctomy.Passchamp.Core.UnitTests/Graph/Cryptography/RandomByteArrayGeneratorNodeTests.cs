@@ -8,43 +8,42 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography
+namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography;
+
+public class RandomByteArrayGeneratorNodeTests
 {
-    public class RandomByteArrayGeneratorNodeTests
+    [Fact]
+    public async Task GivenLength_AndNextKey_WhenExecute3Times_RandomBytesGenerated_AndAllUnique_AndNextExecuted()
     {
-        [Fact]
-        public async Task GivenLength_AndNextKey_WhenExecute3Times_RandomBytesGenerated_AndAllUnique_AndNextExecuted()
+        // Arrange
+        var length = 32;
+        var sut = new RandomByteArrayGeneratorNode
         {
-            // Arrange
-            var length = 32;
-            var sut = new RandomByteArrayGeneratorNode
-            {
-                Length = (IDataPin<int>)DataPinFactory.Instance.Create(
-                    "Length",
-                    length),
-                NextKey = "hello"
-            };
-            var mockGraph = new Mock<IGraph>();
-            var mockNextNode = new Mock<INode>();
-            mockGraph.Setup(x => x.GetNode<INode>(
-                It.Is<string>(x => x == sut.NextKey)))
-                .Returns(mockNextNode.Object);
-            var cancellationTokenSource = new CancellationTokenSource();
-            sut.AttachGraph(mockGraph.Object);
+            Length = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "Length",
+                length),
+            NextKey = "hello"
+        };
+        var mockGraph = new Mock<IGraph>();
+        var mockNextNode = new Mock<INode>();
+        mockGraph.Setup(x => x.GetNode<INode>(
+            It.Is<string>(x => x == sut.NextKey)))
+            .Returns(mockNextNode.Object);
+        var cancellationTokenSource = new CancellationTokenSource();
+        sut.AttachGraph(mockGraph.Object);
 
-            // Act
-            var resultsList = new List<string>();
-            for (int i = 0; i < 3; i++)
-            {
-                await sut.ExecuteAsync(cancellationTokenSource.Token);
-                resultsList.Add(Convert.ToBase64String(sut.RandomBytes.Value));
-            }
-
-            // Assert
-            Assert.Equal(3, resultsList.Distinct().ToList().Count);
-            mockGraph.Verify(x => x.GetNode<INode>(
-                It.Is<string>(x => x == sut.NextKey)), Times.Exactly(3));
-            mockNextNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Exactly(3));
+        // Act
+        var resultsList = new List<string>();
+        for (int i = 0; i < 3; i++)
+        {
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+            resultsList.Add(Convert.ToBase64String(sut.RandomBytes.Value));
         }
+
+        // Assert
+        Assert.Equal(3, resultsList.Distinct().ToList().Count);
+        mockGraph.Verify(x => x.GetNode<INode>(
+            It.Is<string>(x => x == sut.NextKey)), Times.Exactly(3));
+        mockNextNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Exactly(3));
     }
 }

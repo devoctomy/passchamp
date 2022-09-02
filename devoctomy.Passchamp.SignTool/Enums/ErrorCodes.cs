@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.SignTool.Enums
+﻿namespace devoctomy.Passchamp.SignTool.Enums;
+
+public enum ErrorCodes
 {
-    public enum ErrorCodes
-    {
-        Success = 0,
-        VerificationFailed = 1001
-    }
+    Success = 0,
+    VerificationFailed = 1001
 }

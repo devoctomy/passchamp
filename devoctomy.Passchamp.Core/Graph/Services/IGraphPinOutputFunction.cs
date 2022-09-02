@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace devoctomy.Passchamp.Core.Graph.Services
+namespace devoctomy.Passchamp.Core.Graph.Services;
+
+public interface IGraphPinOutputFunction
 {
-    public interface IGraphPinOutputFunction
-    {
-        bool IsApplicable(string key);
-        IPin Execute(
-            string value,
-            IReadOnlyDictionary<string, INode> nodes);
-    }
+    bool IsApplicable(string key);
+    IPin Execute(
+        string value,
+        IReadOnlyDictionary<string, INode> nodes);
 }

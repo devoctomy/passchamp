@@ -1,9 +1,8 @@
-﻿namespace devoctomy.Passchamp.Maui.Services
+﻿namespace devoctomy.Passchamp.Maui.Services;
+
+public interface IShellNavigationService
 {
-    public interface IShellNavigationService
-    {
-        Task GoHomeAsync(bool clearStack);
-        Task GoToAsync(ShellNavigationState shellNavigationState);
-        Task GoBackAsync();
-    }
+    Task GoHomeAsync(bool clearStack);
+    Task GoToAsync(ShellNavigationState shellNavigationState);
+    Task GoBackAsync();
 }

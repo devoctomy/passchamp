@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
+﻿namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+
+public class Argument
 {
-    public class Argument
-    {
-        public string Name { get; set; }
-        public string Value { get; set; }
-    }
+    public string Name { get; set; }
+    public string Value { get; set; }
 }

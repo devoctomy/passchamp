@@ -1,8 +1,7 @@
-namespace devoctomy.Passchamp.Core.Graph.Data
+namespace devoctomy.Passchamp.Core.Graph.Data;
+
+public enum Offset
 {
-    public enum Offset
-    {
-        Absolute = 0,
-        FromEnd = 1
-    }
+    Absolute = 0,
+    FromEnd = 1
 }

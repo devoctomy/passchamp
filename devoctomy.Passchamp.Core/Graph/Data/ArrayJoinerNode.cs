@@ -3,92 +3,91 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace devoctomy.Passchamp.Core.Graph.Data
+namespace devoctomy.Passchamp.Core.Graph.Data;
+
+public class ArrayJoinerNode : NodeBase
 {
-    public class ArrayJoinerNode : NodeBase
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Part1
     {
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Part1
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("Part1");
-            }
-            set
-            {
-                Input["Part1"] = value;
-            }
+            return GetInput<byte[]>("Part1");
         }
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Part2
+        set
         {
-            get
-            {
-                return GetInput<byte[]>("Part2");
-            }
-            set
-            {
-                Input["Part2"] = value;
-            }
+            Input["Part1"] = value;
         }
+    }
 
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Part3
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Part2
+    {
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("Part3");
-            }
-            set
-            {
-                Input["Part3"] = value;
-            }
+            return GetInput<byte[]>("Part2");
         }
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Part4
+        set
         {
-            get
-            {
-                return GetInput<byte[]>("Part4");
-            }
-            set
-            {
-                Input["Part4"] = value;
-            }
+            Input["Part2"] = value;
         }
+    }
 
-        [NodeOutputPin(ValueType = typeof(byte[]))]
-        public IDataPin<byte[]> JoinedOutput
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Part3
+    {
+        get
         {
-            get
-            {
-                return GetOutput<byte[]>("JoinedOutput");
-            }
+            return GetInput<byte[]>("Part3");
         }
-
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
+        set
         {
-            var allParts = new List<byte[]>();
-            AddPart(allParts, Part1.Value);
-            AddPart(allParts, Part2.Value);
-            AddPart(allParts, Part3.Value);
-            AddPart(allParts, Part4.Value);
-            JoinedOutput.Value = allParts.SelectMany(x => x).ToArray();
-            return Task.CompletedTask;
+            Input["Part3"] = value;
         }
+    }
 
-        private static void AddPart(
-            List<byte[]> parts,
-            byte[] value)
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Part4
+    {
+        get
         {
-            if (value != null)
-            {
-                parts.Add(value);
-            }
+            return GetInput<byte[]>("Part4");
+        }
+        set
+        {
+            Input["Part4"] = value;
+        }
+    }
+
+    [NodeOutputPin(ValueType = typeof(byte[]))]
+    public IDataPin<byte[]> JoinedOutput
+    {
+        get
+        {
+            return GetOutput<byte[]>("JoinedOutput");
+        }
+    }
+
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        var allParts = new List<byte[]>();
+        AddPart(allParts, Part1.Value);
+        AddPart(allParts, Part2.Value);
+        AddPart(allParts, Part3.Value);
+        AddPart(allParts, Part4.Value);
+        JoinedOutput.Value = allParts.SelectMany(x => x).ToArray();
+        return Task.CompletedTask;
+    }
+
+    private static void AddPart(
+        List<byte[]> parts,
+        byte[] value)
+    {
+        if (value != null)
+        {
+            parts.Add(value);
         }
     }
 }

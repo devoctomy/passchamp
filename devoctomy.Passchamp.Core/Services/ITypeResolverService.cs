@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.Core.Services
+namespace devoctomy.Passchamp.Core.Services;
+
+public interface ITypeResolverService
 {
-    public interface ITypeResolverService
-    {
-        public Type GetType(string name);
-    }
+    public Type GetType(string name);
 }

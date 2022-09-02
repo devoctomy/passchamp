@@ -1,28 +1,27 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using Xunit;
 
-namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser
+namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser;
+
+public class SingleArgumentParserServiceTests
 {
-    public class SingleArgumentParserServiceTests
+    [Theory]
+    [InlineData("a=hello", "a", "hello")]
+    [InlineData("a=\"hello world\"", "a", "hello world")]
+    [InlineData("", null, null)]
+    public void GivenArgumentString_WhenParse_ThenCorrectArgumentReturned(
+        string argumentString,
+        string expectedName,
+        string expectedValue)
     {
-        [Theory]
-        [InlineData("a=hello", "a", "hello")]
-        [InlineData("a=\"hello world\"", "a", "hello world")]
-        [InlineData("", null, null)]
-        public void GivenArgumentString_WhenParse_ThenCorrectArgumentReturned(
-            string argumentString,
-            string expectedName,
-            string expectedValue)
-        {
-            // Arrange
-            var sut = new SingleArgumentParserService();
+        // Arrange
+        var sut = new SingleArgumentParserService();
 
-            // Act
-            var argument = sut.Parse(argumentString);
+        // Act
+        var argument = sut.Parse(argumentString);
 
-            // Assert
-            Assert.Equal(expectedName, argument.Name);
-            Assert.Equal(expectedValue, argument.Value);
-        }
+        // Assert
+        Assert.Equal(expectedName, argument.Name);
+        Assert.Equal(expectedValue, argument.Value);
     }
 }

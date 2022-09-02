@@ -14,336 +14,335 @@ using devoctomy.Passchamp.Core.Graph.Text;
 using TechTalk.SpecFlow;
 using Xunit;
 
-namespace devoctomy.Passchamp.IntTests.Steps
+namespace devoctomy.Passchamp.IntTests.Steps;
+
+[Binding]
+public sealed class GraphStepDefinitions
 {
-    [Binding]
-    public sealed class GraphStepDefinitions
+    private readonly ScenarioContext _scenarioContext;
+
+    public GraphStepDefinitions(ScenarioContext scenarioContext)
     {
-        private readonly ScenarioContext _scenarioContext;
+        _scenarioContext = scenarioContext;
+    }
 
-        public GraphStepDefinitions(ScenarioContext scenarioContext)
+    [Given(@"A new dictionary of nodes")]
+    public void GivenANewDictionaryOfNodes()
+    {
+        var nodes = new Dictionary<string, INode>();
+        _scenarioContext.Set(nodes, "Nodes");
+    }
+
+    [Given(@"All nodes added to a new graph with a start node named (.*)")]
+    public void GivenANewGraphWithAStartNodeNamed(string startNode)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+        _scenarioContext.Set(
+            new Graph(
+                null,
+                null,
+                null,
+                nodes,
+                startNode,
+                null,
+                null),
+            "Graph");
+    }
+
+    [Given(@"RandomByteGeneratorNode named (.*) with a length of (.*) and NextKey of (.*)")]
+    public void GivenRandomByteGeneratorNodeNamedWithALengthOf(
+        string name,
+        int length,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new RandomByteArrayGeneratorNode
         {
-            _scenarioContext = scenarioContext;
-        }
+            Length = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "Length",
+                length),
+            NextKey = nextKey,
+        };
 
-        [Given(@"A new dictionary of nodes")]
-        public void GivenANewDictionaryOfNodes()
+        nodes.Add(name, node);
+    }
+
+    [Given(@"DeriveKeyFromPasswordNode named (.*) with a password of (.*) and key length of (.*) and NextKey of (.*)")]
+    [Obsolete("DeriveKeyFromPasswordNode is marked as obsolete and will be removed eventually.")]
+    public void GivenDeriveKeyFromPasswordNodeNamedWithAPasswordOfAndKeyLengthOf(
+        string name,
+        string password,
+        int keyLength,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new DeriveKeyFromPasswordNode
         {
-            var nodes = new Dictionary<string, INode>();
-            _scenarioContext.Set(nodes, "Nodes");
-        }
+            SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                "SecurePassword",
+                new NetworkCredential(null, password).SecurePassword),
+            KeyLength = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "KeyLength",
+                keyLength),
+            NextKey = nextKey,
+        };
 
-        [Given(@"All nodes added to a new graph with a start node named (.*)")]
-        public void GivenANewGraphWithAStartNodeNamed(string startNode)
+        nodes.Add(name, node);
+    }
+
+    [Given(@"SCryptNode named (.*) with a password of (.*) and NextKey of (.*)")]
+    [Obsolete("SCryptNode is marked as obsolete and will be removed eventually.")]
+    public void GivenSCryptNodeNamedWithAPasswordOfAndKeyLengthOf(
+        string name,
+        string password,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new SCryptNode
         {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-            _scenarioContext.Set(
-                new Graph(
-                    null,
-                    null,
-                    null,
-                    nodes,
-                    startNode,
-                    null,
-                    null),
-                "Graph");
-        }
+            SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                "SecurePassword",
+                new NetworkCredential(null, password).SecurePassword),
+            IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "IterationCount",
+                1024),
+            BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "BlockSize",
+                8),
+            ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "ThreadCount",
+                1),
+            NextKey = nextKey,
+        };
 
-        [Given(@"RandomByteGeneratorNode named (.*) with a length of (.*) and NextKey of (.*)")]
-        public void GivenRandomByteGeneratorNodeNamedWithALengthOf(
-            string name,
-            int length,
-            string nextKey)
+        nodes.Add(name, node);
+    }
+
+    [Given(@"Utf8EncoderNode named (.*) with plain text of (.*) and NextKey of (.*)")]
+    public void GivenUtfEncoderNodeNamed(
+        string name,
+        string plainText,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new Utf8EncoderNode
         {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+            PlainText = (IDataPin<string>)DataPinFactory.Instance.Create(
+                "PlainText",
+                plainText),
+            NextKey = nextKey,
+        };
 
-            var node = new RandomByteArrayGeneratorNode
+        nodes.Add(name, node);
+    }
+
+    [Given(@"EncryptNode named (.*) and NextKey of (.*)")]
+    public void GivenEncryptNodeNamedAndNextKeyOf(
+        string name,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new EncryptNode
+        {
+            NextKey = nextKey,
+        };
+
+        nodes.Add(name, node);
+    }
+
+    [Given(@"ArrayJoinerNode named (.*) and NextKey of (.*)")]
+    public void GivenArrayJoinerNodeNamed(
+        string name,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new ArrayJoinerNode
+        {
+            Part1 = null,
+            Part2 = null,
+            Part3 = null,
+            NextKey = nextKey,
+        };
+
+        nodes.Add(name, node);
+    }
+
+    [Given(@"FileWriterNode named (.*) with a filename of (.*)")]
+    public void GivenFileWriterNodeNamedWithAFilenameOf(
+        string name,
+        string fileName)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new FileWriterNode
+        {
+            FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
+                "FileName",
+                fileName),
+        };
+
+        nodes.Add(name, node);
+    }
+
+    [Given(@"FileReaderNode named (.*) with a filename of (.*) and NextKey of (.*)")]
+    public void GivenFileReaderNodeNamedWithAFilenameOf(
+        string name,
+        string fileName,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var node = new FileReaderNode
+        {
+            FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
+                "FileName",
+                fileName),
+            NextKey = nextKey,
+        };
+
+        nodes.Add(name, node);
+    }
+
+    [Given(@"DataParserNode named (.*) with parser sections of (.*) and NextKey of (.*)")]
+    public void GivenDataParserNodeNamed(
+        string name,
+        string parserSections,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+
+        var allSections = new List<DataParserSection>();
+        var sections = parserSections.Split(';');
+        foreach (var curSection in sections)
+        {
+            var curSectionParts = curSection.Split(',');
+            var startOffset = curSectionParts[1].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+            var startValue = int.Parse(curSectionParts[1].TrimStart('~'));
+            var endOffset = curSectionParts[2].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+            var endValue = int.Parse(curSectionParts[2].TrimStart('~'));
+
+            var section = new DataParserSection
             {
-                Length = (IDataPin<int>)DataPinFactory.Instance.Create(
-                    "Length",
-                    length),
-                NextKey = nextKey,
+                Key = curSectionParts[0],
+                Start = new ArrayLocation(startOffset, startValue),
+                End = new ArrayLocation(endOffset, endValue),
             };
-
-            nodes.Add(name, node);
+            allSections.Add(section);
         }
 
-        [Given(@"DeriveKeyFromPasswordNode named (.*) with a password of (.*) and key length of (.*) and NextKey of (.*)")]
-        [Obsolete("DeriveKeyFromPasswordNode is marked as obsolete and will be removed eventually.")]
-        public void GivenDeriveKeyFromPasswordNodeNamedWithAPasswordOfAndKeyLengthOf(
-            string name,
-            string password,
-            int keyLength,
-            string nextKey)
+        var node = new DataParserNode
         {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+            Sections = (IDataPin<List<DataParserSection>>)DataPinFactory.Instance.Create(
+                "Sections",
+                allSections),
+            NextKey = nextKey,
+        };
 
-            var node = new DeriveKeyFromPasswordNode
-            {
-                SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
-                    "SecurePassword",
-                    new NetworkCredential(null, password).SecurePassword),
-                KeyLength = (IDataPin<int>)DataPinFactory.Instance.Create(
-                    "KeyLength",
-                    keyLength),
-                NextKey = nextKey,
-            };
+        nodes.Add(name, node);
+    }
 
-            nodes.Add(name, node);
-        }
+    [Given(@"DecryptNode named (.*) and NextKey of (.*)")]
+    public void GivenDecryptNodeNamed(
+        string name,
+        string nextKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
-        [Given(@"SCryptNode named (.*) with a password of (.*) and NextKey of (.*)")]
-        [Obsolete("SCryptNode is marked as obsolete and will be removed eventually.")]
-        public void GivenSCryptNodeNamedWithAPasswordOfAndKeyLengthOf(
-            string name,
-            string password,
-            string nextKey)
+        var node = new DecryptNode
         {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+            NextKey = nextKey,
+        };
 
-            var node = new SCryptNode
-            {
-                SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
-                    "SecurePassword",
-                    new NetworkCredential(null, password).SecurePassword),
-                IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
-                    "IterationCount",
-                    1024),
-                BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
-                    "BlockSize",
-                    8),
-                ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
-                    "ThreadCount",
-                    1),
-                NextKey = nextKey,
-            };
+        nodes.Add(name, node);
+    }
 
-            nodes.Add(name, node);
-        }
+    [Given(@"Utf8DecoderNode named (.*)")]
+    public void GivenUtf8DecoderNodeNamed(string name)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
-        [Given(@"Utf8EncoderNode named (.*) with plain text of (.*) and NextKey of (.*)")]
-        public void GivenUtfEncoderNodeNamed(
-            string name,
-            string plainText,
-            string nextKey)
+        var node = new Utf8DecoderNode
         {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+        };
 
-            var node = new Utf8EncoderNode
-            {
-                PlainText = (IDataPin<string>)DataPinFactory.Instance.Create(
-                    "PlainText",
-                    plainText),
-                NextKey = nextKey,
-            };
+        nodes.Add(name, node);
+    }
 
-            nodes.Add(name, node);
-        }
+    [Given(@"Node (.*) input pin (.*) connected to node (.*) output pin (.*)")]
+    public void GivenNodeInputPinConnectedToNodeOutputPin(
+        string nodeAName,
+        string pinAName,
+        string nodeBName,
+        string pinBName)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+        var nodeA = nodes[nodeAName];
+        var nodeB = nodes[nodeBName];
 
-        [Given(@"EncryptNode named (.*) and NextKey of (.*)")]
-        public void GivenEncryptNodeNamedAndNextKeyOf(
-            string name,
-            string nextKey)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+        var nodeBPinPropInfo = nodeB.OutputPinsProperties[pinBName];
+        var nodeBPinOutAttribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(nodeBPinPropInfo, typeof(NodeOutputPinAttribute));
+        nodeA.Input[pinAName] = nodeB.GetOutput(pinBName, nodeBPinOutAttribute.ValueType);
+    }
 
-            var node = new EncryptNode
-            {
-                NextKey = nextKey,
-            };
+    [Given(@"Node (.*) input pin (.*) connected to DataParserNode (.*) section (.*) value")]
+    public void GivenNodeInputPinConnectedToDataParserNodeSectionValue(
+        string nodeAName,
+        string pinAName,
+        string dataParserNodeName,
+        string sectionKey)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+        var nodeA = nodes[nodeAName];
+        var nodeB = nodes[dataParserNodeName] as DataParserNode;
+        nodeA.Input[pinAName] = nodeB.GetSectionValue(sectionKey);
+    }
 
-            nodes.Add(name, node);
-        }
+    [When(@"Execute graph")]
+    public async Task WhenExecuteGraph()
+    {
+        var graph = _scenarioContext.Get<Graph>("Graph");
+        await graph.ExecuteAsync(CancellationToken.None);
+    }
 
-        [Given(@"ArrayJoinerNode named (.*) and NextKey of (.*)")]
-        public void GivenArrayJoinerNodeNamed(
-            string name,
-            string nextKey)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+    [Then(@"Output file (.*) created of (.*) bytes in length")]
+    public static void ThenOutputFileCreatedOfBytesInLength(
+        string fileName,
+        int length)
+    {
+        var file = new FileInfo(fileName);
+        Assert.True(file.Exists);
+        Assert.Equal(length, file.Length);
+    }
 
-            var node = new ArrayJoinerNode
-            {
-                Part1 = null,
-                Part2 = null,
-                Part3 = null,
-                NextKey = nextKey,
-            };
+    [Then(@"All nodes executed")]
+    public void ThenAllNodesExecuted()
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+        Assert.True(nodes.All(x => x.Value.Executed));
+    }
 
-            nodes.Add(name, node);
-        }
+    //[Then(@"All all nodes executed in correct order of (.*)")]
+    //public void ThenAllNodesExecutedInCorrectOrder(string expectedOrder)
+    //{
+    //    var graph = _scenarioContext.Get<Graph>("Graph");
+    //    var order = string.Join(",", graph.ExecutionOrder.ToArray());
+    //    Assert.Equal(expectedOrder, order);
+    //}
 
-        [Given(@"FileWriterNode named (.*) with a filename of (.*)")]
-        public void GivenFileWriterNodeNamedWithAFilenameOf(
-            string name,
-            string fileName)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-
-            var node = new FileWriterNode
-            {
-                FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
-                    "FileName",
-                    fileName),
-            };
-
-            nodes.Add(name, node);
-        }
-
-        [Given(@"FileReaderNode named (.*) with a filename of (.*) and NextKey of (.*)")]
-        public void GivenFileReaderNodeNamedWithAFilenameOf(
-            string name,
-            string fileName,
-            string nextKey)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-
-            var node = new FileReaderNode
-            {
-                FileName = (IDataPin<string>)DataPinFactory.Instance.Create(
-                    "FileName",
-                    fileName),
-                NextKey = nextKey,
-            };
-
-            nodes.Add(name, node);
-        }
-
-        [Given(@"DataParserNode named (.*) with parser sections of (.*) and NextKey of (.*)")]
-        public void GivenDataParserNodeNamed(
-            string name,
-            string parserSections,
-            string nextKey)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-
-            var allSections = new List<DataParserSection>();
-            var sections = parserSections.Split(';');
-            foreach (var curSection in sections)
-            {
-                var curSectionParts = curSection.Split(',');
-                var startOffset = curSectionParts[1].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
-                var startValue = int.Parse(curSectionParts[1].TrimStart('~'));
-                var endOffset = curSectionParts[2].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
-                var endValue = int.Parse(curSectionParts[2].TrimStart('~'));
-
-                var section = new DataParserSection
-                {
-                    Key = curSectionParts[0],
-                    Start = new ArrayLocation(startOffset, startValue),
-                    End = new ArrayLocation(endOffset, endValue),
-                };
-                allSections.Add(section);
-            }
-
-            var node = new DataParserNode
-            {
-                Sections = (IDataPin<List<DataParserSection>>)DataPinFactory.Instance.Create(
-                    "Sections",
-                    allSections),
-                NextKey = nextKey,
-            };
-
-            nodes.Add(name, node);
-        }
-
-        [Given(@"DecryptNode named (.*) and NextKey of (.*)")]
-        public void GivenDecryptNodeNamed(
-            string name,
-            string nextKey)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-
-            var node = new DecryptNode
-            {
-                NextKey = nextKey,
-            };
-
-            nodes.Add(name, node);
-        }
-
-        [Given(@"Utf8DecoderNode named (.*)")]
-        public void GivenUtf8DecoderNodeNamed(string name)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-
-            var node = new Utf8DecoderNode
-            {
-            };
-
-            nodes.Add(name, node);
-        }
-
-        [Given(@"Node (.*) input pin (.*) connected to node (.*) output pin (.*)")]
-        public void GivenNodeInputPinConnectedToNodeOutputPin(
-            string nodeAName,
-            string pinAName,
-            string nodeBName,
-            string pinBName)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-            var nodeA = nodes[nodeAName];
-            var nodeB = nodes[nodeBName];
-
-            var nodeBPinPropInfo = nodeB.OutputPinsProperties[pinBName];
-            var nodeBPinOutAttribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(nodeBPinPropInfo, typeof(NodeOutputPinAttribute));
-            nodeA.Input[pinAName] = nodeB.GetOutput(pinBName, nodeBPinOutAttribute.ValueType);
-        }
-
-        [Given(@"Node (.*) input pin (.*) connected to DataParserNode (.*) section (.*) value")]
-        public void GivenNodeInputPinConnectedToDataParserNodeSectionValue(
-            string nodeAName,
-            string pinAName,
-            string dataParserNodeName,
-            string sectionKey)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-            var nodeA = nodes[nodeAName];
-            var nodeB = nodes[dataParserNodeName] as DataParserNode;
-            nodeA.Input[pinAName] = nodeB.GetSectionValue(sectionKey);
-        }
-
-        [When(@"Execute graph")]
-        public async Task WhenExecuteGraph()
-        {
-            var graph = _scenarioContext.Get<Graph>("Graph");
-            await graph.ExecuteAsync(CancellationToken.None);
-        }
-
-        [Then(@"Output file (.*) created of (.*) bytes in length")]
-        public static void ThenOutputFileCreatedOfBytesInLength(
-            string fileName,
-            int length)
-        {
-            var file = new FileInfo(fileName);
-            Assert.True(file.Exists);
-            Assert.Equal(length, file.Length);
-        }
-
-        [Then(@"All nodes executed")]
-        public void ThenAllNodesExecuted()
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-            Assert.True(nodes.All(x => x.Value.Executed));
-        }
-
-        //[Then(@"All all nodes executed in correct order of (.*)")]
-        //public void ThenAllNodesExecutedInCorrectOrder(string expectedOrder)
-        //{
-        //    var graph = _scenarioContext.Get<Graph>("Graph");
-        //    var order = string.Join(",", graph.ExecutionOrder.ToArray());
-        //    Assert.Equal(expectedOrder, order);
-        //}
-
-        [Then(@"Node (.*) output pin (.*) equals string (.*)")]
-        public void ThenNodeOutputPinEqualsString(
-            string nodeName,
-            string pinName,
-            string stringValue)
-        {
-            var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
-            var node = nodes[nodeName];
-            Assert.Equal(stringValue, node.GetOutput<string>(pinName).Value);
-        }
+    [Then(@"Node (.*) output pin (.*) equals string (.*)")]
+    public void ThenNodeOutputPinEqualsString(
+        string nodeName,
+        string pinName,
+        string stringValue)
+    {
+        var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
+        var node = nodes[nodeName];
+        Assert.Equal(stringValue, node.GetOutput<string>(pinName).Value);
     }
 }

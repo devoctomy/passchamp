@@ -1,7 +1,6 @@
-﻿namespace devoctomy.Passchamp.Core.Vault
+﻿namespace devoctomy.Passchamp.Core.Vault;
+
+public class VaultHeader
 {
-    public class VaultHeader
-    {
-        public string FormatVersion { get; set; }
-    }
+    public string FormatVersion { get; set; }
 }

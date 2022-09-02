@@ -1,20 +1,19 @@
 using System;
 
-namespace devoctomy.Passchamp.Core.Graph
-{
-    public class DataPin<T> : IDataPin<T>
-    {
-        public string Name { get; set; }
-        public T Value { get; set; }
-        public Type ValueType => typeof(T);
-        public object ObjectValue => Value;
+namespace devoctomy.Passchamp.Core.Graph;
 
-        public DataPin(
-            string name,
-            T value)
-        {
-            Name = name;
-            Value = value;
-        }
+public class DataPin<T> : IDataPin<T>
+{
+    public string Name { get; set; }
+    public T Value { get; set; }
+    public Type ValueType => typeof(T);
+    public object ObjectValue => Value;
+
+    public DataPin(
+        string name,
+        T value)
+    {
+        Name = name;
+        Value = value;
     }
 }

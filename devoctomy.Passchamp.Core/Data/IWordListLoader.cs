@@ -2,10 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Data
+namespace devoctomy.Passchamp.Core.Data;
+
+public interface IWordListLoader
 {
-    public interface IWordListLoader
-    {
-        Task<Dictionary<string, List<string>>> LoadAllAsync(CancellationToken cancellationToken);
-    }
+    Task<Dictionary<string, List<string>>> LoadAllAsync(CancellationToken cancellationToken);
 }

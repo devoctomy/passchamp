@@ -1,7 +1,6 @@
-﻿namespace devoctomy.Passchamp.Maui.Services
+﻿namespace devoctomy.Passchamp.Maui.Services;
+
+public class ShellNavigationServiceOptions
 {
-    public class ShellNavigationServiceOptions
-    {
-        public string HomeRoute { get; set; }
-    }
+    public string HomeRoute { get; set; }
 }
