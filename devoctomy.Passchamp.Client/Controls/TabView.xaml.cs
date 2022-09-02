@@ -6,31 +6,31 @@ public partial class TabView : ContentView
 {
     public event EventHandler<SelectedTabViewPageChangedEventArgs> SelectedTabViewPageChanged;
 
-    public static BindableProperty TabHeightProperty = BindableProperty.Create(
+    public static readonly BindableProperty TabHeightProperty = BindableProperty.Create(
         nameof(TabHeight),
         typeof(double),
         typeof(TabView),
         64d);
 
-    public static BindableProperty TabPagesProperty = BindableProperty.Create(
+    public static readonly BindableProperty TabPagesProperty = BindableProperty.Create(
         nameof(TabPages),
         typeof(IList<TabViewPage>),
         typeof(TabView),
         new List<TabViewPage>());
 
-    public static BindableProperty TabAccentColourProperty = BindableProperty.Create(
+    public static readonly BindableProperty TabAccentColourProperty = BindableProperty.Create(
         nameof(TabPages),
         typeof(Color),
         typeof(TabView),
         Colors.Red);
 
-    public static BindableProperty SelectedTabAccentColourProperty = BindableProperty.Create(
+    public static readonly BindableProperty SelectedTabAccentColourProperty = BindableProperty.Create(
         nameof(TabPages),
         typeof(Color),
         typeof(TabView),
         Colors.Blue);
 
-    public static BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
+    public static readonly BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
         nameof(TabPages),
         typeof(ICommand),
         typeof(TabView),

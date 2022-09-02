@@ -4,31 +4,31 @@ namespace devoctomy.Passchamp.Client.Controls;
 
 public partial class TabViewPage : BindableObject
 {
-    public static BindableProperty IsSelectedProperty = BindableProperty.Create(
+    public static readonly BindableProperty IsSelectedProperty = BindableProperty.Create(
         nameof(IsSelected),
         typeof(bool),
         typeof(TabViewPage),
         false);
 
-    public static BindableProperty TitleProperty = BindableProperty.Create(
+    public static readonly BindableProperty TitleProperty = BindableProperty.Create(
         nameof(Title),
         typeof(string),
         typeof(TabViewPage),
         string.Empty);
 
-    public static BindableProperty WidthProperty = BindableProperty.Create(
+    public static readonly BindableProperty WidthProperty = BindableProperty.Create(
         nameof(Width),
         typeof(double),
         typeof(TabViewPage),
         60d);
 
-    public static BindableProperty ContentTypeProperty = BindableProperty.Create(
+    public static readonly BindableProperty ContentTypeProperty = BindableProperty.Create(
         nameof(ContentType),
         typeof(Type),
         typeof(TabViewPage),
         null);
 
-    public static BindableProperty ViewModelPropertyNameProperty = BindableProperty.Create(
+    public static readonly BindableProperty ViewModelPropertyNameProperty = BindableProperty.Create(
         nameof(ViewModelPropertyName),
         typeof(string),
         typeof(TabViewPage),
