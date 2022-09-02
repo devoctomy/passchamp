@@ -26,12 +26,14 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
 
     private readonly IVaultLoaderService _vaultLoaderService;
     private readonly IShellNavigationService _shellNavigationService;
+    private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
     private readonly static SemaphoreSlim _loaderLock = new(1, 1);
     private bool _loaded = false;
 
     public VaultsViewModel(
         IVaultLoaderService vaultLoaderService,
-        IShellNavigationService shellNavigationService)
+        IShellNavigationService shellNavigationService,
+        IThemeAwareImageResourceService themeAwareImageResourceService)
     {
         SettingsCommand = new Command(SettingsCommandHandler);
         AddVaultCommand = new Command(AddVaultCommandHandler);
@@ -40,6 +42,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         RemoveSelectedVaultCommand = new AsyncRelayCommand(RemoveSelectedVaultCommandHandler);
         _vaultLoaderService = vaultLoaderService;
         _shellNavigationService = shellNavigationService;
+        _themeAwareImageResourceService = themeAwareImageResourceService;
         Vaults = new ObservableCollection<VaultIndex>();
         SetupMenuItems();
     }
@@ -50,24 +53,24 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         {
             Text = "Create Vault",
             Command = AddVaultCommand,
-            IconImageSource = "new_dark.png"
+            IconImageSource = _themeAwareImageResourceService.Get("new")
         });
         MenuItems.Add(new MenuItem
         {
             Text = "Add Existing Vault",
             Command = AddVaultCommand,
-            IconImageSource = "add_dark.png"
+            IconImageSource = _themeAwareImageResourceService.Get("add")
         });
         MenuItems.Add(new MenuItem
         {
             Text = "Synchronise",
-            IconImageSource = "synchronize_dark.png"
+            IconImageSource = _themeAwareImageResourceService.Get("synchronize")
         });
         MenuItems.Add(new MenuItem
         {
             Text = "Settings",
             Command = SettingsCommand,
-            IconImageSource = "settings_dark.png"
+            IconImageSource = _themeAwareImageResourceService.Get("settings")
         });
     }
 

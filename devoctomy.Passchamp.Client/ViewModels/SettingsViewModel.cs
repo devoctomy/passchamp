@@ -16,12 +16,14 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
 
 
     private readonly IShellNavigationService _shellNavigationService;
+    private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
     private readonly static SemaphoreSlim _loaderLock = new(1, 1);
     private bool _loaded = false;
 
     public SettingsViewModel(
         CloudSettingsViewModel cloudSettingsViewModel,
-        IShellNavigationService shellNavigationService)
+        IShellNavigationService shellNavigationService,
+        IThemeAwareImageResourceService themeAwareImageResourceService)
     {
         CloudSettings = cloudSettingsViewModel;
 
@@ -29,6 +31,7 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
         CancelCommand = new Command(CancelCommandHandler);
         TabChangedCommand = new Command(TabChangedCommandHandler);
         _shellNavigationService = shellNavigationService;
+        _themeAwareImageResourceService = themeAwareImageResourceService;
         SetupMenuItems();
     }
 
@@ -57,12 +60,14 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
         MenuItems.Add(new MenuItem
         {
             Text = "Accept",
-            Command = AcceptCommand
+            Command = AcceptCommand,
+            IconImageSource = _themeAwareImageResourceService.Get("check")
         });
         MenuItems.Add(new MenuItem
         {
             Text = "Cancel",
-            Command = CancelCommand
+            Command = CancelCommand,
+            IconImageSource = _themeAwareImageResourceService.Get("close")
         });
     }
 
