@@ -37,6 +37,51 @@ public partial class CloudSettingsViewModel : BaseViewModel
     {
         await _cloudStorageProviderConfigLoaderService.LoadAsync(CancellationToken.None);
         CloudStorageProviderConfigRefs = new ObservableCollection<CloudStorageProviderConfigRef>(_cloudStorageProviderConfigLoaderService.Refs);
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
+        //CloudStorageProviderConfigRefs.Add(new CloudStorageProviderConfigRef
+        //{
+        //    Id = Guid.NewGuid().ToString(),
+        //    ProviderServiceTypeId = "76EEB72B-28DB-49E5-BE25-A2B625BAB333"
+        //});
     }
 
     public override async Task Return(BaseViewModel viewModel)

@@ -16,11 +16,6 @@
         <Label Text="Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
         <HorizontalStackLayout>
             <ImageButton
-                    Source="add_new_dark.png"
-                    WidthRequest="48"
-                    Command="{Binding AddCloudStorageProviderCommand}">
-            </ImageButton>
-            <ImageButton
                     Source="data_edit_dark.png"
                     WidthRequest="48"
                     Command="{Binding EditSelectedCloudStorageProviderCommand}"
@@ -64,5 +59,32 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Grid Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="48"/>
+            </Grid.ColumnDefinitions>
+            <Button Text="Add Cloud Provider..."
+                    Grid.Column="1"
+                    Command="{Binding AddCloudStorageProviderCommand}">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor"
+                                            Value="Green" />
+                                    <Setter Property="TextColor"
+                                            Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled" />
+                            <VisualState x:Name="Selected" />
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+        </Grid>
     </VerticalStackLayout>
 </baseviews:BaseView>
