@@ -19,7 +19,8 @@ public class ServiceCollectionExtensionsTests
         serviceCollection.AddPasschampMauiServices(new PasschampMauiServicesOptions
         {
             VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions(),
-            ShellNavigationServiceOptions = new Services.ShellNavigationServiceOptions()
+            ShellNavigationServiceOptions = new Services.ShellNavigationServiceOptions(),
+            ThemeAwareImageResourceServiceOptions = new Services.ThemeAwareImageResourceServiceOptions(),
         });
 
         // Assert
