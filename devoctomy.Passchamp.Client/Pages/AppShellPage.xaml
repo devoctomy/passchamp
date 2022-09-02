@@ -19,24 +19,21 @@
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <Grid HeightRequest="200">
-                <Button
-                    Text="Home"
-                    Command="{Binding HomeCommand}"/>
+                <Button Text="Home"
+                        Command="{Binding HomeCommand}"/>
             </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
 
-    <ShellContent
-            Title="Vaults"
-            ContentTemplate="{DataTemplate pages:VaultsPage}"
-            Route="Vaults"
-            Shell.FlyoutItemIsVisible="False" />
+    <ShellContent Title="Vaults"
+                  ContentTemplate="{DataTemplate pages:VaultsPage}"
+                  Route="Vaults"
+                  Shell.FlyoutItemIsVisible="False" />
 
-    <ShellContent
-        Title="Settings"
-        ContentTemplate="{DataTemplate pages:SettingsPage}"
-        Route="Settings"
-        Shell.FlyoutItemIsVisible="False" />
+    <ShellContent Title="Settings"
+                  ContentTemplate="{DataTemplate pages:SettingsPage}"
+                  Route="Settings"
+                  Shell.FlyoutItemIsVisible="False" />
 
     <Shell.FlyoutContent>
         <CollectionView x:Name="collectionView"
