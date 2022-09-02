@@ -6,11 +6,15 @@
     xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
     xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages"
     xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+    xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
     xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
     Shell.FlyoutBehavior="Flyout"
     x:DataType="vm:AppShellViewModel"
     x:TypeArguments="vm:AppShellViewModel"
     x:Name="shell">
+    <basepages:BaseShell.Resources>
+        <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
+    </basepages:BaseShell.Resources>
 
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
@@ -48,25 +52,23 @@
             </CollectionView.Behaviors>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="BaseShellItem">
-                    <Grid x:Name="FlyoutItemLayout"
-                          HeightRequest="{OnPlatform Default=44, Android=50}"
-                          ColumnSpacing="{OnPlatform WinUI=0}"
-                          RowSpacing="{OnPlatform WinUI=0}">
+                    <Border BackgroundColor="Transparent"
+                            StrokeThickness="0">
                         <Grid>
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{OnPlatform Default=44, Android=50, Converter={StaticResource DoubleToGridLengthConverter}}"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Text="{Binding Title}"
-                                    ImageSource="{Binding Icon}"
-                                    HorizontalOptions="Start"
-                                    AnchorX="0"
-                                    BackgroundColor="Transparent"
-                                    BorderWidth="0"
-                                    TextColor="{AppThemeBinding Light=Black, Dark=White}"
-                                    IsEnabled="False">
-                            </Button>
+                            <Image Source="{Binding Icon}"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"/>
+                            <Label Grid.Column="1"
+                                   Margin="8"
+                                   Text="{Binding Title}"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"/>
                         </Grid>
-                    </Grid>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

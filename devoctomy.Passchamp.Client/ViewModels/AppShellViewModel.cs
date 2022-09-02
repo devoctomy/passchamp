@@ -40,6 +40,7 @@ public partial class AppShellViewModel : BaseViewModel
             await RemoveMenuItems();
             _currentPageViewModel = nextPageViewModel;
             await AddMenuItems();
+            Shell.Current.FlyoutIsPresented = false;
         }
     }
 
