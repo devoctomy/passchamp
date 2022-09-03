@@ -31,8 +31,6 @@ public partial class AppShellViewModel : BaseViewModel
 
     public async Task OnCurrentPageChangeAsync()
     {
-        await Task.Yield();
-
         var page = Shell.Current.CurrentPage;
         var nextPageViewModel = page.BindingContext as BaseAppShellPageViewModel;
         if (_currentPageViewModel != nextPageViewModel)

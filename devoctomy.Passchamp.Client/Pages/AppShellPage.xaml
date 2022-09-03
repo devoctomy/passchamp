@@ -25,15 +25,23 @@
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
 
-    <ShellContent Title="Vaults"
-                  ContentTemplate="{DataTemplate pages:VaultsPage}"
-                  Route="Vaults"
-                  Shell.FlyoutItemIsVisible="False" />
+    <FlyoutItem Title="Vaults"
+                Route="Vaults"
+                FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate pages:VaultsPage}" />
+    </FlyoutItem>
 
-    <ShellContent Title="Settings"
-                  ContentTemplate="{DataTemplate pages:SettingsPage}"
-                  Route="Settings"
-                  Shell.FlyoutItemIsVisible="False" />
+    <FlyoutItem Title="Settings"
+                Route="Settings"
+                FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate pages:SettingsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Theme Test"
+                Route="ThemeTest"
+                FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate pages:ThemeTestPage}" />
+    </FlyoutItem>
 
     <Shell.FlyoutContent>
         <CollectionView x:Name="collectionView"
@@ -71,12 +79,10 @@
         </CollectionView>
     </Shell.FlyoutContent>
 
-    <!--<Shell.FlyoutFooterTemplate>
-        <DataTemplate>
-            <VerticalStackLayout>
-                <Button Text="Settings"/>
-                <Button Text="About"/>
-            </VerticalStackLayout>
-        </DataTemplate>
-    </Shell.FlyoutFooterTemplate>-->
+    <!--<Shell.FlyoutFooter>
+        <ShellContent Title="Theme Test"
+                  ContentTemplate="{DataTemplate pages:ThemeTestPage}"
+                  Route="ThemeTest"
+                  Shell.FlyoutItemIsVisible="True" />
+    </Shell.FlyoutFooter>-->
 </basepages:BaseShell>

@@ -1,40 +1,31 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using devoctomy.Passchamp.Client.ViewModels.Base;
+﻿using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Maui.Services;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
 
-public partial class SettingsViewModel : BaseAppShellPageViewModel
+public partial class ThemeTestViewModel : BaseAppShellPageViewModel
 {
-    [ObservableProperty]
-    public CloudSettingsViewModel cloudSettings;
-
     public ICommand AcceptCommand { get; }
     public ICommand CancelCommand { get; }
-    public ICommand TabChangedCommand { get; }
 
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
 
-    public SettingsViewModel(
-        CloudSettingsViewModel cloudSettingsViewModel,
+    public ThemeTestViewModel(
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService)
     {
-        CloudSettings = cloudSettingsViewModel;
-
         AcceptCommand = new Command(AcceptCommandHandler);
         CancelCommand = new Command(CancelCommandHandler);
-        TabChangedCommand = new Command(TabChangedCommandHandler);
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
         SetupMenuItems();
     }
 
-    public override async Task OnFirstAppearanceAsync()
+    public override Task OnFirstAppearanceAsync()
     {
-        await cloudSettings.Init();
+        return Task.CompletedTask;
     }
 
     public override void OnSetupMenuItems()
@@ -61,9 +52,5 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
     private void AcceptCommandHandler(object param)
     {
         _shellNavigationService.GoToAsync("//Vaults");
-    }
-
-    private void TabChangedCommandHandler(object param)
-    {
     }
 }

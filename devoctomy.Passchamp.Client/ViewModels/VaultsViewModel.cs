@@ -13,6 +13,7 @@ namespace devoctomy.Passchamp.Client.ViewModels;
 public partial class VaultsViewModel : BaseAppShellPageViewModel
 {
     public ICommand SettingsCommand { get; }
+    public ICommand ThemeTestCommand { get; }
     public ICommand CreateVaultCommand { get; }
     public ICommand AddVaultCommand { get; }
     public ICommand EditSelectedVaultCommand { get; }
@@ -27,8 +28,6 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     private readonly IVaultLoaderService _vaultLoaderService;
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
-    private readonly static SemaphoreSlim _loaderLock = new(1, 1);
-    private bool _loaded = false;
 
     public VaultsViewModel(
         IVaultLoaderService vaultLoaderService,
@@ -36,6 +35,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         IThemeAwareImageResourceService themeAwareImageResourceService)
     {
         SettingsCommand = new Command(SettingsCommandHandler);
+        ThemeTestCommand = new Command(ThemeTestCommandHandler);
         AddVaultCommand = new Command(AddVaultCommandHandler);
         AddVaultCommand = new Command(CreateVaultCommandHandler);
         EditSelectedVaultCommand = new Command(EditSelectedVaultCommandHandler);
@@ -72,6 +72,14 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
             Command = SettingsCommand,
             IconImageSource = _themeAwareImageResourceService.Get("settings")
         });
+#if DEBUG
+        MenuItems.Add(new MenuItem
+        {
+            Text = "Theme Test",
+            Command = ThemeTestCommand
+            //IconImageSource = _themeAwareImageResourceService.Get("settings")
+        });
+#endif
     }
 
     public override async Task Return(BaseViewModel viewModel)
@@ -84,25 +92,10 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         }
     }
 
-    public override async Task OnAppearingAsync()
+    public override async Task OnFirstAppearanceAsync()
     {
-        await _loaderLock.WaitAsync();
-        try
-        {
-            if (!_loaded)
-            {
-                await _vaultLoaderService.LoadAsync(CancellationToken.None);
-                Vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);
-                _loaded = true;
-            }
-
-            var appShellViewModel = Shell.Current.BindingContext as AppShellViewModel;
-            await appShellViewModel.OnCurrentPageChangeAsync();
-        }
-        finally
-        {
-            _loaderLock.Release();
-        }
+        await _vaultLoaderService.LoadAsync(CancellationToken.None);
+        Vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);
     }
 
     private void SettingsCommandHandler(object param)
@@ -110,10 +103,15 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         _shellNavigationService.GoToAsync("//Settings");
     }
 
+    private void ThemeTestCommandHandler(object param)
+    {
+        _shellNavigationService.GoToAsync("//ThemeTest");
+    }
+
     private void AddVaultCommandHandler(object param)
     {
         var viewModel = new VaultEditorViewModel(this);
-        var page = new Pages.VaultEditorPage(viewModel);
+        var page = new VaultEditorPage(viewModel);
         Application.Current.MainPage.Navigation.PushModalAsync(page, true);
     }
 

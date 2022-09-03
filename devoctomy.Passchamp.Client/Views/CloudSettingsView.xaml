@@ -14,7 +14,7 @@
         <converters:NotNullConverter x:Key="NotNullConverter" />
     </baseviews:BaseView.Resources>
     <VerticalStackLayout>
-        <Label Text="Storage Providers" Style="{StaticResource LargeLabelStyle}"></Label>
+        <Label Text="STORAGE PROVIDERS" Style="{StaticResource LargeLabelStyle}" HorizontalTextAlignment="Center"></Label>
         <HorizontalStackLayout IsVisible="{OnPlatform WinUI=true, Default=false}">
             <ImageButton Source="{AppThemeBinding Light=data_edit_light.png, Dark=data_edit_dark.png}"
                          WidthRequest="48"

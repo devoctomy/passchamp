@@ -6,13 +6,31 @@ public abstract partial class BaseAppShellPageViewModel : BaseViewModel
 {
     public List<MenuItem> MenuItems { get; set; }
 
+    private readonly static SemaphoreSlim _loaderLock = new(1, 1);
+    private bool _loaded = false;
+
     public BaseAppShellPageViewModel()
     {
     }
 
-    public override Task OnAppearingAsync()
+    public override async Task OnAppearingAsync()
     {
-        return Task.CompletedTask;
+        await _loaderLock.WaitAsync();
+        try
+        {
+            if (!_loaded)
+            {
+                await OnFirstAppearanceAsync();
+                _loaded = true;
+            }
+
+            var appShellViewModel = Shell.Current.BindingContext as AppShellViewModel;
+            await appShellViewModel.OnCurrentPageChangeAsync();
+        }
+        finally
+        {
+            _loaderLock.Release();
+        }
     }
 
     public override Task Return(BaseViewModel fromViewModel)
@@ -26,5 +44,6 @@ public abstract partial class BaseAppShellPageViewModel : BaseViewModel
         OnSetupMenuItems();
     }
 
+    public abstract Task OnFirstAppearanceAsync(); 
     public abstract void OnSetupMenuItems();
 }
