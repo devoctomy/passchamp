@@ -76,8 +76,8 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         MenuItems.Add(new MenuItem
         {
             Text = "Theme Test",
-            Command = ThemeTestCommand
-            //IconImageSource = _themeAwareImageResourceService.Get("settings")
+            Command = ThemeTestCommand,
+            IconImageSource = _themeAwareImageResourceService.Get("polaroid_01_wf")
         });
 #endif
     }
