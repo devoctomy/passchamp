@@ -6,6 +6,7 @@
     <Style x:Key="DefaultTabViewStyle" TargetType="controls:TabView">
         <Setter Property="TextColour" Value="White" />
         <Setter Property="TabBackColour" Value="{StaticResource Primary}" />
+        <Setter Property="SelectedTabBackColour" Value="{StaticResource Primary}" />
         <Setter Property="TabAccentColour" Value="{StaticResource Primary}"/>
         <Setter Property="SelectedTabAccentColour" Value="White"/>
     </Style>

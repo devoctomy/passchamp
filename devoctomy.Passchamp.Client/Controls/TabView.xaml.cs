@@ -23,7 +23,13 @@ public partial class TabView : ContentView
         nameof(TabBackColour),
         typeof(Color),
         typeof(TabView),
-        Colors.Black);
+        Colors.Transparent);
+
+    public static readonly BindableProperty SelectedTabBackColourProperty = BindableProperty.Create(
+        nameof(SelectedTabBackColour),
+        typeof(Color),
+        typeof(TabView),
+        Colors.Transparent);
 
     public static readonly BindableProperty TextColourProperty = BindableProperty.Create(
         nameof(TextColour),
@@ -82,6 +88,18 @@ public partial class TabView : ContentView
         set
         {
             SetValue(TabBackColourProperty, value);
+        }
+    }
+
+    public Color SelectedTabBackColour
+    {
+        get
+        {
+            return (Color)GetValue(SelectedTabBackColourProperty);
+        }
+        set
+        {
+            SetValue(SelectedTabBackColourProperty, value);
         }
     }
 

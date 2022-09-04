@@ -47,9 +47,23 @@
                                     VerticalTextAlignment="Center"/>
                                 <Rectangle
                                     x:Name="TabAccent"
-                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColourConverter}, ConverterParameter='Black,White'}"
+                                    BackgroundColor="{Binding TabAccentColour, Source={x:Reference Root}}"
                                     Grid.Row="1">
+                                    <Rectangle.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}"
+                                                     TargetType="Rectangle"
+                                                     Value="True">
+                                            <Setter Property="BackgroundColor" Value="{Binding SelectedTabAccentColour, Source={x:Reference Root}}"/>
+                                        </DataTrigger>
+                                    </Rectangle.Triggers>
                                 </Rectangle>
+                                <Grid.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}"
+                                                 TargetType="Grid"
+                                                 Value="True">
+                                        <Setter Property="BackgroundColor" Value="{Binding SelectedTabBackColour, Source={x:Reference Root}}"/>
+                                    </DataTrigger>
+                                </Grid.Triggers>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
