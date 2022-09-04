@@ -22,6 +22,12 @@ public partial class TabViewPage : BindableObject
         typeof(TabViewPage),
         60d);
 
+    public static readonly BindableProperty ContentProperty = BindableProperty.Create(
+        nameof(Content),
+        typeof(ContentView),
+        typeof(TabViewPage),
+        null);
+
     public static readonly BindableProperty ContentTypeProperty = BindableProperty.Create(
         nameof(ContentType),
         typeof(Type),
@@ -51,6 +57,13 @@ public partial class TabViewPage : BindableObject
         get => (double)GetValue(WidthProperty);
         set => SetValue(WidthProperty, value);
     }
+
+    public ContentView Content
+    {
+        get => (ContentView)GetValue(ContentProperty);
+        set => SetValue(ContentProperty, value);
+    }
+
     public Type ContentType
     {
         get => (Type)GetValue(ContentTypeProperty);

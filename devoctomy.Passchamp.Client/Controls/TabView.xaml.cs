@@ -130,7 +130,7 @@ public partial class TabView : ContentView
 
     public BaseViewModel GetTabViewPageViewModel(TabViewPage tabViewPage)
     {
-        if(tabViewPage == null)
+        if(tabViewPage == null || string.IsNullOrEmpty(tabViewPage.ViewModelPropertyName))
         {
             return null;
         }
@@ -160,7 +160,7 @@ public partial class TabView : ContentView
         }
         else
         {
-            TabContent.Content = null;
+            TabContent.Content = selectedTabPage?.Content;
         }
         var args = new SelectedTabViewPageChangedEventArgs
         {

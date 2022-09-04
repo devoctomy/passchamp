@@ -3,14 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+             xmlns:controls="clr-namespace:devoctomy.Passchamp.Client.Controls"
              x:Class="devoctomy.Passchamp.Client.Pages.ThemeTestPage"
              Title="Theme"
              x:DataType="vm:ThemeTestViewModel"
-             x:TypeArguments="vm:ThemeTestViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:TypeArguments="vm:ThemeTestViewModel"
+             Padding="0">
+    <controls:TabView>
+        <controls:TabView.TabPages>
+            <controls:TabViewPage Title="Labels" IsSelected="True">
+                <controls:TabViewPage.Content>
+                    <ContentView Margin="8">
+                        <VerticalStackLayout>
+                            <Label Text="Default Label Style" Style="{StaticResource DefaultLabelStyle}"></Label>
+                            <Label Text="Medium Label Style" Style="{StaticResource MediumLabelStyle}"></Label>
+                            <Label Text="Large Label Style" Style="{StaticResource LargeLabelStyle}"></Label>
+                        </VerticalStackLayout>
+                    </ContentView>
+                </controls:TabViewPage.Content>
+            </controls:TabViewPage>
+        </controls:TabView.TabPages>
+    </controls:TabView>
 </basepages:BasePage>
