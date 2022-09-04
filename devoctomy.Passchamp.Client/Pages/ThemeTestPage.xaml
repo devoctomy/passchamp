@@ -22,6 +22,32 @@
                     </ContentView>
                 </controls:TabViewPage.Content>
             </controls:TabViewPage>
+            <controls:TabViewPage Title="Buttons">
+                <controls:TabViewPage.Content>
+                    <ContentView Margin="8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <VerticalStackLayout>
+                                <Button Text="Default Button Style" Style="{StaticResource DefaultButtonStyle}"></Button>
+                                <Button Text="Info Button Style" Style="{StaticResource InfoButtonStyle}"></Button>
+                                <Button Text="Warning Button Style" Style="{StaticResource WarningButtonStyle}"></Button>
+                                <Button Text="Error Button Style" Style="{StaticResource ErrorButtonStyle}"></Button>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1">
+                                <Button Text="Default Button Style (Disabled)" Style="{StaticResource DefaultButtonStyle}" IsEnabled="False"></Button>
+                                <Button Text="Info Button Style (Disabled)" Style="{StaticResource InfoButtonStyle}" IsEnabled="False"></Button>
+                                <Button Text="Warning Button Style (Disabled)" Style="{StaticResource WarningButtonStyle}" IsEnabled="False"></Button>
+                                <Button Text="Error Button Style (Disabled)" Style="{StaticResource ErrorButtonStyle}" IsEnabled="False"></Button>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </ContentView>
+                </controls:TabViewPage.Content>
+            </controls:TabViewPage>
         </controls:TabView.TabPages>
     </controls:TabView>
 </basepages:BasePage>
