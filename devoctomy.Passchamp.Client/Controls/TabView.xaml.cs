@@ -19,20 +19,32 @@ public partial class TabView : ContentView
         typeof(TabView),
         new List<TabViewPage>());
 
-    public static readonly BindableProperty TabAccentColourProperty = BindableProperty.Create(
-        nameof(TabPages),
+    public static readonly BindableProperty TabBackColourProperty = BindableProperty.Create(
+        nameof(TabBackColour),
         typeof(Color),
         typeof(TabView),
-        Colors.Red);
+        Colors.Black);
+
+    public static readonly BindableProperty TextColourProperty = BindableProperty.Create(
+        nameof(TextColour),
+        typeof(Color),
+        typeof(TabView),
+        Colors.Black);
+
+    public static readonly BindableProperty TabAccentColourProperty = BindableProperty.Create(
+        nameof(TabAccentColour),
+        typeof(Color),
+        typeof(TabView),
+        Colors.Transparent);
 
     public static readonly BindableProperty SelectedTabAccentColourProperty = BindableProperty.Create(
-        nameof(TabPages),
+        nameof(SelectedTabAccentColour),
         typeof(Color),
         typeof(TabView),
-        Colors.Blue);
+        Colors.White);
 
     public static readonly BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
-        nameof(TabPages),
+        nameof(SelectedTabChangedCommand),
         typeof(ICommand),
         typeof(TabView),
         null);
@@ -61,6 +73,18 @@ public partial class TabView : ContentView
         }
     }
 
+    public Color TabBackColour
+    {
+        get
+        {
+            return (Color)GetValue(TabBackColourProperty);
+        }
+        set
+        {
+            SetValue(TabBackColourProperty, value);
+        }
+    }
+
     public Color TabAccentColour
     {
         get
@@ -70,6 +94,18 @@ public partial class TabView : ContentView
         set
         {
             SetValue(TabAccentColourProperty, value);
+        }
+    }
+
+    public Color TextColour
+    {
+        get
+        {
+            return (Color)GetValue(TextColourProperty);
+        }
+        set
+        {
+            SetValue(TextColourProperty, value);
         }
     }
 

@@ -34,6 +34,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="local:TabViewPage">
                             <Grid HeightRequest="{Binding TabHeight, Source={x:Reference Root}}"
+                                  BackgroundColor="{Binding TabBackColour, Source={x:Reference Root}}"
                                   WidthRequest="100">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"></RowDefinition>
@@ -41,11 +42,12 @@
                                 </Grid.RowDefinitions>
                                 <Label
                                     Text="{Binding Title}"
+                                    TextColor="{Binding TextColour, Source={x:Reference Root}}"
                                     HorizontalTextAlignment="Center"
                                     VerticalTextAlignment="Center"/>
                                 <Rectangle
                                     x:Name="TabAccent"
-                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColourConverter}, ConverterParameter='Blue,Red'}"
+                                    BackgroundColor="{Binding IsSelected, Converter={StaticResource BoolToColourConverter}, ConverterParameter='Black,White'}"
                                     Grid.Row="1">
                                 </Rectangle>
                             </Grid>
@@ -55,7 +57,7 @@
             </HorizontalStackLayout>
         </ScrollView>
         <ScrollView Grid.Row="2">
-            <ContentView x:Name="TabContent">
+            <ContentView x:Name="TabContent" BackgroundColor="Transparent">
             </ContentView>
         </ScrollView>
     </Grid>
