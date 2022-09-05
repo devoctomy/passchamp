@@ -15,7 +15,7 @@
                 <controls:TabViewPage.Content>
                     <ContentView Margin="8">
                         <VerticalStackLayout>
-                            <Label Text="Default Label Style" Style="{StaticResource DefaultLabelStyle}"></Label>
+                            <Label Text="Default Label Style"></Label>
                             <Label Text="Medium Label Style" Style="{StaticResource MediumLabelStyle}"></Label>
                             <Label Text="Large Label Style" Style="{StaticResource LargeLabelStyle}"></Label>
                         </VerticalStackLayout>
@@ -32,7 +32,7 @@
                             </Grid.ColumnDefinitions>
 
                             <VerticalStackLayout>
-                                <Button Text="Default Button Style" Style="{StaticResource DefaultButtonStyle}"></Button>
+                                <Button Text="Default Button Style"></Button>
                                 <Button Text="Info Button Style" Style="{StaticResource InfoButtonStyle}"></Button>
                                 <Button Text="Warning Button Style" Style="{StaticResource WarningButtonStyle}"></Button>
                                 <Button Text="Error Button Style" Style="{StaticResource ErrorButtonStyle}"></Button>
@@ -43,6 +43,52 @@
                                 <Button Text="Info Button Style (Disabled)" Style="{StaticResource InfoButtonStyle}" IsEnabled="False"></Button>
                                 <Button Text="Warning Button Style (Disabled)" Style="{StaticResource WarningButtonStyle}" IsEnabled="False"></Button>
                                 <Button Text="Error Button Style (Disabled)" Style="{StaticResource ErrorButtonStyle}" IsEnabled="False"></Button>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </ContentView>
+                </controls:TabViewPage.Content>
+            </controls:TabViewPage>
+            <controls:TabViewPage Title="Radio">
+                <controls:TabViewPage.Content>
+                    <ContentView Margin="8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <VerticalStackLayout>
+                                <RadioButton GroupName="Group1" />
+                                <RadioButton GroupName="Group1" />
+                                <RadioButton GroupName="Group1" Style="{StaticResource DefaultRadioButtonStyle}" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1">
+                                <RadioButton IsEnabled="False" />
+                                <RadioButton IsChecked="True" IsEnabled="False" GroupName="Group2" />
+                                <RadioButton IsChecked="True" IsEnabled="False" GroupName="Group3" Style="{StaticResource DefaultRadioButtonStyle}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </ContentView>
+                </controls:TabViewPage.Content>
+            </controls:TabViewPage>
+            <controls:TabViewPage Title="Checkbox">
+                <controls:TabViewPage.Content>
+                    <ContentView Margin="8">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <VerticalStackLayout>
+                                <CheckBox />
+                                <CheckBox />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1">
+                                <CheckBox IsEnabled="False" />
+                                <CheckBox IsChecked="True" IsEnabled="False" />
                             </VerticalStackLayout>
                         </Grid>
                     </ContentView>
