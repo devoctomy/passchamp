@@ -48,13 +48,13 @@ public partial class ThemeTestViewModel : BaseAppShellPageViewModel
         {
             Text = "Light Theme",
             Command = LightThemeCommand,
-            //IconImageSource = _themeAwareImageResourceService.Get("close")
+            IconImageSource = _themeAwareImageResourceService.Get("bulb_02")
         });
         MenuItems.Add(new MenuItem
         {
             Text = "Dark Theme",
             Command = DarkThemeCommand,
-            //IconImageSource = _themeAwareImageResourceService.Get("close")
+            IconImageSource = _themeAwareImageResourceService.Get("bulb_03")
         });
         MenuItems.Add(new MenuItem
         {

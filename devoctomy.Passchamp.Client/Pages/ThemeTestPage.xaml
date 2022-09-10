@@ -8,6 +8,7 @@
              Title="Theme"
              x:DataType="vm:ThemeTestViewModel"
              x:TypeArguments="vm:ThemeTestViewModel"
+             TransientViewModel="True"
              Padding="0">
     <controls:TabView>
         <controls:TabView.TabPages>

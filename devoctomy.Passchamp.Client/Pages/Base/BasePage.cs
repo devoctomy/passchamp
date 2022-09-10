@@ -14,11 +14,13 @@ public abstract class BasePage<TViewModel> : BasePage where TViewModel : BaseVie
 
 public abstract class BasePage : ContentPage
 {
-    private readonly BaseViewModel _viewModel;
+    public bool TransientViewModel { get; set; }
+
+    public BaseViewModel ViewModel { get; private set; }
 
     public BasePage(object viewModel = null)
     {
-        _viewModel = viewModel as BaseViewModel;
+        ViewModel = viewModel as BaseViewModel;
         BindingContext = viewModel;
         Padding = 12;
 
@@ -30,12 +32,20 @@ public abstract class BasePage : ContentPage
         }
     }
 
+    public void ResetViewModel()
+    {
+        var viewModelType = ViewModel.GetType();
+        var newViewModel = MauiProgram.MauiApp.Services.GetService(viewModelType) as BaseViewModel;
+        ViewModel = newViewModel;
+        BindingContext = newViewModel;
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
         Debug.WriteLine($"OnAppearing: {Title}");
         
-        Task.Run(_viewModel.OnAppearingAsync);
+        Task.Run(ViewModel.OnAppearingAsync);
     }
 
     protected override void OnDisappearing()

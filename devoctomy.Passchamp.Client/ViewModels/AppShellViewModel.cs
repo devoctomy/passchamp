@@ -1,13 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using devoctomy.Passchamp.Client.Pages.Base;
 using devoctomy.Passchamp.Client.ViewModels.Base;
-using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Maui.Services;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
 
-public partial class AppShellViewModel : BaseViewModel
+public partial class AppShellViewModel : BaseAppShellViewModel
 {
     [ObservableProperty]
     public ICommand homeCommand;
@@ -20,6 +19,7 @@ public partial class AppShellViewModel : BaseViewModel
 
     private BaseAppShellPageViewModel _currentPageViewModel;
     private readonly IShellNavigationService _shellNavigationService;
+    private BasePage _currentPage;
 
     public AppShellViewModel(IShellNavigationService shellNavigationService)
     {
@@ -44,6 +44,25 @@ public partial class AppShellViewModel : BaseViewModel
             // does with Windows. So we force it back here.
             Shell.Current.FlyoutIsPresented = false;
         }
+    }
+
+    public override void Navigating(ShellNavigatingEventArgs args)
+    {
+        base.Navigating(args);
+    }
+
+    public override void Navigated(ShellNavigatedEventArgs args)
+    {
+        base.Navigated(args);
+        if (_currentPage != null & _currentPage != Shell.Current.CurrentPage)
+        {
+            if(_currentPage.TransientViewModel)
+            {
+                _currentPage.ResetViewModel();
+            }
+        }
+
+        _currentPage = Shell.Current.CurrentPage as BasePage;
     }
 
     private async Task RemoveMenuItems()

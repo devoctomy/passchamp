@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace devoctomy.Passchamp.Client.Pages.Base;
 
-public abstract class BaseShell<TViewModel> : BaseShell where TViewModel : BaseViewModel
+public abstract class BaseShell<TViewModel> : BaseShell where TViewModel : BaseAppShellViewModel
 {
     public BaseShell(TViewModel viewModel) : base(viewModel)
     {
@@ -14,11 +14,11 @@ public abstract class BaseShell<TViewModel> : BaseShell where TViewModel : BaseV
 
 public abstract class BaseShell : Shell
 {
-    private readonly BaseViewModel _viewModel;
+    private readonly BaseAppShellViewModel _viewModel;
 
     public BaseShell(object viewModel = null)
     {
-        _viewModel = viewModel as BaseViewModel;
+        _viewModel = viewModel as BaseAppShellViewModel;
         BindingContext = viewModel;
         Padding = 12;
 
@@ -43,5 +43,17 @@ public abstract class BaseShell : Shell
         base.OnDisappearing();
 
         Debug.WriteLine($"OnDisappearing: {Title}");
+    }
+
+    protected override void OnNavigating(ShellNavigatingEventArgs args)
+    {
+        base.OnNavigating(args);
+        _viewModel.Navigating(args);
+    }
+
+    protected override void OnNavigated(ShellNavigatedEventArgs args)
+    {
+        base.OnNavigated(args);
+        _viewModel.Navigated(args);
     }
 }
