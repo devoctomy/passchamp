@@ -6,6 +6,8 @@ namespace devoctomy.Passchamp.Client.ViewModels;
 
 public partial class ThemeTestViewModel : BaseAppShellPageViewModel
 {
+    public ICommand LightThemeCommand { get; }
+    public ICommand DarkThemeCommand { get; }
     public ICommand AcceptCommand { get; }
     public ICommand CancelCommand { get; }
 
@@ -16,11 +18,23 @@ public partial class ThemeTestViewModel : BaseAppShellPageViewModel
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService)
     {
+        LightThemeCommand = new Command(LightThemeCommandHandler);
+        DarkThemeCommand = new Command(DarkThemeCommandHandler);
         AcceptCommand = new Command(AcceptCommandHandler);
         CancelCommand = new Command(CancelCommandHandler);
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
         SetupMenuItems();
+    }
+
+    private void DarkThemeCommandHandler(object param)
+    {
+        Application.Current.UserAppTheme = AppTheme.Dark;
+    }
+
+    private void LightThemeCommandHandler(object param)
+    {
+        Application.Current.UserAppTheme = AppTheme.Light;
     }
 
     public override Task OnFirstAppearanceAsync()
@@ -30,6 +44,18 @@ public partial class ThemeTestViewModel : BaseAppShellPageViewModel
 
     public override void OnSetupMenuItems()
     {
+        MenuItems.Add(new MenuItem
+        {
+            Text = "Light Theme",
+            Command = LightThemeCommand,
+            //IconImageSource = _themeAwareImageResourceService.Get("close")
+        });
+        MenuItems.Add(new MenuItem
+        {
+            Text = "Dark Theme",
+            Command = DarkThemeCommand,
+            //IconImageSource = _themeAwareImageResourceService.Get("close")
+        });
         MenuItems.Add(new MenuItem
         {
             Text = "Accept",
