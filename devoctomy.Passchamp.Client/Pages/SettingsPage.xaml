@@ -15,14 +15,14 @@
     <controls:TabView SelectedTabChangedCommand="{Binding TabChangedCommand}">
         <controls:TabView.TabPages>
             <controls:TabViewPage
+                Title="General"
+                ContentType="{x:Type views:GeneralSettingsView}"
+                ViewModelPropertyName="GeneralSettings"
+                IsSelected="True"/>            
+            <controls:TabViewPage
                 Title="Cloud"
                 ContentType="{x:Type views:CloudSettingsView}"
-                ViewModelPropertyName="CloudSettings"
-                IsSelected="True"/>
-            <controls:TabViewPage
-                Title="Test"
-                ContentType="{x:Type views:CloudSettingsView}"
-                ViewModelPropertyName="CloudSettings"/>            
+                ViewModelPropertyName="CloudSettings"/>
         </controls:TabView.TabPages>
     </controls:TabView>
 </basepages:BasePage>

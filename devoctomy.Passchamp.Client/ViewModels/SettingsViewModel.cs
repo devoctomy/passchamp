@@ -8,6 +8,9 @@ namespace devoctomy.Passchamp.Client.ViewModels;
 public partial class SettingsViewModel : BaseAppShellPageViewModel
 {
     [ObservableProperty]
+    public GeneralSettingsViewModel generalSettings;
+
+    [ObservableProperty]
     public CloudSettingsViewModel cloudSettings;
 
     public ICommand AcceptCommand { get; }
@@ -18,10 +21,12 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
 
     public SettingsViewModel(
+        GeneralSettingsViewModel generalSettingsViewModel,
         CloudSettingsViewModel cloudSettingsViewModel,
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService)
     {
+        GeneralSettings = generalSettingsViewModel;
         CloudSettings = cloudSettingsViewModel;
 
         AcceptCommand = new Command(AcceptCommandHandler);

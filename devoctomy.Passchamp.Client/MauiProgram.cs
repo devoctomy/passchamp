@@ -62,6 +62,7 @@ public static class MauiProgram
         services.AddTransient<VaultsPage>();
         services.AddTransient<SettingsPage>();
         services.AddTransient<ThemeTestPage>();
+        services.AddTransient<GeneralSettingsView>();
         services.AddTransient<CloudSettingsView>();
         services.AddTransient<CloudStorageProviderEditorPage>();
         services.AddTransient<VaultEditorPage>();
@@ -73,6 +74,7 @@ public static class MauiProgram
         services.AddTransient<VaultsViewModel>();
         services.AddTransient<SettingsViewModel>();
         services.AddTransient<ThemeTestViewModel>();
+        services.AddTransient<GeneralSettingsViewModel>();
         services.AddTransient<CloudSettingsViewModel>();
         services.AddTransient<CloudStorageProviderEditorViewModel>();
         services.AddTransient<VaultEditorViewModel>();
