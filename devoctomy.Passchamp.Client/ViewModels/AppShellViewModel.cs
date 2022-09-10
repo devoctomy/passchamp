@@ -87,6 +87,7 @@ public partial class AppShellViewModel : BaseAppShellViewModel
             {
                 var shellItem = curItem.Parent as ShellItem;
                 appShell.Items.Remove(shellItem);
+                curItem.Parent = null;
             }
         });
     }
@@ -113,6 +114,12 @@ public partial class AppShellViewModel : BaseAppShellViewModel
                 var shellItem = curItem.Parent as ShellItem;
                 shellItem.Icon = curItem.IconImageSource;
             }
+
+            //// !!! HACK !!!
+            //// This is needed for theme switching as otherwise the shell items
+            //// parent never gets set and it causes an exception next time the
+            //// theme switches
+            //appShell.ForceLayout();
         });
     }
 
