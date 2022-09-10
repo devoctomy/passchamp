@@ -58,15 +58,13 @@
                             </Grid.ColumnDefinitions>
 
                             <VerticalStackLayout>
-                                <RadioButton GroupName="Group1" />
-                                <RadioButton GroupName="Group1" />
-                                <RadioButton GroupName="Group1" Style="{StaticResource DefaultRadioButtonStyle}" />
+                                <RadioButton GroupName="1" />
+                                <RadioButton GroupName="1" />
                             </VerticalStackLayout>
 
                             <VerticalStackLayout Grid.Column="1">
-                                <RadioButton IsEnabled="False" />
-                                <RadioButton IsChecked="True" IsEnabled="False" GroupName="Group2" />
-                                <RadioButton IsChecked="True" IsEnabled="False" GroupName="Group3" Style="{StaticResource DefaultRadioButtonStyle}" />
+                                <RadioButton IsEnabled="False" GroupName="2" />
+                                <RadioButton IsEnabled="False" IsChecked="True" GroupName="3" />
                             </VerticalStackLayout>
                         </Grid>
                     </ContentView>

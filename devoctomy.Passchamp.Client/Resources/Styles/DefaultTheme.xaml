@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:devoctomy.Passchamp.Client.Controls">
+             xmlns:controls="clr-namespace:devoctomy.Passchamp.Client.Controls"
+             xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui">
 
     <Style x:Key="DefaultTabViewStyle" TargetType="controls:TabView">
         <Setter Property="TextColour" Value="White" />
@@ -102,7 +103,10 @@
         <Setter Property="ControlTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <Grid Margin="3,0,0,0">
+                    <Grid x:Name="grid" Margin="3,0,0,0">
+                        <Grid.Resources>
+                            <converters:BoolResourceColourConverter x:Key="BoolResourceColourConverter" />
+                        </Grid.Resources>
                         <Grid WidthRequest="21"
                               HeightRequest="21"
                               HorizontalOptions="Start"
@@ -110,48 +114,40 @@
                               Margin="3,0,0,0">
                             <Ellipse x:Name="CheckBack"
                                         Stroke="{StaticResource Gray500}"
-                                        StrokeThickness="3"
-                                        Fill="{AppThemeBinding Light={StaticResource Background_light}, Dark={StaticResource Background_dark}}"
+                                        StrokeThickness="2"
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center" />
                             <Ellipse x:Name="Check"
-                                        Fill="{StaticResource Black}"
-                                        WidthRequest="14"
-                                        HeightRequest="14"
+                                        WidthRequest="13"
+                                        HeightRequest="13"
                                         HorizontalOptions="Center"
                                         VerticalOptions="Center" />
                         </Grid>
                         <ContentPresenter />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroupList>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="Focused" />
-                                    <VisualState x:Name="Disabled">
-                                        <VisualState.Setters>
-                                            <Setter TargetName="CheckBack"
-                                                Property="Ellipse.Fill"
-                                                Value="Red"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-
                                 <VisualStateGroup x:Name="CheckedStates">
                                     <VisualState x:Name="Checked">
                                         <VisualState.Setters>
                                             <Setter TargetName="CheckBack"
+                                                Property="Ellipse.Stroke"
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray600,Gray500'}"/>
+                                            <Setter TargetName="CheckBack"
                                                 Property="Ellipse.Fill"
-                                                Value="{StaticResource Primary}"/>
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray900,Primary'}"/>
                                             <Setter TargetName="Check"
                                                 Property="Opacity"
                                                 Value="1"/>
+                                            <Setter TargetName="Check"
+                                                Property="Ellipse.Fill"
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray600,Black'}"/>
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Unchecked">
                                         <VisualState.Setters>
                                             <Setter TargetName="CheckBack"
-                                                Property="Ellipse.Fill"
-                                                Value="{AppThemeBinding Light={StaticResource Background_light}, Dark={StaticResource Background_dark}}"/>
+                                                Property="Ellipse.Stroke"
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray600,Gray500'}"/>
                                             <Setter TargetName="Check"
                                                 Property="Opacity"
                                                 Value="0"/>
@@ -164,22 +160,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="Background" Value="Red" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>-->
     </Style>
 
-    <!--<Style BasedOn="{StaticResource DefaultRadioButtonStyle}" TargetType="RadioButton">
-    </Style>-->
+    <Style BasedOn="{StaticResource DefaultRadioButtonStyle}" TargetType="RadioButton">
+    </Style>
     
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
