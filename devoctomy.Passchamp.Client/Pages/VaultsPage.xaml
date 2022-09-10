@@ -7,6 +7,7 @@
              x:Class="devoctomy.Passchamp.Client.Pages.VaultsPage"
              x:DataType="vm:VaultsViewModel"
              x:TypeArguments="vm:VaultsViewModel"
+             TransientViewModel="True"
              Title="Vaults">
     <pages:BasePage.Content>
         <VerticalStackLayout>

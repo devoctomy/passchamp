@@ -6,6 +6,7 @@ public abstract partial class BaseAppShellPageViewModel : BaseViewModel
 
     private readonly static SemaphoreSlim _loaderLock = new(1, 1);
     private bool _loaded = false;
+    private string _previousTheme = App.Current.UserAppTheme.ToString();
 
     public BaseAppShellPageViewModel()
     {
@@ -22,8 +23,15 @@ public abstract partial class BaseAppShellPageViewModel : BaseViewModel
                 _loaded = true;
             }
 
+            var currentAppTheme = App.Current.UserAppTheme.ToString();
+            if(currentAppTheme != _previousTheme)
+            {
+                SetupMenuItems();
+            }
+
             var appShellViewModel = Shell.Current.BindingContext as AppShellViewModel;
             await appShellViewModel.OnCurrentPageChangeAsync();
+            _previousTheme = App.Current.UserAppTheme.ToString();
         }
         finally
         {
@@ -36,12 +44,19 @@ public abstract partial class BaseAppShellPageViewModel : BaseViewModel
         throw new NotImplementedException();
     }
 
-    protected void SetupMenuItems()
+    public void SetupMenuItems()
     {
         MenuItems = new List<MenuItem>();
         OnSetupMenuItems();
     }
 
-    public abstract Task OnFirstAppearanceAsync(); 
-    public abstract void OnSetupMenuItems();
+    protected async Task RefreshMenuItems()
+    {
+        var appShell = Shell.Current as AppShellPage;
+        var appShellViewModel = appShell.BindingContext;
+        await appShellViewModel.RefreshMenuItems();
+    }
+
+    protected abstract Task OnFirstAppearanceAsync(); 
+    protected abstract void OnSetupMenuItems();
 }

@@ -30,19 +30,21 @@ public partial class ThemeTestViewModel : BaseAppShellPageViewModel
     private void DarkThemeCommandHandler(object param)
     {
         Application.Current.UserAppTheme = AppTheme.Dark;
+        Task.Run(RefreshMenuItems);
     }
 
     private void LightThemeCommandHandler(object param)
     {
         Application.Current.UserAppTheme = AppTheme.Light;
+        Task.Run(RefreshMenuItems);
     }
 
-    public override Task OnFirstAppearanceAsync()
+    protected override Task OnFirstAppearanceAsync()
     {
         return Task.CompletedTask;
     }
 
-    public override void OnSetupMenuItems()
+    protected override void OnSetupMenuItems()
     {
         MenuItems.Add(new MenuItem
         {

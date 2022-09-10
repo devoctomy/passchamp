@@ -32,12 +32,12 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
         SetupMenuItems();
     }
 
-    public override async Task OnFirstAppearanceAsync()
+    protected override async Task OnFirstAppearanceAsync()
     {
         await cloudSettings.Init();
     }
 
-    public override void OnSetupMenuItems()
+    protected override void OnSetupMenuItems()
     {
         MenuItems.Add(new MenuItem
         {

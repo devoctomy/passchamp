@@ -47,7 +47,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         SetupMenuItems();
     }
 
-    public override void OnSetupMenuItems()
+    protected override void OnSetupMenuItems()
     {
         MenuItems.Add(new MenuItem
         {
@@ -91,7 +91,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         }
     }
 
-    public override async Task OnFirstAppearanceAsync()
+    protected override async Task OnFirstAppearanceAsync()
     {
         await _vaultLoaderService.LoadAsync(CancellationToken.None);
         Vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);

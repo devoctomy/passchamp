@@ -46,6 +46,13 @@ public partial class AppShellViewModel : BaseAppShellViewModel
         }
     }
 
+    public async Task RefreshMenuItems()
+    {
+        await RemoveMenuItems();
+        _currentPageViewModel.SetupMenuItems();
+        await AddMenuItems();
+    }
+
     public override void Navigating(ShellNavigatingEventArgs args)
     {
         base.Navigating(args);
