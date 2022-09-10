@@ -105,7 +105,7 @@
                 <ControlTemplate>
                     <Grid x:Name="grid" Margin="3,0,0,0">
                         <Grid.Resources>
-                            <converters:BoolResourceColourConverter x:Key="BoolResourceColourConverter" />
+                            <converters:BoolToColourConverter x:Key="BoolToColourConverter" />
                         </Grid.Resources>
                         <Grid WidthRequest="21"
                               HeightRequest="21"
@@ -131,23 +131,23 @@
                                         <VisualState.Setters>
                                             <Setter TargetName="CheckBack"
                                                 Property="Ellipse.Stroke"
-                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray600,Gray500'}"/>
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolToColourConverter}, ConverterParameter='Gray600,Gray500'}"/>
                                             <Setter TargetName="CheckBack"
                                                 Property="Ellipse.Fill"
-                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray900,Primary'}"/>
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolToColourConverter}, ConverterParameter='Gray900,Primary'}"/>
                                             <Setter TargetName="Check"
                                                 Property="Opacity"
                                                 Value="1"/>
                                             <Setter TargetName="Check"
                                                 Property="Ellipse.Fill"
-                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray600,Black'}"/>
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolToColourConverter}, ConverterParameter='Gray600,Black'}"/>
                                         </VisualState.Setters>
                                     </VisualState>
                                     <VisualState x:Name="Unchecked">
                                         <VisualState.Setters>
                                             <Setter TargetName="CheckBack"
                                                 Property="Ellipse.Stroke"
-                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolResourceColourConverter}, ConverterParameter='Gray600,Gray500'}"/>
+                                                Value="{Binding Parent.IsEnabled, Source={Reference grid}, Converter={StaticResource Key=BoolToColourConverter}, ConverterParameter='Gray600,Gray500'}"/>
                                             <Setter TargetName="Check"
                                                 Property="Opacity"
                                                 Value="0"/>

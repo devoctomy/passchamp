@@ -13,9 +13,15 @@ public class BoolToColourConverter : IValueConverter
         var valueBool = (bool)value;
         var colourNames = parameter.ToString().Split(',');
         var colourName = colourNames[valueBool ? 1 : 0];
-        var colourFields = typeof(Colors).GetFields();
-        var colourField = colourFields.SingleOrDefault(x => x.Name == colourName);
-        return (Color)colourField.GetValue(null);
+        var found = Application.Current.Resources.TryGetValue(colourName, out var colour);
+        if (!found)
+        {
+            var colourFields = typeof(Colors).GetFields();
+            var colourField = colourFields.SingleOrDefault(x => x.Name == colourName);
+            colour = colourField.GetValue(null);
+        }
+
+        return (Color)colour;
     }
 
     public object ConvertBack(
