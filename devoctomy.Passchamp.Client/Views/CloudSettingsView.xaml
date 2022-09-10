@@ -9,10 +9,6 @@
              x:DataType="vm:CloudSettingsViewModel"
              x:TypeArguments="vm:CloudSettingsViewModel"
              x:Name="Root">
-    <baseviews:BaseView.Resources>
-        <converters:ProviderServiceTypeIdToDisplayNameConverter x:Key="ProviderServiceTypeIdToDisplayNameConverter" />
-        <converters:NotNullConverter x:Key="NotNullConverter" />
-    </baseviews:BaseView.Resources>
     <VerticalStackLayout>
         <Label Text="STORAGE PROVIDERS" Style="{StaticResource LargeLabelStyle}" HorizontalTextAlignment="Center"></Label>
         <HorizontalStackLayout IsVisible="{OnPlatform WinUI=true, Default=false}">

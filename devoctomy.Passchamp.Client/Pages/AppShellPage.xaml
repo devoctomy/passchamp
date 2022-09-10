@@ -12,10 +12,6 @@
     x:DataType="vm:AppShellViewModel"
     x:TypeArguments="vm:AppShellViewModel"
     x:Name="shell">
-    <basepages:BaseShell.Resources>
-        <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
-    </basepages:BaseShell.Resources>
-
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <Grid HeightRequest="200">

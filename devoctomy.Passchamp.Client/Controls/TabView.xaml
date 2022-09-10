@@ -6,10 +6,6 @@
              x:Class="devoctomy.Passchamp.Client.Controls.TabView"
              x:DataType="local:TabView"
              x:Name="Root">
-    <ContentView.Resources>
-        <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
-        <converters:BoolToColourConverter x:Key="BoolToColourConverter" />
-    </ContentView.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="{Binding TabHeight, Source={x:Reference Root}, Converter={StaticResource DoubleToGridLengthConverter}, ConverterParameter=Absolute}"></RowDefinition>
