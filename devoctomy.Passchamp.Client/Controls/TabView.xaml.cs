@@ -8,7 +8,7 @@ public partial class TabView : ContentView
 {
     public event EventHandler<SelectedTabViewPageChangedEventArgs> SelectedTabViewPageChanged;
 
-    public readonly BindableProperty TabHeightProperty = BindableProperty.Create(
+    public static readonly BindableProperty TabHeightProperty = BindableProperty.Create(
         nameof(TabHeight),
         typeof(double),
         typeof(TabView),
@@ -20,37 +20,37 @@ public partial class TabView : ContentView
         typeof(TabView),
         new List<TabViewPage>());
 
-    public readonly BindableProperty TabBackColourProperty = BindableProperty.Create(
+    public static readonly BindableProperty TabBackColourProperty = BindableProperty.Create(
         nameof(TabBackColour),
         typeof(Color),
         typeof(TabView),
         Colors.Transparent);
 
-    public readonly BindableProperty SelectedTabBackColourProperty = BindableProperty.Create(
+    public static readonly BindableProperty SelectedTabBackColourProperty = BindableProperty.Create(
         nameof(SelectedTabBackColour),
         typeof(Color),
         typeof(TabView),
         Colors.Transparent);
 
-    public readonly BindableProperty TextColourProperty = BindableProperty.Create(
+    public static readonly BindableProperty TextColourProperty = BindableProperty.Create(
         nameof(TextColour),
         typeof(Color),
         typeof(TabView),
         Colors.Black);
 
-    public readonly BindableProperty TabAccentColourProperty = BindableProperty.Create(
+    public static readonly BindableProperty TabAccentColourProperty = BindableProperty.Create(
         nameof(TabAccentColour),
         typeof(Color),
         typeof(TabView),
         Colors.Transparent);
 
-    public readonly BindableProperty SelectedTabAccentColourProperty = BindableProperty.Create(
+    public static readonly BindableProperty SelectedTabAccentColourProperty = BindableProperty.Create(
         nameof(SelectedTabAccentColour),
         typeof(Color),
         typeof(TabView),
         Colors.White);
 
-    public readonly BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
+    public static readonly BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
         nameof(SelectedTabChangedCommand),
         typeof(ICommand),
         typeof(TabView),
