@@ -1,4 +1,5 @@
 using devoctomy.Passchamp.Client.ViewModels.Base;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.Controls;
@@ -7,49 +8,49 @@ public partial class TabView : ContentView
 {
     public event EventHandler<SelectedTabViewPageChangedEventArgs> SelectedTabViewPageChanged;
 
-    public static readonly BindableProperty TabHeightProperty = BindableProperty.Create(
+    public readonly BindableProperty TabHeightProperty = BindableProperty.Create(
         nameof(TabHeight),
         typeof(double),
         typeof(TabView),
         64d);
 
-    public static readonly BindableProperty TabPagesProperty = BindableProperty.Create(
+    public readonly BindableProperty TabPagesProperty = BindableProperty.Create(
         nameof(TabPages),
         typeof(IList<TabViewPage>),
         typeof(TabView),
         new List<TabViewPage>());
 
-    public static readonly BindableProperty TabBackColourProperty = BindableProperty.Create(
+    public readonly BindableProperty TabBackColourProperty = BindableProperty.Create(
         nameof(TabBackColour),
         typeof(Color),
         typeof(TabView),
         Colors.Transparent);
 
-    public static readonly BindableProperty SelectedTabBackColourProperty = BindableProperty.Create(
+    public readonly BindableProperty SelectedTabBackColourProperty = BindableProperty.Create(
         nameof(SelectedTabBackColour),
         typeof(Color),
         typeof(TabView),
         Colors.Transparent);
 
-    public static readonly BindableProperty TextColourProperty = BindableProperty.Create(
+    public readonly BindableProperty TextColourProperty = BindableProperty.Create(
         nameof(TextColour),
         typeof(Color),
         typeof(TabView),
         Colors.Black);
 
-    public static readonly BindableProperty TabAccentColourProperty = BindableProperty.Create(
+    public readonly BindableProperty TabAccentColourProperty = BindableProperty.Create(
         nameof(TabAccentColour),
         typeof(Color),
         typeof(TabView),
         Colors.Transparent);
 
-    public static readonly BindableProperty SelectedTabAccentColourProperty = BindableProperty.Create(
+    public readonly BindableProperty SelectedTabAccentColourProperty = BindableProperty.Create(
         nameof(SelectedTabAccentColour),
         typeof(Color),
         typeof(TabView),
         Colors.White);
 
-    public static readonly BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
+    public readonly BindableProperty SelectedTabChangedCommandProperty = BindableProperty.Create(
         nameof(SelectedTabChangedCommand),
         typeof(ICommand),
         typeof(TabView),
