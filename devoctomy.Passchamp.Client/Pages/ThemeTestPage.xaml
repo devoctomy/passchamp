@@ -12,7 +12,17 @@
              Padding="0">
     <controls:TabView>
         <controls:TabView.TabPages>
-            <controls:TabViewPage Title="Labels" IsSelected="True">
+            <controls:TabViewPage Title="Entry" IsSelected="True">
+                <controls:TabViewPage.Content>
+                    <ContentView Margin="8">
+                        <VerticalStackLayout>
+                            <Entry Text="Default Entry Style 1"></Entry>
+                            <Entry Text="Default Entry Style 2" Margin="0,8,0,0"></Entry>
+                        </VerticalStackLayout>
+                    </ContentView>
+                </controls:TabViewPage.Content>
+            </controls:TabViewPage>
+            <controls:TabViewPage Title="Labels">
                 <controls:TabViewPage.Content>
                     <ContentView Margin="8">
                         <VerticalStackLayout>
@@ -90,6 +100,16 @@
                                 <CheckBox IsChecked="True" IsEnabled="False" />
                             </VerticalStackLayout>
                         </Grid>
+                    </ContentView>
+                </controls:TabViewPage.Content>
+            </controls:TabViewPage>
+            <controls:TabViewPage Title="DatePicker">
+                <controls:TabViewPage.Content>
+                    <ContentView Margin="8">
+                        <VerticalStackLayout>
+                            <DatePicker></DatePicker>
+                            <DatePicker Margin="0,8,0,0"></DatePicker>
+                        </VerticalStackLayout>
                     </ContentView>
                 </controls:TabViewPage.Content>
             </controls:TabViewPage>
