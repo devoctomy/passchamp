@@ -9,13 +9,13 @@ namespace devoctomy.Passchamp.Client.ViewModels;
 public partial class AppShellViewModel : BaseAppShellViewModel
 {
     [ObservableProperty]
-    public ICommand homeCommand;
+    private ICommand homeCommand;
 
     [ObservableProperty]
-    public ICommand menuSelectionChangedCommand;
+    private ICommand menuSelectionChangedCommand;
 
     [ObservableProperty]
-    public ICommand menuSelectionPropertyChangedCommand;
+    private ICommand menuSelectionPropertyChangedCommand;
 
     private BaseAppShellPageViewModel _currentPageViewModel;
     private readonly IShellNavigationService _shellNavigationService;

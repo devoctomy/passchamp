@@ -5,7 +5,7 @@ public abstract partial class BaseAppShellPageViewModel : BaseViewModel
     public List<MenuItem> MenuItems { get; set; }
 
     private readonly static SemaphoreSlim _loaderLock = new(1, 1);
-    private bool _loaded = false;
+    private bool _loaded;
     private string _previousTheme = App.Current.UserAppTheme.ToString();
 
     public BaseAppShellPageViewModel()

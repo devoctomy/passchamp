@@ -8,10 +8,10 @@ namespace devoctomy.Passchamp.Client.ViewModels;
 public partial class SettingsViewModel : BaseAppShellPageViewModel
 {
     [ObservableProperty]
-    public GeneralSettingsViewModel generalSettings;
+    private GeneralSettingsViewModel generalSettings;
 
     [ObservableProperty]
-    public CloudSettingsViewModel cloudSettings;
+    private CloudSettingsViewModel cloudSettings;
 
     public ICommand AcceptCommand { get; }
     public ICommand CancelCommand { get; }

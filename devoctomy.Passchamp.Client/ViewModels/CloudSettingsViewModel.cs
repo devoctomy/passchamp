@@ -64,6 +64,11 @@ public partial class CloudSettingsViewModel : BaseViewModel
                         await UpdateCloudStorageProvider(cloudStorageProviderEditorViewModel);
                         break;
                     }
+
+                default:
+                    {
+                        throw new InvalidOperationException();
+                    }
             }
         }
     }

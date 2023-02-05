@@ -32,10 +32,10 @@ public partial class CloudStorageProviderEditorViewModel : BaseViewModel
     private string path;
 
     [ObservableProperty]
-    public List<string> regions = Amazon.RegionEndpoint.EnumerableAllRegions.Select(x => x.DisplayName).ToList();
+    private List<string> regions = Amazon.RegionEndpoint.EnumerableAllRegions.Select(x => x.DisplayName).ToList();
 
     [ObservableProperty]
-    public bool okCommandEnabled;
+    private bool okCommandEnabled;
 
     public BaseViewModel ReturnViewModel { get; set; }
 

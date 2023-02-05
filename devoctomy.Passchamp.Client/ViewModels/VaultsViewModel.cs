@@ -23,7 +23,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     private ObservableCollection<VaultIndex> vaults;
 
     [ObservableProperty]
-    private VaultIndex selectedVaultIndex = null;
+    private VaultIndex selectedVaultIndex;
 
     private readonly IVaultLoaderService _vaultLoaderService;
     private readonly IShellNavigationService _shellNavigationService;
