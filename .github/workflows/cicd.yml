@@ -13,7 +13,9 @@ on:
       - '**'
   workflow_dispatch:
 permissions:
+  actions: read
   contents: read
+  security-events: write
 
 env:
   DOTNET_NOLOGO: true                     # Disable the .NET logo
