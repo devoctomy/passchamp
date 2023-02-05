@@ -4,7 +4,7 @@ public class ShellNavigationService : IShellNavigationService
 {
     private readonly ShellNavigationServiceOptions _options;
 
-    private Stack<ShellNavigationState> _stateStack;
+    private readonly Stack<ShellNavigationState> _stateStack;
 
     public ShellNavigationService(ShellNavigationServiceOptions options)
     {

@@ -219,7 +219,7 @@ public class CloudStorageProviderConfigLoaderServiceTests
         mockPartialSecureJsonWriterService.Setup(x => x.SaveAsync(
             It.IsAny<object>(),
             It.IsAny<Stream>()))
-            .Callback((object value, Stream stream) =>
+            .Callback((object _, Stream stream) =>
             {
                 var json = JsonConvert.SerializeObject(config);
                 var data = Encoding.UTF8.GetBytes(json);

@@ -1,5 +1,4 @@
 ﻿using devoctomy.Passchamp.Client.ViewModels.Base;
-using System.Diagnostics;
 
 namespace devoctomy.Passchamp.Client.Views.Base;
 
@@ -16,7 +15,12 @@ public abstract class BaseView : ContentView
 {
     private readonly BaseViewModel _viewModel;
 
-    public BaseView(object viewModel = null)
+    public BaseView()
+    {
+        SetDynamicResource(BackgroundColorProperty, "AppBackgroundColor");
+    }
+
+    public BaseView(object viewModel)
     {
         _viewModel = viewModel as BaseViewModel;
         BindingContext = viewModel;

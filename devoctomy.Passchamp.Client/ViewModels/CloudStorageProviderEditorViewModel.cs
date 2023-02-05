@@ -98,12 +98,35 @@ public partial class CloudStorageProviderEditorViewModel : BaseViewModel
     {
         var validateInput = () =>
         {
-            if (DisplayName == null || DisplayName.Length == 0) return false;
-            if (AccessId == null || AccessId.Length == 0) return false;
-            if (SecretKey == null || SecretKey.Length == 0) return false;
-            if (Region == null || Region.Length == 0) return false;
-            if (Bucket == null || Bucket.Length == 0) return false;
-            if (Path == null || Path.Length == 0) return false;
+            if (DisplayName == null || DisplayName.Length == 0)
+            {
+                return false;
+            }
+
+            if (AccessId == null || AccessId.Length == 0)
+            {
+                return false;
+            }
+
+            if (SecretKey == null || SecretKey.Length == 0)
+            {
+                return false;
+            }
+
+            if (Region == null || Region.Length == 0)
+            {
+                return false;
+            }
+
+            if (Bucket == null || Bucket.Length == 0)
+            {
+                return false;
+            }
+
+            if (Path == null || Path.Length == 0)
+            {
+                return false;
+            }
 
             return true;
         };
