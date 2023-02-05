@@ -2,41 +2,40 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Cryptography
+namespace devoctomy.Passchamp.Core.Graph.Cryptography;
+
+public class RandomByteArrayGeneratorNode : NodeBase
 {
-    public class RandomByteArrayGeneratorNode : NodeBase
+    [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
+    public IDataPin<int> Length
     {
-        [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
-        public IDataPin<int> Length
+        get
         {
-            get
-            {
-                return GetInput<int>("Length");
-            }
-            set
-            {
-                Input["Length"] = value;
-            }
+            return GetInput<int>("Length");
         }
+        set
+        {
+            Input["Length"] = value;
+        }
+    }
 
-        [NodeOutputPin(ValueType = typeof(byte[]))]
-        public IDataPin<byte[]> RandomBytes
+    [NodeOutputPin(ValueType = typeof(byte[]))]
+    public IDataPin<byte[]> RandomBytes
+    {
+        get
         {
-            get
-            {
-                return GetOutput<byte[]>("RandomBytes");
-            }
+            return GetOutput<byte[]>("RandomBytes");
         }
+    }
 
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
-        {
-            using var rng = RandomNumberGenerator.Create();
-            var randomBytes = new byte[Length.Value];
-            rng.GetBytes(randomBytes);
-            RandomBytes.Value = randomBytes;
-            return Task.CompletedTask;
-        }
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        using var rng = RandomNumberGenerator.Create();
+        var randomBytes = new byte[Length.Value];
+        rng.GetBytes(randomBytes);
+        RandomBytes.Value = randomBytes;
+        return Task.CompletedTask;
     }
 }

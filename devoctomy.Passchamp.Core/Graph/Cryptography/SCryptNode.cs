@@ -4,97 +4,96 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Cryptography
+namespace devoctomy.Passchamp.Core.Graph.Cryptography;
+
+[Obsolete("Please use SCryptExNode due to better security.")]
+public class SCryptNode : NodeBase
 {
-    [Obsolete("Please use SCryptExNode due to better security.")]
-    public class SCryptNode : NodeBase
+    [NodeInputPin(ValueType = typeof(int))]
+    public IDataPin<int> IterationCount
     {
-        [NodeInputPin(ValueType = typeof(int))]
-        public IDataPin<int> IterationCount
+        get
         {
-            get
-            {
-                return GetInput<int>("IterationCount");
-            }
-            set
-            {
-                Input["IterationCount"] = value;
-            }
+            return GetInput<int>("IterationCount");
         }
+        set
+        {
+            Input["IterationCount"] = value;
+        }
+    }
 
-        [NodeInputPin(ValueType = typeof(int))]
-        public IDataPin<int> BlockSize
+    [NodeInputPin(ValueType = typeof(int))]
+    public IDataPin<int> BlockSize
+    {
+        get
         {
-            get
-            {
-                return GetInput<int>("BlockSize");
-            }
-            set
-            {
-                Input["BlockSize"] = value;
-            }
+            return GetInput<int>("BlockSize");
         }
+        set
+        {
+            Input["BlockSize"] = value;
+        }
+    }
 
-        [NodeInputPin(ValueType = typeof(int))]
-        public IDataPin<int> ThreadCount
+    [NodeInputPin(ValueType = typeof(int))]
+    public IDataPin<int> ThreadCount
+    {
+        get
         {
-            get
-            {
-                return GetInput<int>("ThreadCount");
-            }
-            set
-            {
-                Input["ThreadCount"] = value;
-            }
+            return GetInput<int>("ThreadCount");
         }
+        set
+        {
+            Input["ThreadCount"] = value;
+        }
+    }
 
-        [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
-        public IDataPin<SecureString> SecurePassword
+    [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
+    public IDataPin<SecureString> SecurePassword
+    {
+        get
         {
-            get
-            {
-                return GetInput<SecureString>("SecurePassword");
-            }
-            set
-            {
-                Input["SecurePassword"] = value;
-            }
+            return GetInput<SecureString>("SecurePassword");
         }
+        set
+        {
+            Input["SecurePassword"] = value;
+        }
+    }
 
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Salt
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Salt
+    {
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("Salt");
-            }
-            set
-            {
-                Input["Salt"] = value;
-            }
+            return GetInput<byte[]>("Salt");
         }
+        set
+        {
+            Input["Salt"] = value;
+        }
+    }
 
-        [NodeOutputPin(ValueType = typeof(byte[]))]
-        public IDataPin<byte[]> Key
+    [NodeOutputPin(ValueType = typeof(byte[]))]
+    public IDataPin<byte[]> Key
+    {
+        get
         {
-            get
-            {
-                return GetOutput<byte[]>("Key");
-            }
+            return GetOutput<byte[]>("Key");
         }
+    }
 
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
-        {
-            var scrypt = new SCrypt(
-                IterationCount.Value,
-                BlockSize.Value,
-                ThreadCount.Value);
-            Key.Value = scrypt.DeriveBytes(
-                new NetworkCredential(null, SecurePassword.Value).Password,
-                Salt.Value);
-            return Task.CompletedTask;
-        }
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        var scrypt = new SCrypt(
+            IterationCount.Value,
+            BlockSize.Value,
+            ThreadCount.Value);
+        Key.Value = scrypt.DeriveBytes(
+            new NetworkCredential(null, SecurePassword.Value).Password,
+            Salt.Value);
+        return Task.CompletedTask;
     }
 }

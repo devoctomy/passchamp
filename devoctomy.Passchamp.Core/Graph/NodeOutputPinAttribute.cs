@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.Core.Graph
+namespace devoctomy.Passchamp.Core.Graph;
+
+[AttributeUsage(AttributeTargets.Property)]
+public class NodeOutputPinAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class NodeOutputPinAttribute : Attribute
-    {
-        public Type ValueType { get; set; }
-        public object DefaultValue { get; set; }
-    }
+    public Type ValueType { get; set; }
+    public object DefaultValue { get; set; }
 }

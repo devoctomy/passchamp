@@ -1,12 +1,11 @@
-﻿namespace devoctomy.Passchamp.Core.Graph.Services
-{
-    public class DataPinIntermediateValue
-    {
-        public string Value { get; }
+﻿namespace devoctomy.Passchamp.Core.Graph.Services;
 
-        public DataPinIntermediateValue(string value)
-        {
-            Value = value;
-        }
+public class DataPinIntermediateValue
+{
+    public string Value { get; }
+
+    public DataPinIntermediateValue(string value)
+    {
+        Value = value;
     }
 }

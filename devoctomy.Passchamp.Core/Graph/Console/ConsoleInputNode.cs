@@ -1,50 +1,49 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Console
+namespace devoctomy.Passchamp.Core.Graph.Console;
+
+public class ConsoleInputNode : NodeBase
 {
-    public class ConsoleInputNode : NodeBase
+    private readonly ISystemConsole _systemConsole;
+
+    public ConsoleInputNode()
     {
-        private readonly ISystemConsole _systemConsole;
+    }
 
-        public ConsoleInputNode()
-        {
-        }
+    public ConsoleInputNode(ISystemConsole systemConsole)
+    {
+        _systemConsole = systemConsole;
+    }
 
-        public ConsoleInputNode(ISystemConsole systemConsole)
+    [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
+    public IDataPin<string> Prompt
+    {
+        get
         {
-            _systemConsole = systemConsole;
+            return GetInput<string>("Prompt");                
         }
+        set
+        {
+            Input["Prompt"] = value;
+        }
+    }
 
-        [NodeInputPin(ValueType = typeof(string), DefaultValue = "")]
-        public IDataPin<string> Prompt
+    [NodeOutputPin]
+    public IDataPin<string> InputLine
+    {
+        get
         {
-            get
-            {
-                return GetInput<string>("Prompt");                
-            }
-            set
-            {
-                Input["Prompt"] = value;
-            }
+            return GetOutput<string>("InputLine");
         }
+    }
 
-        [NodeOutputPin]
-        public IDataPin<string> InputLine
-        {
-            get
-            {
-                return GetOutput<string>("InputLine");
-            }
-        }
-
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
-        {
-            _systemConsole.WriteLine(Prompt.Value);
-            InputLine.Value = _systemConsole.ReadLine();
-            return Task.CompletedTask;
-        }
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        _systemConsole.WriteLine(Prompt.Value);
+        InputLine.Value = _systemConsole.ReadLine();
+        return Task.CompletedTask;
     }
 }

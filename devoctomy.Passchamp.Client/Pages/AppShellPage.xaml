@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<basepages:BaseShell
+    x:Class="devoctomy.Passchamp.Client.AppShellPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
+    xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages"
+    xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+    xmlns:converters="clr-namespace:devoctomy.Passchamp.Maui.Converters;assembly=devoctomy.Passchamp.Maui"
+    xmlns:behaviors="clr-namespace:CommunityToolkit.Maui.Behaviors;assembly=CommunityToolkit.Maui"
+    Shell.FlyoutBehavior="Flyout"
+    x:DataType="vm:AppShellViewModel"
+    x:TypeArguments="vm:AppShellViewModel"
+    x:Name="shell">
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid HeightRequest="200">
+                <Button Text="Home"
+                        Command="{Binding HomeCommand}"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    <FlyoutItem Title="Vaults"
+                Route="Vaults"
+                FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate pages:VaultsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings"
+                Route="Settings"
+                FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate pages:SettingsPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Theme Test"
+                Route="ThemeTest"
+                FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate pages:ThemeTestPage}" />
+    </FlyoutItem>
+
+    <Shell.FlyoutContent>
+        <CollectionView x:Name="collectionView"
+                        IsGrouped="true"
+                        ItemsSource="{Binding FlyoutItems, Source={Reference shell}}"
+                        SelectionMode="Single"
+                        SelectionChangedCommand="{Binding MenuSelectionChangedCommand}"
+                        SelectionChangedCommandParameter="{Binding Source={Reference collectionView}}">
+            <CollectionView.Behaviors>
+                <behaviors:EventToCommandBehavior EventName="PropertyChanged"
+                                                  Command="{Binding MenuSelectionPropertyChangedCommand}"
+                                                  CommandParameter="{Binding Source={Reference collectionView}}" />
+            </CollectionView.Behaviors>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="BaseShellItem">
+                    <Border BackgroundColor="Transparent"
+                            StrokeThickness="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{OnPlatform Default=44, Android=50, Converter={StaticResource DoubleToGridLengthConverter}}"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="{Binding Icon}"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"/>
+                            <Label Grid.Column="1"
+                                   Margin="8"
+                                   Text="{Binding Title}"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Shell.FlyoutContent>
+
+    <!--<Shell.FlyoutFooter>
+        <ShellContent Title="Theme Test"
+                  ContentTemplate="{DataTemplate pages:ThemeTestPage}"
+                  Route="ThemeTest"
+                  Shell.FlyoutItemIsVisible="True" />
+    </Shell.FlyoutFooter>-->
+</basepages:BaseShell>

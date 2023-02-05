@@ -1,10 +1,9 @@
-﻿namespace devoctomy.Passchamp.Core.Cryptography.Random
+﻿namespace devoctomy.Passchamp.Core.Cryptography.Random;
+
+public interface ISimpleRandomStringGenerator
 {
-    public interface ISimpleRandomStringGenerator
-    {
-        char GetRandomCharFromChars(string chars);
-        string GenerateRandomStringFromChars(
-            string chars,
-            int length);
-    }
+    char GetRandomCharFromChars(string chars);
+    string GenerateRandomStringFromChars(
+        string chars,
+        int length);
 }

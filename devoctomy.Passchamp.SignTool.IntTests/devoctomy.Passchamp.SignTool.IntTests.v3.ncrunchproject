@@ -2,28 +2,7 @@
   <Settings>
     <IgnoredTests>
       <NamedTestSelector>
-        <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.SignToolFeature._01GenerateAKeyPair</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.SignToolFeature._02GenerateA1024BitKeyPair</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.SignToolFeature._03GenerateA2048BitKeyPair</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.SignToolFeature._04GenerateA3072BitKeyPair</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.SignToolFeature._05GenerateA4096BitKeyPair</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
         <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.SignToolFeature._01SignAJSONFile("1", "Data/json/Unsigned/unsigned1.json", "Data/keys/privatekey.json", [])</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.CommandLineParserFeature._01CorrectlyParseArgumentsStringToOptionsInstance("1", "helloworld -b=true -i=2 -f=5.55 -o=pants", "devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions", "Data/01-parse-options_1.json", [])</TestName>
-      </NamedTestSelector>
-      <NamedTestSelector>
-        <TestName>devoctomy.Passchamp.SignTool.IntTests.Features.CommandLineParserFeature._01CorrectlyParseArgumentsStringToOptionsInstance("2", "-s=helloworld --b=true --i=2 --f=5.55 --o=pants", "devoctomy.Passchamp.SignTool.IntTests.Steps.CommandLineTestOptions", "Data/01-parse-options_2.json", [])</TestName>
       </NamedTestSelector>
       <AllTestsSelector />
     </IgnoredTests>

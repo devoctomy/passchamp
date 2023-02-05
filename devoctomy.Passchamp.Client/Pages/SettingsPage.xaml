@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<basepages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+                xmlns:cloud="clr-namespace:devoctomy.Passchamp.Core.Cloud;assembly=devoctomy.Passchamp.Core"
+                xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
+                xmlns:controls="clr-namespace:devoctomy.Passchamp.Client.Controls"
+                xmlns:views="clr-namespace:devoctomy.Passchamp.Client.Views"
+                x:Class="devoctomy.Passchamp.Client.Pages.SettingsPage"
+                x:DataType="vm:SettingsViewModel"
+                x:TypeArguments="vm:SettingsViewModel"
+                Title="Settings"
+                x:Name="Root"
+                Padding="0">
+    <controls:TabView SelectedTabChangedCommand="{Binding TabChangedCommand}">
+        <controls:TabView.TabPages>
+            <controls:TabViewPage
+                Title="General"
+                ContentType="{x:Type views:GeneralSettingsView}"
+                ViewModelPropertyName="GeneralSettings"
+                IsSelected="True"/>            
+            <controls:TabViewPage
+                Title="Cloud"
+                ContentType="{x:Type views:CloudSettingsView}"
+                ViewModelPropertyName="CloudSettings"/>
+        </controls:TabView.TabPages>
+    </controls:TabView>
+</basepages:BasePage>

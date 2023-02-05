@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.Core.Data
+﻿namespace devoctomy.Passchamp.Core.Data;
+
+public class WordListLoaderConfig
 {
-    public class WordListLoaderConfig
-    {
-        public string Path { get; set; }
-        public string Pattern { get; set; }
-    }
+    public string Path { get; set; }
+    public string Pattern { get; set; }
 }

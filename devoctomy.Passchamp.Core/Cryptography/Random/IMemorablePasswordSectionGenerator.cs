@@ -1,10 +1,9 @@
-﻿namespace devoctomy.Passchamp.Core.Cryptography.Random
+﻿namespace devoctomy.Passchamp.Core.Cryptography.Random;
+
+public interface IMemorablePasswordSectionGenerator
 {
-    public interface IMemorablePasswordSectionGenerator
-    {
-        bool IsApplicable(string token);
-        string Generate(
-            MemorablePasswordGeneratorContext context,
-            string arguments);
-    }
+    bool IsApplicable(string token);
+    string Generate(
+        MemorablePasswordGeneratorContext context,
+        string arguments);
 }

@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.Core.Graph.Console
+﻿namespace devoctomy.Passchamp.Core.Graph.Console;
+
+public interface ISystemConsole
 {
-    public interface ISystemConsole
-    {
-        void WriteLine(string value);
-        string ReadLine();
-    }
+    void WriteLine(string value);
+    string ReadLine();
 }

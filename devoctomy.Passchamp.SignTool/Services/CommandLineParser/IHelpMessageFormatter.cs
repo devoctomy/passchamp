@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
+namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+
+public interface IHelpMessageFormatter
 {
-    public interface IHelpMessageFormatter
-    {
-        string Format<T>();
-        string Format(Type optionsType);
-    }
+    string Format<T>();
+    string Format(Type optionsType);
 }

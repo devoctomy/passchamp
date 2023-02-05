@@ -3,71 +3,70 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Data
+namespace devoctomy.Passchamp.Core.Graph.Data;
+
+public class DataParserNode : NodeBase
 {
-    public class DataParserNode : NodeBase
+    private readonly Dictionary<string, IDataPin<byte[]>> _sectionValues = new();
+
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Bytes
     {
-        private readonly Dictionary<string, IDataPin<byte[]>> _sectionValues = new();
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Bytes
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("Bytes");
-            }
-            set
-            {
-                Input["Bytes"] = value;
-            }
+            return GetInput<byte[]>("Bytes");
         }
-
-        [NodeInputPin(ValueType = typeof(List<DataParserSection>), DefaultValue = default(List<DataParserSection>))]
-        public IDataPin<List<DataParserSection>> Sections
+        set
         {
-            get
+            Input["Bytes"] = value;
+        }
+    }
+
+    [NodeInputPin(ValueType = typeof(List<DataParserSection>), DefaultValue = default(List<DataParserSection>))]
+    public IDataPin<List<DataParserSection>> Sections
+    {
+        get
+        {
+            return GetInput<List<DataParserSection>>("Sections");
+        }
+        set
+        {
+            var sections = value.Value;
+            foreach(var curSection in sections)
             {
-                return GetInput<List<DataParserSection>>("Sections");
-            }
-            set
-            {
-                var sections = value.Value;
-                foreach(var curSection in sections)
-                {
-                    _sectionValues.Add(
+                _sectionValues.Add(
+                    curSection.Key,
+                    new DataPin<byte[]>(
                         curSection.Key,
-                        new DataPin<byte[]>(
-                            curSection.Key,
-                            null));
-                }
-                Input["Sections"] = value;
+                        null));
             }
+            Input["Sections"] = value;
         }
+    }
 
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        Parallel.ForEach(Sections.Value, curSection =>
         {
-            Parallel.ForEach(Sections.Value, curSection =>
-            {
-                var start = curSection.Start.GetIndex(Bytes.Value.Length);
-                var end = curSection.End.GetIndex(Bytes.Value.Length);
-                var value = new byte[end - start];
-                Array.ConstrainedCopy(
-                    Bytes.Value,
-                    start,
-                    value,
-                    0,
-                    value.Length);
-                GetSectionValue(curSection.Key).Value = value;
-            });
+            var start = curSection.Start.GetIndex(Bytes.Value.Length);
+            var end = curSection.End.GetIndex(Bytes.Value.Length);
+            var value = new byte[end - start];
+            Array.ConstrainedCopy(
+                Bytes.Value,
+                start,
+                value,
+                0,
+                value.Length);
+            GetSectionValue(curSection.Key).Value = value;
+        });
 
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
+    }
 
-        public IDataPin<byte[]> GetSectionValue(string key)
-        {
-            return _sectionValues[key];
-        }
+    public IDataPin<byte[]> GetSectionValue(string key)
+    {
+        return _sectionValues[key];
     }
 }

@@ -1,23 +1,22 @@
 ﻿using devoctomy.Passchamp.Core.Graph;
 using Xunit;
 
-namespace devoctomy.Passchamp.Core.UnitTests.Graph
+namespace devoctomy.Passchamp.Core.UnitTests.Graph;
+
+public class DataPinTests
 {
-    public class DataPinTests
+    [Fact]
+    public void GivenDataPin_WhenValueType_ThenCorrectTypeReturned()
     {
-        [Fact]
-        public void GivenDataPin_WhenValueType_ThenCorrectTypeReturned()
-        {
-            // Arrange
-            var sut = new DataPin<string>(
-                "Test",
-                "Hello World");
+        // Arrange
+        var sut = new DataPin<string>(
+            "Test",
+            "Hello World");
 
-            // Act
-            var valueType = sut.ValueType;
+        // Act
+        var valueType = sut.ValueType;
 
-            // Assert
-            Assert.Equal(typeof(string), valueType);
-        }
+        // Assert
+        Assert.Equal(typeof(string), valueType);
     }
 }

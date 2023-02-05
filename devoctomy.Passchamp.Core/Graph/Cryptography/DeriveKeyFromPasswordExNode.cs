@@ -4,92 +4,91 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Cryptography
+namespace devoctomy.Passchamp.Core.Graph.Cryptography;
+
+public class DeriveKeyFromPasswordExNode : NodeBase
 {
-    public class DeriveKeyFromPasswordExNode : NodeBase
+    private readonly ISecureStringUnpacker _secureStringUnpacker;
+
+    [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
+    public IDataPin<SecureString> SecurePassword
     {
-        private readonly ISecureStringUnpacker _secureStringUnpacker;
-
-        [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
-        public IDataPin<SecureString> SecurePassword
+        get
         {
-            get
-            {
-                return GetInput<SecureString>("SecurePassword");
-            }
-            set
-            {
-                Input["SecurePassword"] = value;
-            }
+            return GetInput<SecureString>("SecurePassword");
         }
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Salt
+        set
         {
-            get
-            {
-                return GetInput<byte[]>("Salt");
-            }
-            set
-            {
-                Input["Salt"] = value;
-            }
+            Input["SecurePassword"] = value;
         }
+    }
 
-        [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
-        public IDataPin<int> KeyLength
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Salt
+    {
+        get
         {
-            get
-            {
-                return GetInput<int>("KeyLength");
-            }
-            set
-            {
-                Input["KeyLength"] = value;
-            }
+            return GetInput<byte[]>("Salt");
         }
+        set
+        {
+            Input["Salt"] = value;
+        }
+    }
 
-        [NodeInputPin(ValueType = typeof(int), DefaultValue = 1)]
-        public IDataPin<int> IterationCount
+    [NodeInputPin(ValueType = typeof(int), DefaultValue = 0)]
+    public IDataPin<int> KeyLength
+    {
+        get
         {
-            get
-            {
-                return GetInput<int>("IterationCount");
-            }
-            set
-            {
-                Input["IterationCount"] = value;
-            }
+            return GetInput<int>("KeyLength");
         }
+        set
+        {
+            Input["KeyLength"] = value;
+        }
+    }
 
-        [NodeOutputPin(ValueType = typeof(byte[]))]
-        public IDataPin<byte[]> Key
+    [NodeInputPin(ValueType = typeof(int), DefaultValue = 1)]
+    public IDataPin<int> IterationCount
+    {
+        get
         {
-            get
-            {
-                return GetOutput<byte[]>("Key");
-            }
+            return GetInput<int>("IterationCount");
         }
+        set
+        {
+            Input["IterationCount"] = value;
+        }
+    }
 
-        public DeriveKeyFromPasswordExNode(ISecureStringUnpacker secureStringUnpacker)
+    [NodeOutputPin(ValueType = typeof(byte[]))]
+    public IDataPin<byte[]> Key
+    {
+        get
         {
-            _secureStringUnpacker = secureStringUnpacker;
+            return GetOutput<byte[]>("Key");
         }
+    }
 
-        protected override Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
+    public DeriveKeyFromPasswordExNode(ISecureStringUnpacker secureStringUnpacker)
+    {
+        _secureStringUnpacker = secureStringUnpacker;
+    }
+
+    protected override Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        void callback(byte[] buffer)
         {
-            void callback(byte[] buffer)
-            {
-                using var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
-                    buffer,
-                    Salt.Value,
-                    IterationCount.Value);
-                Key.Value = rfc2898.GetBytes(KeyLength.Value);
-            }
-            _secureStringUnpacker.Unpack(SecurePassword.Value, callback);
-            return Task.CompletedTask;
+            using var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
+                buffer,
+                Salt.Value,
+                IterationCount.Value);
+            Key.Value = rfc2898.GetBytes(KeyLength.Value);
         }
+        _secureStringUnpacker.Unpack(SecurePassword.Value, callback);
+        return Task.CompletedTask;
     }
 }

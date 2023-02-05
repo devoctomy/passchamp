@@ -3,37 +3,37 @@ using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace devoctomy.Passchamp.SignTool.UnitTests.Services
+namespace devoctomy.Passchamp.SignTool.UnitTests.Services;
+
+public class GenerateServiceTests
 {
-    public class GenerateServiceTests
+    public GenerateServiceTests()
     {
-        public GenerateServiceTests()
+        File.Delete("privatekey.json");
+        File.Delete("publickey.json");
+    }
+
+    [Fact]
+    public async Task GivenGenerateOptions_WhenGenerate_ThenKeysGenerated()
+    {
+        // Arrange
+        var options = new GenerateOptions
         {
-            File.Delete("privatekey.json");
-            File.Delete("publickey.json");
-        }
+            KeyLength = 1024,
+            Verbose = true,     // Need to test messages were output
+        };
+        var sut = new GenerateService();
 
-        [Fact]
-        public async Task GivenGenerateOptions_WhenGenerate_ThenKeysGenerated()
-        {
-            // Arrange
-            var options = new GenerateOptions
-            {
-                KeyLength = 1024,
-                Verbose = true,     // Need to test messages were output
-            };
-            var sut = new GenerateService();
+        // Act
+        var result = await sut.Generate(options);
 
-            // Act
-            var result = await sut.Generate(options);
+        // Assert
+        Assert.Equal(0, result);
+        File.Exists("privatekey.json");
+        File.Exists("publickey.json");
 
-            // Assert
-            File.Exists("privatekey.json");
-            File.Exists("publickey.json");
-
-            // Cleanup
-            File.Delete("privatekey.json");
-            File.Delete("publickey.json");
-        }
+        // Cleanup
+        File.Delete("privatekey.json");
+        File.Delete("publickey.json");
     }
 }

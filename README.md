@@ -1,16 +1,42 @@
 # passchamp
 
-[![CICD](https://github.com/devoctomy/passchamp/actions/workflows/cicd.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/cicd.yml)
+## Current branch badges
+
+> Not available yet
+
+## Main branch badges
+
+[![CICD](https://github.com/devoctomy/passchamp/actions/workflows/cicd.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/ciccd.yml)
 [![codecov](https://codecov.io/gh/devoctomy/passchamp/branch/main/graph/badge.svg?token=JU70OAK6OX)](https://codecov.io/gh/devoctomy/passchamp)
 [![Codacy Security Scan](https://github.com/devoctomy/passchamp/actions/workflows/codacy-analysis.yml/badge.svg)](https://github.com/devoctomy/passchamp/actions/workflows/codacy-analysis.yml)
 
-The intention of passchamp is to provide an entirely dotnet 6 rewrite of [cachy](https://github.com/devoctomy/cachy) and also provide a framework for building additional clients that can utilise the file format, or build new ones.
+---
+
+passchamp is a cross-platform password management application, written entirely in .net 6 with the intention of producing a powerful and reusable framework for quickly bulding other graph-based applications. 
 
 ## Components
+
+### Client
+
+.net MAUI Client for the following platforms.
+
+#### Android
+
+#### iOS
+
+> Build failure currently being ignored in CICD pipeline.
+
+#### MacCatalyst
+
+#### Windows
 
 ### Core
 
 Class library containing all core components of passchamp, this will be used to build all clients upon.
+
+### Maui
+
+Class library containing Maui platform specific implementations. This is used directly by Client.
 
 ### SignTool
 

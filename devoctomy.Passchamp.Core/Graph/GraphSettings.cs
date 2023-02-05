@@ -1,9 +1,8 @@
-﻿namespace devoctomy.Passchamp.Core.Graph
+﻿namespace devoctomy.Passchamp.Core.Graph;
+
+public class GraphSettings
 {
-    public class GraphSettings
-    {
-        public string Description { get; set; }
-        public string Author { get; set; }
-        public bool Debug { get; set; }
-    }
+    public string Description { get; set; }
+    public string Author { get; set; }
+    public bool Debug { get; set; }
 }

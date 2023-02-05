@@ -2,63 +2,62 @@
 using System.Linq;
 using System.Text;
 
-namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser
+namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser;
+
+public class HelpMessageFormatter : IHelpMessageFormatter
 {
-    public class HelpMessageFormatter : IHelpMessageFormatter
+    public string Format<T>()
     {
-        public string Format<T>()
+        return Format(typeof(T));
+    }
+
+    public string Format(Type optionsType)
+    {
+        var helpMessage = new StringBuilder();
+        var allProperties = optionsType.GetProperties().OrderBy(x => x.Name);
+
+        var requiredOptions = new StringBuilder();
+        var optionalOptions = new StringBuilder();
+        foreach (var curProperty in allProperties)
         {
-            return Format(typeof(T));
+            var optionAttribute = (CommandLineParserOptionAttribute)curProperty.GetCustomAttributes(typeof(CommandLineParserOptionAttribute), true).FirstOrDefault();
+            if (optionAttribute == null || string.IsNullOrWhiteSpace(optionAttribute.HelpText))
+            {
+                continue;
+            }
+
+            var option = new StringBuilder();
+            option.AppendLine($"\t\tName:\t{optionAttribute.DisplayName}");
+            if(!optionAttribute.IsDefault)
+            {
+                option.AppendLine($"\t\tShort:\t-{optionAttribute.ShortName}");
+                option.AppendLine($"\t\tLong:\t--{optionAttribute.LongName}");
+            }
+
+            option.AppendLine($"\t\t{optionAttribute.HelpText}");
+            if (optionAttribute.Required)
+            {
+                requiredOptions.AppendLine(option.ToString());
+            }
+            else
+            {
+                optionalOptions.AppendLine(option.ToString());
+            }
         }
 
-        public string Format(Type optionsType)
+        helpMessage.AppendLine("Available Options");
+        if(requiredOptions.Length > 0)
         {
-            var helpMessage = new StringBuilder();
-            var allProperties = optionsType.GetProperties().OrderBy(x => x.Name);
-
-            var requiredOptions = new StringBuilder();
-            var optionalOptions = new StringBuilder();
-            foreach (var curProperty in allProperties)
-            {
-                var optionAttribute = (CommandLineParserOptionAttribute)curProperty.GetCustomAttributes(typeof(CommandLineParserOptionAttribute), true).FirstOrDefault();
-                if (optionAttribute == null || string.IsNullOrWhiteSpace(optionAttribute.HelpText))
-                {
-                    continue;
-                }
-
-                var option = new StringBuilder();
-                option.AppendLine($"\t\tName:\t{optionAttribute.DisplayName}");
-                if(!optionAttribute.IsDefault)
-                {
-                    option.AppendLine($"\t\tShort:\t-{optionAttribute.ShortName}");
-                    option.AppendLine($"\t\tLong:\t--{optionAttribute.LongName}");
-                }
-
-                option.AppendLine($"\t\t{optionAttribute.HelpText}");
-                if (optionAttribute.Required)
-                {
-                    requiredOptions.AppendLine(option.ToString());
-                }
-                else
-                {
-                    optionalOptions.AppendLine(option.ToString());
-                }
-            }
-
-            helpMessage.AppendLine("Available Options");
-            if(requiredOptions.Length > 0)
-            {
-                helpMessage.AppendLine("\tRequired");
-                helpMessage.Append(requiredOptions.ToString());
-            }
-
-            if(optionalOptions.Length > 0)
-            {
-                helpMessage.AppendLine("\tOptional");
-                helpMessage.Append(optionalOptions.ToString());
-            }
-
-            return helpMessage.ToString();
+            helpMessage.AppendLine("\tRequired");
+            helpMessage.Append(requiredOptions);
         }
+
+        if(optionalOptions.Length > 0)
+        {
+            helpMessage.AppendLine("\tOptional");
+            helpMessage.Append(optionalOptions);
+        }
+
+        return helpMessage.ToString();
     }
 }

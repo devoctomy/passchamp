@@ -4,79 +4,78 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace devoctomy.Passchamp.Core.Graph.Cryptography
+namespace devoctomy.Passchamp.Core.Graph.Cryptography;
+
+public class EncryptNode : NodeBase
 {
-    public class EncryptNode : NodeBase
+    private const string AesAlgorithmName = "AesManaged";
+
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> PlainTextBytes
     {
-        private const string AesAlgorithmName = "AesManaged";
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> PlainTextBytes
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("PlainTextBytes");
-            }
-            set
-            {
-                Input["PlainTextBytes"] = value;
-            }
+            return GetInput<byte[]>("PlainTextBytes");
         }
-
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Iv
+        set
         {
-            get
-            {
-                return GetInput<byte[]>("Iv");
-            }
-            set
-            {
-                Input["Iv"] = value;
-            }
+            Input["PlainTextBytes"] = value;
         }
+    }
 
-        [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
-        public IDataPin<byte[]> Key
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Iv
+    {
+        get
         {
-            get
-            {
-                return GetInput<byte[]>("Key");
-            }
-            set
-            {
-                Input["Key"] = value;
-            }
+            return GetInput<byte[]>("Iv");
         }
-
-        [NodeOutputPin(ValueType = typeof(byte[]))]
-        public IDataPin<byte[]> EncryptedBytes
+        set
         {
-            get
-            {
-                return GetOutput<byte[]>("EncryptedBytes");
-            }
+            Input["Iv"] = value;
         }
+    }
 
-        protected override async Task DoExecuteAsync(
-            IGraph graph,
-            CancellationToken cancellationToken)
+    [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
+    public IDataPin<byte[]> Key
+    {
+        get
         {
-            using var crypto = Aes.Create(AesAlgorithmName);
-            var encryptStream = crypto.CreateEncryptor(
-                    Key.Value,
-                    Iv.Value);
-            using var memoryStream = new MemoryStream();
-            using var cryptoStream = new CryptoStream(
-                memoryStream,
-                encryptStream,
-                CryptoStreamMode.Write);
-            await cryptoStream.WriteAsync(
-                PlainTextBytes.Value,
-                cancellationToken).ConfigureAwait(false);
-            await cryptoStream.FlushFinalBlockAsync(cancellationToken).ConfigureAwait(false);
-
-            EncryptedBytes.Value = memoryStream.ToArray();
+            return GetInput<byte[]>("Key");
         }
+        set
+        {
+            Input["Key"] = value;
+        }
+    }
+
+    [NodeOutputPin(ValueType = typeof(byte[]))]
+    public IDataPin<byte[]> EncryptedBytes
+    {
+        get
+        {
+            return GetOutput<byte[]>("EncryptedBytes");
+        }
+    }
+
+    protected override async Task DoExecuteAsync(
+        IGraph graph,
+        CancellationToken cancellationToken)
+    {
+        using var crypto = Aes.Create(AesAlgorithmName);
+        var encryptStream = crypto.CreateEncryptor(
+                Key.Value,
+                Iv.Value);
+        using var memoryStream = new MemoryStream();
+        using var cryptoStream = new CryptoStream(
+            memoryStream,
+            encryptStream,
+            CryptoStreamMode.Write);
+        await cryptoStream.WriteAsync(
+            PlainTextBytes.Value,
+            cancellationToken).ConfigureAwait(false);
+        await cryptoStream.FlushFinalBlockAsync(cancellationToken).ConfigureAwait(false);
+
+        EncryptedBytes.Value = memoryStream.ToArray();
     }
 }
