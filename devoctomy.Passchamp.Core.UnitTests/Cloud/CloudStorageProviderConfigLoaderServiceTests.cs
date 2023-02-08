@@ -219,11 +219,11 @@ public class CloudStorageProviderConfigLoaderServiceTests
         mockPartialSecureJsonWriterService.Setup(x => x.SaveAsync(
             It.IsAny<object>(),
             It.IsAny<Stream>()))
-            .Callback((object _, Stream stream) =>
+            .Callback((object value, Stream stream) =>
             {
-                var json = JsonConvert.SerializeObject(config);
+                var json = JsonConvert.SerializeObject(value);
                 var data = Encoding.UTF8.GetBytes(json);
-                configOutputStream.WriteAsync(data, 0, data.Length, CancellationToken.None);
+                stream.WriteAsync(data, 0, data.Length, CancellationToken.None);
             })
             .Returns(Task.CompletedTask);
 
@@ -307,9 +307,9 @@ public class CloudStorageProviderConfigLoaderServiceTests
             It.IsAny<Stream>()))
             .Callback((object value, Stream stream) =>
             {
-                var json = JsonConvert.SerializeObject(config);
+                var json = JsonConvert.SerializeObject(value);
                 var data = Encoding.UTF8.GetBytes(json);
-                configOutputStream.WriteAsync(data, 0, data.Length, CancellationToken.None);
+                stream.WriteAsync(data, 0, data.Length, CancellationToken.None);
             })
             .Returns(Task.CompletedTask);
 
