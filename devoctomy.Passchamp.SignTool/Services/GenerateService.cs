@@ -14,10 +14,7 @@ public class GenerateService : IGenerateService
         }
 
         var keyGenerator = new RsaKeyGeneratorService();
-        keyGenerator.Generate(
-            options.KeyLength,
-            out var privateKey,
-            out var publicKey);
+        var keyPair = keyGenerator.Generate(options.KeyLength);
 
         if (options.Verbose)
         {
@@ -26,7 +23,7 @@ public class GenerateService : IGenerateService
 
         await File.WriteAllTextAsync(
             "privatekey.json",
-            privateKey).ConfigureAwait(false);
+            keyPair.PrivateKey).ConfigureAwait(false);
 
         if (options.Verbose)
         {
@@ -35,7 +32,7 @@ public class GenerateService : IGenerateService
 
         await File.WriteAllTextAsync(
             "publickey.json",
-            publicKey);
+            keyPair.PublicKey);
 
         return 0;
     }

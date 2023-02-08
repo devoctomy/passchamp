@@ -72,14 +72,11 @@ public class RsaJsonSignerServiceTests
             path,
             testObjectJson);
         var keyGen = new RsaKeyGeneratorService();
-        keyGen.Generate(
-            1024,
-            out var privateKey,
-            out _);
+        var keyPair = keyGen.Generate(1024);
         var keyFile = $"Output/{Guid.NewGuid()}";
         await File.WriteAllTextAsync(
             keyFile,
-            privateKey);
+            keyPair.PrivateKey);
         var sut = new RsaJsonSignerService();
         var output = $"Output/{Guid.NewGuid()}";
 
@@ -120,16 +117,13 @@ public class RsaJsonSignerServiceTests
             path,
             testObjectJson);
         var keyGen = new RsaKeyGeneratorService();
-        keyGen.Generate(
-            1024,
-            out var privateKey,
-            out _);
+        var keyPair = keyGen.Generate(1024);
         var sut = new RsaJsonSignerService();
 
         // Act
         var signedResult = await sut.Sign(
             path,
-            privateKey);
+            keyPair.PrivateKey);
 
         // Assert
         var signedJson = JObject.Parse(signedResult);
@@ -146,16 +140,13 @@ public class RsaJsonSignerServiceTests
     {
         // Arrange
         var keyGen = new RsaKeyGeneratorService();
-        keyGen.Generate(
-            1024,
-            out var privateKey,
-            out _);
+        var keyPair = keyGen.Generate(1024);
         var sut = new RsaJsonSignerService();
 
         // Act
         var signedResult = await sut.Sign(
             "Data/ValidSignedJson.json",
-            privateKey);
+            keyPair.PrivateKey);
 
         // Assert
         var signedJson = JObject.Parse(signedResult);

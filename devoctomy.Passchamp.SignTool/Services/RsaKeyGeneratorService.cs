@@ -1,22 +1,17 @@
-﻿using devoctomy.Passchamp.SignTool.Services.Enums;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Security.Cryptography;
 
 namespace devoctomy.Passchamp.SignTool.Services;
 
 public class RsaKeyGeneratorService : IRsaKeyGeneratorService
 {
-    public void Generate(
-        int keySize,
-        out string privateKey,
-        out string publicKey)
+    public RsaKeyPair Generate(int keySize)
     {
         using var rsaProvider = new RSACryptoServiceProvider(keySize);
         var privateKeyParams = rsaProvider.ExportParameters(true);
         var publicKeyParams = rsaProvider.ExportParameters(false);
-        privateKey = JsonConvert.SerializeObject(privateKeyParams);
-        publicKey = JsonConvert.SerializeObject(publicKeyParams);
+        return new RsaKeyPair(
+            JsonConvert.SerializeObject(publicKeyParams),
+            JsonConvert.SerializeObject(privateKeyParams));
     }
 }

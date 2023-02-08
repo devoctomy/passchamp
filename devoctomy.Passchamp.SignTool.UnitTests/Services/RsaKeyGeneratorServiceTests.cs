@@ -22,16 +22,13 @@ public class RsaKeyGeneratorServiceTests
         var sut = new RsaKeyGeneratorService();
 
         // Act
-        sut.Generate(
-            keySize,
-            out var privateKey,
-            out var publicKey);
+        var keyPair = sut.Generate(keySize);
 
         // Assert
-        Assert.Equal(privateKeyParamsSize, privateKey.Length);
-        Assert.Equal(publicKeyParamsSize, publicKey.Length);
-        var privateKeyParams = JsonConvert.DeserializeObject<RSAParameters>(privateKey);
-        var publicKeyParams = JsonConvert.DeserializeObject<RSAParameters>(publicKey);
+        Assert.Equal(privateKeyParamsSize, keyPair.PrivateKey.Length);
+        Assert.Equal(publicKeyParamsSize, keyPair.PublicKey.Length);
+        var privateKeyParams = JsonConvert.DeserializeObject<RSAParameters>(keyPair.PrivateKey);
+        var publicKeyParams = JsonConvert.DeserializeObject<RSAParameters>(keyPair.PublicKey);
 
         using var sha256Provider = SHA256.Create();
         using var rsaProvider = new RSACryptoServiceProvider();
