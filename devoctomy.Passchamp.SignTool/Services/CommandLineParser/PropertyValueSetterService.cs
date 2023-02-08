@@ -62,6 +62,6 @@ public class PropertyValueSetterService : IPropertyValueSetterService
 
                     throw new NotSupportedException($"Destination type '{destType.Name}' is not supported.");
                 }
-        };
+        }
     }
 }

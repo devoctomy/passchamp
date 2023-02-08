@@ -31,7 +31,6 @@ public class MemorablePasswordGenerator : IMemorablePasswordGenerator
         };
         var phrase = pattern;
         var tokenRegex = new Regex("\\{(.*?)\\}");
-        var invalidTokens = new Dictionary<string, string>();
         var tokenMatches = tokenRegex.Matches(pattern);
         while (tokenMatches.Count > 0)
         {

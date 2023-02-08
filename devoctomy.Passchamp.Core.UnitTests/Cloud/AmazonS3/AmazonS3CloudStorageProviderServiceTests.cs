@@ -127,11 +127,6 @@ public class AmazonS3CloudStorageProviderServiceTests
         var cancellationTokenSource = new CancellationTokenSource();
         var path = "folder1/folder2/filename.ext";
 
-        var response = new GetObjectMetadataResponse
-        {
-            HttpStatusCode = HttpStatusCode.NotFound
-        };
-
         mockConfig
             .SetupGet(x => x.Path)
             .Returns("pop/");
@@ -390,11 +385,6 @@ public class AmazonS3CloudStorageProviderServiceTests
         var cancellationTokenSource = new CancellationTokenSource();
         using var data = new MemoryStream();
         var path = "somefolder/somefile.ex";
-
-        var response = new PutObjectResponse
-        {
-            HttpStatusCode = HttpStatusCode.Unauthorized
-        };
 
         mockConfig
             .SetupGet(x => x.Path)

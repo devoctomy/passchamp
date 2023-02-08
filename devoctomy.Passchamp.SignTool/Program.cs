@@ -15,7 +15,7 @@ public static class Program
     {
         using IHost host = CreateHostBuilder(null).Build();
 
-        var program = host.Services.GetService<IProgram>(); ;
+        var program = host.Services.GetService<IProgram>();
         return await program.Run();
     }
 

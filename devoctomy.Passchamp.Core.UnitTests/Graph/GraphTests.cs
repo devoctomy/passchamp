@@ -52,7 +52,7 @@ public class GraphTests
         // Act & Assert
         Assert.ThrowsAny<KeyNotFoundException>(() =>
         {
-            var sut = new Core.Graph.Graph(
+            _ = new Core.Graph.Graph(
                 null,
                 null,
                 null,

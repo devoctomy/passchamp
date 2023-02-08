@@ -85,7 +85,7 @@ public class NodesJsonParserServiceTests
         // Act & Assert
         Assert.ThrowsAny<KeyNotFoundException>(() =>
         {
-            var result = sut.Parse(
+            _ = sut.Parse(
                 nodesJson["Nodes"].Value<JArray>(),
                 out var startNodeKey);
         });

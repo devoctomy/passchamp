@@ -87,18 +87,6 @@ public class VaultLoaderServiceTests
             options,
             mockIoService.Object);
 
-        var expectedVaults = new List<VaultIndex>
-        {
-            new VaultIndex
-            {
-                Id = Guid.NewGuid().ToString()
-            },
-            new VaultIndex
-            {
-                Id = Guid.NewGuid().ToString()
-            }
-        };
-
         var cancellationTokenSource = new CancellationTokenSource();
 
         mockIoService.Setup(x => x.Exists(

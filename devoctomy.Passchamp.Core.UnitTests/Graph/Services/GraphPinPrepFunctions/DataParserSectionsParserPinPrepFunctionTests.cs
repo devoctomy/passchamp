@@ -48,7 +48,7 @@ public class DataParserSectionsParserPinPrepFunctionTests
         // Act / Assert
         Assert.ThrowsAny<KeyNotFoundException>(() =>
         {
-            var result = sut.Execute(
+            _ = sut.Execute(
                 curNodeKey,
                 value,
                 inputPins,

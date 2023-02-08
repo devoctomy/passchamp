@@ -18,7 +18,6 @@ public class ServiceCollectionExtensionsTests
     {
         // Arrange
         var serviceCollection = new ServiceCollection();
-        var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
         var options = new PasschampCoreServicesOptions
         {
             CloudStorageProviderConfigLoaderServiceOptions = new Core.Cloud.CloudStorageProviderConfigLoaderServiceOptions()

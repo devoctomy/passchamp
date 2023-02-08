@@ -59,8 +59,6 @@ public class GraphLoaderService : IGraphLoaderService
             json["Nodes"].Value<JArray>(),
             out var startNodeKey);
 
-        var pop = nodes.Values.ToList();
-
         return new Graph(
             settings,
             inputPins,

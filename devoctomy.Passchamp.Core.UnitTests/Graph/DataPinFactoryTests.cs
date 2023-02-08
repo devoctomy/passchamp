@@ -41,7 +41,7 @@ public class DataPinFactoryTests
         //Act & Assert
         Assert.ThrowsAny<NotSupportedException>(() =>
         {
-            var result = DataPinFactory.Instance.Create(
+            _ = DataPinFactory.Instance.Create(
                 "Test",
                 value);
         });
