@@ -18,7 +18,7 @@ public abstract class BasePage : ContentPage
 
     public BaseViewModel ViewModel { get; private set; }
 
-    public BasePage()
+    protected BasePage()
     {
         Padding = 12;
 
@@ -30,7 +30,7 @@ public abstract class BasePage : ContentPage
         }
     }
 
-    public BasePage(object viewModel)
+    protected BasePage(object viewModel)
         : this()
     {
         ViewModel = viewModel as BaseViewModel;

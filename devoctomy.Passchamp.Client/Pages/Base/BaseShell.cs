@@ -16,7 +16,7 @@ public abstract class BaseShell : Shell
 {
     private readonly BaseAppShellViewModel _viewModel;
 
-    public BaseShell()
+    protected BaseShell()
     {
         Padding = 12;
 
@@ -28,7 +28,7 @@ public abstract class BaseShell : Shell
         }
     }
 
-    public BaseShell(object viewModel)
+    protected BaseShell(object viewModel)
         : this()
     {
         _viewModel = viewModel as BaseAppShellViewModel;
