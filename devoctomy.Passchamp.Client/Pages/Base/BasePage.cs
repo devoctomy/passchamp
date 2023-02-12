@@ -5,7 +5,7 @@ namespace devoctomy.Passchamp.Client.Pages.Base;
 
 public abstract class BasePage<TViewModel> : BasePage where TViewModel : BaseViewModel
 {
-    public BasePage(TViewModel viewModel) : base(viewModel)
+    protected BasePage(TViewModel viewModel) : base(viewModel)
     {
     }
 
@@ -18,10 +18,8 @@ public abstract class BasePage : ContentPage
 
     public BaseViewModel ViewModel { get; private set; }
 
-    public BasePage(object viewModel = null)
+    public BasePage()
     {
-        ViewModel = viewModel as BaseViewModel;
-        BindingContext = viewModel;
         Padding = 12;
 
         SetDynamicResource(BackgroundColorProperty, "AppBackgroundColor");
@@ -30,6 +28,13 @@ public abstract class BasePage : ContentPage
         {
             Title = GetType().Name;
         }
+    }
+
+    public BasePage(object viewModel)
+        : this()
+    {
+        ViewModel = viewModel as BaseViewModel;
+        BindingContext = viewModel;
     }
 
     public void ResetViewModel()

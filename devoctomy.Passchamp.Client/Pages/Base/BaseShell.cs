@@ -5,7 +5,7 @@ namespace devoctomy.Passchamp.Client.Pages.Base;
 
 public abstract class BaseShell<TViewModel> : BaseShell where TViewModel : BaseAppShellViewModel
 {
-    public BaseShell(TViewModel viewModel) : base(viewModel)
+    protected BaseShell(TViewModel viewModel) : base(viewModel)
     {
     }
 
@@ -16,10 +16,8 @@ public abstract class BaseShell : Shell
 {
     private readonly BaseAppShellViewModel _viewModel;
 
-    public BaseShell(object viewModel = null)
+    public BaseShell()
     {
-        _viewModel = viewModel as BaseAppShellViewModel;
-        BindingContext = viewModel;
         Padding = 12;
 
         SetDynamicResource(BackgroundColorProperty, "AppBackgroundColor");
@@ -28,6 +26,13 @@ public abstract class BaseShell : Shell
         {
             Title = GetType().Name;
         }
+    }
+
+    public BaseShell(object viewModel)
+        : this()
+    {
+        _viewModel = viewModel as BaseAppShellViewModel;
+        BindingContext = viewModel;
     }
 
     protected override void OnAppearing()
