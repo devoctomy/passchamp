@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace devoctomy.Passchamp.Core.Cloud.Utility;
 
-public class CloudStorageProviderServiceAttributeUtility
+public static class CloudStorageProviderServiceAttributeUtility
 {
     private static Dictionary<Type, CloudStorageProviderServiceAttribute> _attributeCache;
     private static readonly object _lock = new();

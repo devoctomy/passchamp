@@ -4,7 +4,7 @@
     {
         public string[] SupportedThemes => _options.SupportedThemes;
 
-        private ThemeAwareImageResourceServiceOptions _options;
+        private readonly ThemeAwareImageResourceServiceOptions _options;
 
         public ThemeAwareImageResourceService(ThemeAwareImageResourceServiceOptions options)
         {

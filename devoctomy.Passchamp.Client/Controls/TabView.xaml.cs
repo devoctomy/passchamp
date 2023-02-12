@@ -1,5 +1,4 @@
 using devoctomy.Passchamp.Client.ViewModels.Base;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.Controls;
