@@ -77,6 +77,26 @@ public class PartialSecureJsonWriterServiceTests
     }
 
     [Fact]
+    public async Task GivenNonIPartiallySecureObject_AndMissingJsonIgnoreAttribute_WhenSave_ThenObjectDoesNotImplementIPartiallySecureExceptionThrown()
+    {
+        // Arrange
+        var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
+        var sut = new PartialSecureJsonWriterService(mockSecureSettingStorageService.Object);
+
+        var value = "Hello World";
+
+        mockSecureSettingStorageService.Setup(x => x.IsApplicable(
+            It.IsAny<PropertyInfo>()))
+            .Returns(true);
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<ObjectDoesNotImplementIPartiallySecureException>(async () =>
+        {
+            await sut.SaveAsync(value, null);
+        });
+    }
+
+    [Fact]
     public void GivenPartiallySecureObject_WhenRemoveAll_ThenAllSecureSettingsRemoved()
     {
         // Arrange
@@ -108,5 +128,25 @@ public class PartialSecureJsonWriterServiceTests
         mockSecureSettingStorageService.Verify(x => x.Remove(
             It.Is<string>(y => y == value.Id),
             It.Is<PropertyInfo>(y => y.Name == "TestSetting4")), Times.Once);
+    }
+
+    [Fact]
+    public void GivenNonIPartiallySecureObject_WhenRemoveAll_ThenObjectDoesNotImplementIPartiallySecureExceptionThrown()
+    {
+        // Arrange
+        var mockSecureSettingStorageService = new Mock<ISecureSettingStorageService>();
+        var sut = new PartialSecureJsonWriterService(mockSecureSettingStorageService.Object);
+
+        var value = "hello world";
+
+        mockSecureSettingStorageService.Setup(x => x.IsApplicable(
+            It.IsAny<PropertyInfo>()))
+            .Returns(true);
+
+        // Act & Assert
+        Assert.ThrowsAny<ObjectDoesNotImplementIPartiallySecureException>(() =>
+        {
+            sut.RemoveAll(value);
+        });
     }
 }

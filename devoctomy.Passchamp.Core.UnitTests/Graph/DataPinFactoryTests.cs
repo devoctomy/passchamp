@@ -80,4 +80,19 @@ public class DataPinFactoryTests
                 null);
         });
     }
+
+    [Fact]
+    public void GivenTypeNotInTypeMap_AndTypeNotList_WhenCreate_ThenNotSupportedExceptionThrown()
+    {
+        // Arrange
+
+        // Act & Assert
+        Assert.ThrowsAny<NotSupportedException>(() =>
+        {
+            DataPinFactory.Instance.Create(
+                "Test",
+                new Exception(),
+                typeof(Exception));
+        });
+    }
 }
