@@ -36,7 +36,7 @@ public class MemorablePasswordGenerator : IMemorablePasswordGenerator
         {
             var currentGeneratedPart = string.Empty;
             var firstMatch = tokenMatches[0];
-            string token = firstMatch.Value.Trim(new char[] { '{', '}' });
+            string token = firstMatch.Value.Trim(new[] { '{', '}' });
             string[] tokenParts = token.Split(':');
 
             if (tokenParts.Length == 2)

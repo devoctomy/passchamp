@@ -70,5 +70,6 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
 
     private void TabChangedCommandHandler(object param)
     {
+        // Handle tab changed event here
     }
 }

@@ -61,7 +61,7 @@ public partial class AppShellViewModel : BaseAppShellViewModel
     public override void Navigated(ShellNavigatedEventArgs args)
     {
         base.Navigated(args);
-        if (_currentPage != null & _currentPage != Shell.Current.CurrentPage)
+        if (_currentPage != null && _currentPage != Shell.Current.CurrentPage)
         {
             if(_currentPage.TransientViewModel)
             {

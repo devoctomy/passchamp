@@ -8,10 +8,6 @@ public abstract partial class BaseAppShellPageViewModel : BaseViewModel
     private bool _loaded;
     private string _previousTheme = App.Current.UserAppTheme.ToString();
 
-    public BaseAppShellPageViewModel()
-    {
-    }
-
     public override async Task OnAppearingAsync()
     {
         await _loaderLock.WaitAsync();

@@ -31,7 +31,7 @@ public class MemorablePasswordWordListSectionGenerator : IMemorablePasswordSecti
         var casing = argumentParts[1].ToLowerInvariant();
         if (casing == "rc")
         {
-            var casingOptions = new string[] { "lc", "uc", "ic" };
+            var casingOptions = new[] { "lc", "uc", "ic" };
             casing = casingOptions[_randomNumericGenerator.GenerateInt(0, casingOptions.Length)];
         }
 

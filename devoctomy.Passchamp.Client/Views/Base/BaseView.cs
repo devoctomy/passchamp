@@ -4,7 +4,7 @@ namespace devoctomy.Passchamp.Client.Views.Base;
 
 public abstract class BaseView<TViewModel> : BaseView where TViewModel : BaseViewModel
 {
-    public BaseView(TViewModel viewModel) : base(viewModel)
+    protected BaseView(TViewModel viewModel) : base(viewModel)
     {
     }
 
@@ -15,12 +15,12 @@ public abstract class BaseView : ContentView
 {
     private readonly BaseViewModel _viewModel;
 
-    public BaseView()
+    protected BaseView()
     {
         SetDynamicResource(BackgroundColorProperty, "AppBackgroundColor");
     }
 
-    public BaseView(object viewModel)
+    protected BaseView(object viewModel)
     {
         _viewModel = viewModel as BaseViewModel;
         BindingContext = viewModel;
