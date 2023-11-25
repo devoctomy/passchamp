@@ -2,8 +2,7 @@
 
 namespace devoctomy.Passchamp.Client.ViewModels.Base;
 
-[INotifyPropertyChanged]
-public abstract partial class BaseViewModel
+public abstract partial class BaseViewModel : ObservableObject
 {
     public virtual Task OnAppearingAsync()
     {

@@ -26,7 +26,7 @@ public class InputPinsJsonParserServiceTests
         // Arrange
         var jsonData = await System.IO.File.ReadAllTextAsync(
             fileName,
-            CancellationToken.None).ConfigureAwait(false);
+            CancellationToken.None);
         var pinsJson = JObject.Parse(jsonData);
         var sut = new InputPinsJsonParserService(new TypeResolverService());
 

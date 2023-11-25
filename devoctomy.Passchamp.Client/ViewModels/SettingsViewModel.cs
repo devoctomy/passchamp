@@ -39,7 +39,7 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
 
     protected override async Task OnFirstAppearanceAsync()
     {
-        await cloudSettings.Init();
+        await CloudSettings.Init();
     }
 
     protected override void OnSetupMenuItems()

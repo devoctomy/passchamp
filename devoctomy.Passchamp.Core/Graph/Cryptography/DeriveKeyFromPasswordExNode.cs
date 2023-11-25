@@ -85,7 +85,8 @@ public class DeriveKeyFromPasswordExNode : NodeBase
             using var rfc2898 = new System.Security.Cryptography.Rfc2898DeriveBytes(
                 buffer,
                 Salt.Value,
-                IterationCount.Value);
+                IterationCount.Value,
+                System.Security.Cryptography.HashAlgorithmName.SHA256);
             Key.Value = rfc2898.GetBytes(KeyLength.Value);
         }
         _secureStringUnpacker.Unpack(SecurePassword.Value, callback);

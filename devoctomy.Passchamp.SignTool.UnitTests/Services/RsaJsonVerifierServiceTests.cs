@@ -134,7 +134,7 @@ public class RsaJsonVerifierServiceTests
     public async Task GivenPath_AndInvalidSignature_AndPublicKey_WhenVerify_ThenFalseReturned()
     {
         // Arrange
-        var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json").ConfigureAwait(false);
+        var publicKeyText = await File.ReadAllTextAsync("Data/PublicKey.json");
         var sut = new RsaJsonVerifierService();
 
         // Act

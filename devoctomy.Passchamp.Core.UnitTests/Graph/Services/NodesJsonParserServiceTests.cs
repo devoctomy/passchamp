@@ -26,7 +26,7 @@ public class NodesJsonParserServiceTests
         // Arrange
         var jsonData = await System.IO.File.ReadAllTextAsync(
             fileName,
-            CancellationToken.None).ConfigureAwait(false);
+            CancellationToken.None);
         var nodesJson = JObject.Parse(jsonData);
         var mockServiceProvider = new Mock<IServiceProvider>();
         var sut = new NodesJsonParserService(mockServiceProvider.Object);
@@ -53,7 +53,7 @@ public class NodesJsonParserServiceTests
         // Arrange
         var jsonData = await System.IO.File.ReadAllTextAsync(
             fileName,
-            CancellationToken.None).ConfigureAwait(false);
+            CancellationToken.None);
         var nodesJson = JObject.Parse(jsonData);
         var mockServiceProvider = new Mock<IServiceProvider>();
         var sut = new NodesJsonParserService(mockServiceProvider.Object);
@@ -74,7 +74,7 @@ public class NodesJsonParserServiceTests
         // Arrange
         var jsonData = await System.IO.File.ReadAllTextAsync(
             fileName,
-            CancellationToken.None).ConfigureAwait(false);
+            CancellationToken.None);
         var nodesJson = JObject.Parse(jsonData);
         var mockServiceProvider = new Mock<IServiceProvider>();
         var sut = new NodesJsonParserService(mockServiceProvider.Object);

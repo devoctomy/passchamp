@@ -41,7 +41,7 @@ public class FileWriterNodeTests
         await sut.ExecuteAsync(cancellationTokenSource.Token);
 
         // Assert
-        var fileData = await File.ReadAllTextAsync($"{outputDirName}/TestOutputFile1.txt").ConfigureAwait(false);
+        var fileData = await File.ReadAllTextAsync($"{outputDirName}/TestOutputFile1.txt");
         Assert.Equal(inputData, fileData);
         mockGraph.Verify(x => x.GetNode<INode>(
             It.Is<string>(x => x == sut.NextKey)), Times.Once);

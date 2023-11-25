@@ -62,7 +62,7 @@ public class DecryptNode : NodeBase
         IGraph graph,
         CancellationToken cancellationToken)
     {
-        using var crypto = Aes.Create(AesAlgorithmName);
+        using var crypto = Aes.Create();
         using var decryptStream = crypto.CreateDecryptor(
                 Key.Value,
                 Iv.Value);

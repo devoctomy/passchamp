@@ -107,7 +107,7 @@ public class ArgumentMapperServiceTests
 
                 default:
                     {
-                        Assert.True(false, $"Untested option '{curOption.Key.Name}'.");
+                        Assert.Fail($"Untested option '{curOption.Key.Name}'.");
                         break;
                     }
             }

@@ -49,7 +49,7 @@ public class GraphLoaderServiceTests
         Assert.Equal("devoctomy", result.Settings.Author);
         Assert.True(result.Settings.Debug);
         Assert.Equal(6, result.InputPins.Count);
-        Assert.Equal(1, result.OutputPins.Count);
+        Assert.Single(result.OutputPins);
         Assert.Equal(7, result.Nodes.Count);
         Assert.True(result.Nodes.ContainsKey("saltgenerator"));
         Assert.True(result.Nodes.ContainsKey("ivgenerator"));

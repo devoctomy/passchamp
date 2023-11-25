@@ -24,7 +24,7 @@ public class RsaJsonSignerServiceTests
         var path = $"Output/{Guid.NewGuid()}";
         await File.WriteAllTextAsync(
             path,
-            testObjectJson).ConfigureAwait(false);
+            testObjectJson);
         var sut = new RsaJsonSignerService();
 
         // Act

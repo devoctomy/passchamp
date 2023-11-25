@@ -8,8 +8,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography;
 
 public class EncryptNode : NodeBase
 {
-    private const string AesAlgorithmName = "AesManaged";
-
     [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
     public IDataPin<byte[]> PlainTextBytes
     {
@@ -62,7 +60,7 @@ public class EncryptNode : NodeBase
         IGraph graph,
         CancellationToken cancellationToken)
     {
-        using var crypto = Aes.Create(AesAlgorithmName);
+        using var crypto = Aes.Create();
         var encryptStream = crypto.CreateEncryptor(
                 Key.Value,
                 Iv.Value);

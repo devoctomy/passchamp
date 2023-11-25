@@ -284,15 +284,15 @@ public class NodeBaseTests
     }
 
     [Fact]
-    public void GivenUnattachedNode_WhenExecuteAsync_ThenInvalidOperationExceptionThrown()
+    public async Task GivenUnattachedNode_WhenExecuteAsync_ThenInvalidOperationExceptionThrown()
     {
         // Arrange
         var sut = new NodeBase();
 
         // Act & Assert
-        Assert.ThrowsAny<InvalidOperationException>(() =>
+        await Assert.ThrowsAnyAsync<InvalidOperationException>(async () =>
         {
-            sut.ExecuteAsync(CancellationToken.None).GetAwaiter().GetResult();
+            await sut.ExecuteAsync(CancellationToken.None);
         });
     }
 }
