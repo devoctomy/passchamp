@@ -2,7 +2,7 @@
 
 namespace devoctomy.Passchamp.Client.ViewModels.Base;
 
-public abstract partial class BaseViewModel : ObservableObject
+public abstract class BaseViewModel : ObservableObject
 {
     public virtual Task OnAppearingAsync()
     {
