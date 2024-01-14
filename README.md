@@ -14,15 +14,9 @@ passchamp is a cross-platform password management application, written entirely 
 
 .net MAUI Client for the following platforms.
 
-#### Android
+#### Android (SDK 21)
 
-#### iOS
-
-> Build failure currently being ignored in CICD pipeline.
-
-#### MacCatalyst
-
-#### Windows
+#### Windows (10.0.17763.0 >)
 
 ### Core
 
