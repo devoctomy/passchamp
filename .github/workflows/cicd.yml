@@ -30,10 +30,10 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-      - name: Setup .NET 6
+      - name: Setup .NET 8
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
       - name: Install maui workloads
         run: dotnet workload install maui-android maui-ios maui-maccatalyst
       - name: Install dependencies
@@ -89,10 +89,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup .NET 6
+      - name: Setup .NET 8
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
           include-prerelease: true
 
       - name: Setup MSBuild
@@ -106,14 +106,14 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj
       - name: Build MAUI Windows
-        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net6.0-windows10.0.19041.0 --no-restore
+        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net8.0-windows10.0.19041.0 --no-restore
       - name: Publish application
-        run: dotnet publish devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net6.0-windows10.0.19041.0
+        run: dotnet publish devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net8.0-windows10.0.19041.0
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           name: windows-ci-build
-          path: devoctomy.Passchamp.Client/bin/Release/net6.0-windows*/**/*.msix
+          path: devoctomy.Passchamp.Client/bin/Release/net8.0-windows*/**/*.msix
 
   build-android:
     name: Android Build
@@ -125,10 +125,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup .NET 6
+      - name: Setup .NET 8
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
           include-prerelease: true
 
       - uses: actions/setup-java@v2
@@ -145,13 +145,13 @@ jobs:
         run: dotnet restore devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj
 
       - name: Build MAUI Android
-        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net6.0-android --no-restore
+        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net8.0-android --no-restore
 
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           name: android-ci-build
-          path: devoctomy.Passchamp.Client/bin/Release/net6.0-android/*Signed.a*
+          path: devoctomy.Passchamp.Client/bin/Release/net8.0-android/*Signed.a*
 
   build-ios:
     name: iOS Build
@@ -163,10 +163,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup .NET 6
+      - name: Setup .NET 8
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
           include-prerelease: true
 
       - name: Install MAUI Workloads
@@ -178,14 +178,14 @@ jobs:
         run: dotnet restore devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj
 
       - name: Build MAUI iOS
-        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net6.0-ios --no-restore
+        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net8.0-ios --no-restore
         continue-on-error: true
 
       - name: Upload iOS Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           name: ios-ci-build
-          path: devoctomy.Passchamp.Client/bin/Release/net6.0-ios/**/*.app/
+          path: devoctomy.Passchamp.Client/bin/Release/net8.0-ios/**/*.app/
         continue-on-error: true
 
   build-mac:
@@ -198,10 +198,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup .NET 6
+      - name: Setup .NET 8
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8.0.x
           include-prerelease: true
 
       - name: Install MAUI Workloads
@@ -213,10 +213,10 @@ jobs:
         run: dotnet restore devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj
 
       - name: Build MAUI MacCatalyst
-        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net6.0-maccatalyst --no-restore
+        run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net8.0-maccatalyst --no-restore
 
       - name: Upload MacCatalyst Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
           name: macos-ci-build
-          path: devoctomy.Passchamp.Client/bin/Release/net6.0-maccatalyst/**/*.app/
+          path: devoctomy.Passchamp.Client/bin/Release/net8.0-maccatalyst/**/*.app/
