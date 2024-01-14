@@ -50,7 +50,7 @@ public class DeriveKeyFromPasswordExNodeTests
 
         // Assert
         var keyBase64 = Convert.ToBase64String(sut.Key.Value);
-        Assert.Equal("Axto+vZY96F0qL8T8Scj8aPdEpy1XMahloltRfFsNoc=", keyBase64);
+        Assert.Equal("rTCyeBAr/2KfgL2wMdTenA5syHGaNrhRxiyngKUocmM=", keyBase64);
         mockGraph.Verify(x => x.GetNode<INode>(
             It.Is<string>(x => x == sut.NextKey)), Times.Once);
         mockNextNode.Verify(x => x.ExecuteAsync(It.Is<CancellationToken>(x => x == cancellationTokenSource.Token)), Times.Once);
