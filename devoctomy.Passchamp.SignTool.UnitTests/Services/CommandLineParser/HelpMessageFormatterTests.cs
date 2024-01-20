@@ -20,6 +20,7 @@ public class HelpMessageFormatterTests
         var result = sut.Format(optionsType);
 
         // Assert
+        result = result.Replace("\r\n", "\n");  // Change encoding to Linux, to fix test on Windows
         Assert.Equal(expected, result);
     }
 }

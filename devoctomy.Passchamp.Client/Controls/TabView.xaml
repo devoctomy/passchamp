@@ -46,7 +46,7 @@
                                     BackgroundColor="{Binding TabAccentColour, Source={x:Reference Root}}"
                                     Grid.Row="1">
                                     <Rectangle.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected}"
+                                        <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}"
                                                      TargetType="Rectangle"
                                                      Value="True">
                                             <Setter Property="BackgroundColor" Value="{Binding SelectedTabAccentColour, Source={x:Reference Root}}"/>
@@ -54,7 +54,7 @@
                                     </Rectangle.Triggers>
                                 </Rectangle>
                                 <Grid.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}"
+                                    <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}"
                                                  TargetType="Grid"
                                                  Value="True">
                                         <Setter Property="BackgroundColor" Value="{Binding SelectedTabBackColour, Source={x:Reference Root}}"/>

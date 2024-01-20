@@ -153,6 +153,8 @@ public partial class TabView : ContentView
 
     public ICommand SelectionChangedCommand { get; }
 
+    private TabViewPage _selectedPage;
+
     public TabView()
 	{
         InitializeComponent();
@@ -229,17 +231,24 @@ public partial class TabView : ContentView
 
     private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        var currentTabViewPage = (TabViewPage)e.CurrentSelection.FirstOrDefault();
+        if(currentTabViewPage == null)
+        {
+            return;
+        }
+
+        if (currentTabViewPage != null)
+        {
+            currentTabViewPage.IsSelected = true;
+        }
+
         var previousTabViewPage = (TabViewPage)e.PreviousSelection.FirstOrDefault();
         if (previousTabViewPage != null)
         {
             previousTabViewPage.IsSelected = false;
         }
 
-        var currentTabViewPage = (TabViewPage)e.CurrentSelection.FirstOrDefault();
-        if (currentTabViewPage != null)
-        {
-            currentTabViewPage.IsSelected = true;
-        }
+        _selectedPage = currentTabViewPage;
 
         UpdateContentView();
     }
