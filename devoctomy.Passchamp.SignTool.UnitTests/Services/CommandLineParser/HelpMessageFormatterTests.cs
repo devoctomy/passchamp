@@ -21,7 +21,10 @@ public class HelpMessageFormatterTests
         var result = sut.Format(optionsType);
 
         // Assert
-        result = result.Replace("\r\n", "\n");  // Change encoding to Linux, to fix test on Windows
+
+        // Change encoding to Linux, to fix test on Windows
+        expected = expected.Replace("\r\n", "\n");
+        result = result.Replace("\r\n", "\n");
         Assert.Equal(expected, result);
     }
 
@@ -36,7 +39,10 @@ public class HelpMessageFormatterTests
         var result = sut.Format<CommandLineTestOptions>();
 
         // Assert
-        result = result.Replace("\r\n", "\n");  // Change encoding to Linux, to fix test on Windows
+
+        // Change encoding to Linux, to fix test on Windows
+        expected = expected.Replace("\r\n", "\n");
+        result = result.Replace("\r\n", "\n");
         Assert.Equal(expected, result);
     }
 }
