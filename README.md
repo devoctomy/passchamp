@@ -6,7 +6,7 @@
 
 ---
 
-passchamp is a cross-platform password management application, written entirely in .net 6 with the intention of producing a powerful and reusable framework for quickly bulding other graph-based applications. 
+passchamp is a cross-platform password management application, written entirely in .net 8 with the intention of producing a powerful and reusable framework for quickly bulding other graph-based applications. 
 
 ## Components
 
