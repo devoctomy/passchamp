@@ -4,7 +4,6 @@ namespace devoctomy.Passchamp.SignTool.UnitTests.Services.CommandLineParser;
 
 public class CommandLineTestOptions2
 {
-
     [CommandLineParserOption(
         LongName = "enum",
         ShortName = "e",

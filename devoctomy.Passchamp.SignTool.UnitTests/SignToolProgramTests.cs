@@ -41,6 +41,37 @@ public class SignToolProgramTests
     }
 
     [Fact]
+    public async Task GivenInvalidArguments_AndInvalidCommand_WhenRun_ThenErrorCodeReturned()
+    {
+        // Arrange
+        var mockCommandLineArgumentService = new Mock<ICommandLineArgumentService>();
+        var mockCommandLineParserService = new Mock<ICommandLineParserService>();
+        var sut = new SignToolProgram(
+            mockCommandLineArgumentService.Object,
+            mockCommandLineParserService.Object,
+            null,
+            null,
+            null,
+            Mock.Of<IHelpMessageFormatter>());
+
+        var options = new ParseResults
+        {
+            Exception = new Exception("Hello World!")
+        };
+        options.InvalidOptions.Add("Command", "Whatever");
+        mockCommandLineParserService.Setup(x => x.TryParseArgumentsAsOptions(
+            It.IsAny<Type>(),
+            It.IsAny<string>(),
+            out options)).Returns(false);
+
+        // Act
+        var result = await sut.Run();
+
+        // Assert
+        Assert.Equal(-1, result);
+    }
+
+    [Fact]
     public async Task GivenArguments_AndUnknownCommand_WhenRun_ThenErrorCodeReturned()
     {
         // Arrange

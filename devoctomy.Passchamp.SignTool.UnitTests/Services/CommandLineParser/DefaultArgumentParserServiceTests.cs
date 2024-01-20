@@ -84,6 +84,30 @@ public class DefaultArgumentParserServiceTests
         Assert.Equal(retval ? string.Empty : originalArgumentsString, invalidArgument);
     }
 
+    [Fact]
+    public void GivenArguments_AndNoOptions_WhenSetDefaultOption_ThenArgumentsParsed_AndFalseReturned()
+    {
+        // Arrange
+        var optionsInstance = new CommandLineTestOptions2();
+        var sut = new DefaultArgumentParserService(new PropertyValueSetterService());
+        var allOptions = new Dictionary<PropertyInfo, CommandLineParserOptionAttribute>();
+        var allSetOptions = new List<CommandLineParserOptionAttribute>();
+        var argumentsString = "c:/pop/pop.exe -arg1=1 -arg2=2";
+        var invalidArgument = string.Empty;
+
+        // Act
+        var retval = sut.SetDefaultOption(
+            optionsInstance,
+            allOptions,
+            ref argumentsString,
+            allSetOptions,
+            ref invalidArgument);
+
+        // Assert
+        Assert.True(retval);
+        Assert.Equal("-arg1=1 -arg2=2", argumentsString);
+    }
+
     private static void AddProperty<T>(
         string name,
         Dictionary<PropertyInfo, CommandLineParserOptionAttribute> options)

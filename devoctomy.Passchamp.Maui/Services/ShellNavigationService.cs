@@ -1,5 +1,8 @@
-﻿namespace devoctomy.Passchamp.Maui.Services;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace devoctomy.Passchamp.Maui.Services;
+
+[ExcludeFromCodeCoverage(Justification = "Requires active shell, cannot be unit tested.")]
 public class ShellNavigationService : IShellNavigationService
 {
     private readonly ShellNavigationServiceOptions _options;

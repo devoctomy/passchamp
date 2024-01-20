@@ -23,6 +23,56 @@ public class CommandLineParserServiceTests
     }
 
     [Fact]
+    public void GivenNullArguments_WhenTryParseArgumentsAsOptions_ThenFalseReturned()
+    {
+        // Arrange
+        var mockDefaultArgumentParserService = new Mock<IDefaultArgumentParserService>();
+        var mockArgumentMapperService = new Mock<IArgumentMapperService>();
+        var mockOptionalArgumentSetterService = new Mock<IOptionalArgumentSetterService>();
+        var sut = new CommandLineParserService(
+            mockDefaultArgumentParserService.Object,
+            mockArgumentMapperService.Object,
+            mockOptionalArgumentSetterService.Object);
+        var argumentsString = (string)null;
+
+        // Act
+        var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var results);
+
+        // Assert
+        Assert.False(success);
+    }
+
+    [Fact]
+    public void GivenArguments_AndFailedToSetDefaultArgument_WhenTryParseArgumentsAsOptions_ThenFalseReturned()
+    {
+        // Arrange
+        var mockDefaultArgumentParserService = new Mock<IDefaultArgumentParserService>();
+        var mockArgumentMapperService = new Mock<IArgumentMapperService>();
+        var mockOptionalArgumentSetterService = new Mock<IOptionalArgumentSetterService>();
+        var sut = new CommandLineParserService(
+            mockDefaultArgumentParserService.Object,
+            mockArgumentMapperService.Object,
+            mockOptionalArgumentSetterService.Object);
+        var argumentsString = "Hello World";
+        var invalidValue = string.Empty;
+
+        mockDefaultArgumentParserService.Setup(x => x.SetDefaultOption(
+            It.IsAny<Type>(),
+            It.IsAny<object>(),
+            It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
+            ref argumentsString,
+            It.IsAny<List<CommandLineParserOptionAttribute>>(),
+            ref invalidValue)).Returns(false);
+
+        // Act
+        var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var results);
+
+        // Assert
+        Assert.False(success);
+        Assert.Contains("Failed to set default argument", results.Exception.Message);
+    }
+
+    [Fact]
     public void GivenMissingArguments_AndOptionsType_WhenParseArgumentsAsOptions_ThenFalseReturned()
     {
         // Arrange
@@ -46,7 +96,7 @@ public class CommandLineParserServiceTests
             .Returns(true);
 
         // Act
-        var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var options);
+        var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var results);
 
         // Assert
         Assert.False(success);
@@ -110,7 +160,7 @@ public class CommandLineParserServiceTests
             });
 
         // Act
-        var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var options);
+        var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var results);
 
         // Assert
         Assert.True(success);

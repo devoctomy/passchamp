@@ -1,4 +1,6 @@
-﻿namespace devoctomy.Passchamp.Maui.Services;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace devoctomy.Passchamp.Maui.Services;
 
 public interface IShellNavigationService
 {

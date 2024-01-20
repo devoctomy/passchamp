@@ -46,6 +46,8 @@ public class CommandLineParserService : ICommandLineParserService
         string argumentString,
         out ParseResults results)
     {
+        // This block is unlikely to happen at runtime as arguments string
+        // will always contain application path
         if (string.IsNullOrWhiteSpace(argumentString))
         {
             results = default;

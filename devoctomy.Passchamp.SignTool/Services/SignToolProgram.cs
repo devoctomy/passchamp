@@ -10,6 +10,8 @@ namespace devoctomy.Passchamp.SignTool.Services;
 
 public class SignToolProgram : IProgram
 {
+    public Func<string> GetCommandLine { get; set; }
+
     private readonly ICommandLineArgumentService _commandLineArgumentService;
     private readonly ICommandLineParserService _commandLineParserService;
     private readonly IGenerateService _generateService;
@@ -31,11 +33,17 @@ public class SignToolProgram : IProgram
         _rsaJsonSignerService = rsaJsonSignerService;
         _rsaJsonVerifierService = rsaJsonVerifierService;
         _helpMessageFormatter = helpMessageFormatter;
+        GetCommandLine = DefaultGetCommandLine;
+    }
+
+    private string DefaultGetCommandLine()
+    {
+        return Environment.CommandLine;
     }
 
     public async Task<int> Run()
     {
-        var arguments = _commandLineArgumentService.GetArguments(Environment.CommandLine);
+        var arguments = _commandLineArgumentService.GetArguments(GetCommandLine());
         if (_commandLineParserService.TryParseArgumentsAsOptions(typeof(PreOptions), arguments, out var preOptions))
         {
             switch (preOptions.OptionsAs<PreOptions>().Command)

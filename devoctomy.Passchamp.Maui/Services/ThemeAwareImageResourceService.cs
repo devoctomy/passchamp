@@ -1,5 +1,8 @@
-﻿namespace devoctomy.Passchamp.Maui.Services
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace devoctomy.Passchamp.Maui.Services
 {
+    [ExcludeFromCodeCoverage(Justification = "Requires active application, cannot be unit tested.")]
     public class ThemeAwareImageResourceService : IThemeAwareImageResourceService
     {
         public string[] SupportedThemes => _options.SupportedThemes;
