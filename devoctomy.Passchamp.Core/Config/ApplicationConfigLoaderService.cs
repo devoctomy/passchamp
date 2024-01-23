@@ -5,7 +5,7 @@ using System;
 
 namespace devoctomy.Passchamp.Core.Config;
 
-public class ApplicationConfigLoaderService<T> : IApplicationConfigLoaderService where T : IPartiallySecure
+public class ApplicationConfigLoaderService<T> : IApplicationConfigLoaderService<T> where T : IPartiallySecure
 {
     public T Config { get; private set; } = Activator.CreateInstance<T>();
 

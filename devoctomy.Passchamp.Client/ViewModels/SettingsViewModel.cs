@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using devoctomy.Passchamp.Client.Config;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Config;
 using devoctomy.Passchamp.Core.Data;
@@ -21,14 +22,14 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
 
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
-    private readonly IApplicationConfigLoaderService _applicationConfigLoaderService;
+    private readonly IApplicationConfigLoaderService<AppConfig> _applicationConfigLoaderService;
 
     public SettingsViewModel(
         GeneralSettingsViewModel generalSettingsViewModel,
         CloudSettingsViewModel cloudSettingsViewModel,
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService,
-        IApplicationConfigLoaderService applicationConfigLoaderService)
+        IApplicationConfigLoaderService<AppConfig> applicationConfigLoaderService)
     {
         GeneralSettings = generalSettingsViewModel;
         CloudSettings = cloudSettingsViewModel;
@@ -45,6 +46,7 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
     {
         await CloudSettings.Init();
         await _applicationConfigLoaderService.LoadAsync(CancellationToken.None);
+        GeneralSettings.Theme = _applicationConfigLoaderService.Config.Theme;
     }
 
     protected override void OnSetupMenuItems()
@@ -71,6 +73,7 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
     [RelayCommand]
     private async Task Accept(object param)
     {
+        _applicationConfigLoaderService.Config.Theme = GeneralSettings.Theme;
         await _applicationConfigLoaderService.SaveAsync(CancellationToken.None);
         await _shellNavigationService.GoToAsync("//Vaults");
     }

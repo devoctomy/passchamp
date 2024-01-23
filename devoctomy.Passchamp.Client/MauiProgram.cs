@@ -57,7 +57,7 @@ public static class MauiProgram
             Path = Path.Combine(FileSystem.AppDataDirectory, $"config\\")
         };
         builder.Services.AddSingleton(applicationConfigLoaderOptions);
-        builder.Services.AddTransient<IApplicationConfigLoaderService, ApplicationConfigLoaderService<AppConfig>>();
+        builder.Services.AddTransient<IApplicationConfigLoaderService<AppConfig>, ApplicationConfigLoaderService<AppConfig>>();
 
         RegisterViewModels(builder.Services);
         RegisterPages(builder.Services);
