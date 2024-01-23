@@ -1,5 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
+using devoctomy.Passchamp.Core.Config;
+using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Maui.Services;
 using System.Windows.Input;
 
@@ -13,33 +16,35 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
     [ObservableProperty]
     private CloudSettingsViewModel cloudSettings;
 
-    public ICommand AcceptCommand { get; }
     public ICommand CancelCommand { get; }
     public ICommand TabChangedCommand { get; }
 
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
+    private readonly IApplicationConfigLoaderService _applicationConfigLoaderService;
 
     public SettingsViewModel(
         GeneralSettingsViewModel generalSettingsViewModel,
         CloudSettingsViewModel cloudSettingsViewModel,
         IShellNavigationService shellNavigationService,
-        IThemeAwareImageResourceService themeAwareImageResourceService)
+        IThemeAwareImageResourceService themeAwareImageResourceService,
+        IApplicationConfigLoaderService applicationConfigLoaderService)
     {
         GeneralSettings = generalSettingsViewModel;
         CloudSettings = cloudSettingsViewModel;
 
-        AcceptCommand = new Command(AcceptCommandHandler);
         CancelCommand = new Command(CancelCommandHandler);
         TabChangedCommand = new Command(TabChangedCommandHandler);
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
+        _applicationConfigLoaderService = applicationConfigLoaderService;
         SetupMenuItems();
     }
 
     protected override async Task OnFirstAppearanceAsync()
     {
         await CloudSettings.Init();
+        await _applicationConfigLoaderService.LoadAsync(CancellationToken.None);
     }
 
     protected override void OnSetupMenuItems()
@@ -63,9 +68,11 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
         _shellNavigationService.GoBackAsync();
     }
 
-    private void AcceptCommandHandler(object param)
+    [RelayCommand]
+    private async Task Accept(object param)
     {
-        _shellNavigationService.GoToAsync("//Vaults");
+        await _applicationConfigLoaderService.SaveAsync(CancellationToken.None);
+        await _shellNavigationService.GoToAsync("//Vaults");
     }
 
     private void TabChangedCommandHandler(object param)

@@ -9,7 +9,7 @@
              x:DataType="vm:CloudSettingsViewModel"
              x:TypeArguments="vm:CloudSettingsViewModel"
              x:Name="Root">
-    <VerticalStackLayout>
+    <VerticalStackLayout Margin="16">
         <Label Text="STORAGE PROVIDERS" Style="{StaticResource LargeLabelStyle}" HorizontalTextAlignment="Center"></Label>
         <HorizontalStackLayout IsVisible="{OnPlatform WinUI=true, Default=false}">
             <ImageButton Source="{AppThemeBinding Light=data_edit_light.png, Dark=data_edit_dark.png}"

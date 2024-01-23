@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Maui;
+using devoctomy.Passchamp.Client.Config;
 using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels;
 using devoctomy.Passchamp.Client.Views;
-using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Config;
 using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Maui.Extensions;
 
@@ -49,6 +50,15 @@ public static class MauiProgram
                 SupportedThemes = new[] { "light", "dark" }
             }
         });
+
+        var applicationConfigLoaderOptions = new ApplicationConfigLoaderServiceOptions
+        {
+            FileName = "app.config",
+            Path = Path.Combine(FileSystem.AppDataDirectory, $"config\\")
+        };
+        builder.Services.AddSingleton(applicationConfigLoaderOptions);
+        builder.Services.AddTransient<IApplicationConfigLoaderService, ApplicationConfigLoaderService<AppConfig>>();
+
         RegisterViewModels(builder.Services);
         RegisterPages(builder.Services);
 

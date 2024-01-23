@@ -6,10 +6,18 @@
              xmlns:baseviews="clr-namespace:devoctomy.Passchamp.Client.Views.Base"
              x:DataType="vm:GeneralSettingsViewModel"
              x:TypeArguments="vm:GeneralSettingsViewModel">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+    <VerticalStackLayout Margin="16">
+        <Label Text="Theme" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
+        <Picker
+            MaximumWidthRequest="300"
+            WidthRequest="300"
+            HorizontalOptions="Start"
+            SelectedItem="{Binding Theme}">
+            <Picker.Items>
+                <x:String>Dark</x:String>
+                <x:String>Light</x:String>
+                <x:String>System</x:String>
+            </Picker.Items>
+        </Picker>
     </VerticalStackLayout>
 </baseviews:BaseView>
