@@ -20,7 +20,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Cloud;
 public class CloudStorageProviderConfigLoaderServiceTests
 {
     [Fact]
-    public async Task GivenOptions_WhenLoad_ThenConfigRefsLoaded()
+    public async Task GivenOptions_WhenLoadAsync_ThenConfigRefsLoaded()
     {
         // Arrange
         var options = new CloudStorageProviderConfigLoaderServiceOptions
@@ -58,6 +58,12 @@ public class CloudStorageProviderConfigLoaderServiceTests
         mockIOService.Setup(x => x.Exists(
             It.IsAny<string>())).Returns(true);
 
+        mockPartialSecureJsonReaderService.Setup(x => x.LoadAsync<CloudStorageProviderConfig>(
+            It.IsAny<Stream>())).ReturnsAsync(new CloudStorageProviderConfig
+            {
+                DisplayName = "some display name"
+            });
+
         // Act
         await sut.LoadAsync(cancellationTokenSource.Token);
 
@@ -69,9 +75,15 @@ public class CloudStorageProviderConfigLoaderServiceTests
         Assert.Equal(2, sut.Refs.Count);
         Assert.NotNull(sut.Refs.SingleOrDefault(x => x.Id == "Hello"));
         Assert.NotNull(sut.Refs.SingleOrDefault(x => x.Id == "World"));
+        Assert.All(sut.Refs, x => x.DisplayName.Equals("some display name"));
+
         mockIOService.Verify(x => x.ReadAllTextAsync(
             It.Is<string>(y => y == expectedPath),
             It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+        mockIOService.Verify(x => x.OpenRead(
+            It.Is<string>(x => x == "/Hello.json")), Times.Once);
+        mockIOService.Verify(x => x.OpenRead(
+            It.Is<string>(x => x == "/World.json")), Times.Once);
     }
 
     [Fact]
@@ -173,9 +185,9 @@ public class CloudStorageProviderConfigLoaderServiceTests
         mockIOService.Verify(x => x.CreatePathDirectory(
             It.Is<string>(y => y == expectedConfigPath)), Times.Once);
         mockIOService.Verify(x => x.OpenRead(
-            It.Is<string>(y => y == expectedProviderConfigPath)), Times.Once);
+            It.Is<string>(y => y == expectedProviderConfigPath)), Times.Exactly(2));
         mockPartialSecureJsonReaderService.Verify(x => x.LoadAsync<object>(
-            It.Is<Stream>(y => y == configStream)), Times.Once);
+            It.Is<Stream>(y => y == configStream)), Times.Exactly(2));
     }
 
     [Fact]

@@ -12,6 +12,11 @@
     <VerticalStackLayout Margin="16">
         <Label Text="STORAGE PROVIDERS" Style="{StaticResource LargeLabelStyle}" HorizontalTextAlignment="Center"></Label>
         <HorizontalStackLayout IsVisible="{OnPlatform WinUI=true, Default=false}">
+            <ImageButton Source="{AppThemeBinding Light=add_light.png, Dark=add_dark.png}"
+                         WidthRequest="48"
+                         Command="{Binding AddCloudStorageProviderCommand}"
+                         BackgroundColor="Green">
+            </ImageButton>            
             <ImageButton Source="{AppThemeBinding Light=data_edit_light.png, Dark=data_edit_dark.png}"
                          WidthRequest="48"
                          Command="{Binding EditSelectedCloudStorageProviderCommand}"
@@ -64,32 +69,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Grid Margin="0,8,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="48"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="48"/>
-            </Grid.ColumnDefinitions>
-            <Button Text="Add Cloud Provider..."
-                    Grid.Column="1"
-                    Command="{Binding AddCloudStorageProviderCommand}">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroupList>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor"
-                                            Value="{StaticResource Info}" />
-                                    <Setter Property="TextColor"
-                                            Value="{StaticResource White}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                            <VisualState x:Name="Disabled" />
-                            <VisualState x:Name="Selected" />
-                        </VisualStateGroup>
-                    </VisualStateGroupList>
-                </VisualStateManager.VisualStateGroups>
-            </Button>
-        </Grid>
     </VerticalStackLayout>
 </baseviews:BaseView>

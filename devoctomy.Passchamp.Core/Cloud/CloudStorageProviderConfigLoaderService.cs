@@ -42,6 +42,11 @@ public class CloudStorageProviderConfigLoaderService : ICloudStorageProviderConf
                 fullPath,
                 cancellationToken);
             _refs = JsonConvert.DeserializeObject<List<CloudStorageProviderConfigRef>>(jsonRaw);
+            foreach(var curRef in _refs)
+            {
+                var config = await UnpackConfigAsync<CloudStorageProviderConfig>(curRef.Id, cancellationToken);
+                curRef.SetDisplayName(config?.DisplayName);
+            }
         }
     }
 

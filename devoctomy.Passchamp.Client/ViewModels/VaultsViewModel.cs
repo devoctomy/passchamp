@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels.Base;
+using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Models;
 using devoctomy.Passchamp.Maui.Services;
@@ -14,7 +15,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
 {
     public ICommand SettingsCommand { get; }
     public ICommand ThemeTestCommand { get; }
-    public ICommand CreateVaultCommand { get; }
+    /*public ICommand CreateVaultCommand { get; }*/
     public ICommand AddVaultCommand { get; }
     public ICommand EditSelectedVaultCommand { get; }
     public IAsyncRelayCommand RemoveSelectedVaultCommand { get; }
@@ -36,8 +37,8 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     {
         SettingsCommand = new Command(SettingsCommandHandler);
         ThemeTestCommand = new Command(ThemeTestCommandHandler);
+        /*CreateVaultCommand = new Command(CreateVaultCommandHandler);*/
         AddVaultCommand = new Command(AddVaultCommandHandler);
-        AddVaultCommand = new Command(CreateVaultCommandHandler);
         EditSelectedVaultCommand = new Command(EditSelectedVaultCommandHandler);
         RemoveSelectedVaultCommand = new AsyncRelayCommand(RemoveSelectedVaultCommandHandler);
         _vaultLoaderService = vaultLoaderService;
@@ -52,7 +53,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         MenuItems.Add(new MenuItem
         {
             Text = "Create Vault",
-            Command = AddVaultCommand,
+            Command = CreateVaultCommand,
             IconImageSource = _themeAwareImageResourceService.Get("new")
         });
         MenuItems.Add(new MenuItem
@@ -109,16 +110,22 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
 
     private void AddVaultCommandHandler(object param)
     {
-        var viewModel = new VaultEditorViewModel(this);
+        // !!! Can we do this better?
+        var cloudStorageProviderConfigLoaderService = MauiProgram.MauiApp.Services.GetService<ICloudStorageProviderConfigLoaderService>();
+        var viewModel = new VaultEditorViewModel(this, cloudStorageProviderConfigLoaderService);
         var page = new VaultEditorPage(viewModel);
         Application.Current.MainPage.Navigation.PushModalAsync(page, true);
     }
 
-    private void CreateVaultCommandHandler(object param)
+    [RelayCommand]
+    private async Task CreateVault(object param)
     {
-        var viewModel = new VaultEditorViewModel(this);
+        // Can we do this better?
+        var cloudStorageProviderConfigLoaderService = MauiProgram.MauiApp.Services.GetService<ICloudStorageProviderConfigLoaderService>();
+        var viewModel = new VaultEditorViewModel(this, cloudStorageProviderConfigLoaderService);
+        await viewModel.Init();
         var page = new Pages.VaultEditorPage(viewModel);
-        Application.Current.MainPage.Navigation.PushModalAsync(page, true);
+        await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
     }
 
     private void EditSelectedVaultCommandHandler()

@@ -1,19 +1,36 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.ViewModels.Base;
+using devoctomy.Passchamp.Core.Cloud;
+using System.Collections.ObjectModel;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
 
-public class VaultEditorViewModel : BaseViewModel
+public partial class VaultEditorViewModel : BaseViewModel
 {
+    [ObservableProperty]
+    ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs;
+
     public BaseViewModel ReturnViewModel { get; set; }
     public IAsyncRelayCommand BackCommand { get; private set; }
     public IAsyncRelayCommand OkCommand { get; private set; }
 
-    public VaultEditorViewModel(BaseViewModel returnViewModel)
+    private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
+
+    public VaultEditorViewModel(
+        BaseViewModel returnViewModel,
+        ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
     {
         AttachCommandHandlers();
 
         ReturnViewModel = returnViewModel;
+        _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
+    }
+
+    public async Task Init()
+    {
+        await _cloudStorageProviderConfigLoaderService.LoadAsync(CancellationToken.None);
+        CloudStorageProviderConfigRefs = new ObservableCollection<CloudStorageProviderConfigRef>(_cloudStorageProviderConfigLoaderService.Refs);
     }
 
     private void AttachCommandHandlers()
