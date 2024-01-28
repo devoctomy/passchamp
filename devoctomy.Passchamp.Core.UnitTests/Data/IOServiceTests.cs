@@ -39,7 +39,7 @@ public class IOServiceTests
         var sut = new IOService();
 
         // Act
-        var result = sut.Exists(file);
+        _ = sut.Exists(file);
 
         // Assert
         Assert.Equal(expectedResult, File.Exists(file));

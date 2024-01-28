@@ -71,11 +71,6 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     public override async Task Return(BaseViewModel viewModel)
     {
         await Application.Current.MainPage.Navigation.PopModalAsync();
-
-        if (viewModel == null)
-        {
-            return;
-        }
     }
 
     protected override async Task OnFirstAppearanceAsync()

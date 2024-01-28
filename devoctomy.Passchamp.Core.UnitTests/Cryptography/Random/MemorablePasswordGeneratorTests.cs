@@ -82,7 +82,6 @@ public class MemorablePasswordGeneratorTests
             new MemorablePasswordWordListSectionGenerator(new RandomNumericGenerator())
         };
         var mockWordListLoader = new Mock<IWordListLoader>();
-        var fruitsList = new List<string> { "apple", "orange", "banana", "pear" };
         mockWordListLoader.Setup(x => x.LoadAllAsync(
             It.IsAny<CancellationToken>()))
             .ReturnsAsync(new Dictionary<string, List<string>>());

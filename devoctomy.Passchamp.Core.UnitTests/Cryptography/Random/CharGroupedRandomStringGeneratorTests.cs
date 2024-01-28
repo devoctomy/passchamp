@@ -96,7 +96,6 @@ public class CharGroupedRandomStringGeneratorTests
             randomNumericGenerator,
             new StringChecker());
         var selection = charSelection.ToString().Split(',');
-        var groups = charSelection == ICharGroupedRandomStringGenerator.CharSelection.All ? CommonCharGroups.CharGroups.Values.Select(x => x).ToList() : selection.Select(x => CommonCharGroups.CharGroups[x.ToString().Trim()]).ToList();
 
         // Act & Assert
         Assert.ThrowsAny<ArgumentException>(() =>

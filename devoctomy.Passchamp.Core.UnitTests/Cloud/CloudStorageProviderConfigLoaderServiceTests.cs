@@ -181,7 +181,7 @@ public class CloudStorageProviderConfigLoaderServiceTests
         await sut.LoadAsync(cancellationTokenSource.Token);
 
         // Act
-        var result = await sut.UnpackConfigAsync<IPartiallySecure>(
+        _ = await sut.UnpackConfigAsync<IPartiallySecure>(
             "Hello",
             cancellationTokenSource.Token);
 
