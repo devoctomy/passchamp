@@ -30,6 +30,7 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography;
 /// for deriving bytes from the given password and salt.  The resulting value
 /// does not contain the cryptographic function parameters, they are not
 /// stored with the resulting bytes.
+/// Also made various tweaks to address Codacy issues.
 /// https://github.com/viniciuschiele/Scrypt/blob/master/src/Scrypt/ScryptEncoder.cs
 /// Last updated: 28/01/2024 (from cfa12bacb9604c8773f5c78a986d45f14ca4d23d)
 /// </summary>
@@ -479,7 +480,6 @@ public class ScryptEncoder
 
         for (var i = 0; i < 8; i += 2)
         {
-            //((x0 + x12) << 7) | ((x0 + x12) >> (32 - 7));
             /* Operate on columns. */
             x4 ^= R(x0 + x12, 7); x8 ^= R(x4 + x0, 9);
             x12 ^= R(x8 + x4, 13); x0 ^= R(x12 + x8, 18);
@@ -527,8 +527,9 @@ public class ScryptEncoder
 
     /// <summary>
     /// Utility method for Salsa208.
+    /// Nick Pateman: Removed unsafe as redundant in this context according to Codacy.
     /// </summary>
-    private unsafe static uint R(uint a, int b)
+    private static uint R(uint a, int b)
     {
         return (a << b) | (a >> (32 - b));
     }
@@ -636,8 +637,19 @@ public class ScryptEncoder
 
     /// <summary>
     /// Compute and returns the result.
+    /// Nick Pateman: Created overload to remove optional parameter
     /// </summary>
-    public unsafe static byte[] CryptoScrypt(byte[] password, byte[] salt, int N, int r, int p, int keyLength = 32)
+    /// <returns></returns>
+    public unsafe static byte[] CryptoScrypt(byte[] password, byte[] salt, int N, int r, int p)
+    {
+        return CryptoScrypt(password, salt, N, r, p, 32);
+    }
+
+    /// <summary>
+    /// Compute and returns the result.
+    /// Nick Pateman: Made keyLength mandatory in favour of additional overload which sets it to 32
+    /// </summary>
+    public unsafe static byte[] CryptoScrypt(byte[] password, byte[] salt, int N, int r, int p, int keyLength)
     {
         var Ba = new byte[128 * r * p + 63];
         var XYa = new byte[256 * r + 63];
@@ -647,7 +659,7 @@ public class ScryptEncoder
         var mac = new HMACSHA256(password);
 
         /* 1: (B_0 ... B_{p-1}) <-- PBKDF2(P, S, 1, p * MFLen) */
-        PBKDF2_SHA256(mac, password, salt, salt.Length, 1, Ba, p * 128 * r);
+        PBKDF2_SHA256(mac, salt, salt.Length, 1, Ba, p * 128 * r);
 
         fixed (byte* B = Ba)
         fixed (void* V = Va)
@@ -662,7 +674,7 @@ public class ScryptEncoder
         }
 
         /* 5: DK <-- PBKDF2(P, B, 1, dkLen) */
-        PBKDF2_SHA256(mac, password, Ba, p * 128 * r, 1, buf, buf.Length);
+        PBKDF2_SHA256(mac, Ba, p * 128 * r, 1, buf, buf.Length);
 
         return buf;
     }
@@ -670,7 +682,7 @@ public class ScryptEncoder
     /// <summary>
     /// Compute PBKDF2 using HMAC-SHA256 as the PRF, and write the output to derivedKey.
     /// </summary>
-    private static void PBKDF2_SHA256(HMACSHA256 mac, byte[] password, byte[] salt, int saltLength, long iterationCount, byte[] derivedKey, int derivedKeyLength)
+    private static void PBKDF2_SHA256(HMACSHA256 mac, byte[] salt, int saltLength, long iterationCount, byte[] derivedKey, int derivedKeyLength)
     {
         if (derivedKeyLength > (Math.Pow(2, 32) - 1) * 32)
         {
@@ -686,10 +698,6 @@ public class ScryptEncoder
 
         Buffer.BlockCopy(salt, 0, saltBuffer, 0, saltLength);
 
-#if COREFX
-        using (var incrementalHasher = IncrementalHash.CreateHMAC(HashAlgorithmName.SHA256, mac.Key))
-        {
-#endif
         for (int i = 1; i <= blockCount; i++)
         {
             saltBuffer[saltLength + 0] = (byte)(i >> 24);
@@ -698,24 +706,14 @@ public class ScryptEncoder
             saltBuffer[saltLength + 3] = (byte)(i);
 
             mac.Initialize();
-#if COREFX
-            incrementalHasher.AppendData(saltBuffer, 0, saltBuffer.Length);
-            Buffer.BlockCopy(incrementalHasher.GetHashAndReset(), 0, U, 0, U.Length);
-#else
             mac.TransformFinalBlock(saltBuffer, 0, saltBuffer.Length);
             Buffer.BlockCopy(mac.Hash, 0, U, 0, U.Length);
-#endif
             Buffer.BlockCopy(U, 0, T, 0, 32);
 
             for (long j = 1; j < iterationCount; j++)
             {
-#if COREFX
-                incrementalHasher.AppendData(U, 0, U.Length); 
-                Buffer.BlockCopy(incrementalHasher.GetHashAndReset(), 0, U, 0, U.Length); 
-#else
                 mac.TransformFinalBlock(U, 0, U.Length);
                 Buffer.BlockCopy(mac.Hash, 0, U, 0, U.Length);
-#endif
                 for (int k = 0; k < 32; k++)
                 {
                     T[k] ^= U[k];
@@ -724,9 +722,6 @@ public class ScryptEncoder
 
             Buffer.BlockCopy(T, 0, derivedKey, (i - 1) * 32, (i == blockCount ? r : 32));
         }
-#if COREFX
-        }
-#endif
     }
 
     /// <summary>
