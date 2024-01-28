@@ -36,13 +36,11 @@ public class NodesJsonParserServiceTests
             .Returns(new RandomByteArrayGeneratorNode());
 
         // Act
-        var result = sut.Parse(
-            nodesJson["Nodes"].Value<JArray>(),
-            out var startNodeKey);
+        var parseResult = sut.Parse(nodesJson["Nodes"].Value<JArray>());
 
         // Assert
-        var keys = result.Keys.ToArray();
-        Assert.Equal(expectedStartNodeKey, startNodeKey);
+        var keys = parseResult.Nodes.Keys.ToArray();
+        Assert.Equal(expectedStartNodeKey, parseResult.StartNodeKey);
         Assert.Equal(expectedNodeKeys, string.Join(",", keys));
     }
 
@@ -61,9 +59,7 @@ public class NodesJsonParserServiceTests
         // Act & Assert
         Assert.ThrowsAny<TypeLoadException>(() =>
         {
-            sut.Parse(
-                nodesJson["Nodes"].Value<JArray>(),
-                out var startNodeKey);
+            _ = sut.Parse(nodesJson["Nodes"].Value<JArray>());
         });
     }
 
@@ -85,9 +81,7 @@ public class NodesJsonParserServiceTests
         // Act & Assert
         Assert.ThrowsAny<KeyNotFoundException>(() =>
         {
-            _ = sut.Parse(
-                nodesJson["Nodes"].Value<JArray>(),
-                out var startNodeKey);
+            _ = sut.Parse(nodesJson["Nodes"].Value<JArray>());
         });
     }
 }

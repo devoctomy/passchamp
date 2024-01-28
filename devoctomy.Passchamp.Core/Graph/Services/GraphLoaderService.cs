@@ -55,16 +55,14 @@ public class GraphLoaderService : IGraphLoaderService
         var settings = json["Settings"] != null ? JsonConvert.DeserializeObject<GraphSettings>(json["Settings"].ToString()) : new GraphSettings();
         var inputPins = _inputPinsJsonParserService.Parse(json["InputPins"].Value<JArray>());
         var outputPins = _outputPinsJsonParserService.Parse(json["OutputPins"].Value<JArray>());
-        var nodes = _nodeJsonParserService.Parse(
-            json["Nodes"].Value<JArray>(),
-            out var startNodeKey);
+        var parseResults = _nodeJsonParserService.Parse(json["Nodes"].Value<JArray>());
 
         return new Graph(
             settings,
             inputPins,
             outputPins,
-            nodes,
-            startNodeKey,
+            parseResults.Nodes,
+            parseResults.StartNodeKey,
             outputMessage,
             _pinPrepFunctions);
     }

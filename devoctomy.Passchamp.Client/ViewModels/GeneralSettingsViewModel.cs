@@ -25,6 +25,12 @@ namespace devoctomy.Passchamp.Client.ViewModels
                             Enum.Parse<AppTheme>(Theme);
                         break;
                     }
+
+                default:
+                    {
+                        // Do nothing!
+                        break;
+                    }
             }
         }
     }

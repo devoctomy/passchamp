@@ -15,17 +15,19 @@ public class NodesJsonParserService : INodesJsonParserService
         _serviceProvider = serviceProvider;
     }
 
-    public Dictionary<string, INode> Parse(
-        JArray json,
-        out string startNodeKey)
+    public NodesJsonParserServiceParseResults Parse(JArray json)
     {
         var nodes = new Dictionary<string, INode>();
         var firstNodeJson = json.First() as JObject;
-        startNodeKey = DoParse(
+        var startNodeKey = DoParse(
             nodes,
             firstNodeJson,
             _serviceProvider).Key;
-        return nodes;
+        return new NodesJsonParserServiceParseResults
+        {
+            Nodes = nodes,
+            StartNodeKey = startNodeKey
+        };
     }
 
     private static KeyValuePair<string, INode> DoParse(

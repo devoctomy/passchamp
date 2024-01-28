@@ -5,7 +5,5 @@ namespace devoctomy.Passchamp.Core.Graph.Services;
 
 public interface INodesJsonParserService
 {
-    Dictionary<string, INode> Parse(
-        JArray json,
-        out string startNodeKey);
+    NodesJsonParserServiceParseResults Parse(JArray json);
 }
