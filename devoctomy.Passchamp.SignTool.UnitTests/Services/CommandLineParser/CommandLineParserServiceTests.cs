@@ -54,7 +54,6 @@ public class CommandLineParserServiceTests
             mockArgumentMapperService.Object,
             mockOptionalArgumentSetterService.Object);
         var argumentsString = "Hello World";
-        var invalidValue = string.Empty;
 
         mockDefaultArgumentParserService.Setup(x => x.SetDefaultOption(
             It.IsAny<Type>(),
@@ -86,7 +85,6 @@ public class CommandLineParserServiceTests
             mockArgumentMapperService.Object,
             mockOptionalArgumentSetterService.Object);
         var argumentsString = "hello world";
-        var invalidArgument = string.Empty;
 
         mockDefaultArgumentParserService.Setup(x => x.SetDefaultOption(
             It.IsAny<Type>(),
@@ -134,7 +132,6 @@ public class CommandLineParserServiceTests
             mockArgumentMapperService.Object,
             mockOptionalArgumentSetterService.Object);
         var argumentsString = "hello world";
-        var invalidArgument = string.Empty;
         var allOptions = GetAllOptions<CommandLineTestOptions>();
 
         mockDefaultArgumentParserService.Setup(x => x.SetDefaultOption(
