@@ -1,9 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Cloud.AmazonS3;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace devoctomy.Passchamp.Core.UnitTests.Cloud.AmazonS3;

@@ -1,5 +1,4 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
-using System;
 using System.Net;
 using Xunit;
 

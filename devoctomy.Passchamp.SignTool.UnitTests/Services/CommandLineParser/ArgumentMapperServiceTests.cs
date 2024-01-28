@@ -1,6 +1,5 @@
 ﻿using devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Xunit;

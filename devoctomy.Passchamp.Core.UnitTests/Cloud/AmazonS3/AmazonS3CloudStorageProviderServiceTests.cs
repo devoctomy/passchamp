@@ -1,6 +1,5 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
-using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Cloud.AmazonS3;
 using Moq;
 using System;

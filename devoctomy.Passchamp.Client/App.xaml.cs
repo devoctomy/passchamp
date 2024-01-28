@@ -1,6 +1,5 @@
 ﻿using devoctomy.Passchamp.Client.Config;
 using devoctomy.Passchamp.Core.Config;
-using Microsoft.Maui.ApplicationModel;
 
 namespace devoctomy.Passchamp.Client;
 

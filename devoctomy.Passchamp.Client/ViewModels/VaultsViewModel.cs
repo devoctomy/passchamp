@@ -59,13 +59,14 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
             Command = SettingsCommand,
             IconImageSource = _themeAwareImageResourceService.Get("settings")
         });
-        // !!! We shouldn't display this tab in final builds, it's only for testing at current
+#if DEBUG
         MenuItems.Add(new MenuItem
         {
             Text = "Theme Test",
             Command = ThemeTestCommand,
             IconImageSource = _themeAwareImageResourceService.Get("polaroid_01_wf")
         });
+#endif
     }
 
     public override async Task Return(BaseViewModel viewModel)

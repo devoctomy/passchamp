@@ -1,5 +1,4 @@
 ﻿using devoctomy.Passchamp.Core.Cloud;
-using devoctomy.Passchamp.Core.Cloud.AmazonS3;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Data.Attributes;
 using Newtonsoft.Json;

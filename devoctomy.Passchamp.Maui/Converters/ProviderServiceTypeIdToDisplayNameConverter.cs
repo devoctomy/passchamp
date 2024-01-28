@@ -1,7 +1,4 @@
-﻿using devoctomy.Passchamp.Core.Cloud;
-using devoctomy.Passchamp.Core.Cloud.Utility;
-using devoctomy.Passchamp.Core.Graph.Services;
-using System;
+﻿using devoctomy.Passchamp.Core.Cloud.Utility;
 using System.Globalization;
 
 namespace devoctomy.Passchamp.Maui.Converters;

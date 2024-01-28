@@ -3,9 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.Config;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Config;
-using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Maui.Services;
-using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
 
