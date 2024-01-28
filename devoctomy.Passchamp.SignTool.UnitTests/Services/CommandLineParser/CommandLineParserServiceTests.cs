@@ -60,9 +60,11 @@ public class CommandLineParserServiceTests
             It.IsAny<Type>(),
             It.IsAny<object>(),
             It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
-            ref argumentsString,
-            It.IsAny<List<CommandLineParserOptionAttribute>>(),
-            ref invalidValue)).Returns(false);
+            It.IsAny<string>(),
+            It.IsAny<List<CommandLineParserOptionAttribute>>())).Returns(new DefaultArgumentParserServiceSetDefaultOptionResult
+            {
+                Success = false
+            });
 
         // Act
         var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var results);
@@ -90,10 +92,12 @@ public class CommandLineParserServiceTests
             It.IsAny<Type>(),
             It.IsAny<object>(),
             It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
-            ref argumentsString,
-            It.IsAny<List<CommandLineParserOptionAttribute>>(),
-            ref invalidArgument))
-            .Returns(true);
+            It.IsAny<string>(),
+            It.IsAny<List<CommandLineParserOptionAttribute>>()))
+            .Returns(new DefaultArgumentParserServiceSetDefaultOptionResult
+            {
+                Success = true
+            });
 
         // Act
         var success = sut.TryParseArgumentsAsOptions<CommandLineTestOptions>(argumentsString, out var results);
@@ -104,9 +108,8 @@ public class CommandLineParserServiceTests
             It.Is<Type>(y => y == typeof(CommandLineTestOptions)),
             It.IsAny<CommandLineTestOptions>(),
             It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
-            ref argumentsString,
-            It.IsAny<List<CommandLineParserOptionAttribute>>(),
-            ref invalidArgument), Times.Once);
+            It.Is<string>(x => x == argumentsString),
+            It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
         mockOptionalArgumentSetterService.Verify(x => x.SetOptionalValues(
             It.Is<Type>(y => y == typeof(CommandLineTestOptions)),
             It.IsAny<CommandLineTestOptions>(),
@@ -138,10 +141,12 @@ public class CommandLineParserServiceTests
             It.IsAny<Type>(),
             It.IsAny<object>(),
             It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
-            ref argumentsString,
-            It.IsAny<List<CommandLineParserOptionAttribute>>(),
-            ref invalidArgument))
-            .Returns(true);
+            It.IsAny<string>(),
+            It.IsAny<List<CommandLineParserOptionAttribute>>()))
+            .Returns(new DefaultArgumentParserServiceSetDefaultOptionResult
+            {
+                Success = true
+            });
 
         mockArgumentMapperService.Setup(x => x.MapArguments(
             It.IsAny<Type>(),
@@ -168,9 +173,8 @@ public class CommandLineParserServiceTests
             It.Is<Type>(y => y == typeof(CommandLineTestOptions)),
             It.IsAny<CommandLineTestOptions>(),
             It.IsAny<Dictionary<PropertyInfo, CommandLineParserOptionAttribute>>(),
-            ref argumentsString,
-            It.IsAny<List<CommandLineParserOptionAttribute>>(),
-            ref invalidArgument), Times.Once);
+            It.Is<string>(x => x == argumentsString),
+            It.IsAny<List<CommandLineParserOptionAttribute>>()), Times.Once);
         mockOptionalArgumentSetterService.Verify(x => x.SetOptionalValues(
             It.Is<Type>(y => y == typeof(CommandLineTestOptions)),
             It.IsAny<CommandLineTestOptions>(),

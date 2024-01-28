@@ -6,18 +6,16 @@ namespace devoctomy.Passchamp.SignTool.Services.CommandLineParser;
 
 public interface IDefaultArgumentParserService
 {
-    bool SetDefaultOption<T>(
+    DefaultArgumentParserServiceSetDefaultOptionResult SetDefaultOption<T>(
         T optionsInstance,
         Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
-        ref string argumentString,
-        List<CommandLineParserOptionAttribute> allSetOptions,
-        ref string invalidValue);
+        string argumentString,
+        List<CommandLineParserOptionAttribute> allSetOptions);
 
-    bool SetDefaultOption(
+    DefaultArgumentParserServiceSetDefaultOptionResult SetDefaultOption(
         Type optionsType,
         object optionsInstance,
         Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
-        ref string argumentString,
-        List<CommandLineParserOptionAttribute> allSetOptions,
-        ref string invalidValue);
+        string argumentString,
+        List<CommandLineParserOptionAttribute> allSetOptions);
 }

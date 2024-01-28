@@ -13,32 +13,28 @@ public class DefaultArgumentParserService : IDefaultArgumentParserService
     {
         _propertyValueSetter = propertyValueSetter;
     }
-    public bool SetDefaultOption<T>(
+    public DefaultArgumentParserServiceSetDefaultOptionResult SetDefaultOption<T>(
         T optionsInstance,
         Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
-        ref string argumentString,
-        List<CommandLineParserOptionAttribute> allSetOptions,
-        ref string invalidValue)
+        string argumentString,
+        List<CommandLineParserOptionAttribute> allSetOptions)
     {
         return SetDefaultOption(
             typeof(T),
             optionsInstance,
             allOptions,
-            ref argumentString,
-            allSetOptions,
-            ref invalidValue);
+            argumentString,
+            allSetOptions);
     }
 
-    public bool SetDefaultOption(
+    public DefaultArgumentParserServiceSetDefaultOptionResult SetDefaultOption(
         Type optionsType,
         object optionsInstance,
         Dictionary<PropertyInfo, CommandLineParserOptionAttribute> allOptions,
-        ref string argumentString,
-        List<CommandLineParserOptionAttribute> allSetOptions,
-        ref string invalidValue)
+        string argumentString,
+        List<CommandLineParserOptionAttribute> allSetOptions)
     {
         var defaultOptionValue = string.Empty;
-        invalidValue = string.Empty;
         if (!argumentString.StartsWith("-", StringComparison.Ordinal))
         {
             var argContainsSpace = argumentString.IndexOf(" ", StringComparison.Ordinal) > 0;
@@ -58,13 +54,26 @@ public class DefaultArgumentParserService : IDefaultArgumentParserService
                 defaultOptionValue))
             {
                 allSetOptions.Add(defaultOption.Value);
-                return true;
+                return new DefaultArgumentParserServiceSetDefaultOptionResult
+                {
+                    Success = true,
+                    UpdatedArgumentsString = argumentString
+                };
             }
 
-            invalidValue = defaultOptionValue;
-            return false;
+            return new DefaultArgumentParserServiceSetDefaultOptionResult
+            {
+                Success = false,
+                InvalidValue = defaultOptionValue,
+                UpdatedArgumentsString = argumentString
+            };
         }
 
-        return true;    // Default wasn't required
+        // Default wasn't required
+        return new DefaultArgumentParserServiceSetDefaultOptionResult
+        {
+            Success = true,
+            UpdatedArgumentsString = argumentString
+        };
     }
 }

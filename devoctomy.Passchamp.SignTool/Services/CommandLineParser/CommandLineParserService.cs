@@ -61,16 +61,16 @@ public class CommandLineParserService : ICommandLineParserService
         var allOptions = GetAllOptions(optionsType);
         var allSetOptions = new List<CommandLineParserOptionAttribute>();
         string invalidOption = string.Empty;
-        if(!_defaultArgumentParserService.SetDefaultOption(
+        var result = _defaultArgumentParserService.SetDefaultOption(
             optionsType,
             results.Options,
             allOptions,
-            ref argumentString,
-            allSetOptions,
-            ref invalidOption))
+            argumentString,
+            allSetOptions);
+        if (!result.Success)
         {
             var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);
-            results.Exception = new System.ArgumentException(
+            results.Exception = new ArgumentException(
                 $"Failed to set default argument '{defaultOption.Value.DisplayName}'.",
                 $"{defaultOption.Value.DisplayName}");
             results.InvalidOptions.Add(defaultOption.Value.DisplayName, invalidOption);
@@ -86,7 +86,7 @@ public class CommandLineParserService : ICommandLineParserService
             optionsType,
             results.Options,
             allOptions,
-            argumentString,
+            result.UpdatedArgumentsString,
             allSetOptions);
 
         var missingRequired = allOptions.Where(x => x.Value.Required && !allSetOptions.Any(y => y.LongName == x.Value.LongName)).ToList();
