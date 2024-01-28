@@ -21,6 +21,7 @@ using System.Text;
 namespace devoctomy.Passchamp.Core.Graph.Cryptography;
 
 /// <summary>
+/// https://github.com/viniciuschiele/Scrypt/blob/master/src/Scrypt/ScryptEncoder.cs
 /// This password hashing system tries to thwart off-line password
 /// cracking using a computationally-intensive hashing algorithm,
 /// the work factor of the algorithm is parameterised, so it can be increased
