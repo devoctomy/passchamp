@@ -6,6 +6,7 @@ using System.Net;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
+using devoctomy.Passchamp.Core.Cryptography;
 using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Cryptography;
 using devoctomy.Passchamp.Core.Graph.Data;
@@ -101,22 +102,20 @@ public sealed class GraphStepDefinitions
     {
         var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
-        var node = new SCryptNode
-        {
-            SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+        var node = new SCryptNode(new SecureStringUnpacker());
+        node.SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
                 "SecurePassword",
-                new NetworkCredential(null, password).SecurePassword),
-            IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
-                "IterationCount",
-                1024),
-            BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
-                "BlockSize",
-                8),
-            ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
-                "ThreadCount",
-                1),
-            NextKey = nextKey,
-        };
+                new NetworkCredential(null, password).SecurePassword);
+        node.IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+            "IterationCount",
+            1024);
+        node.BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
+            "BlockSize",
+            8);
+        node.ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+            "ThreadCount",
+            1);
+        node.NextKey = nextKey;
 
         nodes.Add(name, node);
     }

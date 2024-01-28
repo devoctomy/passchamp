@@ -1,14 +1,14 @@
-﻿using System;
-using System.Net;
+﻿using devoctomy.Passchamp.Core.Cryptography;
 using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Cryptography;
 
-[Obsolete("Please use SCryptExNode due to better security.")]
 public class SCryptNode : NodeBase
 {
+    private readonly ISecureStringUnpacker _secureStringUnpacker;
+
     [NodeInputPin(ValueType = typeof(int))]
     public IDataPin<int> IterationCount
     {
@@ -83,17 +83,26 @@ public class SCryptNode : NodeBase
         }
     }
 
+    public SCryptNode(ISecureStringUnpacker secureStringUnpacker)
+    {
+        _secureStringUnpacker = secureStringUnpacker;
+    }
+
     protected override Task DoExecuteAsync(
         IGraph graph,
         CancellationToken cancellationToken)
     {
-        var scrypt = new ScryptEncoder(
-            IterationCount.Value,
-            BlockSize.Value,
-            ThreadCount.Value);
-        Key.Value = scrypt.DeriveBytes(
-            new NetworkCredential(null, SecurePassword.Value).Password,
-            Salt.Value);
+        void callback(byte[] buffer)
+        {
+            var scrypt = new ScryptEncoder(
+                IterationCount.Value,
+                BlockSize.Value,
+                ThreadCount.Value);
+            Key.Value = scrypt.DeriveBytes(
+                buffer,
+                Salt.Value);
+        }
+        _secureStringUnpacker.Unpack(SecurePassword.Value, callback);
         return Task.CompletedTask;
     }
 }

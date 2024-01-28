@@ -29,7 +29,7 @@ public class SCryptExNodeTests
     {
         // Arrange
         var mockGraph = new Mock<IGraph>();
-        var sut = new SCryptExNode(new SecureStringUnpacker())
+        var sut = new SCryptNode(new SecureStringUnpacker())
         {
             IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
                 "IterationCount",
