@@ -25,7 +25,6 @@ public class DefaultArgumentParserServiceTests
         AddProperty<CommandLineTestOptions>("OptionalStringValue", allOptions);
         AddProperty<CommandLineTestOptions>("OptionalEnumValue", allOptions);
         var allSetOptions = new List<CommandLineParserOptionAttribute>();
-        var invalidArgument = string.Empty;
 
         mockPropertyValueSetterService.Setup(x => x.SetPropertyValue(
             It.IsAny<object>(),

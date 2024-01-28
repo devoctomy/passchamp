@@ -112,7 +112,7 @@ public class AmazonS3CloudStorageProviderService : ICloudStorageProviderService
         try
         {
             var fullPath = $"{_config.Path}{path}";
-            var request = new PutObjectRequest()
+            var request = new PutObjectRequest
             {
                 AutoCloseStream = true,
                 AutoResetStreamPosition = true,

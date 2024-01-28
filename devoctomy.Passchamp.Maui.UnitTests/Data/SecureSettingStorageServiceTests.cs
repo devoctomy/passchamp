@@ -42,7 +42,7 @@ public class SecureSettingStorageServiceTests
         // Arrange
         var mockSecureStorage = new Mock<ISecureStorage>();
         var sut = new SecureSettingStorageService(mockSecureStorage.Object);
-        var config = new Test2PartialSecureConfigFile()
+        var config = new Test2PartialSecureConfigFile
         {
             TestSetting4 = "Hello World!"
         };
@@ -91,7 +91,7 @@ public class SecureSettingStorageServiceTests
         // Arrange
         var mockSecureStorage = new Mock<ISecureStorage>();
         var sut = new SecureSettingStorageService(mockSecureStorage.Object);
-        var config = new Test2PartialSecureConfigFile()
+        var config = new Test2PartialSecureConfigFile
         {
             TestSetting4 = "Hello World!"
         };

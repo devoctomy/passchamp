@@ -76,7 +76,7 @@ public class DataParserSectionsParserPinPrepFunctionTests
         // Act / Assert
         Assert.ThrowsAny<InvalidOperationException>(() =>
         {
-            var result = sut.Execute(
+            _ = sut.Execute(
                 curNodeKey,
                 value,
                 inputPins,

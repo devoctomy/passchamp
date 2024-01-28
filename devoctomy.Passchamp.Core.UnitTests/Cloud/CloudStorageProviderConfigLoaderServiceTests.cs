@@ -122,9 +122,15 @@ public class CloudStorageProviderConfigLoaderServiceTests
             It.IsAny<string>(),
             It.IsAny<CancellationToken>())).ReturnsAsync(JsonConvert.SerializeObject(configRefs));
 
+        mockIOService.Setup(x => x.Exists(
+            It.IsAny<string>())).Returns(true);
+
         await sut.LoadAsync(cancellationTokenSource.Token);
 
         // Act & Assert
+        mockIOService.Verify(x => x.ReadAllTextAsync(
+            It.Is<string>(y => y == expectedPath),
+            It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
         await Assert.ThrowsAnyAsync<UnknownCloudStorageProviderConfigIdException>(async () =>
         {
             await sut.UnpackConfigAsync<IPartiallySecure>(
