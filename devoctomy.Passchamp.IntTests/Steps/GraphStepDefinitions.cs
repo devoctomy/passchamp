@@ -94,7 +94,6 @@ public sealed class GraphStepDefinitions
     }
 
     [Given(@"SCryptNode named (.*) with a password of (.*) and NextKey of (.*)")]
-    [Obsolete("SCryptNode is marked as obsolete and will be removed eventually.")]
     public void GivenSCryptNodeNamedWithAPasswordOfAndKeyLengthOf(
         string name,
         string password,
