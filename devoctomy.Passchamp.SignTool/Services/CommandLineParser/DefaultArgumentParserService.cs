@@ -37,12 +37,12 @@ public class DefaultArgumentParserService : IDefaultArgumentParserService
         var defaultOptionValue = string.Empty;
         if (!argumentString.StartsWith("-", StringComparison.Ordinal))
         {
-            var argContainsSpace = argumentString.IndexOf(" ", StringComparison.Ordinal) > 0;
+            var argContainsSpace = argumentString.IndexOf(' ') > -1;
             defaultOptionValue = argContainsSpace
-                ? argumentString[..argumentString.IndexOf(" ", StringComparison.Ordinal)]
+                ? argumentString[..argumentString.IndexOf(' ')]
                 : argumentString;
             argumentString = argContainsSpace
-                ? argumentString[(argumentString.IndexOf(" ", StringComparison.Ordinal) + 1)..]
+                ? argumentString[(argumentString.IndexOf(' ') + 1)..]
                 : String.Empty;
         }
         var defaultOption = allOptions.SingleOrDefault(x => x.Value.IsDefault);

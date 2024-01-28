@@ -95,7 +95,6 @@ public class CharGroupedRandomStringGeneratorTests
             new SimpleRandomStringGenerator(randomNumericGenerator),
             randomNumericGenerator,
             new StringChecker());
-        var selection = charSelection.ToString().Split(',');
 
         // Act & Assert
         Assert.ThrowsAny<ArgumentException>(() =>
