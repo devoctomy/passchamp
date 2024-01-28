@@ -7,19 +7,11 @@ using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Models;
 using devoctomy.Passchamp.Maui.Services;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
 
 public partial class VaultsViewModel : BaseAppShellPageViewModel
 {
-    public ICommand SettingsCommand { get; }
-    public ICommand ThemeTestCommand { get; }
-    /*public ICommand CreateVaultCommand { get; }*/
-    public ICommand AddVaultCommand { get; }
-    public ICommand EditSelectedVaultCommand { get; }
-    public IAsyncRelayCommand RemoveSelectedVaultCommand { get; }
-
     [ObservableProperty]
     private ObservableCollection<VaultIndex> vaults;
 
@@ -35,12 +27,6 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService)
     {
-        SettingsCommand = new Command(SettingsCommandHandler);
-        ThemeTestCommand = new Command(ThemeTestCommandHandler);
-        /*CreateVaultCommand = new Command(CreateVaultCommandHandler);*/
-        AddVaultCommand = new Command(AddVaultCommandHandler);
-        EditSelectedVaultCommand = new Command(EditSelectedVaultCommandHandler);
-        RemoveSelectedVaultCommand = new AsyncRelayCommand(RemoveSelectedVaultCommandHandler);
         _vaultLoaderService = vaultLoaderService;
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
@@ -98,23 +84,26 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         Vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);
     }
 
-    private void SettingsCommandHandler(object param)
+    [RelayCommand]
+    private async Task Settings(object param)
     {
-        _shellNavigationService.GoToAsync("//Settings");
+        await _shellNavigationService.GoToAsync("//Settings");
     }
 
-    private void ThemeTestCommandHandler(object param)
+    [RelayCommand]
+    private async Task ThemeTest(object param)
     {
-        _shellNavigationService.GoToAsync("//ThemeTest");
+        await _shellNavigationService.GoToAsync("//ThemeTest");
     }
 
-    private void AddVaultCommandHandler(object param)
+    [RelayCommand]
+    private async Task AddVault(object param)
     {
         // !!! Can we do this better?
         var cloudStorageProviderConfigLoaderService = MauiProgram.MauiApp.Services.GetService<ICloudStorageProviderConfigLoaderService>();
         var viewModel = new VaultEditorViewModel(this, cloudStorageProviderConfigLoaderService);
         var page = new VaultEditorPage(viewModel);
-        Application.Current.MainPage.Navigation.PushModalAsync(page, true);
+        await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
     }
 
     [RelayCommand]
@@ -128,7 +117,8 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
     }
 
-    private void EditSelectedVaultCommandHandler()
+    [RelayCommand]
+    private async Task EditSelected()
     {
         if (SelectedVaultIndex == null)
         {
@@ -136,10 +126,11 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         }
 
         var vaultEditorPage = (VaultEditorPage)MauiProgram.MauiApp.Services.GetService(typeof(VaultEditorPage));
-        Shell.Current.Navigation.PushModalAsync(vaultEditorPage);
+        await Shell.Current.Navigation.PushModalAsync(vaultEditorPage);
     }
 
-    private async Task RemoveSelectedVaultCommandHandler()
+    [RelayCommand]
+    private async Task RemoveSelected()
     {
         if (SelectedVaultIndex == null)
         {

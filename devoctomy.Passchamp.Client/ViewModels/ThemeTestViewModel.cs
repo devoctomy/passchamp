@@ -1,4 +1,5 @@
-﻿using devoctomy.Passchamp.Client.ViewModels.Base;
+﻿using CommunityToolkit.Mvvm.Input;
+using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Maui.Services;
 using System.Windows.Input;
 
@@ -6,11 +7,6 @@ namespace devoctomy.Passchamp.Client.ViewModels;
 
 public partial class ThemeTestViewModel : BaseAppShellPageViewModel
 {
-    public ICommand LightThemeCommand { get; }
-    public ICommand DarkThemeCommand { get; }
-    public ICommand AcceptCommand { get; }
-    public ICommand CancelCommand { get; }
-
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
 
@@ -18,22 +14,20 @@ public partial class ThemeTestViewModel : BaseAppShellPageViewModel
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService)
     {
-        LightThemeCommand = new Command(LightThemeCommandHandler);
-        DarkThemeCommand = new Command(DarkThemeCommandHandler);
-        AcceptCommand = new Command(AcceptCommandHandler);
-        CancelCommand = new Command(CancelCommandHandler);
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
         SetupMenuItems();
     }
 
-    private void DarkThemeCommandHandler(object param)
+    [RelayCommand]
+    private void DarkTheme(object param)
     {
         Application.Current.UserAppTheme = AppTheme.Dark;
         Task.Run(RefreshMenuItems);
     }
 
-    private void LightThemeCommandHandler(object param)
+    [RelayCommand]
+    private void LightTheme(object param)
     {
         Application.Current.UserAppTheme = AppTheme.Light;
         Task.Run(RefreshMenuItems);
@@ -72,13 +66,15 @@ public partial class ThemeTestViewModel : BaseAppShellPageViewModel
         });
     }
 
-    private void CancelCommandHandler(object param)
+    [RelayCommand]
+    private async Task Cancel(object param)
     {
-        _shellNavigationService.GoBackAsync();
+        await _shellNavigationService.GoBackAsync();
     }
 
-    private void AcceptCommandHandler(object param)
+    [RelayCommand]
+    private async Task Accept(object param)
     {
-        _shellNavigationService.GoToAsync("//Vaults");
+        await _shellNavigationService.GoToAsync("//Vaults");
     }
 }

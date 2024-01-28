@@ -17,9 +17,6 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
     [ObservableProperty]
     private CloudSettingsViewModel cloudSettings;
 
-    public ICommand CancelCommand { get; }
-    public ICommand TabChangedCommand { get; }
-
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
     private readonly IApplicationConfigLoaderService<AppConfig> _applicationConfigLoaderService;
@@ -33,9 +30,6 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
     {
         GeneralSettings = generalSettingsViewModel;
         CloudSettings = cloudSettingsViewModel;
-
-        CancelCommand = new Command(CancelCommandHandler);
-        TabChangedCommand = new Command(TabChangedCommandHandler);
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
         _applicationConfigLoaderService = applicationConfigLoaderService;
@@ -65,9 +59,10 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
         });
     }
 
-    private void CancelCommandHandler(object param)
+    [RelayCommand]
+    private async Task Cancel(object param)
     {
-        _shellNavigationService.GoBackAsync();
+        await _shellNavigationService.GoBackAsync();
     }
 
     [RelayCommand]
@@ -78,7 +73,8 @@ public partial class SettingsViewModel : BaseAppShellPageViewModel
         await _shellNavigationService.GoToAsync("//Vaults");
     }
 
-    private void TabChangedCommandHandler(object param)
+    [RelayCommand]
+    private void TabChanged(object param)
     {
         // Handle tab changed event here
     }
