@@ -640,7 +640,7 @@ public class ScryptEncoder
     /// Nick Pateman: Created overload to remove optional parameter
     /// </summary>
     /// <returns></returns>
-    public unsafe static byte[] CryptoScrypt(byte[] password, byte[] salt, int N, int r, int p)
+    public static byte[] CryptoScrypt(byte[] password, byte[] salt, int N, int r, int p)
     {
         return CryptoScrypt(password, salt, N, r, p, 32);
     }
