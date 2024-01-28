@@ -94,7 +94,7 @@ public class SCryptExNode : NodeBase
     {
         void callback(byte[] buffer)
         {
-            var scrypt = new SCrypt(
+            var scrypt = new ScryptEncoder(
                 IterationCount.Value,
                 BlockSize.Value,
                 ThreadCount.Value);

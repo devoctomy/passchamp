@@ -87,7 +87,7 @@ public class SCryptNode : NodeBase
         IGraph graph,
         CancellationToken cancellationToken)
     {
-        var scrypt = new SCrypt(
+        var scrypt = new ScryptEncoder(
             IterationCount.Value,
             BlockSize.Value,
             ThreadCount.Value);
