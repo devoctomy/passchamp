@@ -12,13 +12,17 @@
                 Title="Settings"
                 x:Name="Root"
                 Padding="0">
-    <controls:TabView SelectedTabChangedCommand="{Binding TabChangedCommand}">
+    <controls:TabView SelectedTabChangedCommand="{Binding TabChangedCommand}"
+                      SelectedTabAccentColour="{StaticResource White}"
+                      TabAccentColour="{StaticResource Primary}"
+                      TabBackColour="{StaticResource Primary}"
+                      SelectedTabBackColour="{StaticResource Primary}">
         <controls:TabView.TabPages>
             <controls:TabViewPage
                 Title="General"
                 ContentType="{x:Type views:GeneralSettingsView}"
                 ViewModelPropertyName="GeneralSettings"
-                IsSelected="True"/>            
+                IsSelected="True"/>
             <controls:TabViewPage
                 Title="Cloud"
                 ContentType="{x:Type views:CloudSettingsView}"

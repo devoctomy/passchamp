@@ -14,7 +14,7 @@
         <ScrollView
             Orientation="Horizontal"
             HorizontalScrollBarVisibility="Default">
-            <HorizontalStackLayout x:Name="pop">
+            <HorizontalStackLayout>
                 <CollectionView
                     x:Name="TabPageCollection"
                     ItemsSource="{Binding TabPages, Source={x:Reference Root}}"
@@ -37,24 +37,25 @@
                                     <RowDefinition Height="8"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Label
-                                    Text="{Binding Title}"
+                                    Text="{Binding Title, Mode=OneWay}"
                                     TextColor="{Binding TextColour, Source={x:Reference Root}}"
                                     HorizontalTextAlignment="Center"
-                                    VerticalTextAlignment="Center"/>
-                                <Rectangle
+                                    VerticalTextAlignment="Center">
+                                </Label>
+                                <Label
                                     x:Name="TabAccent"
                                     BackgroundColor="{Binding TabAccentColour, Source={x:Reference Root}}"
                                     Grid.Row="1">
-                                    <Rectangle.Triggers>
-                                        <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}"
-                                                     TargetType="Rectangle"
+                                    <Label.Triggers>
+                                        <DataTrigger Binding="{Binding IsSelected}"
+                                                     TargetType="Label"
                                                      Value="True">
                                             <Setter Property="BackgroundColor" Value="{Binding SelectedTabAccentColour, Source={x:Reference Root}}"/>
                                         </DataTrigger>
-                                    </Rectangle.Triggers>
-                                </Rectangle>
+                                    </Label.Triggers>
+                                </Label>
                                 <Grid.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected, Mode=OneWay}"
+                                    <DataTrigger Binding="{Binding IsSelected}"
                                                  TargetType="Grid"
                                                  Value="True">
                                         <Setter Property="BackgroundColor" Value="{Binding SelectedTabBackColour, Source={x:Reference Root}}"/>

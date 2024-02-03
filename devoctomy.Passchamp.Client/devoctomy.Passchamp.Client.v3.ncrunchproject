@@ -1,0 +1,7 @@
+﻿<ProjectConfiguration>
+  <Settings>
+    <HiddenComponentWarnings>
+      <Value>UnsupportedTargetFrameworks</Value>
+    </HiddenComponentWarnings>
+  </Settings>
+</ProjectConfiguration>
