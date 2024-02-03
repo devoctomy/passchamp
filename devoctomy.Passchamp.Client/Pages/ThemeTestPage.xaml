@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<basepages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<basepages:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:basepages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
@@ -115,4 +115,4 @@
             </controls:TabViewPage>
         </controls:TabView.TabPages>
     </controls:TabView>
-</basepages:BasePage>
+</basepages:BaseContentPage>

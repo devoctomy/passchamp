@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<pages:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<pages:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
              xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
@@ -9,37 +9,35 @@
              x:TypeArguments="vm:VaultsViewModel"
              TransientViewModel="True"
              Title="Vaults">
-    <pages:BasePage.Content>
-        <VerticalStackLayout>
-            <ListView ItemsSource="{Binding Vaults}"
+    <VerticalStackLayout>
+        <ListView ItemsSource="{Binding Vaults}"
                       SelectedItem="{Binding SelectedVaultIndex, Mode=TwoWay}"
                       HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:VaultIndex">
-                        <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Image Grid.Column="0"
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:VaultIndex">
+                    <ViewCell>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Image Grid.Column="0"
                                        Source="locker_dark.png"
                                        HorizontalOptions="StartAndExpand">
-                                </Image>
-                                <VerticalStackLayout Grid.Column="1" Padding="8">
-                                    <Label Text="{Binding Name}"
+                            </Image>
+                            <VerticalStackLayout Grid.Column="1" Padding="8">
+                                <Label Text="{Binding Name}"
                                            Style="{StaticResource MediumLabelStyle}"/>
-                                    <Label Text="{Binding Description}"
+                                <Label Text="{Binding Description}"
                                            Style="{StaticResource DefaultLabelStyle}"/>
-                                </VerticalStackLayout>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </VerticalStackLayout>
-    </pages:BasePage.Content>
-</pages:BasePage>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
+</pages:BaseContentPage>

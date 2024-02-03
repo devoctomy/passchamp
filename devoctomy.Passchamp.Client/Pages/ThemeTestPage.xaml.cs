@@ -3,7 +3,7 @@ using devoctomy.Passchamp.Client.ViewModels;
 
 namespace devoctomy.Passchamp.Client.Pages;
 
-public partial class ThemeTestPage : BasePage<ThemeTestViewModel>
+public partial class ThemeTestPage : BaseContentPage<ThemeTestViewModel>
 {
 	public ThemeTestPage(ThemeTestViewModel viewModel)
 		: base(viewModel)

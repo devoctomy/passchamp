@@ -3,7 +3,7 @@ using devoctomy.Passchamp.Client.ViewModels;
 
 namespace devoctomy.Passchamp.Client.Pages;
 
-public partial class AboutPage : BasePage
+public partial class AboutPage : BaseContentPage
 {
 	public AboutPage()
 	{

@@ -5,8 +5,6 @@ namespace devoctomy.Passchamp.Client;
 
 public partial class App : Application
 {
-    private AppConfig _appConfig;
-
     public App()
     {
         InitializeComponent();

@@ -19,7 +19,7 @@ public partial class AppShellViewModel : BaseAppShellViewModel
 
     private BaseAppShellPageViewModel _currentPageViewModel;
     private readonly IShellNavigationService _shellNavigationService;
-    private BasePage _currentPage;
+    private IPage _currentPage;
 
     public AppShellViewModel(IShellNavigationService shellNavigationService)
     {
@@ -69,7 +69,7 @@ public partial class AppShellViewModel : BaseAppShellViewModel
             }
         }
 
-        _currentPage = Shell.Current.CurrentPage as BasePage;
+        _currentPage = Shell.Current.CurrentPage as IPage;
     }
 
     private async Task RemoveMenuItems()
