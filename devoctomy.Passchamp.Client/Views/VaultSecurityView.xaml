@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseviews:BaseView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="devoctomy.Passchamp.Client.Views.VaultSecurityView"
+             xmlns:baseviews="clr-namespace:devoctomy.Passchamp.Client.Views.Base"
+             xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+             x:DataType="vm:VaultSecurityViewModel"
+             x:TypeArguments="vm:VaultSecurityViewModel">
+    <VerticalStackLayout>
+        <Label Text="Master Passphrase" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
+        <Entry IsPassword="True" Text="{Binding MasterPassphrase, Mode=TwoWay}"></Entry>
+    </VerticalStackLayout>
+</baseviews:BaseView>

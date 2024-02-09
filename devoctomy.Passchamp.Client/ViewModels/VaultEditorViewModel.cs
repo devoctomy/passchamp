@@ -13,6 +13,7 @@ public partial class VaultEditorViewModel : BaseViewModel
 
     public BaseViewModel ReturnViewModel { get; set; }
     public VaultInfoViewModel InfoViewModel { get; set; } = new VaultInfoViewModel(); // !!!
+    public VaultSecurityViewModel SecurityViewModel { get; set; } = new VaultSecurityViewModel(); // !!!
     public IAsyncRelayCommand BackCommand { get; private set; }
     public IAsyncRelayCommand OkCommand { get; private set; }
 

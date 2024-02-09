@@ -49,7 +49,9 @@
                     ViewModelPropertyName="InfoViewModel"
                     IsSelected="True"/>
                 <controls:TabViewPage
-                    Title="SECURITY" />
+                    Title="SECURITY"
+                    ContentType="{x:Type views:VaultSecurityView}"
+                    ViewModelPropertyName="SecurityViewModel"/>
                 <controls:TabViewPage
                     Title="SYNC" />                
             </controls:TabView.TabPages>

@@ -3,12 +3,8 @@ using devoctomy.Passchamp.Client.ViewModels.Base;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
 
-
-public partial class VaultInfoViewModel : BaseViewModel
+public partial class VaultSecurityViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private string name;
-
-    [ObservableProperty]
-    private string description;
+    private string masterPassphrase;
 }
