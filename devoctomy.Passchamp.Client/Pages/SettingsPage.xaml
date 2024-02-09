@@ -19,12 +19,12 @@
                       SelectedTabBackColour="{StaticResource Primary}">
         <controls:TabView.TabPages>
             <controls:TabViewPage
-                Title="General"
+                Title="GENERAL"
                 ContentType="{x:Type views:GeneralSettingsView}"
                 ViewModelPropertyName="GeneralSettings"
                 IsSelected="True"/>
             <controls:TabViewPage
-                Title="Cloud"
+                Title="CLOUD"
                 ContentType="{x:Type views:CloudSettingsView}"
                 ViewModelPropertyName="CloudSettings"/>
         </controls:TabView.TabPages>

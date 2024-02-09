@@ -137,6 +137,7 @@ public partial class AppShellViewModel : BaseAppShellViewModel
             var menuItem = _currentPageViewModel.MenuItems.SingleOrDefault(x => x.Text == shellItem.Title && x.Command != null);           
             menuItem?.Command.Execute(null);
             collectionView.SelectedItem = null;
+            Shell.Current.FlyoutIsPresented = false;
         }
         else
         {

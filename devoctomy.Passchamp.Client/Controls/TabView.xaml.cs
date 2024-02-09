@@ -196,6 +196,7 @@ public partial class TabView : ContentView
         {
             page = page.Parent;
         }
+
         var context = page.BindingContext;
         var propInfo = context.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).ToList().SingleOrDefault(x => x.Name == tabViewPage.ViewModelPropertyName);
         var viewModel = propInfo.GetValue(context) as BaseViewModel;

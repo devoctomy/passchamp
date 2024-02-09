@@ -11,7 +11,8 @@
     Shell.FlyoutBehavior="Flyout"
     x:DataType="vm:AppShellViewModel"
     x:TypeArguments="vm:AppShellViewModel"
-    x:Name="shell">
+    x:Name="shell"
+    Title="">
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <Grid HeightRequest="200">
