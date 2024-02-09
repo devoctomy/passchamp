@@ -2,10 +2,13 @@
 using devoctomy.Passchamp.Client.Config;
 using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels;
+using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Client.Views;
 using devoctomy.Passchamp.Core.Config;
 using devoctomy.Passchamp.Core.Extensions;
+using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Maui.Extensions;
+using System.Diagnostics;
 
 namespace devoctomy.Passchamp.Client;
 
@@ -80,14 +83,25 @@ public static class MauiProgram
 
     static void RegisterViewModels(IServiceCollection services)
     {
-        services.AddTransient<AppShellViewModel>();
-        services.AddTransient<VaultsViewModel>();
-        services.AddTransient<SettingsViewModel>();
-        services.AddTransient<ThemeTestViewModel>();
-        services.AddTransient<GeneralSettingsViewModel>();
-        services.AddTransient<CloudSettingsViewModel>();
-        services.AddTransient<CloudStorageProviderEditorViewModel>();
-        services.AddTransient<VaultEditorViewModel>();
-        services.AddTransient<VaultInfoViewModel>();
+        AddViewModelsOfType<BaseAppShellViewModel>(services);
+        AddViewModelsOfType<BaseAppShellPageViewModel>(services);
+        AddViewModelsOfType<BaseViewModel>(services);
+    }
+
+    private static void AddViewModelsOfType<T>(IServiceCollection services)
+    {
+        var baseViewModelAssembly = typeof(T).Assembly;
+        var allViewModelTypes = baseViewModelAssembly.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && !x.IsInterface).ToList();
+        foreach (var viewModelType in allViewModelTypes)
+        {
+            // !!! Might want to look at this in the future, excluding if starts with Base, as one base model inherits from baseviewmodel which breaks IOC
+            if(viewModelType.Name == typeof(T).Name || viewModelType.Name.StartsWith("base", StringComparison.InvariantCultureIgnoreCase))
+            {
+                continue;
+            }
+
+            Debug.WriteLine($"Configuring view model type '{viewModelType.Name}/{typeof(T).Name}' for dependency injection.");
+            services.AddTransient(viewModelType);
+        }
     }
 }

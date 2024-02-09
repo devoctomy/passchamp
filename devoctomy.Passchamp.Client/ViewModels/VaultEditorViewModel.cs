@@ -12,8 +12,9 @@ public partial class VaultEditorViewModel : BaseViewModel
     ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs;
 
     public BaseViewModel ReturnViewModel { get; set; }
-    public VaultInfoViewModel InfoViewModel { get; set; } = new VaultInfoViewModel(); // !!!
-    public VaultSecurityViewModel SecurityViewModel { get; set; } = new VaultSecurityViewModel(); // !!!
+    public VaultInfoViewModel InfoViewModel { get; set; }
+    public VaultSecurityViewModel SecurityViewModel { get; set; }
+    public VaultSyncViewModel SyncViewModel { get; set; }
     public IAsyncRelayCommand BackCommand { get; private set; }
     public IAsyncRelayCommand OkCommand { get; private set; }
 
@@ -29,8 +30,13 @@ public partial class VaultEditorViewModel : BaseViewModel
         _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
     }
 
-    public async Task Init()
+    public override async Task Init()
     {
+        InfoViewModel = MauiProgram.MauiApp.Services.GetService<VaultInfoViewModel>();
+        SecurityViewModel = MauiProgram.MauiApp.Services.GetService<VaultSecurityViewModel>();
+        SyncViewModel = MauiProgram.MauiApp.Services.GetService<VaultSyncViewModel>();
+
+        await SyncViewModel.Init();
         await _cloudStorageProviderConfigLoaderService.LoadAsync(CancellationToken.None);
         CloudStorageProviderConfigRefs = new ObservableCollection<CloudStorageProviderConfigRef>(_cloudStorageProviderConfigLoaderService.Refs);
     }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseviews:BaseView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="devoctomy.Passchamp.Client.Views.VaultSyncView"
+             xmlns:baseviews="clr-namespace:devoctomy.Passchamp.Client.Views.Base"
+             xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+             x:DataType="vm:VaultSyncViewModel"
+             x:TypeArguments="vm:VaultSyncViewModel">
+    <VerticalStackLayout>
+        <Label Text="Cloud Provider" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
+        <Picker
+            MaximumWidthRequest="300"
+            WidthRequest="300"
+            HorizontalOptions="Start"
+            ItemsSource="{Binding CloudStorageProviderConfigRefs}">
+        </Picker>
+    </VerticalStackLayout>
+</baseviews:BaseView>

@@ -53,19 +53,10 @@
                     ContentType="{x:Type views:VaultSecurityView}"
                     ViewModelPropertyName="SecurityViewModel"/>
                 <controls:TabViewPage
-                    Title="SYNC" />                
+                    Title="SYNC"
+                    ContentType="{x:Type views:VaultSyncView}"
+                    ViewModelPropertyName="SyncViewModel"/>
             </controls:TabView.TabPages>
         </controls:TabView>
-        <!--<VerticalStackLayout
-            Margin="8"
-            Grid.Row="1">
-            <Label Text="Cloud Provider" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
-            <Picker
-                MaximumWidthRequest="300"
-                WidthRequest="300"
-                HorizontalOptions="Start"
-                ItemsSource="{Binding CloudStorageProviderConfigRefs}">
-            </Picker>
-        </VerticalStackLayout>-->
     </Grid>
 </pages:BaseContentPage>
