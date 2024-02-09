@@ -19,5 +19,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ISecureSettingStorageService, SecureSettingStorageService>();
         services.AddScoped<IVaultLoaderService, VaultLoaderService>();
+
+        services.AddTransient<IXamlHelperService, XamlHelperService>();
     }
 }

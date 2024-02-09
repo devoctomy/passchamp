@@ -12,6 +12,7 @@ public partial class VaultEditorViewModel : BaseViewModel
     ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs;
 
     public BaseViewModel ReturnViewModel { get; set; }
+    public VaultInfoViewModel InfoViewModel { get; set; } = new VaultInfoViewModel(); // !!!
     public IAsyncRelayCommand BackCommand { get; private set; }
     public IAsyncRelayCommand OkCommand { get; private set; }
 

@@ -1,4 +1,5 @@
 using devoctomy.Passchamp.Client.ViewModels.Base;
+using devoctomy.Passchamp.Maui.Services;
 using System.Windows.Input;
 
 namespace devoctomy.Passchamp.Client.Controls;
@@ -154,10 +155,12 @@ public partial class TabView : ContentView
     public ICommand SelectionChangedCommand { get; }
 
     private TabViewPage _selectedPage;
+    private IXamlHelperService _xamlHelperService;
 
     public TabView()
 	{
         InitializeComponent();
+        _xamlHelperService = MauiProgram.MauiApp.Services.GetService<IXamlHelperService>();
     }
 
     protected override void OnParentChanged()
@@ -186,15 +189,12 @@ public partial class TabView : ContentView
 
     public BaseViewModel GetTabViewPageViewModel(TabViewPage tabViewPage)
     {
-        if(tabViewPage == null || string.IsNullOrEmpty(tabViewPage.ViewModelPropertyName))
+        var page = _xamlHelperService.GetParentPage(this);
+        if (page == null ||
+            tabViewPage == null ||
+            string.IsNullOrEmpty(tabViewPage.ViewModelPropertyName))
         {
             return null;
-        }
-
-        var page = Parent;
-        while (page.GetType().IsAssignableFrom(typeof(Page)))
-        {
-            page = page.Parent;
         }
 
         var context = page.BindingContext;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<baseviews:BaseView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="devoctomy.Passchamp.Client.Views.VaultInfoView"
+                    xmlns:baseviews="clr-namespace:devoctomy.Passchamp.Client.Views.Base"
+                    xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+                    x:DataType="vm:VaultInfoViewModel"
+                    x:TypeArguments="vm:VaultInfoViewModel">
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</baseviews:BaseView>
