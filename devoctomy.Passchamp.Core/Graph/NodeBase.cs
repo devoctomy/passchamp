@@ -15,8 +15,8 @@ public class NodeBase : INode
     public string NodeKey { get; set; }
     public Dictionary<string, PropertyInfo> InputPinsProperties { get; }
     public Dictionary<string, PropertyInfo> OutputPinsProperties { get; }
-    public Dictionary<string, IPin> Input { get; } = new Dictionary<string, IPin>();
-    public Dictionary<string, IPin> Output { get; } = new Dictionary<string, IPin>();
+    public Dictionary<string, IPin> Input { get; } = [];
+    public Dictionary<string, IPin> Output { get; } = [];
     public string NextKey { get; set; }
     public bool Executed { get; protected set; }
 
