@@ -18,14 +18,9 @@ using Xunit;
 namespace devoctomy.Passchamp.IntTests.Steps;
 
 [Binding]
-public sealed class GraphStepDefinitions
+public sealed class GraphStepDefinitions(ScenarioContext scenarioContext)
 {
-    private readonly ScenarioContext _scenarioContext;
-
-    public GraphStepDefinitions(ScenarioContext scenarioContext)
-    {
-        _scenarioContext = scenarioContext;
-    }
+    private readonly ScenarioContext _scenarioContext = scenarioContext;
 
     [Given(@"A new dictionary of nodes")]
     public void GivenANewDictionaryOfNodes()
@@ -101,20 +96,14 @@ public sealed class GraphStepDefinitions
     {
         var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
-        var node = new SCryptNode(new SecureStringUnpacker());
-        node.SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
-                "SecurePassword",
-                new NetworkCredential(null, password).SecurePassword);
-        node.IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
-            "IterationCount",
-            1024);
-        node.BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
-            "BlockSize",
-            8);
-        node.ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
-            "ThreadCount",
-            1);
-        node.NextKey = nextKey;
+        var node = new SCryptNode(new SecureStringUnpacker())
+        {
+            SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create("SecurePassword", new NetworkCredential(null, password).SecurePassword),
+            IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create("IterationCount", 1024),
+            BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create("BlockSize", 8),
+            ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create("ThreadCount", 1),
+            NextKey = nextKey
+        };
 
         nodes.Add(name, node);
     }
@@ -220,9 +209,9 @@ public sealed class GraphStepDefinitions
         foreach (var curSection in sections)
         {
             var curSectionParts = curSection.Split(',');
-            var startOffset = curSectionParts[1].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+            var startOffset = curSectionParts[1].StartsWith('~') ? Offset.FromEnd : Offset.Absolute;
             var startValue = int.Parse(curSectionParts[1].TrimStart('~'));
-            var endOffset = curSectionParts[2].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+            var endOffset = curSectionParts[2].StartsWith('~') ? Offset.FromEnd : Offset.Absolute;
             var endValue = int.Parse(curSectionParts[2].TrimStart('~'));
 
             var section = new DataParserSection

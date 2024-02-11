@@ -7,8 +7,6 @@ namespace devoctomy.Passchamp.Core.Graph.Cryptography;
 
 public class DecryptNode : NodeBase
 {
-    private const string AesAlgorithmName = "AesManaged";
-
     [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
     public IDataPin<byte[]> Cipher
     {

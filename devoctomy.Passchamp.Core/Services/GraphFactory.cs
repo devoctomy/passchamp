@@ -11,13 +11,6 @@ namespace devoctomy.Passchamp.Core.Services;
 
 public class GraphFactory : IGraphFactory
 {
-    private readonly ISecureStringUnpacker _secureStringUnpacker;
-
-    public GraphFactory(ISecureStringUnpacker secureStringUnpacker)
-    {
-        _secureStringUnpacker = secureStringUnpacker;
-    }
-
     public IGraph LoadPreset(
         GraphPreset preset,
         Func<Type, INode> instantiateNode,
@@ -77,7 +70,7 @@ public class GraphFactory : IGraphFactory
         }
     }
 
-    private void ConnectPins(
+    private static void ConnectPins(
         Dictionary<string, INode> nodes,
         string nodeAName,
         string pinAName,
@@ -106,7 +99,7 @@ public class GraphFactory : IGraphFactory
         nodeA.Input[pinAName] = nodeB.GetOutput(pinBName, nodeBPinOutAttribute.ValueType);
     }
 
-    private void AddConnections(
+    private static void AddConnections(
         Dictionary<string, INode> nodes,
         List<NodeConnection> connections)
     {
@@ -121,7 +114,7 @@ public class GraphFactory : IGraphFactory
         }
     }
 
-    private Dictionary<string, INode> GetOrderedNodes(
+    private static Dictionary<string, INode> GetOrderedNodes(
         List<NodeRef> nodeRefs,
         Func<Type, INode> instantiateNode)
     {
@@ -150,14 +143,13 @@ public class GraphFactory : IGraphFactory
         return nodes;
     }
 
-    private Dictionary<string, INode> GetUnorderedNodes(
+    private static Dictionary<string, INode> GetUnorderedNodes(
         List<NodeRef> nodeRefs,
         Func<Type, INode> instantiateNode)
     {
         var nodes = new Dictionary<string, INode>();
         for (var i = 0; i < nodeRefs.Count; i++)
         {
-            var last = i == nodeRefs.Count - 1;
             var curNodeRef = nodeRefs[i];
             var node = instantiateNode(curNodeRef.NodeType);
             node.NextKey = curNodeRef.NextKey;
@@ -174,12 +166,5 @@ public class GraphFactory : IGraphFactory
         }
 
         return nodes;
-    }
-
-    private static void SetInputPinFromParts(
-        IPin pin,
-        string[] parts)
-    {
-
     }
 }

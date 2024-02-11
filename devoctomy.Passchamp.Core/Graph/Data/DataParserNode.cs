@@ -7,7 +7,7 @@ namespace devoctomy.Passchamp.Core.Graph.Data;
 
 public class DataParserNode : NodeBase
 {
-    private readonly Dictionary<string, IDataPin<byte[]>> _sectionValues = new();
+    private readonly Dictionary<string, IDataPin<byte[]>> _sectionValues = [];
 
     [NodeInputPin(ValueType = typeof(byte[]), DefaultValue = default(byte[]))]
     public IDataPin<byte[]> Bytes
@@ -78,8 +78,7 @@ public class DataParserNode : NodeBase
             return;
         }
 
-        var sections = value as IDataPin<List<DataParserSection>>;
-        if(sections == null)
+        if (value is not IDataPin<List<DataParserSection>> sections)
         {
             return;
         }

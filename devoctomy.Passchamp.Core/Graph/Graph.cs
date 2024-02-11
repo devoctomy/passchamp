@@ -10,7 +10,7 @@ namespace devoctomy.Passchamp.Core.Graph;
 public class Graph : IGraph
 {
     private string _startKey = string.Empty;
-    private readonly List<string> _executionOrder = new();
+    private readonly List<string> _executionOrder = [];
     private readonly Dictionary<string, IPin> _inputPins;
     private readonly Dictionary<string, IPin> _outputPins;
     private readonly IEnumerable<IGraphPinPrepFunction> _pinPrepFunctions;
@@ -21,7 +21,7 @@ public class Graph : IGraph
     public IReadOnlyDictionary<string, IPin> OutputPins => _outputPins;
     public IReadOnlyList<string> ExecutionOrder => _executionOrder;
     public IReadOnlyDictionary<string, INode> Nodes { get; }
-    public Dictionary<string, object> ExtendedParams { get; } = new Dictionary<string, object>();
+    public Dictionary<string, object> ExtendedParams { get; } = [];
     public string StartKey
     { 
         get

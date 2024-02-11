@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Cryptography;
 
-public class SCryptNode : NodeBase
+public class SCryptNode(ISecureStringUnpacker secureStringUnpacker) : NodeBase
 {
-    private readonly ISecureStringUnpacker _secureStringUnpacker;
+    private readonly ISecureStringUnpacker _secureStringUnpacker = secureStringUnpacker;
 
     [NodeInputPin(ValueType = typeof(int))]
     public IDataPin<int> IterationCount
@@ -81,11 +81,6 @@ public class SCryptNode : NodeBase
         {
             return GetOutput<byte[]>("Key");
         }
-    }
-
-    public SCryptNode(ISecureStringUnpacker secureStringUnpacker)
-    {
-        _secureStringUnpacker = secureStringUnpacker;
     }
 
     protected override Task DoExecuteAsync(

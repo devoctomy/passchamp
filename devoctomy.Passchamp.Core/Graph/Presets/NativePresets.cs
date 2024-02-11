@@ -157,9 +157,7 @@ public static class NativePresets
                 {
                     Key = "decode",
                     NodeType = typeof(Utf8DecoderNode),
-                    InputPins = new Dictionary<string, IPin>
-                    {
-                    }
+                    InputPins = []
                 }
             ],
 
@@ -196,9 +194,9 @@ public static class NativePresets
         foreach (var curSection in sections)
         {
             var curSectionParts = curSection.Split(',');
-            var startOffset = curSectionParts[1].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+            var startOffset = curSectionParts[1].StartsWith('~') ? Offset.FromEnd : Offset.Absolute;
             var startValue = int.Parse(curSectionParts[1].TrimStart('~'));
-            var endOffset = curSectionParts[2].StartsWith("~") ? Offset.FromEnd : Offset.Absolute;
+            var endOffset = curSectionParts[2].StartsWith('~') ? Offset.FromEnd : Offset.Absolute;
             var endValue = int.Parse(curSectionParts[2].TrimStart('~'));
 
             var section = new DataParserSection

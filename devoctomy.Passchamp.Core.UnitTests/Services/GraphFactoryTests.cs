@@ -20,7 +20,7 @@ public class GraphFactoryTests
     {
         // Arrange
         var outputStream = new MemoryStream();
-        var sut = new GraphFactory(new SecureStringUnpacker());
+        var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
             { "SaltLength", 16 },
@@ -45,7 +45,7 @@ public class GraphFactoryTests
     {
         // Arrange
         var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
-        var sut = new GraphFactory(new SecureStringUnpacker());
+        var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
             { "KeyLength", 32 },
@@ -68,7 +68,7 @@ public class GraphFactoryTests
     {
         // Arrange
         var outputStream = new MemoryStream();
-        var sut = new GraphFactory(new SecureStringUnpacker());
+        var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
             { "SaltLength", 16 },
@@ -92,7 +92,7 @@ public class GraphFactoryTests
     {
         // Arrange
         var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
-        var sut = new GraphFactory(new SecureStringUnpacker());
+        var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
             { "KeyLength", 32 },

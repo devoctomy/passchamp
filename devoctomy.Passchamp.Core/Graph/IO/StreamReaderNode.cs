@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,17 +34,16 @@ public class StreamReaderNode : NodeBase
         IGraph graph,
         CancellationToken cancellationToken)
     {
-        using (var memoryStream = new MemoryStream())
+        using var memoryStream = new MemoryStream();
+        var buffer = new byte[81920];
+        var memory = new Memory<byte>(buffer);
+        int bytesRead;
+
+        while ((bytesRead = await Stream.Value.ReadAsync(memory, cancellationToken)) > 0)
         {
-            byte[] buffer = new byte[81920];
-            int bytesRead;
-
-            while ((bytesRead = await Stream.Value.ReadAsync(buffer, 0, buffer.Length)) > 0)
-            {
-                memoryStream.Write(buffer, 0, bytesRead);
-            }
-
-            Bytes.Value = memoryStream.ToArray();
+            memoryStream.Write(buffer, 0, bytesRead);
         }
+
+        Bytes.Value = memoryStream.ToArray();
     }
 }

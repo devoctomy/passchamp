@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace devoctomy.Passchamp.Core.Graph.Cryptography;
 
-public class DeriveKeyFromPasswordExNode : NodeBase
+public class DeriveKeyFromPasswordExNode(ISecureStringUnpacker secureStringUnpacker) : NodeBase
 {
-    private readonly ISecureStringUnpacker _secureStringUnpacker;
+    private readonly ISecureStringUnpacker _secureStringUnpacker = secureStringUnpacker;
 
     [NodeInputPin(ValueType = typeof(SecureString), DefaultValue = null)]
     public IDataPin<SecureString> SecurePassword
@@ -68,11 +68,6 @@ public class DeriveKeyFromPasswordExNode : NodeBase
         {
             return GetOutput<byte[]>("Key");
         }
-    }
-
-    public DeriveKeyFromPasswordExNode(ISecureStringUnpacker secureStringUnpacker)
-    {
-        _secureStringUnpacker = secureStringUnpacker;
     }
 
     protected override Task DoExecuteAsync(
