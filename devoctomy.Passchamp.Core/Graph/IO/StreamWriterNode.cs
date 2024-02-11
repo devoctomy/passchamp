@@ -19,19 +19,6 @@ public class StreamWriterNode : NodeBase
         }
     }
 
-    [NodeInputPin(ValueType = typeof(bool), DefaultValue = true)]
-    public IDataPin<bool> CreateDirectory
-    {
-        get
-        {
-            return GetInput<bool>("CreateDirectory");
-        }
-        set
-        {
-            Input["CreateDirectory"] = value;
-        }
-    }
-
     [NodeInputPin(ValueType = typeof(Stream), DefaultValue = null)]
     public IDataPin<Stream> Stream
     {
