@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.Core.Graph.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security;
 
 namespace devoctomy.Passchamp.Core.Graph;
@@ -17,6 +18,7 @@ public class DataPinFactory : IDataPinFactory
         { "Single", typeof(float) },
         { "Double", typeof(double) },
         { "Byte[]", typeof(byte[]) },
+        { "MemoryStream", typeof(Stream) },
         { "DataPinIntermediateValue", typeof(DataPinIntermediateValue) },
         { "DataParserSection", typeof(DataParserSection) },
         { "Vault", typeof(Core.Vault.Vault) },

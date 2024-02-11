@@ -1,13 +1,21 @@
 ﻿using devoctomy.Passchamp.Core.Enums;
 using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Presets;
+using System;
 using System.Collections.Generic;
 
 namespace devoctomy.Passchamp.Core.Services;
 
 public interface IGraphFactory
 {
+    public IGraph LoadPreset(
+        GraphPreset preset,
+        Func<Type, INode> instantiateNode,
+        Dictionary<string, object> parameters);
+
     public IGraph LoadNative(
         GraphContext context,
         NativeGraphs graph,
-        params KeyValuePair<string, object>[] parameters);
+        Func<Type, INode> instantiateNode,
+        Dictionary<string, object> parameters);
 }
