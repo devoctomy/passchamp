@@ -16,10 +16,53 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services;
 public class GraphFactoryTests
 {
     [Fact]
+    public async Task GivenNativeDefaultEncryptPresetGraph_AndNativeDefaultDecryptPresetGraph_WhenExecuteSequentially_ThenDataSuccessfullyEncrypted_AndDataSuccessfullyDecrypted()
+    {
+        // Arrange
+        var plainText = "Hello World!";
+        var password = "password123";
+        using var outputStream = new MemoryStream();
+        var sut = new GraphFactory();
+        var encryptParameters = new Dictionary<string, object>
+        {
+            { "SaltLength", 16 },
+            { "IvLength", 16 },
+            { "KeyLength", 32 },
+            { "Passphrase", new NetworkCredential(null, password).SecurePassword },
+            { "OutputStream", outputStream },
+            { "PlainText", plainText },
+        };
+        var nativeDefaultEncryptPreset = NativePresets.DefaultEncrypt();
+        var encryptGraph = sut.LoadPreset(nativeDefaultEncryptPreset, InstantiateNode, encryptParameters);
+
+        using var inputStream = new MemoryStream();
+        var decryptParameters = new Dictionary<string, object>
+        {
+            { "KeyLength", 32 },
+            { "Passphrase", new NetworkCredential(null, password).SecurePassword },
+            { "InputStream", inputStream }
+        };
+        var nativeDefaultDecryptPreset = NativePresets.DefaultDecrypt();
+
+        var decryptGraph = sut.LoadPreset(nativeDefaultDecryptPreset, InstantiateNode, decryptParameters);
+
+        // Act
+        await encryptGraph.ExecuteAsync(CancellationToken.None);
+        outputStream.Seek(0, SeekOrigin.Begin);
+        await outputStream.CopyToAsync(inputStream);
+        inputStream.Seek(0, SeekOrigin.Begin);
+        await decryptGraph.ExecuteAsync(CancellationToken.None);
+
+        // Assert
+        var decryptedCipherText = System.Text.Encoding.UTF8.GetString((byte[])decryptGraph.OutputPins["DecryptedBytes"].ObjectValue);
+        Assert.Equal(plainText, decryptedCipherText);
+    }
+
+    [Fact]
     public async Task GivenNativeDefaultEncryptPreset_AndParameters_WhenLoadPreset_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputStreamContainsData()
     {
         // Arrange
-        var outputStream = new MemoryStream();
+        using var outputStream = new MemoryStream();
         var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
@@ -44,7 +87,7 @@ public class GraphFactoryTests
     public async Task GivenNativeDefaultDecryptPreset_AndParameters_WhenLoadPreset_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputContainsCorrectData()
     {
         // Arrange
-        var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
+        using var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
         var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
@@ -67,7 +110,7 @@ public class GraphFactoryTests
     public async Task GivenEncyptContext_AndDefaultNativeGraph_AndParameters_WhenLoadNative_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputStreamContainsData()
     {
         // Arrange
-        var outputStream = new MemoryStream();
+        using var outputStream = new MemoryStream();
         var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
@@ -91,7 +134,7 @@ public class GraphFactoryTests
     public async Task GivenDecryptContext_AndDefaultNativeGraph_AndParameters_WhenLoadNative_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputContainsCorrectData()
     {
         // Arrange
-        var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
+        using var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
         var sut = new GraphFactory();
         var parameters = new Dictionary<string, object>
         {
