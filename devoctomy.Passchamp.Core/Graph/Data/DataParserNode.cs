@@ -67,6 +67,30 @@ public class DataParserNode : NodeBase
 
     public IDataPin<byte[]> GetSectionValue(string key)
     {
+        PrepareSections();
         return _sectionValues[key];
+    }
+
+    private void PrepareSections()
+    {
+        if(!Input.TryGetValue("Sections", out IPin value) || _sectionValues.Count > 0)
+        {
+            return;
+        }
+
+        var sections = value as IDataPin<List<DataParserSection>>;
+        if(sections == null)
+        {
+            return;
+        }
+
+        foreach (var curSection in sections.Value)
+        {
+            _sectionValues.Add(
+                curSection.Key,
+                new DataPin<byte[]>(
+                    curSection.Key,
+                    null));
+        }
     }
 }

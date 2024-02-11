@@ -1,6 +1,7 @@
 ﻿using devoctomy.Passchamp.Core.Cryptography;
 using devoctomy.Passchamp.Core.Enums;
 using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Data;
 using devoctomy.Passchamp.Core.Graph.Presets;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ public class GraphFactory : IGraphFactory
         return new Graph.Graph(
             graphSettings,
             preset.InputPins,
-            null,
+            preset.OutputPins,
             nodes,
             preset.OrderedNodes != null ? nodes.First().Key : preset.StartKey,
             null,
@@ -66,7 +67,7 @@ public class GraphFactory : IGraphFactory
                 {
                     return context == GraphContext.Encrypt ?
                         LoadPreset(NativePresets.DefaultEncrypt(), instantiateNode, parameters) :
-                        null;
+                        LoadPreset(NativePresets.DefaultDecrypt(), instantiateNode, parameters);
                 }
 
             default:
@@ -76,7 +77,7 @@ public class GraphFactory : IGraphFactory
         }
     }
 
-    private void GivenNodeInputPinConnectedToNodeOutputPin(
+    private void ConnectPins(
         Dictionary<string, INode> nodes,
         string nodeAName,
         string pinAName,
@@ -85,6 +86,20 @@ public class GraphFactory : IGraphFactory
     {
         var nodeA = nodes[nodeAName];
         var nodeB = nodes[nodeBName];
+
+        if(pinBName.Contains(':'))
+        {
+            var pinNameParts = pinBName.Split(':');
+            switch(pinNameParts[0])
+            {
+                case "DataParserSection":
+                    {
+                        var dataParserNode = nodeB as DataParserNode;
+                        nodeA.Input[pinAName] = dataParserNode.GetSectionValue(pinNameParts[1]);
+                        return;
+                    }
+            }
+        }
 
         var nodeBPinPropInfo = nodeB.OutputPinsProperties[pinBName];
         var nodeBPinOutAttribute = (NodeOutputPinAttribute)Attribute.GetCustomAttribute(nodeBPinPropInfo, typeof(NodeOutputPinAttribute));
@@ -97,7 +112,7 @@ public class GraphFactory : IGraphFactory
     {
         foreach (var connection in connections) 
         {
-            GivenNodeInputPinConnectedToNodeOutputPin(
+            ConnectPins(
                 nodes,
                 connection.NodeToKey,
                 connection.PinToKey,
@@ -159,5 +174,12 @@ public class GraphFactory : IGraphFactory
         }
 
         return nodes;
+    }
+
+    private static void SetInputPinFromParts(
+        IPin pin,
+        string[] parts)
+    {
+
     }
 }

@@ -16,7 +16,7 @@ namespace devoctomy.Passchamp.Core.UnitTests.Services;
 public class GraphFactoryTests
 {
     [Fact]
-    public async Task GivenNativeDefaultEncryptPreset_AndParameters_WhenLoadLoadPreset_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputStreamContainsData()
+    public async Task GivenNativeDefaultEncryptPreset_AndParameters_WhenLoadPreset_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputStreamContainsData()
     {
         // Arrange
         var outputStream = new MemoryStream();
@@ -41,6 +41,29 @@ public class GraphFactoryTests
     }
 
     [Fact]
+    public async Task GivenNativeDefaultDecryptPreset_AndParameters_WhenLoadPreset_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputContainsCorrectData()
+    {
+        // Arrange
+        var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
+        var sut = new GraphFactory(new SecureStringUnpacker());
+        var parameters = new Dictionary<string, object>
+        {
+            { "KeyLength", 32 },
+            { "Passphrase", new NetworkCredential(null, "password123").SecurePassword },
+            { "InputStream", inputStream }
+        };
+        var nativeDefaultDecryptPreset = NativePresets.DefaultDecrypt();
+
+        // Act
+        var graph = sut.LoadPreset(nativeDefaultDecryptPreset, InstantiateNode, parameters);
+
+        // Assert
+        await graph.ExecuteAsync(CancellationToken.None);
+        var plainText = System.Text.Encoding.UTF8.GetString((byte[])graph.OutputPins["DecryptedBytes"].ObjectValue);
+        Assert.Equal("Hello World!", plainText);
+    }
+
+    [Fact]
     public async Task GivenEncyptContext_AndDefaultNativeGraph_AndParameters_WhenLoadNative_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputStreamContainsData()
     {
         // Arrange
@@ -62,6 +85,28 @@ public class GraphFactoryTests
         // Assert
         await graph.ExecuteAsync(CancellationToken.None);
         Assert.True(outputStream.Length > 0);
+    }
+
+    [Fact]
+    public async Task GivenDecryptContext_AndDefaultNativeGraph_AndParameters_WhenLoadNative_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputContainsCorrectData()
+    {
+        // Arrange
+        var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
+        var sut = new GraphFactory(new SecureStringUnpacker());
+        var parameters = new Dictionary<string, object>
+        {
+            { "KeyLength", 32 },
+            { "Passphrase", new NetworkCredential(null, "password123").SecurePassword },
+            { "InputStream", inputStream }
+        };
+
+        // Act
+        var graph = sut.LoadNative(Enums.GraphContext.Decrypt, Enums.NativeGraphs.Default, InstantiateNode, parameters);
+
+        // Assert
+        await graph.ExecuteAsync(CancellationToken.None);
+        var plainText = System.Text.Encoding.UTF8.GetString((byte[])graph.OutputPins["DecryptedBytes"].ObjectValue);
+        Assert.Equal("Hello World!", plainText);
     }
 
     private INode InstantiateNode(Type type)
