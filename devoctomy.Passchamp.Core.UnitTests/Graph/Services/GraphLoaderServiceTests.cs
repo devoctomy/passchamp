@@ -44,7 +44,6 @@ public class GraphLoaderServiceTests
         Assert.NotNull(result);
         Assert.Equal("Graph used for unit testing", result.Settings.Description);
         Assert.Equal("devoctomy", result.Settings.Author);
-        Assert.True(result.Settings.Debug);
         Assert.Equal(6, result.InputPins.Count);
         Assert.Single(result.OutputPins);
         Assert.Equal(7, result.Nodes.Count);

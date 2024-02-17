@@ -9,7 +9,7 @@ namespace devoctomy.Passchamp.Core.Services;
 public interface IGraphFactory
 {
     public IGraph LoadPreset(
-        GraphPreset preset,
+        IGraphPreset preset,
         Func<Type, INode> instantiateNode,
         Dictionary<string, object> parameters);
 

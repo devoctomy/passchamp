@@ -9,10 +9,12 @@ using System.Linq;
 
 namespace devoctomy.Passchamp.Core.Services;
 
-public class GraphFactory : IGraphFactory
+public class GraphFactory(IEnumerable<IGraphPreset> graphPresets) : IGraphFactory
 {
+    private readonly IEnumerable<IGraphPreset> _graphPresets = graphPresets;
+
     public IGraph LoadPreset(
-        GraphPreset preset,
+        IGraphPreset preset,
         Func<Type, INode> instantiateNode,
         Dictionary<string, object> parameters)
     {
@@ -20,9 +22,6 @@ public class GraphFactory : IGraphFactory
         {
             Author = preset.Author,
             Description = preset.Description,
-#if DEBUG
-            Debug = preset.Debug,
-#endif
         };
 
         var nodes = preset.OrderedNodes != null ?
@@ -33,14 +32,15 @@ public class GraphFactory : IGraphFactory
             nodes,
             preset.Connections);
 
-        foreach(var curParameter in parameters)
+        var inputPins = preset.InputPins;
+        foreach (var curParameter in parameters)
         {
-            preset.InputPins[curParameter.Key] = DataPinFactory.Instance.Create(curParameter.Key, curParameter.Value);
+            inputPins[curParameter.Key] = DataPinFactory.Instance.Create(curParameter.Key, curParameter.Value);
         }
 
         return new Graph.Graph(
             graphSettings,
-            preset.InputPins,
+            inputPins,
             preset.OutputPins,
             nodes,
             preset.OrderedNodes != null ? nodes.First().Key : preset.StartKey,
@@ -59,8 +59,8 @@ public class GraphFactory : IGraphFactory
             case NativeGraphs.Default:
                 {
                     return context == GraphContext.Encrypt ?
-                        LoadPreset(NativePresets.DefaultEncrypt(), instantiateNode, parameters) :
-                        LoadPreset(NativePresets.DefaultDecrypt(), instantiateNode, parameters);
+                        LoadPreset(_graphPresets.Single(x => x.Context == GraphContext.Encrypt && x.Default), instantiateNode, parameters) :
+                        LoadPreset(_graphPresets.Single(x => x.Context == GraphContext.Decrypt && x.Default), instantiateNode, parameters);
                 }
 
             default:

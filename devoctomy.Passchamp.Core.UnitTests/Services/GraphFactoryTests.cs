@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Cryptography;
 using devoctomy.Passchamp.Core.Graph.Presets;
+using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ public class GraphFactoryTests
         var plainText = "Hello World!";
         var password = "password123";
         using var outputStream = new MemoryStream();
-        var sut = new GraphFactory();
+        var sut = Instantiate();
         var encryptParameters = new Dictionary<string, object>
         {
             { "SaltLength", 16 },
@@ -32,7 +33,7 @@ public class GraphFactoryTests
             { "OutputStream", outputStream },
             { "PlainText", plainText },
         };
-        var nativeDefaultEncryptPreset = NativePresets.DefaultEncrypt();
+        var nativeDefaultEncryptPreset = new Core.Graph.Presets.Encrypt.StandardEncrypt();
         var encryptGraph = sut.LoadPreset(nativeDefaultEncryptPreset, InstantiateNode, encryptParameters);
 
         using var inputStream = new MemoryStream();
@@ -42,7 +43,7 @@ public class GraphFactoryTests
             { "Passphrase", new NetworkCredential(null, password).SecurePassword },
             { "InputStream", inputStream }
         };
-        var nativeDefaultDecryptPreset = NativePresets.DefaultDecrypt();
+        var nativeDefaultDecryptPreset = new Core.Graph.Presets.Decrypt.StandardDecrypt(new DataParserSectionParser());
 
         var decryptGraph = sut.LoadPreset(nativeDefaultDecryptPreset, InstantiateNode, decryptParameters);
 
@@ -63,7 +64,7 @@ public class GraphFactoryTests
     {
         // Arrange
         using var outputStream = new MemoryStream();
-        var sut = new GraphFactory();
+        var sut = Instantiate();
         var parameters = new Dictionary<string, object>
         {
             { "SaltLength", 16 },
@@ -73,7 +74,7 @@ public class GraphFactoryTests
             { "OutputStream", outputStream },
             { "PlainText", "Hello World!" },
         };
-        var nativeDefaultEncryptPreset = NativePresets.DefaultEncrypt();
+        var nativeDefaultEncryptPreset = new Core.Graph.Presets.Encrypt.StandardEncrypt();
 
         // Act
         var graph = sut.LoadPreset(nativeDefaultEncryptPreset, InstantiateNode, parameters);
@@ -88,14 +89,14 @@ public class GraphFactoryTests
     {
         // Arrange
         using var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
-        var sut = new GraphFactory();
+        var sut = Instantiate();
         var parameters = new Dictionary<string, object>
         {
             { "KeyLength", 32 },
             { "Passphrase", new NetworkCredential(null, "password123").SecurePassword },
             { "InputStream", inputStream }
         };
-        var nativeDefaultDecryptPreset = NativePresets.DefaultDecrypt();
+        var nativeDefaultDecryptPreset = new Core.Graph.Presets.Decrypt.StandardDecrypt(new DataParserSectionParser());
 
         // Act
         var graph = sut.LoadPreset(nativeDefaultDecryptPreset, InstantiateNode, parameters);
@@ -111,7 +112,7 @@ public class GraphFactoryTests
     {
         // Arrange
         using var outputStream = new MemoryStream();
-        var sut = new GraphFactory();
+        var sut = Instantiate();
         var parameters = new Dictionary<string, object>
         {
             { "SaltLength", 16 },
@@ -135,7 +136,7 @@ public class GraphFactoryTests
     {
         // Arrange
         using var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
-        var sut = new GraphFactory();
+        var sut = Instantiate();
         var parameters = new Dictionary<string, object>
         {
             { "KeyLength", 32 },
@@ -144,7 +145,11 @@ public class GraphFactoryTests
         };
 
         // Act
-        var graph = sut.LoadNative(Enums.GraphContext.Decrypt, Enums.NativeGraphs.Default, InstantiateNode, parameters);
+        var graph = sut.LoadNative(
+            Enums.GraphContext.Decrypt,
+            Enums.NativeGraphs.Default,
+            InstantiateNode,
+            parameters);
 
         // Assert
         await graph.ExecuteAsync(CancellationToken.None);
@@ -162,5 +167,15 @@ public class GraphFactoryTests
         {
             return Activator.CreateInstance(type) as INode;
         }  
+    }
+
+    private GraphFactory Instantiate()
+    {
+        var presets = new List<IGraphPreset>
+        {
+            new Core.Graph.Presets.Encrypt.StandardEncrypt(),
+            new Core.Graph.Presets.Decrypt.StandardDecrypt(new DataParserSectionParser())
+        };
+        return new GraphFactory(presets);
     }
 }

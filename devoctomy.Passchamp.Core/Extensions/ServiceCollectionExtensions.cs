@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.Core.Cryptography;
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Presets;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,21 +30,21 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IIOService, IOService>();
         services.AddSingleton<ICloudStorageProviderConfigLoaderService, CloudStorageProviderConfigLoaderService>();
 
-        var pinPrepFunctionAssembly = typeof(IGraphPinPrepFunction).Assembly;
-        var allPinPrepFunctions = pinPrepFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinPrepFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();
-        foreach(var pinPrepFunction in allPinPrepFunctions)
-        {
-            services.AddScoped(typeof(IGraphPinPrepFunction), pinPrepFunction);
-        }
-
-        var pinOutputFunctionAssembly = typeof(IGraphPinOutputFunction).Assembly;
-        var allPinOutputFunctions = pinOutputFunctionAssembly.GetTypes().Where(x => typeof(IGraphPinOutputFunction).IsAssignableFrom(x) && !x.IsInterface).ToList();
-        foreach (var pinOutputFunction in allPinOutputFunctions)
-        {
-            services.AddScoped(typeof(IGraphPinOutputFunction), pinOutputFunction);
-        }
+        AddAllOfType<IGraphPinPrepFunction>(services);
+        AddAllOfType<IGraphPinOutputFunction>(services);
+        AddAllOfType<IGraphPreset>(services);
 
         AddNodes(services);
+    }
+
+    private static void AddAllOfType<T>(IServiceCollection services)
+    {
+        var assembly = typeof(T).Assembly;
+        var allTypes = assembly.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && !x.IsInterface).ToList();
+        foreach (var curType in allTypes)
+        {
+            services.AddScoped(typeof(T), curType);
+        }
     }
 
     private static void AddNodes(this IServiceCollection services)
