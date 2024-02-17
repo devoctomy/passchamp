@@ -19,6 +19,4 @@ public class GraphPreset
     public Dictionary<string, IPin> OutputPins { get; set; }
 
     public List<NodeConnection> Connections { get; set; }
-
-    public Dictionary<string, object> Parameters;
 }
