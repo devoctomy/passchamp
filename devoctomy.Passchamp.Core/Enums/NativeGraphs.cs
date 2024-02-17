@@ -3,5 +3,6 @@
 public enum NativeGraphs
 {
     None = 0,
-    Default = 1
+    Default = 1,
+    Reserved = 100,
 }
