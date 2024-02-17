@@ -13,6 +13,78 @@ namespace devoctomy.Passchamp.Core.UnitTests.Graph.Cryptography;
 
 public class SCryptExNodeTests
 {
+    [Fact]
+    public async Task GivenInvalidIterationCount_WhenExecuteAsync_ThenArgumentOutOfRangeException()
+    {
+        // Arrange
+        var mockGraph = new Mock<IGraph>();
+        var sut = new SCryptNode(new SecureStringUnpacker())
+        {
+            IterationCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "IterationCount",
+                0),
+            SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                "SecurePassword",
+                new NetworkCredential(null, "password123").SecurePassword)
+        };
+        var cancellationTokenSource = new CancellationTokenSource();
+        sut.AttachGraph(mockGraph.Object);
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<ArgumentOutOfRangeException>(async () =>
+        {
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+        });
+    }
+
+    [Fact]
+    public async Task GivenInvalidBlockSize_WhenExecuteAsync_ThenArgumentOutOfRangeException()
+    {
+        // Arrange
+        var mockGraph = new Mock<IGraph>();
+        var sut = new SCryptNode(new SecureStringUnpacker())
+        {
+            BlockSize = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "BlockSize",
+                0),
+            SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                "SecurePassword",
+                new NetworkCredential(null, "password123").SecurePassword)
+        };
+        var cancellationTokenSource = new CancellationTokenSource();
+        sut.AttachGraph(mockGraph.Object);
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<ArgumentOutOfRangeException>(async () =>
+        {
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+        });
+    }
+
+    [Fact]
+    public async Task GivenInvalidThreadCount_WhenExecuteAsync_ThenArgumentOutOfRangeException()
+    {
+        // Arrange
+        var mockGraph = new Mock<IGraph>();
+        var sut = new SCryptNode(new SecureStringUnpacker())
+        {
+            ThreadCount = (IDataPin<int>)DataPinFactory.Instance.Create(
+                "ThreadCount",
+                0),
+            SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
+                "SecurePassword",
+                new NetworkCredential(null, "password123").SecurePassword)
+        };
+        var cancellationTokenSource = new CancellationTokenSource();
+        sut.AttachGraph(mockGraph.Object);
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<ArgumentOutOfRangeException>(async () =>
+        {
+            await sut.ExecuteAsync(cancellationTokenSource.Token);
+        });
+    }
+
     [Theory]
     [InlineData(16384, 8, 1, "Hello", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, "fhFsF5V3iWlqYi/DuTGBIs7b+qWd9dviMbwQNu2EMVg=")]
     [InlineData(16384, 8, 1, "Password123", new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }, "eWTgFaLzBp+njXgTOmvELrUrLhwp/PRWdsAwHOU+t10=")]

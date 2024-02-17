@@ -9,7 +9,7 @@ public class SCryptNode(ISecureStringUnpacker secureStringUnpacker) : NodeBase
 {
     private readonly ISecureStringUnpacker _secureStringUnpacker = secureStringUnpacker;
 
-    [NodeInputPin(ValueType = typeof(int))]
+    [NodeInputPin(ValueType = typeof(int), DefaultValue = 128)]
     public IDataPin<int> IterationCount
     {
         get
@@ -22,7 +22,7 @@ public class SCryptNode(ISecureStringUnpacker secureStringUnpacker) : NodeBase
         }
     }
 
-    [NodeInputPin(ValueType = typeof(int))]
+    [NodeInputPin(ValueType = typeof(int), DefaultValue = 8)]
     public IDataPin<int> BlockSize
     {
         get
@@ -35,7 +35,7 @@ public class SCryptNode(ISecureStringUnpacker secureStringUnpacker) : NodeBase
         }
     }
 
-    [NodeInputPin(ValueType = typeof(int))]
+    [NodeInputPin(ValueType = typeof(int), DefaultValue = 1)]
     public IDataPin<int> ThreadCount
     {
         get
