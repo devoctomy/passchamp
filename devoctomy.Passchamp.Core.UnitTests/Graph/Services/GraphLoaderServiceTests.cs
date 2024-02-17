@@ -59,7 +59,7 @@ public class GraphLoaderServiceTests
 
     [Theory]
     [InlineData("Data/complexgraph1.json")]
-    public async Task GivenFileName_WhenLoadAsync_henGraphLoadedAndExecuted_AndGraphReturned_AndExecutionOrderCorrect_AndOutputFileCreated(string fileName)
+    public async Task GivenFileName_WhenLoadAsync_ThenGraphLoadedAndExecuted_AndGraphReturned_AndExecutionOrderCorrect_AndOutputFileCreated(string fileName)
     {
         // Arrange
         var serviceCollection = new ServiceCollection();

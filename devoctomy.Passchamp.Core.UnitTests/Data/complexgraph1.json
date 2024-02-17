@@ -64,7 +64,7 @@
         ],
         "Next": {
           "Key": "derive",
-          "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordNode",
+          "Type": "devoctomy.Passchamp.Core:devoctomy.Passchamp.Core.Graph.Cryptography.DeriveKeyFromPasswordExNode",
           "Inputs": [
             {
               "Key": "SecurePassword",
