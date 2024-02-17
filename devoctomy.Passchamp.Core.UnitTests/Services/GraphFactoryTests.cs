@@ -132,6 +132,54 @@ public class GraphFactoryTests
     }
 
     [Fact]
+    public void GivenNoneContext_AndDefaultNativeGraph_AndParameters_WhenLoadNative_ThenArgumentExceptionThrown()
+    {
+        // Arrange
+        using var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
+        var sut = Instantiate();
+        var parameters = new Dictionary<string, object>
+        {
+            { "KeyLength", 32 },
+            { "Passphrase", new NetworkCredential(null, "password123").SecurePassword },
+            { "InputStream", inputStream }
+        };
+
+        // Act & Assert
+        Assert.ThrowsAny<ArgumentException>(() =>
+        {
+            var graph = sut.LoadNative(
+                Enums.GraphContext.None,
+                Enums.NativeGraphs.Default,
+                InstantiateNode,
+                parameters);
+        });
+    }
+
+    [Fact]
+    public void GivenDecryptContext_AndNoneNativeGraph_AndParameters_WhenLoadNative_ThenArgumentExceptionThrown()
+    {
+        // Arrange
+        using var inputStream = new MemoryStream(Convert.FromBase64String("BWnAbP+4WxKU1PgZjkb6l//xlo3PEqQOXjrwcVmjLMf11CuQwg/+CSmEIuBWzQ54"));
+        var sut = Instantiate();
+        var parameters = new Dictionary<string, object>
+        {
+            { "KeyLength", 32 },
+            { "Passphrase", new NetworkCredential(null, "password123").SecurePassword },
+            { "InputStream", inputStream }
+        };
+
+        // Act & Assert
+        Assert.ThrowsAny<ArgumentException>(() =>
+        {
+            var graph = sut.LoadNative(
+                Enums.GraphContext.Decrypt,
+                Enums.NativeGraphs.None,
+                InstantiateNode,
+                parameters);
+        });
+    }
+
+    [Fact]
     public async Task GivenDecryptContext_AndDefaultNativeGraph_AndParameters_WhenLoadNative_ThenGraphCreated_AndGraphExecutesSuccessfully_AndOutputContainsCorrectData()
     {
         // Arrange

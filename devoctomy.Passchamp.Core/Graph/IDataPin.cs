@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace devoctomy.Passchamp.Core.Graph;
+﻿namespace devoctomy.Passchamp.Core.Graph;
 
 public interface IDataPin<T> : IPin
 {

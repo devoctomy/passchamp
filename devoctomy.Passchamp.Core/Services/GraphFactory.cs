@@ -53,7 +53,17 @@ public class GraphFactory(IEnumerable<IGraphPreset> graphPresets) : IGraphFactor
         Func<Type, INode> instantiateNode,
         Dictionary<string, object> parameters)
     {
-        switch(graph)
+        if (context == GraphContext.None)
+        {
+            throw new ArgumentException("Context of 'None' is not allowed.", nameof(context));
+        }
+
+        if (graph == NativeGraphs.None)
+        {
+            throw new ArgumentException("Graph of 'None' is not allowed.", nameof(graph));
+        }
+
+        switch (graph)
         {
             case NativeGraphs.Default:
                 {
