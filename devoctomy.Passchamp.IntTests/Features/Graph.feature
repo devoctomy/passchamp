@@ -7,7 +7,7 @@ Scenario: 01) Encrypt string using a password and write to disk
 	Given A new dictionary of nodes
 	And RandomByteGeneratorNode named <SaltGeneratorNodeName> with a length of <SaltLength> and NextKey of <IvGeneratorNodeName>
 	And RandomByteGeneratorNode named <IvGeneratorNodeName> with a length of <IvLength> and NextKey of <DeriveKeyNodeName>
-	And DeriveKeyFromPasswordNode named <DeriveKeyNodeName> with a password of <Password> and key length of <KeyLength> and NextKey of <Utf8EncoderNodeName>
+	And DeriveKeyFromPasswordExNode named <DeriveKeyNodeName> with a password of <Password> and key length of <KeyLength> and NextKey of <Utf8EncoderNodeName>
 	And Utf8EncoderNode named <Utf8EncoderNodeName> with plain text of <PlainText> and NextKey of <EncryptNodeName>
 	And EncryptNode named <EncryptNodeName> and NextKey of <JoinerNodeName>
 	And ArrayJoinerNode named <JoinerNodeName> and NextKey of <FileWriterNodeName>
@@ -35,7 +35,7 @@ Scenario: 02) Decrypt file using a password to correct plain text
 	Given A new dictionary of nodes
 	And FileReaderNode named <FileReaderNodeName> with a filename of <FileName> and NextKey of <DataParserNodeName>
 	And DataParserNode named <DataParserNodeName> with parser sections of <ParserSections> and NextKey of <DeriveKeyNodeName>
-	And DeriveKeyFromPasswordNode named <DeriveKeyNodeName> with a password of <Password> and key length of <KeyLength> and NextKey of <DecryptNodeName>
+	And DeriveKeyFromPasswordExNode named <DeriveKeyNodeName> with a password of <Password> and key length of <KeyLength> and NextKey of <DecryptNodeName>
 	And DecryptNode named <DecryptNodeName> and NextKey of <DecoderNodeName>
 	And Utf8DecoderNode named <DecoderNodeName>
 	And Node <DataParserNodeName> input pin Bytes connected to node <FileReaderNodeName> output pin Bytes

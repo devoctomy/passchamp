@@ -84,8 +84,8 @@ public class StandardEncrypt : IGraphPreset
     public List<NodeRef> UnorderedNodes => null;
 
     public Dictionary<string, IPin> InputPins =>
-        new Dictionary<string, IPin>
-            {
+        new()
+        {
                 { "SaltLength", DataPinFactory.Instance.Create("SaltLength", 16) },
                 { "IvLength", DataPinFactory.Instance.Create("IvLength", 16) },
                 { "KeyLength", DataPinFactory.Instance.Create("KeyLength", 32) },

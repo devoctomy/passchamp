@@ -12,13 +12,14 @@
   <ItemGroup>
     <None Remove="Data\DontDeleteMe.txt" />
     <None Remove="Data\testdec.dat" />
+    <None Remove="Output\testdec.dat" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Output\testdec.dat">
+    <Content Include="Output\DontDeleteMe.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Output\DontDeleteMe.txt">
+    <Content Include="Output\testdec.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

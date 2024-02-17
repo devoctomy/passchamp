@@ -64,9 +64,8 @@ public sealed class GraphStepDefinitions(ScenarioContext scenarioContext)
         nodes.Add(name, node);
     }
 
-    [Given(@"DeriveKeyFromPasswordNode named (.*) with a password of (.*) and key length of (.*) and NextKey of (.*)")]
-    [Obsolete("DeriveKeyFromPasswordNode is marked as obsolete and will be removed eventually.")]
-    public void GivenDeriveKeyFromPasswordNodeNamedWithAPasswordOfAndKeyLengthOf(
+    [Given(@"DeriveKeyFromPasswordExNode named (.*) with a password of (.*) and key length of (.*) and NextKey of (.*)")]
+    public void GivenDeriveKeyFromPasswordExNodeNamedWithAPasswordOfAndKeyLengthOf(
         string name,
         string password,
         int keyLength,
@@ -74,7 +73,7 @@ public sealed class GraphStepDefinitions(ScenarioContext scenarioContext)
     {
         var nodes = _scenarioContext.Get<Dictionary<string, INode>>("Nodes");
 
-        var node = new DeriveKeyFromPasswordNode
+        var node = new DeriveKeyFromPasswordExNode(new SecureStringUnpacker())
         {
             SecurePassword = (IDataPin<SecureString>)DataPinFactory.Instance.Create(
                 "SecurePassword",

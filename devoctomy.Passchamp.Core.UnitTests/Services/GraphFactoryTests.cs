@@ -169,7 +169,7 @@ public class GraphFactoryTests
         }  
     }
 
-    private GraphFactory Instantiate()
+    private static GraphFactory Instantiate()
     {
         var presets = new List<IGraphPreset>
         {

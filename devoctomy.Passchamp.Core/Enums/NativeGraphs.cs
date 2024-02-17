@@ -2,5 +2,5 @@
 
 public enum NativeGraphs
 {
-    Default = 0
+    Default = 1
 }
