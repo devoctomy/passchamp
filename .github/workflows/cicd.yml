@@ -154,10 +154,11 @@ jobs:
           path: devoctomy.Passchamp.Client/bin/Release/net8.0-android/*Signed.a*
           
   release-windows:
-    name: Create Release and Upload Artifacts for Windows
+    name: Release Windows
     needs: build-windows
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
+    if: always()
+
     steps:
       - name: Create Release
         id: create_release
@@ -186,10 +187,11 @@ jobs:
           asset_content_type: application/vnd.ms-package
 
   release-android:
-    name: Create Release and Upload Artifacts for Android
+    name: Release Android
     needs: build-android
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }}
+    if: always()
+
     steps:
       - name: Create Release
         id: create_release
