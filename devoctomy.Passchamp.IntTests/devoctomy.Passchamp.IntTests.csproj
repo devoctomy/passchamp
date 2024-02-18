@@ -6,26 +6,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
+    <EmbeddedResource Remove="Data\**" />
     <None Remove="C:\Users\nickp\.nuget\packages\specrun.runner\3.8.12\build\..\tools\**" />
+    <None Remove="Data\**" />
+    <SpecFlowFeatureFiles Remove="Data\**" />
+    <SpecFlowObsoleteCodeBehindFiles Remove="Data\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Data\DontDeleteMe.txt" />
-    <None Remove="Data\testdec.dat" />
-    <None Remove="Output\testdec.dat" />
+    <None Remove="Tests\Input\Test1.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Output\DontDeleteMe.txt">
+    <Content Include="Tests\Output\testdec.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Output\testdec.dat">
+    <Content Include="Tests\Input\Test1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="JunitXml.TestLogger" Version="3.0.134" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="SpecFlow" Version="3.9.74" />
     <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.74" />
@@ -43,10 +47,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\devoctomy.Passchamp.Core\devoctomy.Passchamp.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

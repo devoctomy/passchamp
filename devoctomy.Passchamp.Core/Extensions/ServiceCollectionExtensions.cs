@@ -29,6 +29,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPartialSecureJsonWriterService, PartialSecureJsonWriterService>();
         services.AddScoped<IIOService, IOService>();
         services.AddSingleton<ICloudStorageProviderConfigLoaderService, CloudStorageProviderConfigLoaderService>();
+        services.AddSingleton<IGraphFactory, GraphFactory>();
 
         AddAllOfType<IGraphPinPrepFunction>(services);
         AddAllOfType<IGraphPinOutputFunction>(services);
