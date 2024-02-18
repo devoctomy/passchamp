@@ -1,11 +1,14 @@
 ﻿using devoctomy.Passchamp.Core.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace devoctomy.Passchamp.Core.Graph.Presets;
 
 public interface IGraphPreset
 {
+    public Version Version { get; }
     public GraphContext Context { get; }
+    public string Id { get;  }
     public bool Default { get; }
     public string Author { get; }
     public string Description { get; }

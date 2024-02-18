@@ -215,6 +215,42 @@ public class GraphFactoryTests
         Assert.Equal("Hello World!", plainText);
     }
 
+    [Fact]
+    public async Task GivenStandardSet_AndParameters_WhenLoadPresetSet_ThenEncrypt_AndDecrypt_AndPlainTextRecovered()
+    {
+        // Arrange
+        using var stream = new MemoryStream();
+        var presets = new List<IGraphPreset>
+        {
+            new Core.Graph.Presets.Encrypt.StandardEncrypt(),
+            new Core.Graph.Presets.Decrypt.StandardDecrypt(new DataParserSectionParser())
+        };
+        var sut = new GraphFactory(presets);
+        var parameters = new Dictionary<string, object>
+        {
+            { "SaltLength", 16 },
+            { "IvLength", 16 },
+            { "KeyLength", 32 },
+            { "Passphrase", new NetworkCredential(null, "password123").SecurePassword },
+            { "InputStream", stream },
+            { "OutputStream", stream },
+            { "PlainText", "Hello World!" },
+        };
+        var presetSet = new Core.Graph.Presets.Sets.StandardSet(presets);
+
+        // Act
+        var (encrypt, decrypt) = sut.LoadPresetSet(
+            presetSet,
+            InstantiateNode,
+            parameters);
+
+        await encrypt.ExecuteAsync(CancellationToken.None);
+        stream.Seek(0, SeekOrigin.Begin);
+        await decrypt.ExecuteAsync(CancellationToken.None);
+        var plainText = System.Text.Encoding.UTF8.GetString((byte[])decrypt.OutputPins["DecryptedBytes"].ObjectValue);
+        Assert.Equal("Hello World!", plainText);
+    }
+
     private INode InstantiateNode(Type type)
     {
         if (type == typeof(DeriveKeyFromPasswordExNode))

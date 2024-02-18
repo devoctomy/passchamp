@@ -12,6 +12,22 @@ public class GraphFactory(IEnumerable<IGraphPreset> graphPresets) : IGraphFactor
 {
     private readonly IEnumerable<IGraphPreset> _graphPresets = graphPresets;
 
+    public (IGraph encrypt, IGraph decrypt) LoadPresetSet(
+        IGraphPresetSet presetSet,
+        Func<Type, INode> instantiateNode,
+        Dictionary<string, object> parameters)
+    {
+        var encrypt = LoadPreset(
+            presetSet.EncryptPreset,
+            instantiateNode,
+            parameters);
+        var decrypt = LoadPreset(
+            presetSet.DecryptPreset,
+            instantiateNode,
+            parameters);
+        return (encrypt, decrypt);
+    }
+
     public IGraph LoadPreset(
         IGraphPreset preset,
         Func<Type, INode> instantiateNode,
@@ -34,7 +50,10 @@ public class GraphFactory(IEnumerable<IGraphPreset> graphPresets) : IGraphFactor
         var inputPins = preset.InputPins;
         foreach (var curParameter in parameters)
         {
-            inputPins[curParameter.Key] = DataPinFactory.Instance.Create(curParameter.Key, curParameter.Value);
+            if(inputPins.ContainsKey(curParameter.Key))
+            {
+                inputPins[curParameter.Key] = DataPinFactory.Instance.Create(curParameter.Key, curParameter.Value);
+            }
         }
 
         return new Graph.Graph(

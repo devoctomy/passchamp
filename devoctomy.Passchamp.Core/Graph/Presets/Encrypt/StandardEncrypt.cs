@@ -4,14 +4,16 @@ using devoctomy.Passchamp.Core.Graph.Data;
 using devoctomy.Passchamp.Core.Graph.IO;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Graph.Text;
+using System;
 using System.Collections.Generic;
 
 namespace devoctomy.Passchamp.Core.Graph.Presets.Encrypt;
 
 public class StandardEncrypt : IGraphPreset
 {
+    public Version Version => new(1, 0);
     public GraphContext Context => GraphContext.Encrypt;
-
+    public string Id => "ED387AE6-7CD4-4D86-9F91-DDB101E55DDD";
     public bool Default => true;
 
     public string Author => "devoctomy";

@@ -33,6 +33,7 @@ public static class ServiceCollectionExtensions
         AddAllOfType<IGraphPinPrepFunction>(services);
         AddAllOfType<IGraphPinOutputFunction>(services);
         AddAllOfType<IGraphPreset>(services);
+        AddAllOfType<IGraphPresetSet>(services);
 
         AddNodes(services);
     }
