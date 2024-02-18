@@ -15,10 +15,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\Test1.enc" />
     <None Remove="Tests\Input\Test1.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\Test1.enc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Tests\Output\testdec.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

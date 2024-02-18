@@ -129,7 +129,7 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
             var set = presetSets.Single(x => x.Id == setId && x.Version.Equals(version));
             var password = curRow.GetString("Password");
 
-            var inputData = await File.ReadAllBytesAsync($"Tests/Output/{setId}.{version}.enc");
+            var inputData = await File.ReadAllBytesAsync($"Tests/{setId}/{version}/Test1.enc");
             using var inputStream = new MemoryStream(inputData);
             var parameters = new Dictionary<string, object>
             {

@@ -16,7 +16,7 @@ Scenario: 01) Load all graph sets and test new encrypt and decrypt flows
 		| E17E1F18-16CC-4DD8-8FB8-1AAF0153168D | 1.0     | Tests/Input/Test1.json |		
 
 @graph @graphsets @compatability
-Scenario: 01) Load all graph sets and test decrypt flow against static test data
+Scenario: 02) Load all graph sets and test decrypt flow against static test data
 	Given All core services registered to service provider
 	When run static decryption tests:
 		| SetId                                | Version | Password    |
