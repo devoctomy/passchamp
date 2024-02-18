@@ -170,8 +170,6 @@ jobs:
 
       - name: Download Windows Artifact
         uses: actions/download-artifact@v2
-        with:
-          name: windows-ci-build.zip
 
       - name: Upload Windows Artifact to Release
         uses: actions/upload-release-asset@v1
@@ -203,8 +201,6 @@ jobs:
 
       - name: Download Android Artifact
         uses: actions/download-artifact@v2
-        with:
-          name: android-ci-build.zip
 
       - name: Upload Android Artifact to Release
         uses: actions/upload-release-asset@v1
