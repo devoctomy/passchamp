@@ -93,7 +93,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 8.0.x
-          include-prerelease: true
+          include-prerelease: false
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v1.1
@@ -112,7 +112,7 @@ jobs:
       - name: Upload Windows Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: windows-ci-build
+          name: windows-ci-build.zip
           path: devoctomy.Passchamp.Client/bin/Release/net8.0-windows*/**/*.msix
 
   build-android:
@@ -129,7 +129,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 8.0.x
-          include-prerelease: true
+          include-prerelease: false
 
       - uses: actions/setup-java@v2
         with:
@@ -140,17 +140,14 @@ jobs:
         run: |
           dotnet workload install android --ignore-failed-sources
           dotnet workload install maui --ignore-failed-sources
-
       - name: Restore Dependencies
         run: dotnet restore devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj
-
       - name: Build MAUI Android
         run: dotnet build devoctomy.Passchamp.Client/devoctomy.Passchamp.Client.csproj -c Release -f net8.0-android --no-restore
-
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v2.3.1
         with:
-          name: android-ci-build
+          name: android-ci-build.zip
           path: devoctomy.Passchamp.Client/bin/Release/net8.0-android/*Signed.a*
           
   release-windows:
@@ -182,8 +179,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-ci-build
-          asset_name: windows-ci-build
+          asset_path: ./windows-ci-build.zip
+          asset_name: windows-ci-build.zip
           asset_content_type: application/zip
 
   release-android:
@@ -215,6 +212,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./android-ci-build
-          asset_name: android-ci-build
+          asset_path: ./android-ci-build.zip
+          asset_name: android-ci-build.zip
           asset_content_type: application/zip
