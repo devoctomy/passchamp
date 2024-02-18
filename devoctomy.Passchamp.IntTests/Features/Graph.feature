@@ -80,8 +80,8 @@ Scenario: 03) Encrypt string using a password with scrypt and write to disk
 
 	Examples:
 
-	| SaltGeneratorNodeName | SaltLength | IvGeneratorNodeName | IvLength | DeriveKeyNodeName | Password | KeyLength | PlainText    | Utf8EncoderNodeName | EncryptNodeName | JoinerNodeName | FileWriterNodeName | FileName             |
-	| saltgenerator         | 16         | ivgenerator         | 16       | derive            | 123      | 32        | Hello World! | encoder             | encrypt         | joiner         | writer             | Output/test2.dat      |
+	| SaltGeneratorNodeName | SaltLength | IvGeneratorNodeName | IvLength | DeriveKeyNodeName | Password | KeyLength | PlainText    | Utf8EncoderNodeName | EncryptNodeName | JoinerNodeName | FileWriterNodeName | FileName               |
+	| saltgenerator         | 16         | ivgenerator         | 16       | derive            | 123      | 32        | Hello World! | encoder             | encrypt         | joiner         | writer             | Tests/Output/test2.dat |
 
 Scenario: 04) Decrypt file using a password with scrypt to correct plain text
 	Given A new dictionary of nodes
@@ -104,5 +104,5 @@ Scenario: 04) Decrypt file using a password with scrypt to correct plain text
 
 	Examples:
 
-	| FileReaderNodeName | FileName             | DataParserNodeName | ParserSections                    | DeriveKeyNodeName | Password | KeyLength | DecryptNodeName | IvSectionKey | CipherSectionKey | SaltSectionKey | DecoderNodeName | PlainText    |
-	| reader             | Output/test2.dat     | parser             | Iv,0,16;Cipher,16,~16;Salt,~16,~0 | derivekey         | 123      | 32        | decrypt         | Iv           | Cipher           | Salt           | decode          | Hello World! |
+	| FileReaderNodeName | FileName               | DataParserNodeName | ParserSections                    | DeriveKeyNodeName | Password | KeyLength | DecryptNodeName | IvSectionKey | CipherSectionKey | SaltSectionKey | DecoderNodeName | PlainText    |
+	| reader             | Tests/Output/test2.dat | parser             | Iv,0,16;Cipher,16,~16;Salt,~16,~0 | derivekey         | 123      | 32        | decrypt         | Iv           | Cipher           | Salt           | decode          | Hello World! |

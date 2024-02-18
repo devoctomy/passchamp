@@ -33,7 +33,7 @@ public partial class CloudSettingsViewModel : BaseViewModel
         _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
     }
 
-    public async Task Init()
+    public override async Task Init()
     {
         await _cloudStorageProviderConfigLoaderService.LoadAsync(CancellationToken.None);
         CloudStorageProviderConfigRefs = new ObservableCollection<CloudStorageProviderConfigRef>(_cloudStorageProviderConfigLoaderService.Refs);
