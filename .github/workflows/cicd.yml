@@ -157,7 +157,7 @@ jobs:
     name: Create Release and Upload Artifacts
     needs: [build-windows, build-android]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: ${{ github.event_name == 'push' }}
     steps:
       - name: Create Release
         id: create_release
