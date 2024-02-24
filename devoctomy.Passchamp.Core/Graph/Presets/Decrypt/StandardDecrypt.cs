@@ -78,16 +78,16 @@ public class StandardDecrypt(IDataParserSectionParser dataParserSectionParser) :
     public Dictionary<string, IPin> InputPins =>
         new()
         {
-                { "KeyLength", DataPinFactory.Instance.Create("KeyLength", 32) },
-                { "Passphrase", null },
-                { "InputStream", null }
-            };
+            { "KeyLength", DataPinFactory.Instance.Create("KeyLength", 32) },
+            { "Passphrase", null },
+            { "InputStream", null }
+        };
 
     public Dictionary<string, IPin> OutputPins =>
         new()
         {
-                { "Vault", DataPinFactory.Instance.Create("Vault", new DataPinIntermediateValue("parseVault.Vault"), typeof(DataPinIntermediateValue)) }
-            };
+            { "Vault", DataPinFactory.Instance.Create("Vault", new DataPinIntermediateValue("parseVault.Vault"), typeof(DataPinIntermediateValue)) }
+        };
 
     public List<NodeConnection> Connections =>
         [
