@@ -7,6 +7,14 @@
              x:DataType="vm:VaultSecurityViewModel"
              x:TypeArguments="vm:VaultSecurityViewModel">
     <VerticalStackLayout>
+        <Label Text="Preset" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
+        <Picker
+            MaximumWidthRequest="300"
+            WidthRequest="300"
+            HorizontalOptions="Start"
+            ItemsSource="{Binding GraphPresetSets}"
+            SelectedItem="{Binding SelectedGraphPresetSet, Mode=TwoWay}">
+        </Picker>
         <Label Text="Master Passphrase" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
         <Entry IsPassword="True" Text="{Binding MasterPassphrase, Mode=TwoWay}"></Entry>
     </VerticalStackLayout>

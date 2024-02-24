@@ -94,4 +94,9 @@ public class StandardDecrypt(IDataParserSectionParser dataParserSectionParser) :
         ];
 
     private readonly IDataParserSectionParser _dataParserSectionParser = dataParserSectionParser;
+
+    public override string ToString()
+    {
+        return Description;
+    }
 }

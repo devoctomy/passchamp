@@ -13,4 +13,9 @@ public class StandardSet(IEnumerable<IGraphPreset> graphPresets) : IGraphPresetS
     public string Description => "Standard native graph preset set.";
     public IGraphPreset EncryptPreset { get; } = graphPresets.Single(x => x.Id == "ED387AE6-7CD4-4D86-9F91-DDB101E55DDD");
     public IGraphPreset DecryptPreset { get; } = graphPresets.Single(x => x.Id == "9B4C9B4A-E2FF-423E-9940-4699EA440734");
+
+    public override string ToString()
+    {
+        return Description;
+    }
 }

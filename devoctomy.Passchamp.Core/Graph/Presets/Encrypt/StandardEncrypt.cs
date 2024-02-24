@@ -109,4 +109,9 @@ public class StandardEncrypt : IGraphPreset
             new NodeConnection("saltGenerator", "RandomBytes", "arrayJoiner", "Part3"),
             new NodeConnection("arrayJoiner", "JoinedOutput", "streamWriter", "InputData")
         ];
+
+    public override string ToString()
+    {
+        return Description;
+    }
 }
