@@ -59,6 +59,7 @@ public class EncryptNode : NodeBase
         IGraph graph,
         CancellationToken cancellationToken)
     {
+        var pop = System.Text.Encoding.UTF8.GetString(PlainTextBytes.Value);
         using var crypto = Aes.Create();
         var encryptStream = crypto.CreateEncryptor(
                 Key.Value,

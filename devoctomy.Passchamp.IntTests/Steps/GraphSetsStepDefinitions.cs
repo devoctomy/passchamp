@@ -1,9 +1,13 @@
-﻿using devoctomy.Passchamp.Core.Cloud;
+﻿using AutoFixture;
+using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Extensions;
 using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Presets;
 using devoctomy.Passchamp.Core.Services;
+using devoctomy.Passchamp.Core.Vault;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,6 +38,14 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
         _scenarioContext.Add("ServiceProvider", serviceProvider);
     }
 
+    [Given(@"a sample random vault")]
+    public void GivenASampleVault()
+    {
+        var fixture = new Fixture();
+        var vault = fixture.Create<Vault>();
+        _scenarioContext.Add("NewRandomVault", vault);
+    }
+
     [When(@"run encryption tests:")]
     public async Task WhenRunEncryptionTests(Table table)
     {
@@ -46,12 +58,11 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
             var setId = curRow.GetString("SetId");
             var version = Version.Parse(curRow.GetString("Version"));
             var set = presetSets.Single(x => x.Id == setId && x.Version.Equals(version));
-            var input = curRow.GetString("InputPath");
             var password = curRow.GetString("Password");
+            var vault = _scenarioContext.Get<Core.Vault.Vault>("NewRandomVault");
 
             Assert.NotNull(set);
 
-            var inputData = await File.ReadAllTextAsync(input);
             using var outputStream = new MemoryStream();
             var parameters = new Dictionary<string, object>
             {
@@ -60,7 +71,7 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
                 { "KeyLength", 32 },
                 { "Passphrase", new NetworkCredential(null, password).SecurePassword },
                 { "OutputStream", outputStream },
-                { "PlainText", inputData },
+                { "Vault", vault },
             };
 
             var graph = graphFactory.LoadPreset(
@@ -74,7 +85,8 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
 
             // Create a copy of the encrypted data for reference
             await File.WriteAllBytesAsync($"Tests/Output/{setId}.{version}.enc", outputStream.ToArray());
-            
+            await File.WriteAllTextAsync($"Tests/Output/{setId}.{version}.json", JsonConvert.SerializeObject(vault, Formatting.None));
+
             _scenarioContext.Add($"{setId}.{version}.EncryptedBase64", encryptedBase64);
         }
     }
@@ -109,9 +121,8 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
 
             await graph.ExecuteAsync(CancellationToken.None);
 
-            var decryptedBytes = (byte[])graph.OutputPins["DecryptedBytes"].ObjectValue;
-
-            _scenarioContext.Add($"{setId}.{version}.DecryptedPlainText", System.Text.Encoding.UTF8.GetString(decryptedBytes));
+            var decryptedVault = (Core.Vault.Vault)graph.OutputPins["Vault"].ObjectValue;
+            _scenarioContext.Add($"{setId}.{version}.DecryptedVault", decryptedVault);
         }
     }
 
@@ -129,7 +140,7 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
             var set = presetSets.Single(x => x.Id == setId && x.Version.Equals(version));
             var password = curRow.GetString("Password");
 
-            var inputData = await File.ReadAllBytesAsync($"Tests/{setId}/{version}/data.enc");
+            var inputData = await File.ReadAllBytesAsync($"Tests/{setId}/{version}/vault.enc");
             using var inputStream = new MemoryStream(inputData);
             var parameters = new Dictionary<string, object>
             {
@@ -145,45 +156,45 @@ public sealed class GraphSetsStepDefinitions(ScenarioContext scenarioContext)
 
             await graph.ExecuteAsync(CancellationToken.None);
 
-            var decryptedBytes = (byte[])graph.OutputPins["DecryptedBytes"].ObjectValue;
-
-            _scenarioContext.Add($"{setId}.{version}.Static.DecryptedPlainText", System.Text.Encoding.UTF8.GetString(decryptedBytes));
+            var decryptedVault = (Core.Vault.Vault)graph.OutputPins["Vault"].ObjectValue;
+            _scenarioContext.Add($"{setId}.{version}.Static.DecryptedVault", decryptedVault);
         }
     }
 
-    [Then(@"decryption test results plain text matches input:")]
-    public async Task ThenDecryptedPlainTextMatchesInput(Table table)
+    [Then(@"decryption test results match input:")]
+    public void ThenDecryptionTestResultsMatchInput(Table table)
     {
         foreach (var curRow in table.Rows)
         {
             var setId = curRow.GetString("SetId");
             var version = Version.Parse(curRow.GetString("Version"));
-            var input = curRow.GetString("InputPath");
 
-            var expectedPlainText = await File.ReadAllTextAsync(input);
-            var actualPlainText = _scenarioContext.Get<string>($"{setId}.{version}.DecryptedPlainText");
+            var inputVault = _scenarioContext.Get<Core.Vault.Vault>($"NewRandomVault");
+            var decryptedVault = _scenarioContext.Get<Core.Vault.Vault>($"{setId}.{version}.DecryptedVault");
 
             Assert.Equal(
-                expectedPlainText,
-                actualPlainText);
+                JsonConvert.SerializeObject(inputVault, Formatting.None),
+                JsonConvert.SerializeObject(decryptedVault, Formatting.None));
         }
     }
 
-    [Then(@"static decryption test results plain text matches input:")]
+    [Then(@"static decryption test results matches expected:")]
     public async Task ThenStaticDecryptedPlainTextMatchesInput(Table table)
     {
         foreach (var curRow in table.Rows)
         {
             var setId = curRow.GetString("SetId");
             var version = Version.Parse(curRow.GetString("Version"));
-            var input = curRow.GetString("InputPath");
 
-            var expectedPlainText = await File.ReadAllTextAsync(input);
-            var actualPlainText = _scenarioContext.Get<string>($"{setId}.{version}.Static.DecryptedPlainText");
+            var expectedJson = await File.ReadAllTextAsync($"Tests/{setId}/{version}/vault.json");
+            expectedJson = JObject.Parse(expectedJson).ToString(Formatting.None);
+            var decryptedVault = _scenarioContext.Get<Core.Vault.Vault>($"{setId}.{version}.Static.DecryptedVault");
+
+            var decryptedJson = JsonConvert.SerializeObject(decryptedVault);
 
             Assert.Equal(
-                expectedPlainText,
-                actualPlainText);
+                expectedJson,
+                decryptedJson);
         }
     }
 

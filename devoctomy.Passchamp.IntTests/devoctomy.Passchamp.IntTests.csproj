@@ -15,12 +15,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\data.enc" />
+    <None Remove="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\vault.enc" />
+    <None Remove="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\vault.json" />
     <None Remove="Tests\Input\Test1.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\data.enc">
+    <Content Include="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\vault.enc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tests\E17E1F18-16CC-4DD8-8FB8-1AAF0153168D\1.0\vault.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Tests\Output\testdec.dat">
@@ -32,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.18.1" />
     <PackageReference Include="JunitXml.TestLogger" Version="3.0.134" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
