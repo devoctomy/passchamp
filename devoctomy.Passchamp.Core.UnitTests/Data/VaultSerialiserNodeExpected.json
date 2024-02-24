@@ -1,0 +1,53 @@
+﻿{
+  "Header": { "FormatVersion": "format version" },
+  "Id": "3CBD42BF-EF6A-4AC0-893C-F5806A9E6101",
+  "Name": "vault name",
+  "Description": "vault description",
+  "CreatedAt": "31-12-2023 00:00:00",
+  "LastUpdatedAt": "31-12-2023 23:59:30",
+  "Credentials": [
+    {
+      "ID": "F9F5956A-4AD2-44C2-ADA9-E2F927C35B8D",
+      "GlyphKey": "glyph key",
+      "GlyphColour": "glyph colour",
+      "Name": "credential name",
+      "Description": "credential description",
+      "Website": "http://www.website.com",
+      "CreatedAt": "31-12-2023 23:59:15",
+      "LastUpdatedAt": "31-12-2023 23:59:30",
+      "PasswordLastModifiedAt": "31-12-2023 23:59:20",
+      "UserName": "username",
+      "Password": "password",
+      "Tags": [ "apple", "orange", "pear" ],
+      "Notes": "some notes about the credential",
+      "AuditLogEntries": [
+        {
+          "DateTime": "31-12-2023 23:59:15",
+          "TypeOfEntry": "AddCredential",
+          "Parameters": {
+            "bob": "hoskins",
+            "hoskins": "bob"
+          }
+        },
+        {
+          "DateTime": "31-12-2023 23:59:20",
+          "TypeOfEntry": "ModifyPassword",
+          "Parameters": {
+            "bob": "hoskins",
+            "hoskins": "bob"
+          }
+        }
+      ]
+    }
+  ],
+  "AuditLogEntries": [
+    {
+      "DateTime": "31-12-2023 23:59:15",
+      "TypeOfEntry": "CreatedVault",
+      "Parameters": {
+        "bob": "hoskins",
+        "hoskins": "bob"
+      }
+    }
+  ]
+}

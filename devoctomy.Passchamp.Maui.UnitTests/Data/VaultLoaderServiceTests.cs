@@ -1,5 +1,7 @@
 ﻿using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Graph.Services;
+using devoctomy.Passchamp.Core.Services;
 using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Exceptions;
 using devoctomy.Passchamp.Maui.Models;
@@ -20,6 +22,7 @@ public class VaultLoaderServiceTests
     {
         // Arrange
         var mockIoService = new Mock<IIOService>();
+        var mockGraphFactory = new Mock<IGraphFactory>();
         var options = new VaultLoaderServiceOptions
         {
             Path = "folder1/folder2/",
@@ -27,7 +30,8 @@ public class VaultLoaderServiceTests
         };
         var sut = new VaultLoaderService(
             options,
-            mockIoService.Object);
+            mockIoService.Object,
+            mockGraphFactory.Object);
 
         var expectedVaults = new List<VaultIndex>
         {
@@ -78,6 +82,7 @@ public class VaultLoaderServiceTests
     {
         // Arrange
         var mockIoService = new Mock<IIOService>();
+        var mockGraphFactory = new Mock<IGraphFactory>();
         var options = new VaultLoaderServiceOptions
         {
             Path = "folder1/folder2/",
@@ -85,7 +90,8 @@ public class VaultLoaderServiceTests
         };
         var sut = new VaultLoaderService(
             options,
-            mockIoService.Object);
+            mockIoService.Object,
+            mockGraphFactory.Object);
 
         var cancellationTokenSource = new CancellationTokenSource();
 
@@ -114,6 +120,7 @@ public class VaultLoaderServiceTests
     {
         // Arrange
         var mockIoService = new Mock<IIOService>();
+        var mockGraphFactory = new Mock<IGraphFactory>();
         var options = new VaultLoaderServiceOptions
         {
             Path = "folder1/folder2/",
@@ -121,7 +128,8 @@ public class VaultLoaderServiceTests
         };
         var sut = new VaultLoaderService(
             options,
-            mockIoService.Object);
+            mockIoService.Object,
+            mockGraphFactory.Object);
 
         var cloudStorageProviderConfigRef = new CloudStorageProviderConfigRef
         {

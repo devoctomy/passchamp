@@ -1,12 +1,18 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
+using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Services;
+using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Models;
 using devoctomy.Passchamp.Maui.Services;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Net;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
 
@@ -21,16 +27,19 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     private readonly IVaultLoaderService _vaultLoaderService;
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
+    private readonly IGraphFactory _graphFactory;
 
     public VaultsViewModel(
         IVaultLoaderService vaultLoaderService,
         IShellNavigationService shellNavigationService,
-        IThemeAwareImageResourceService themeAwareImageResourceService)
+        IThemeAwareImageResourceService themeAwareImageResourceService,
+        IGraphFactory graphFactory)
     {
         _vaultLoaderService = vaultLoaderService;
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
-        Vaults = new ObservableCollection<VaultIndex>();
+        _graphFactory = graphFactory;
+        Vaults = vaultLoaderService.Vaults.ToObservableCollection();
         SetupMenuItems();
     }
 
@@ -72,6 +81,31 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     public override async Task Return(BaseViewModel viewModel)
     {
         await Application.Current.MainPage.Navigation.PopModalAsync();
+        if (viewModel is VaultEditorViewModel)
+        {
+            var vaultEditorViewModel = viewModel as VaultEditorViewModel;
+
+            var id = Guid.NewGuid().ToString();
+            var vaultIndex = new VaultIndex
+            {
+                Id = id,
+                Name = vaultEditorViewModel.InfoViewModel.Name,
+                Description = vaultEditorViewModel.InfoViewModel.Description,
+                GraphSetId = vaultEditorViewModel.SecurityViewModel.SelectedGraphPresetSet.Id,
+                CloudProviderId = vaultEditorViewModel.SyncViewModel.CloudStorageProviderConfigRef.Id,
+                CloudProviderPath = $"/{id}.vault"
+            };
+            await _vaultLoaderService.Create(
+                vaultIndex,
+                vaultEditorViewModel.SyncViewModel.CloudStorageProviderConfigRef,
+                InstantiateNode,
+                CancellationToken.None);
+        }
+    }
+
+    private INode InstantiateNode(Type type)
+    {
+        return (INode)MauiProgram.MauiApp.Services.GetService(type);
     }
 
     protected override async Task OnFirstAppearanceAsync()

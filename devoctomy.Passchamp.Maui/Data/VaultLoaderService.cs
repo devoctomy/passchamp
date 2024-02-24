@@ -1,8 +1,12 @@
 ﻿using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Services;
+using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Exceptions;
 using devoctomy.Passchamp.Maui.Models;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace devoctomy.Passchamp.Maui.Data;
 
@@ -12,17 +16,20 @@ public class VaultLoaderService : IVaultLoaderService
 
     private readonly VaultLoaderServiceOptions _options;
     private readonly IIOService _ioService;
+    private readonly IGraphFactory _graphFactory;
 
     private List<VaultIndex> _vaults;
 
     [ActivatorUtilitiesConstructor]
     public VaultLoaderService(
         VaultLoaderServiceOptions options,
-        IIOService ioService)
+        IIOService ioService,
+        IGraphFactory graphFactory)
     {
         _options = options;
         _ioService = ioService;
-        _vaults = new List<VaultIndex>();
+        _graphFactory = graphFactory;
+        _vaults = [];
     }
 
     // Used purely for unit testing purposes
@@ -88,5 +95,37 @@ public class VaultLoaderService : IVaultLoaderService
 
         _vaults.Remove(vaultIndex);
         await SaveAsync(cancellationToken);
+    }
+
+    public Task Create(
+        VaultIndex vaultIndex,
+        CloudStorageProviderConfigRef cloudStorageProviderConfigRef,
+        Func<Type, INode> InstantiateNode,
+        CancellationToken cancellationToken)
+    {
+        var vault = new Vault
+        {
+            Name = vaultIndex.Name,
+            Description = vaultIndex.Description,
+        };
+
+        var parameters = new Dictionary<string, object>
+            {
+                { "SaltLength", 16 },
+                { "IvLength", 16 },
+                { "KeyLength", 32 },
+                { "Passphrase", new NetworkCredential(null, "password123").SecurePassword },
+                { "InputStream", null },
+                { "OutputStream", null },
+                { "PlainText", "Hello World!" }, // !!! This needs to be a vault which gets serialised to JSON during encryption phase
+            };
+        var presetSet = _graphFactory.LoadPresetSet(
+            null,
+            InstantiateNode,
+            parameters);
+
+        presetSet.encrypt.ExecuteAsync(cancellationToken);
+
+        return null;
     }
 }
