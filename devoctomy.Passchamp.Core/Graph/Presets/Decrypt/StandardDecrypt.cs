@@ -4,6 +4,7 @@ using devoctomy.Passchamp.Core.Graph.Data;
 using devoctomy.Passchamp.Core.Graph.IO;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Graph.Text;
+using devoctomy.Passchamp.Core.Graph.Vault;
 using System;
 using System.Collections.Generic;
 
@@ -64,6 +65,11 @@ public class StandardDecrypt(IDataParserSectionParser dataParserSectionParser) :
                 Key = "decode",
                 NodeType = typeof(Utf8DecoderNode),
                 InputPins = []
+            },
+            new NodeRef
+            {
+                Key = "parseVault",
+                NodeType = typeof(VaultParserNode)
             }
         ];
 
@@ -80,7 +86,7 @@ public class StandardDecrypt(IDataParserSectionParser dataParserSectionParser) :
     public Dictionary<string, IPin> OutputPins =>
         new()
         {
-                { "DecryptedBytes", DataPinFactory.Instance.Create("PlainText", new DataPinIntermediateValue("decrypt.DecryptedBytes"), typeof(DataPinIntermediateValue)) }
+                { "Vault", DataPinFactory.Instance.Create("Vault", new DataPinIntermediateValue("parseVault.Vault"), typeof(DataPinIntermediateValue)) }
             };
 
     public List<NodeConnection> Connections =>
@@ -91,6 +97,7 @@ public class StandardDecrypt(IDataParserSectionParser dataParserSectionParser) :
             new NodeConnection("dataParser", "DataParserSection:Cipher", "decrypt", "Cipher"),
             new NodeConnection("deriveKey", "Key", "decrypt", "Key"),
             new NodeConnection("decrypt", "DecryptedBytes", "decode", "EncodedBytes"),
+            new NodeConnection("decode", "PlainText", "parseVault", "VaultJson"),
         ];
 
     private readonly IDataParserSectionParser _dataParserSectionParser = dataParserSectionParser;

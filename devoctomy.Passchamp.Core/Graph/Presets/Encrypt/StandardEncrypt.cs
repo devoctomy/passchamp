@@ -4,6 +4,7 @@ using devoctomy.Passchamp.Core.Graph.Data;
 using devoctomy.Passchamp.Core.Graph.IO;
 using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Core.Graph.Text;
+using devoctomy.Passchamp.Core.Graph.Vault;
 using System;
 using System.Collections.Generic;
 
@@ -54,6 +55,15 @@ public class StandardEncrypt : IGraphPreset
             },
             new NodeRef
             {
+                Key = "serialiseVault",
+                NodeType = typeof(VaultSerialiserNode),
+                InputPins = new Dictionary<string, IPin>
+                    {
+                        { "Vault", DataPinFactory.Instance.Create("Vault", new DataPinIntermediateValue("Pins.Vault")) }
+                    }
+            },
+            new NodeRef
+            {
                 Key = "encode",
                 NodeType = typeof(Utf8EncoderNode),
                 InputPins = new Dictionary<string, IPin>
@@ -93,7 +103,7 @@ public class StandardEncrypt : IGraphPreset
                 { "KeyLength", DataPinFactory.Instance.Create("KeyLength", 32) },
                 { "Passphrase", null },
                 { "OutputStream", null },
-                { "PlainText", null }
+                { "Vault", null }
             };
 
     public Dictionary<string, IPin> OutputPins => null;
@@ -101,6 +111,7 @@ public class StandardEncrypt : IGraphPreset
     public List<NodeConnection> Connections =>
         [
             new NodeConnection("saltGenerator", "RandomBytes", "deriveKey", "Salt"),
+            new NodeConnection("serialiseVault", "VaultJson", "encode", "PlainText"),
             new NodeConnection("encode", "EncodedBytes", "encrypt", "PlainTextBytes"),
             new NodeConnection("ivGenerator", "RandomBytes", "encrypt", "Iv"),
             new NodeConnection("deriveKey", "Key", "encrypt", "Key"),
