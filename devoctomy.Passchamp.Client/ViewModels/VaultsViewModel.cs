@@ -91,7 +91,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
                 Id = id,
                 Name = vaultEditorViewModel.InfoViewModel.Name,
                 Description = vaultEditorViewModel.InfoViewModel.Description,
-                GraphSetId = vaultEditorViewModel.SecurityViewModel.SelectedGraphPresetSet.Id,
+                GraphPresetSetId = vaultEditorViewModel.SecurityViewModel.SelectedGraphPresetSet.Id,
                 CloudProviderId = vaultEditorViewModel.SyncViewModel.CloudStorageProviderConfigRef.Id,
                 CloudProviderPath = $"/{id}.vault"
             };

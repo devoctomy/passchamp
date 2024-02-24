@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Presets;
 using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Models;
 
@@ -9,11 +10,6 @@ public interface IVaultLoaderService
 {
     public IReadOnlyList<VaultIndex> Vaults { get; }
     public Task LoadAsync(CancellationToken cancellationToken);
-    public Task Create(
-        VaultIndex vaultIndex,
-        CloudStorageProviderConfigRef cloudStorageProviderConfigRef,
-        Func<Type, INode> InstantiateNode,
-        CancellationToken cancellationToken);
     public Task AddFromCloudProviderAsync(
         CloudStorageProviderConfigRef cloudStorageProviderConfigRef,
         string cloudProviderPath,
