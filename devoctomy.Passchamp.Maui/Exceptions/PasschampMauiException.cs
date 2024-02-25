@@ -1,9 +1,5 @@
 ﻿namespace devoctomy.Passchamp.Maui.Exceptions;
 
-public class PasschampMauiException : Exception
+public class PasschampMauiException(string message) : Exception(message)
 {
-    public PasschampMauiException(string message)
-        : base(message)
-    {
-    }
 }

@@ -1,9 +1,5 @@
 ﻿namespace devoctomy.Passchamp.Maui.Exceptions;
 
-public class VaultIndexNotFoundException : PasschampMauiException
+public class VaultIndexNotFoundException(string id) : PasschampMauiException($"VaultIndex with the id '{id}' not found.")
 {
-    public VaultIndexNotFoundException(string id)
-        : base($"VaultIndex with the id '{id}' not found.")
-    {
-    }
 }

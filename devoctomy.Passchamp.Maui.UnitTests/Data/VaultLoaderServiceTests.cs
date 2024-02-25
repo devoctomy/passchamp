@@ -243,6 +243,240 @@ public class VaultLoaderServiceTests
         });
     }
 
+    [Fact]
+    public async Task GivenVaultIndex_WhenAddAsync_Then()
+    {
+        // Arrange
+        var mockIoService = new Mock<IIOService>();
+        var options = new VaultLoaderServiceOptions
+        {
+            Path = "folder1/folder2/",
+            FileName = "somefile.json"
+        };
+        var expectedVaults = new List<VaultIndex>
+        {
+            new VaultIndex
+            {
+                
+                Id = Guid.NewGuid().ToString()
+            },
+            new VaultIndex
+            {
+                Id = Guid.NewGuid().ToString()
+            }
+        };
+        var sut = new VaultLoaderService(
+            options,
+            mockIoService.Object,
+            expectedVaults);
+
+        var valutIndex = new VaultIndex
+        {
+            Id = Guid.NewGuid().ToString(),
+            GraphPresetSetId = Guid.NewGuid().ToString(),
+            CloudProviderId = Guid.NewGuid().ToString(),
+            CloudProviderPath = "foo"
+        };
+
+        var cancellationTokenSource = new CancellationTokenSource();
+
+        // Act
+        await sut.AddAsync(
+            valutIndex,
+            cancellationTokenSource.Token);
+        expectedVaults.Add(valutIndex); // add the vault index into expected, assuming it worked
+
+        // Assert
+        var expectedPath = $"{options.Path}{options.FileName}";
+        mockIoService.Verify(x => x.CreatePathDirectory(
+            It.Is<string>(y => y == expectedPath)), Times.Once);
+        mockIoService.Verify(x => x.WriteDataAsync(
+            It.Is<string>(y => y == expectedPath),
+            It.Is<string>(y => CheckVaultJson(expectedVaults, y, true)),
+            It.Is<CancellationToken>(y => y == cancellationTokenSource.Token)), Times.Once);
+    }
+
+    [Fact]
+    public async Task GivenVaultIndex_AndMissingGraphPresetId_WhenAddAsync_Then()
+    {
+        // Arrange
+        var mockIoService = new Mock<IIOService>();
+        var options = new VaultLoaderServiceOptions
+        {
+            Path = "folder1/folder2/",
+            FileName = "somefile.json"
+        };
+        var expectedVaults = new List<VaultIndex>
+        {
+            new VaultIndex
+            {
+
+                Id = Guid.NewGuid().ToString()
+            },
+            new VaultIndex
+            {
+                Id = Guid.NewGuid().ToString()
+            }
+        };
+        var sut = new VaultLoaderService(
+            options,
+            mockIoService.Object,
+            expectedVaults);
+
+        var valutIndex = new VaultIndex
+        {
+            Id = Guid.NewGuid().ToString(),
+            CloudProviderId = Guid.NewGuid().ToString(),
+            CloudProviderPath = "foo"
+        };
+
+        var cancellationTokenSource = new CancellationTokenSource();
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<ArgumentException>(async () =>
+        {
+            await sut.AddAsync(
+                valutIndex,
+                cancellationTokenSource.Token);
+        });
+    }
+
+    [Fact]
+    public async Task GivenVaultIndex_AndMissingCloudProviderId_WhenAddAsync_Then()
+    {
+        // Arrange
+        var mockIoService = new Mock<IIOService>();
+        var options = new VaultLoaderServiceOptions
+        {
+            Path = "folder1/folder2/",
+            FileName = "somefile.json"
+        };
+        var expectedVaults = new List<VaultIndex>
+        {
+            new VaultIndex
+            {
+
+                Id = Guid.NewGuid().ToString()
+            },
+            new VaultIndex
+            {
+                Id = Guid.NewGuid().ToString()
+            }
+        };
+        var sut = new VaultLoaderService(
+            options,
+            mockIoService.Object,
+            expectedVaults);
+
+        var valutIndex = new VaultIndex
+        {
+            Id = Guid.NewGuid().ToString(),
+            GraphPresetSetId = Guid.NewGuid().ToString(),
+            CloudProviderPath = "foo"
+        };
+
+        var cancellationTokenSource = new CancellationTokenSource();
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<ArgumentException>(async () =>
+        {
+            await sut.AddAsync(
+                valutIndex,
+                cancellationTokenSource.Token);
+        });
+    }
+
+    [Fact]
+    public async Task GivenVaultIndex_AndMissingCloudProviderPath_WhenAddAsync_Then()
+    {
+        // Arrange
+        var mockIoService = new Mock<IIOService>();
+        var options = new VaultLoaderServiceOptions
+        {
+            Path = "folder1/folder2/",
+            FileName = "somefile.json"
+        };
+        var expectedVaults = new List<VaultIndex>
+        {
+            new VaultIndex
+            {
+
+                Id = Guid.NewGuid().ToString()
+            },
+            new VaultIndex
+            {
+                Id = Guid.NewGuid().ToString()
+            }
+        };
+        var sut = new VaultLoaderService(
+            options,
+            mockIoService.Object,
+            expectedVaults);
+
+        var valutIndex = new VaultIndex
+        {
+            Id = Guid.NewGuid().ToString(),
+            GraphPresetSetId = Guid.NewGuid().ToString(),
+            CloudProviderId = Guid.NewGuid().ToString()
+        };
+
+        var cancellationTokenSource = new CancellationTokenSource();
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<ArgumentException>(async () =>
+        {
+            await sut.AddAsync(
+                valutIndex,
+                cancellationTokenSource.Token);
+        });
+    }
+
+    [Fact]
+    public async Task GivenVaultIndex_AndVaultAlreadyIndexed_WhenAddAsync_Then()
+    {
+        // Arrange
+        var mockIoService = new Mock<IIOService>();
+        var options = new VaultLoaderServiceOptions
+        {
+            Path = "folder1/folder2/",
+            FileName = "somefile.json"
+        };
+        var expectedVaults = new List<VaultIndex>
+        {
+            new VaultIndex
+            {
+
+                Id = Guid.NewGuid().ToString()
+            },
+            new VaultIndex
+            {
+                Id = Guid.NewGuid().ToString()
+            }
+        };
+        var sut = new VaultLoaderService(
+            options,
+            mockIoService.Object,
+            expectedVaults);
+
+        var valutIndex = new VaultIndex
+        {
+            Id = expectedVaults[0].Id,
+            GraphPresetSetId = Guid.NewGuid().ToString(),
+            CloudProviderId = Guid.NewGuid().ToString(),
+            CloudProviderPath = "foo"
+        };
+
+        var cancellationTokenSource = new CancellationTokenSource();
+
+        // Act & Assert
+        await Assert.ThrowsAnyAsync<VaultAlreadyIndexedException>(async () =>
+        {
+            await sut.AddAsync(
+                valutIndex,
+                cancellationTokenSource.Token);
+        });
+    }
+
     private static bool CheckVaultJson(
         List<VaultIndex> expectedVaults,
         string rawJson,
@@ -255,21 +489,21 @@ public class VaultLoaderServiceTests
             if(validateId)
             {
                 matchedVault = actualVaults.SingleOrDefault(x =>
-                x.Id == curExpectedVault.Id &&
-                x.CloudProviderId == curExpectedVault.CloudProviderId &&
-                x.CloudProviderPath == curExpectedVault.CloudProviderPath &&
-                x.Name == curExpectedVault.Name &&
-                x.Description == curExpectedVault.Description &&
-                !x.HasBeenUnlockedAtLeastOnce);
+                    x.Id == curExpectedVault.Id &&
+                    x.CloudProviderId == curExpectedVault.CloudProviderId &&
+                    x.CloudProviderPath == curExpectedVault.CloudProviderPath &&
+                    x.Name == curExpectedVault.Name &&
+                    x.Description == curExpectedVault.Description &&
+                    !x.HasBeenUnlockedAtLeastOnce);
             }
             else
             {
                 matchedVault = actualVaults.SingleOrDefault(x =>
-                x.CloudProviderId == curExpectedVault.CloudProviderId &&
-                x.CloudProviderPath == curExpectedVault.CloudProviderPath &&
-                x.Name == curExpectedVault.Name &&
-                x.Description == curExpectedVault.Description &&
-                !x.HasBeenUnlockedAtLeastOnce);
+                    x.CloudProviderId == curExpectedVault.CloudProviderId &&
+                    x.CloudProviderPath == curExpectedVault.CloudProviderPath &&
+                    x.Name == curExpectedVault.Name &&
+                    x.Description == curExpectedVault.Description &&
+                    !x.HasBeenUnlockedAtLeastOnce);
             }
 
             return matchedVault != null;

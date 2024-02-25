@@ -1,8 +1,5 @@
 ﻿using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Data;
-using devoctomy.Passchamp.Core.Graph.Presets;
-using devoctomy.Passchamp.Core.Services;
-using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Exceptions;
 using devoctomy.Passchamp.Maui.Models;
 using Newtonsoft.Json;
@@ -112,7 +109,10 @@ public class VaultLoaderService : IVaultLoaderService
             throw new ArgumentException("Vault index missing CloudProviderPath");
         }
 
-        vaultIndex.Id = Guid.NewGuid().ToString();
+        if(Vaults.Any(x => x.Id == vaultIndex.Id))
+        {
+            throw new VaultAlreadyIndexedException(vaultIndex.Id);
+        }
 
         _vaults.Add(vaultIndex);
         await SaveAsync(cancellationToken);

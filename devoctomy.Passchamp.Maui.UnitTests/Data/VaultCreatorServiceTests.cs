@@ -9,9 +9,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +18,7 @@ namespace devoctomy.Passchamp.Maui.UnitTests.Data;
 public class VaultCreatorServiceTests
 {
     [Fact]
-    public async Task Given_WhenCreateAsync_ThenVaultCreated()
+    public async Task GivenOptions_AndInstantiateNodeFunc_WhenCreateAsync_ThenVaultCreatedCorrectly_AndVaultAddedToVaultLoaderService()
     {
         // Arrange
         var mockIoService = new Mock<IIOService>();
