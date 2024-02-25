@@ -2,6 +2,7 @@
 using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Graph.Presets;
 using devoctomy.Passchamp.Core.Services;
+using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Exceptions;
 using devoctomy.Passchamp.Maui.Models;
 using Newtonsoft.Json;
@@ -14,22 +15,16 @@ public class VaultLoaderService : IVaultLoaderService
 
     private readonly VaultLoaderServiceOptions _options;
     private readonly IIOService _ioService;
-    private readonly IGraphFactory _graphFactory;
-    private readonly IEnumerable<IGraphPresetSet> _graphPresetSets;
 
     private List<VaultIndex> _vaults;
 
     [ActivatorUtilitiesConstructor]
     public VaultLoaderService(
         VaultLoaderServiceOptions options,
-        IIOService ioService,
-        IGraphFactory graphFactory,
-        IEnumerable<IGraphPresetSet> graphPresetSets)
+        IIOService ioService)
     {
         _options = options;
         _ioService = ioService;
-        _graphFactory = graphFactory;
-        _graphPresetSets = graphPresetSets;
         _vaults = [];
     }
 
@@ -95,6 +90,31 @@ public class VaultLoaderService : IVaultLoaderService
         }
 
         _vaults.Remove(vaultIndex);
+        await SaveAsync(cancellationToken);
+    }
+
+    public async Task AddAsync(
+        VaultIndex vaultIndex, 
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrEmpty(vaultIndex.GraphPresetSetId))
+        {
+            throw new ArgumentException("Vault index missing GraphPresetSetId");
+        }
+
+        if (string.IsNullOrEmpty(vaultIndex.CloudProviderId))
+        {
+            throw new ArgumentException("Vault index missing CloudProviderId");
+        }
+
+        if (string.IsNullOrEmpty(vaultIndex.CloudProviderPath))
+        {
+            throw new ArgumentException("Vault index missing CloudProviderPath");
+        }
+
+        vaultIndex.Id = Guid.NewGuid().ToString();
+
+        _vaults.Add(vaultIndex);
         await SaveAsync(cancellationToken);
     }
 }

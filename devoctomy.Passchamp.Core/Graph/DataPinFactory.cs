@@ -19,6 +19,7 @@ public class DataPinFactory : IDataPinFactory
         { "Double", typeof(double) },
         { "Byte[]", typeof(byte[]) },
         { "MemoryStream", typeof(Stream) },
+        { "FileStream", typeof(Stream) },
         { "DataPinIntermediateValue", typeof(DataPinIntermediateValue) },
         { "DataParserSection", typeof(DataParserSection) },
         { "Vault", typeof(Core.Vault.Vault) },

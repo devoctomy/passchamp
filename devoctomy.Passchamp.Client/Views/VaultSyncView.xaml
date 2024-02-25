@@ -12,7 +12,8 @@
             MaximumWidthRequest="300"
             WidthRequest="300"
             HorizontalOptions="Start"
-            ItemsSource="{Binding CloudStorageProviderConfigRefs}">
+            ItemsSource="{Binding CloudStorageProviderConfigRefs}"
+            SelectedItem="{Binding SelectedCloudStorageProviderConfigRef, Mode=TwoWay}">
         </Picker>
     </VerticalStackLayout>
 </baseviews:BaseView>

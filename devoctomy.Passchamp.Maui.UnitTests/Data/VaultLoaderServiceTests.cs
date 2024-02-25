@@ -30,8 +30,7 @@ public class VaultLoaderServiceTests
         };
         var sut = new VaultLoaderService(
             options,
-            mockIoService.Object,
-            mockGraphFactory.Object);
+            mockIoService.Object);
 
         var expectedVaults = new List<VaultIndex>
         {
@@ -82,7 +81,6 @@ public class VaultLoaderServiceTests
     {
         // Arrange
         var mockIoService = new Mock<IIOService>();
-        var mockGraphFactory = new Mock<IGraphFactory>();
         var options = new VaultLoaderServiceOptions
         {
             Path = "folder1/folder2/",
@@ -90,8 +88,7 @@ public class VaultLoaderServiceTests
         };
         var sut = new VaultLoaderService(
             options,
-            mockIoService.Object,
-            mockGraphFactory.Object);
+            mockIoService.Object);
 
         var cancellationTokenSource = new CancellationTokenSource();
 
@@ -120,7 +117,6 @@ public class VaultLoaderServiceTests
     {
         // Arrange
         var mockIoService = new Mock<IIOService>();
-        var mockGraphFactory = new Mock<IGraphFactory>();
         var options = new VaultLoaderServiceOptions
         {
             Path = "folder1/folder2/",
@@ -128,8 +124,7 @@ public class VaultLoaderServiceTests
         };
         var sut = new VaultLoaderService(
             options,
-            mockIoService.Object,
-            mockGraphFactory.Object);
+            mockIoService.Object);
 
         var cloudStorageProviderConfigRef = new CloudStorageProviderConfigRef
         {

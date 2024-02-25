@@ -11,7 +11,7 @@ public partial class VaultSyncViewModel : BaseViewModel
     private string fileName;
 
     [ObservableProperty]
-    private CloudStorageProviderConfigRef cloudStorageProviderConfigRef;
+    private CloudStorageProviderConfigRef selectedCloudStorageProviderConfigRef;
 
     [ObservableProperty]
     private ObservableCollection<CloudStorageProviderConfigRef> cloudStorageProviderConfigRefs;

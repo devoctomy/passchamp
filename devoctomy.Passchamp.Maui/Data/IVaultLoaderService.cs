@@ -10,6 +10,9 @@ public interface IVaultLoaderService
 {
     public IReadOnlyList<VaultIndex> Vaults { get; }
     public Task LoadAsync(CancellationToken cancellationToken);
+    public Task AddAsync(
+        VaultIndex vaultIndex,
+        CancellationToken cancellationToken);
     public Task AddFromCloudProviderAsync(
         CloudStorageProviderConfigRef cloudStorageProviderConfigRef,
         string cloudProviderPath,

@@ -27,18 +27,18 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     private readonly IVaultLoaderService _vaultLoaderService;
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
-    private readonly IGraphFactory _graphFactory;
+    private readonly IVaultCreatorService _vaultCreatorService;
 
     public VaultsViewModel(
         IVaultLoaderService vaultLoaderService,
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService,
-        IGraphFactory graphFactory)
+        IVaultCreatorService vaultCreatorService)
     {
         _vaultLoaderService = vaultLoaderService;
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
-        _graphFactory = graphFactory;
+        _vaultCreatorService = vaultCreatorService;
         Vaults = vaultLoaderService.Vaults.ToObservableCollection();
         SetupMenuItems();
     }
@@ -84,20 +84,16 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         if (viewModel is VaultEditorViewModel)
         {
             var vaultEditorViewModel = viewModel as VaultEditorViewModel;
-
-            var id = Guid.NewGuid().ToString();
-            var vaultIndex = new VaultIndex
-            {
-                Id = id,
-                Name = vaultEditorViewModel.InfoViewModel.Name,
-                Description = vaultEditorViewModel.InfoViewModel.Description,
-                GraphPresetSetId = vaultEditorViewModel.SecurityViewModel.SelectedGraphPresetSet.Id,
-                CloudProviderId = vaultEditorViewModel.SyncViewModel.CloudStorageProviderConfigRef.Id,
-                CloudProviderPath = $"/{id}.vault"
-            };
-            await _vaultLoaderService.Create(
-                vaultIndex,
-                vaultEditorViewModel.SyncViewModel.CloudStorageProviderConfigRef,
+            await _vaultCreatorService.CreateAsync(
+                new VaultCreationOptions
+                {
+                    Name = vaultEditorViewModel.InfoViewModel.Name,
+                    Description = vaultEditorViewModel.InfoViewModel.Description,
+                    GraphPresetSetId = vaultEditorViewModel.SecurityViewModel.SelectedGraphPresetSet.Id,
+                    CloudProviderId = vaultEditorViewModel.SyncViewModel.SelectedCloudStorageProviderConfigRef.Id,
+                    CloudProviderPath = "/{id}.vault",
+                    Passphrase = new NetworkCredential(null, vaultEditorViewModel.SecurityViewModel.MasterPassphrase).SecurePassword
+                },
                 InstantiateNode,
                 CancellationToken.None);
         }
@@ -105,7 +101,8 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
 
     private INode InstantiateNode(Type type)
     {
-        return (INode)MauiProgram.MauiApp.Services.GetService(type);
+        var node = (INode)MauiProgram.MauiApp.Services.GetService(type);
+        return node;
     }
 
     protected override async Task OnFirstAppearanceAsync()

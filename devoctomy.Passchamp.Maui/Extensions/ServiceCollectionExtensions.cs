@@ -1,5 +1,6 @@
 ﻿using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Maui.Data;
+using devoctomy.Passchamp.Maui.IO;
 using devoctomy.Passchamp.Maui.Services;
 
 namespace devoctomy.Passchamp.Maui.Extensions;
@@ -19,7 +20,20 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<ISecureSettingStorageService, SecureSettingStorageService>();
         services.AddScoped<IVaultLoaderService, VaultLoaderService>();
+        services.AddScoped<IVaultCreatorService, VaultCreatorService>();
 
         services.AddTransient<IXamlHelperService, XamlHelperService>();
+
+        //Platform specific
+        services.AddSingleton<IPathResolver>(serviceProvider =>
+        {
+#if ANDROID
+            return new devoctomy.Passchamp.Maui.Pathforms.Android.IO.PathResolver();
+#elif WINDOWS
+            return new devoctomy.Passchamp.Maui.Pathforms.Android.IO.PathResolver();
+#else
+            throw new PlatformNotSupportedException();
+#endif
+        });
     }
 }
