@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace devoctomy.Passchamp.Maui.Pathforms.Android.IO;
 
-public class PathResolver : IPathResolver
+public class PathResolver : IPathResolverService
 {
     public string Resolve(string path)
     {

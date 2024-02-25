@@ -18,7 +18,7 @@ public partial class App : Application
     private void Initialise()
     {
 #if ANDROID
-        var pathResolver = (devoctomy.Passchamp.Maui.Pathforms.Android.IO.PathResolver)MauiProgram.MauiApp.Services.GetService<IPathResolver>();
+        var pathResolver = (devoctomy.Passchamp.Maui.Pathforms.Android.IO.PathResolver)MauiProgram.MauiApp.Services.GetService<IPathResolverService>();
         pathResolver.Initialise(this.Handler.MauiContext);
 #endif
     }

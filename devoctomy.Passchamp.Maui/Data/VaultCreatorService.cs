@@ -1,12 +1,10 @@
-﻿using devoctomy.Passchamp.Core.Cloud;
-using devoctomy.Passchamp.Core.Data;
+﻿using devoctomy.Passchamp.Core.Data;
 using devoctomy.Passchamp.Core.Graph;
 using devoctomy.Passchamp.Core.Graph.Presets;
 using devoctomy.Passchamp.Core.Services;
 using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.IO;
 using devoctomy.Passchamp.Maui.Models;
-using System.Net;
 
 namespace devoctomy.Passchamp.Maui.Data;
 
@@ -16,14 +14,14 @@ public class VaultCreatorService : IVaultCreatorService
     private readonly IGraphFactory _graphFactory;
     private readonly IEnumerable<IGraphPresetSet> _graphPresetSets;
     private readonly IVaultLoaderService _vaultLoaderService;
-    private readonly IPathResolver _pathResolver;
+    private readonly IPathResolverService _pathResolver;
 
     public VaultCreatorService(
         IIOService ioService,
         IGraphFactory graphFactory,
         IEnumerable<IGraphPresetSet> graphPresetSets,
         IVaultLoaderService vaultLoaderService,
-        IPathResolver pathResolver)
+        IPathResolverService pathResolver)
     {
         _ioService = ioService;
         _graphFactory = graphFactory;

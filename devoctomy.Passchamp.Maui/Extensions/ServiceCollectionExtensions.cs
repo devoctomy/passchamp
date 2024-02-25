@@ -25,7 +25,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IXamlHelperService, XamlHelperService>();
 
         //Platform specific
-        services.AddSingleton<IPathResolver>(serviceProvider =>
+        services.AddSingleton<IPathResolverService>(serviceProvider =>
         {
 #if ANDROID
             return new devoctomy.Passchamp.Maui.Pathforms.Android.IO.PathResolver();

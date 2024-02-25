@@ -1,6 +1,6 @@
 ﻿namespace devoctomy.Passchamp.Maui.IO;
 
-public interface IPathResolver
+public interface IPathResolverService
 {
     public string Resolve(string token);
 }
