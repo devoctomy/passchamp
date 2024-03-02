@@ -13,14 +13,14 @@ public class VaultCreatorService : IVaultCreatorService
     private readonly IIOService _ioService;
     private readonly IGraphFactory _graphFactory;
     private readonly IEnumerable<IGraphPresetSet> _graphPresetSets;
-    private readonly IVaultLoaderService _vaultLoaderService;
+    private readonly IVaultIndexLoaderService _vaultLoaderService;
     private readonly IPathResolverService _pathResolver;
 
     public VaultCreatorService(
         IIOService ioService,
         IGraphFactory graphFactory,
         IEnumerable<IGraphPresetSet> graphPresetSets,
-        IVaultLoaderService vaultLoaderService,
+        IVaultIndexLoaderService vaultLoaderService,
         IPathResolverService pathResolver)
     {
         _ioService = ioService;
@@ -42,16 +42,13 @@ public class VaultCreatorService : IVaultCreatorService
         };
 
         // !!! This could be nicer
-        var vaultDir = _pathResolver.Resolve($"{{{CommonPaths.ExternalCommonAppData}}}{{{CommonPaths.AppData}}}{{{CommonPaths.Vaults}}}");
+        var vaultDir = _pathResolver.Resolve($"{{{CommonPaths.ExternalCommonAppData}}}{{{CommonPaths.Vaults}}}");
         _ioService.CreatePathDirectory(vaultDir);
         var vaultPath = $"{vaultDir}{vault.Id}.vault";
 
         using var outputStream = _ioService.OpenNewWrite(vaultPath);
         var parameters = new Dictionary<string, object>
             {
-                { "SaltLength", 16 },
-                { "IvLength", 16 },
-                { "KeyLength", 32 },
                 { "Passphrase", options.Passphrase },
                 { "OutputStream", outputStream },
                 { "Vault", vault },
@@ -65,6 +62,7 @@ public class VaultCreatorService : IVaultCreatorService
 
         var index = new VaultIndex
         {
+            Id = vault.Id,
             Name = vault.Name,
             Description = vault.Description,
             GraphPresetSetId = options.GraphPresetSetId,

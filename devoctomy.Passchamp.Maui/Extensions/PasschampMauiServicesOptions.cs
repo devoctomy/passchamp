@@ -5,7 +5,7 @@ namespace devoctomy.Passchamp.Maui.Extensions;
 
 public class PasschampMauiServicesOptions
 {
-    public VaultLoaderServiceOptions VaultLoaderServiceOptions { get; set; }
+    public VaultIndexLoaderServiceOptions VaultLoaderServiceOptions { get; set; }
     public ShellNavigationServiceOptions ShellNavigationServiceOptions { get; set; }
     public ThemeAwareImageResourceServiceOptions ThemeAwareImageResourceServiceOptions { get; set; }
 }

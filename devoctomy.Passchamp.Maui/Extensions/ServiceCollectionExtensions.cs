@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IShellNavigationService, ShellNavigationService>();
 
         services.AddScoped<ISecureSettingStorageService, SecureSettingStorageService>();
+        services.AddScoped<IVaultIndexLoaderService, VaultIndexLoaderService>();
         services.AddScoped<IVaultLoaderService, VaultLoaderService>();
         services.AddScoped<IVaultCreatorService, VaultCreatorService>();
 

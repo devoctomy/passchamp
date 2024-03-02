@@ -22,22 +22,25 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
     [ObservableProperty]
     private VaultIndex selectedVaultIndex;
 
-    private readonly IVaultLoaderService _vaultLoaderService;
+    private readonly IVaultIndexLoaderService _vaultIndexLoaderService;
     private readonly IShellNavigationService _shellNavigationService;
     private readonly IThemeAwareImageResourceService _themeAwareImageResourceService;
     private readonly IVaultCreatorService _vaultCreatorService;
+    private readonly IVaultLoaderService _vaultLoaderService;
 
     public VaultsViewModel(
-        IVaultLoaderService vaultLoaderService,
+        IVaultIndexLoaderService vaultIndexLoaderService,
         IShellNavigationService shellNavigationService,
         IThemeAwareImageResourceService themeAwareImageResourceService,
-        IVaultCreatorService vaultCreatorService)
+        IVaultCreatorService vaultCreatorService,
+        IVaultLoaderService vaultLoaderService)
     {
-        _vaultLoaderService = vaultLoaderService;
+        _vaultIndexLoaderService = vaultIndexLoaderService;
         _shellNavigationService = shellNavigationService;
         _themeAwareImageResourceService = themeAwareImageResourceService;
         _vaultCreatorService = vaultCreatorService;
-        Vaults = vaultLoaderService.Vaults.ToObservableCollection();
+        Vaults = vaultIndexLoaderService.Vaults.ToObservableCollection();
+        _vaultLoaderService = vaultLoaderService;
         SetupMenuItems();
     }
 
@@ -97,7 +100,18 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         }
         else if(viewModel is EnterMasterPassphraseViewModel)
         {
-            // attempt to unlock the vault and display it here
+            var enterMasterPassphraseViewModel = viewModel as EnterMasterPassphraseViewModel;
+            var options = new VaultLoaderServiceOptions
+            {
+                VaultIndex = enterMasterPassphraseViewModel.VaultIndex,
+                MasterPassphrase = new NetworkCredential(string.Empty, enterMasterPassphraseViewModel.MasterPassphrase).SecurePassword
+            };
+            var vault = await _vaultLoaderService.LoadAsync(
+                options,
+                InstantiateNode,
+                CancellationToken.None);
+
+            // !!! Now we need to open the Vault page and pass the unlocked vault to it !!!
         }
     }
 
@@ -109,8 +123,8 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
 
     protected override async Task OnFirstAppearanceAsync()
     {
-        await _vaultLoaderService.LoadAsync(CancellationToken.None);
-        Vaults = new ObservableCollection<VaultIndex>(_vaultLoaderService.Vaults);
+        await _vaultIndexLoaderService.LoadAsync(CancellationToken.None);
+        Vaults = new ObservableCollection<VaultIndex>(_vaultIndexLoaderService.Vaults);
     }
 
     [RelayCommand]
@@ -182,7 +196,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
             return;
         }
 
-        await _vaultLoaderService.RemoveAsync(
+        await _vaultIndexLoaderService.RemoveAsync(
             SelectedVaultIndex,
             CancellationToken.None);
     }

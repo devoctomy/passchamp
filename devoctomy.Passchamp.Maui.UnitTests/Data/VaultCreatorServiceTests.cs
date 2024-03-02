@@ -30,7 +30,7 @@ public class VaultCreatorServiceTests
         {
             mockGraphPresetSet.Object
         };
-        var mockVaultLoaderService = new Mock<IVaultLoaderService>();
+        var mockVaultLoaderService = new Mock<IVaultIndexLoaderService>();
         var mockPathResolverService = new Mock<IPathResolverService>();
         var sut = new VaultCreatorService(
             mockIoService.Object,

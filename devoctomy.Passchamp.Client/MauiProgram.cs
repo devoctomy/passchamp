@@ -39,7 +39,7 @@ public static class MauiProgram
         builder.Services.AddPasschampCoreServices(passchampCoreServiceOptions);
         builder.Services.AddPasschampMauiServices(new PasschampMauiServicesOptions
         {
-            VaultLoaderServiceOptions = new Maui.Data.VaultLoaderServiceOptions
+            VaultLoaderServiceOptions = new Maui.Data.VaultIndexLoaderServiceOptions
             {
                 FileName = "vaults.json",
                 Path = Path.Combine(FileSystem.AppDataDirectory, $"vaults\\")

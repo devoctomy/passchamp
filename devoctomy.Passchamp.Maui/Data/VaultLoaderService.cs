@@ -1,120 +1,52 @@
-﻿using devoctomy.Passchamp.Core.Cloud;
-using devoctomy.Passchamp.Core.Data;
-using devoctomy.Passchamp.Maui.Exceptions;
-using devoctomy.Passchamp.Maui.Models;
-using Newtonsoft.Json;
+﻿using devoctomy.Passchamp.Core.Data;
+using devoctomy.Passchamp.Core.Graph;
+using devoctomy.Passchamp.Core.Graph.Presets;
+using devoctomy.Passchamp.Core.Services;
+using devoctomy.Passchamp.Core.Vault;
+using devoctomy.Passchamp.Maui.IO;
 
 namespace devoctomy.Passchamp.Maui.Data;
 
 public class VaultLoaderService : IVaultLoaderService
 {
-    public IReadOnlyList<VaultIndex> Vaults => _vaults;
-
-    private readonly VaultLoaderServiceOptions _options;
     private readonly IIOService _ioService;
+    private readonly IGraphFactory _graphFactory;
+    private readonly IEnumerable<IGraphPresetSet> _graphPresetSets;
+    private readonly IPathResolverService _pathResolverService;
 
-    private List<VaultIndex> _vaults;
-
-    [ActivatorUtilitiesConstructor]
     public VaultLoaderService(
-        VaultLoaderServiceOptions options,
-        IIOService ioService)
-    {
-        _options = options;
-        _ioService = ioService;
-        _vaults = [];
-    }
-
-    // Used purely for unit testing purposes
-    public VaultLoaderService(
-        VaultLoaderServiceOptions options,
         IIOService ioService,
-        List<VaultIndex> vaults)
+        IGraphFactory graphFactory,
+        IEnumerable<IGraphPresetSet> graphPresetSets,
+        IPathResolverService pathResolverService)
     {
-        _options = options;
         _ioService = ioService;
-        _vaults = vaults;
+        _graphFactory = graphFactory;
+        _graphPresetSets = graphPresetSets;
+        _pathResolverService = pathResolverService;
     }
 
-    public async Task LoadAsync(CancellationToken cancellationToken)
-    {
-        var fullPath = $"{_options.Path}{_options.FileName}";
-        _ioService.CreatePathDirectory(fullPath);
-        if (_ioService.Exists(fullPath))
-        {
-            var jsonRaw = await _ioService.ReadAllTextAsync(
-                fullPath,
-                cancellationToken);
-            _vaults = JsonConvert.DeserializeObject<List<VaultIndex>>(jsonRaw);
-        }
-    }
-
-    public async Task AddFromCloudProviderAsync(
-        CloudStorageProviderConfigRef cloudStorageProviderConfigRef,
-        string cloudProviderPath,
+    public async Task<Vault> LoadAsync(
+        VaultLoaderServiceOptions options,
+        Func<Type, INode> InstantiateNode,
         CancellationToken cancellationToken)
     {
-        var index = new VaultIndex
-        {
-            Id = Guid.NewGuid().ToString(),
-            Name = "Not yet decrypted",
-            Description = "Not yet decrypted",
-            CloudProviderId = cloudStorageProviderConfigRef.ProviderServiceTypeId,
-            CloudProviderPath = cloudProviderPath,
-        };
-        _vaults.Add(index);
-        await SaveAsync(cancellationToken);
-    }
+        var vaultDir = _pathResolverService.Resolve($"{{{CommonPaths.ExternalCommonAppData}}}{{{CommonPaths.Vaults}}}");
+        var vaultPath = $"{vaultDir}{options.VaultIndex.Id}.vault";
+        var inputStream = _ioService.OpenRead(vaultPath);
 
-    private async Task SaveAsync(CancellationToken cancellationToken)
-    {
-        var fullPath = $"{_options.Path}{_options.FileName}";
-        _ioService.CreatePathDirectory(fullPath);
-        var jsonRaw = JsonConvert.SerializeObject(Vaults);
-        await _ioService.WriteDataAsync(
-            fullPath,
-            jsonRaw,
-            cancellationToken);
-    }
+        var parameters = new Dictionary<string, object>
+            {
+                { "Passphrase", options.MasterPassphrase },
+                { "InputStream", inputStream }
+            };
+        var (encrypt, decrypt) = _graphFactory.LoadPresetSet(
+            _graphPresetSets.Single(x => x.Id == options.VaultIndex.GraphPresetSetId),
+            InstantiateNode,
+            parameters);
 
-    public async Task RemoveAsync(
-        VaultIndex vaultIndex,
-        CancellationToken cancellationToken)
-    {
-        if(!_vaults.Contains(vaultIndex))
-        {
-            throw new VaultIndexNotFoundException(vaultIndex.Id);
-        }
+        await decrypt.ExecuteAsync(cancellationToken);
 
-        _vaults.Remove(vaultIndex);
-        await SaveAsync(cancellationToken);
-    }
-
-    public async Task AddAsync(
-        VaultIndex vaultIndex, 
-        CancellationToken cancellationToken)
-    {
-        if (string.IsNullOrEmpty(vaultIndex.GraphPresetSetId))
-        {
-            throw new ArgumentException("Vault index missing GraphPresetSetId");
-        }
-
-        if (string.IsNullOrEmpty(vaultIndex.CloudProviderId))
-        {
-            throw new ArgumentException("Vault index missing CloudProviderId");
-        }
-
-        if (string.IsNullOrEmpty(vaultIndex.CloudProviderPath))
-        {
-            throw new ArgumentException("Vault index missing CloudProviderPath");
-        }
-
-        if(Vaults.Any(x => x.Id == vaultIndex.Id))
-        {
-            throw new VaultAlreadyIndexedException(vaultIndex.Id);
-        }
-
-        _vaults.Add(vaultIndex);
-        await SaveAsync(cancellationToken);
+        return (Vault)decrypt.OutputPins["Vault"].ObjectValue;
     }
 }
