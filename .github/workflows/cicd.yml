@@ -150,64 +150,64 @@ jobs:
           name: android-ci-build
           path: devoctomy.Passchamp.Client/bin/Release/net8.0-android/*Signed.a*
           
-  release-windows:
-    name: Release Windows
-    needs: build-windows
-    runs-on: ubuntu-latest
-    if: always()
+  # release-windows:
+  #   name: Release Windows
+  #   needs: build-windows
+  #   runs-on: ubuntu-latest
+  #   if: always()
 
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          tag_name: ${{ github.run_number }}
-          release_name: Windows Release ${{ github.run_number }}
-          draft: ${{ github.ref != 'refs/heads/main' }}
-          prerelease: false
+  #   steps:
+  #     - name: Create Release
+  #       id: create_release
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.PAT }}
+  #       with:
+  #         tag_name: ${{ github.run_number }}
+  #         release_name: Windows Release ${{ github.run_number }}
+  #         draft: false
+  #         prerelease: ${{ github.ref != 'refs/heads/main' }}
 
-      - name: Download Windows Artifact
-        uses: actions/download-artifact@v2
+  #     - name: Download Windows Artifact
+  #       uses: actions/download-artifact@v2
 
-      - name: Upload Windows Artifact to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-ci-build.zip
-          asset_name: windows-ci-build.zip
-          asset_content_type: application/zip
+  #     - name: Upload Windows Artifact to Release
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.PAT }}
+  #       with:
+  #         upload_url: ${{ steps.create_release.outputs.upload_url }}
+  #         asset_path: ./windows-ci-build.zip
+  #         asset_name: windows-ci-build.zip
+  #         asset_content_type: application/zip
 
-  release-android:
-    name: Release Android
-    needs: build-android
-    runs-on: ubuntu-latest
-    if: always()
+  # release-android:
+  #   name: Release Android
+  #   needs: build-android
+  #   runs-on: ubuntu-latest
+  #   if: always()
 
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          tag_name: ${{ github.run_number }}
-          release_name: Android Release ${{ github.run_number }}
-          draft: ${{ github.ref != 'refs/heads/main' }}
-          prerelease: false
+  #   steps:
+  #     - name: Create Release
+  #       id: create_release
+  #       uses: actions/create-release@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.PAT }}
+  #       with:
+  #         tag_name: ${{ github.run_number }}
+  #         release_name: Android Release ${{ github.run_number }}
+  #         draft: ${{ github.ref != 'refs/heads/main' }}
+  #         prerelease: false
 
-      - name: Download Android Artifact
-        uses: actions/download-artifact@v2
+  #     - name: Download Android Artifact
+  #       uses: actions/download-artifact@v2
 
-      - name: Upload Android Artifact to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./android-ci-build.zip
-          asset_name: android-ci-build.zip
-          asset_content_type: application/zip
+  #     - name: Upload Android Artifact to Release
+  #       uses: actions/upload-release-asset@v1
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.PAT }}
+  #       with:
+  #         upload_url: ${{ steps.create_release.outputs.upload_url }}
+  #         asset_path: ./android-ci-build.zip
+  #         asset_name: android-ci-build.zip
+  #         asset_content_type: application/zip
