@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <pages:BaseContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
-             xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
-             xmlns:models="clr-namespace:devoctomy.Passchamp.Maui.Models;assembly=devoctomy.Passchamp.Maui"
-             x:Class="devoctomy.Passchamp.Client.Pages.VaultsPage"
-             x:DataType="vm:VaultsViewModel"
-             x:TypeArguments="vm:VaultsViewModel"
-             TransientViewModel="True"
-             Title="Vaults">
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+                       xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
+                       xmlns:models="clr-namespace:devoctomy.Passchamp.Maui.Models;assembly=devoctomy.Passchamp.Maui"
+                       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                       x:Class="devoctomy.Passchamp.Client.Pages.VaultsPage"
+                       x:DataType="vm:VaultsViewModel"
+                       x:TypeArguments="vm:VaultsViewModel"
+                       TransientViewModel="True"
+                       Title="Vaults">
     <VerticalStackLayout>
         <ListView ItemsSource="{Binding Vaults}"
-                      SelectedItem="{Binding SelectedVaultIndex, Mode=TwoWay}"
-                      HasUnevenRows="True">
+                  SelectedItem="{Binding SelectedVaultIndex, Mode=TwoWay}"
+                  HasUnevenRows="True">
+            <ListView.Behaviors>
+                <toolkit:EventToCommandBehavior EventName="ItemTapped"
+                                                Command="{Binding OpenSelectedCommand}" />
+            </ListView.Behaviors>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:VaultIndex">
                     <ViewCell>

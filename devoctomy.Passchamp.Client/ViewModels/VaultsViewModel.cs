@@ -5,8 +5,6 @@ using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Core.Cloud;
 using devoctomy.Passchamp.Core.Graph;
-using devoctomy.Passchamp.Core.Services;
-using devoctomy.Passchamp.Core.Vault;
 using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Models;
 using devoctomy.Passchamp.Maui.Services;
@@ -97,6 +95,10 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
                 InstantiateNode,
                 CancellationToken.None);
         }
+        else if(viewModel is EnterMasterPassphraseViewModel)
+        {
+            // attempt to unlock the vault and display it here
+        }
     }
 
     private INode InstantiateNode(Type type)
@@ -140,7 +142,23 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
         var cloudStorageProviderConfigLoaderService = MauiProgram.MauiApp.Services.GetService<ICloudStorageProviderConfigLoaderService>();
         var viewModel = new VaultEditorViewModel(this, cloudStorageProviderConfigLoaderService);
         await viewModel.Init();
-        var page = new Pages.VaultEditorPage(viewModel);
+        var page = new VaultEditorPage(viewModel);
+        await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
+    }
+
+    [RelayCommand]
+    private async Task OpenSelected(object param)
+    {
+        if (SelectedVaultIndex == null)
+        {
+            return;
+        }
+
+        var viewModel = new EnterMasterPassphraseViewModel(this)
+        {
+            VaultIndex = SelectedVaultIndex
+        };
+        var page = new EnterMasterPassphrasePage(viewModel);
         await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
     }
 

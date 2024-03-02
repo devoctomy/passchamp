@@ -79,6 +79,7 @@ public static class MauiProgram
         services.AddTransient<CloudSettingsView>();
         services.AddTransient<CloudStorageProviderEditorPage>();
         services.AddTransient<VaultEditorPage>();
+        services.AddTransient<EnterMasterPassphrasePage>();
     }
 
     static void RegisterViewModels(IServiceCollection services)

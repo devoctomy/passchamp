@@ -63,6 +63,9 @@
 	  <Compile Update="Pages\AppShellPage.xaml.cs">
 	    <DependentUpon>AppShellPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\EnterMasterPassphrasePage.xaml.cs">
+	    <DependentUpon>EnterMasterPassphrasePage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\SettingsPage.xaml.cs">
 	    <DependentUpon>SettingsPage.xaml</DependentUpon>
 	  </Compile>
@@ -82,6 +85,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\AboutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\EnterMasterPassphrasePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\TabbedPageTest.xaml">
