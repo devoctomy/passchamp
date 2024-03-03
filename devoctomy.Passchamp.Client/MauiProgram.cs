@@ -73,6 +73,7 @@ public static class MauiProgram
     {
         services.AddTransient<AppShellPage>();
         services.AddTransient<VaultsPage>();
+        services.AddTransient<VaultPage>();
         services.AddTransient<SettingsPage>();
         services.AddTransient<ThemeTestPage>();
         services.AddTransient<GeneralSettingsView>();

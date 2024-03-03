@@ -28,6 +28,12 @@
         <ShellContent ContentTemplate="{DataTemplate pages:VaultsPage}" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Vault"
+                Route="Vault"
+                FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate pages:VaultPage}" />
+    </FlyoutItem>
+
     <FlyoutItem Title="Settings"
                 Route="Settings"
                 FlyoutItemIsVisible="False">

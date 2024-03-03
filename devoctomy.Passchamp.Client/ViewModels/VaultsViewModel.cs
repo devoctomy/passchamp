@@ -112,6 +112,7 @@ public partial class VaultsViewModel : BaseAppShellPageViewModel
                 CancellationToken.None);
 
             // !!! Now we need to open the Vault page and pass the unlocked vault to it !!!
+            await _shellNavigationService.GoToAsync("//Vault");
         }
     }
 
