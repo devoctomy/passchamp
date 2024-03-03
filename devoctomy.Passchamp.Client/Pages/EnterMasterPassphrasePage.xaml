@@ -37,7 +37,7 @@
         </Grid>
         <VerticalStackLayout Grid.Row="1">
             <Label Text="Master Passphrase" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
-            <Entry IsPassword="True" Text="{Binding MasterPassphrase, Mode=TwoWay}"></Entry>
+            <Entry x:Name="MasterPassphraseEntry" IsPassword="True" Text="{Binding MasterPassphrase, Mode=TwoWay}"></Entry>
         </VerticalStackLayout>
     </Grid>
 </pages:BaseContentPage>

@@ -7,6 +7,7 @@ public abstract class BaseContentPage<TViewModel> : BaseContentPage where TViewM
 {
     protected BaseContentPage(TViewModel viewModel) : base(viewModel)
     {
+        viewModel.Page = this;
     }
 
     public new TViewModel BindingContext => (TViewModel)base.BindingContext;
@@ -17,6 +18,9 @@ public abstract class BaseContentPage : ContentPage, IPage
     public bool TransientViewModel { get; set; }
 
     public BaseViewModel ViewModel { get; private set; }
+
+    private bool _attachedFocusHandler = false;
+    private bool _initialFocus = false;
 
     protected BaseContentPage()
     {
@@ -37,6 +41,19 @@ public abstract class BaseContentPage : ContentPage, IPage
         BindingContext = viewModel;
     }
 
+    private void Page_Focused(object sender, FocusEventArgs e)
+    {
+        if (!_initialFocus)
+        {
+            _initialFocus = true;
+            if(!string.IsNullOrEmpty(ViewModel.InitialControlNameFocus))
+            {
+                var input = ViewModel.Page.FindByName(ViewModel.InitialControlNameFocus) as InputView;
+                input.Focus();
+            }
+        }
+    }
+
     public void ResetViewModel()
     {
         var viewModelType = ViewModel.GetType();
@@ -49,6 +66,12 @@ public abstract class BaseContentPage : ContentPage, IPage
     {
         base.OnAppearing();
         Debug.WriteLine($"OnAppearing: {Title}");
+
+        if(!_attachedFocusHandler)
+        {
+            _attachedFocusHandler = true;
+            ViewModel.Page.Focused += Page_Focused;
+        }
 
         Task.Run(ViewModel.OnAppearingAsync);
     }

@@ -15,6 +15,9 @@ public partial class EnterMasterPassphraseViewModel : BaseViewModel
 
     public BaseViewModel ReturnViewModel { get; }
 
+    public override string InitialControlNameFocus => "MasterPassphraseEntry";
+
+
     public EnterMasterPassphraseViewModel(BaseViewModel returnViewModel)
     {
         ReturnViewModel = returnViewModel;
@@ -30,5 +33,10 @@ public partial class EnterMasterPassphraseViewModel : BaseViewModel
     private async Task Back(object param)
     {
         await ReturnViewModel.Return(null);
+    }
+
+    public override Task OnAppearingAsync()
+    {
+        return base.OnAppearingAsync();
     }
 }
