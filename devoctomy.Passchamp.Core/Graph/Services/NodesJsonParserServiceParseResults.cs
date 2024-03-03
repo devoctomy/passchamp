@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace devoctomy.Passchamp.Core.Graph.Services
+namespace devoctomy.Passchamp.Core.Graph.Services;
+
+public class NodesJsonParserServiceParseResults
 {
-    public class NodesJsonParserServiceParseResults
-    {
-        public string StartNodeKey { get; set; }
-        public Dictionary<string, INode> Nodes { get; set; }
-    }
+    public string StartNodeKey { get; set; }
+    public Dictionary<string, INode> Nodes { get; set; }
 }

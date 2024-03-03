@@ -1,5 +1,4 @@
-﻿using Android.AdServices.Common;
-using devoctomy.Passchamp.Maui.IO;
+﻿using devoctomy.Passchamp.Maui.IO;
 using System.Text.RegularExpressions;
 
 namespace devoctomy.Passchamp.Maui.Pathforms.Android.IO;

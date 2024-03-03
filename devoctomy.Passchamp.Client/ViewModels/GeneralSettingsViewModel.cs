@@ -1,37 +1,36 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 
-namespace devoctomy.Passchamp.Client.ViewModels
+namespace devoctomy.Passchamp.Client.ViewModels;
+
+public partial class GeneralSettingsViewModel : BaseViewModel
 {
-    public partial class GeneralSettingsViewModel : BaseViewModel
+    [ObservableProperty]
+    private string theme;
+
+    public GeneralSettingsViewModel()
     {
-        [ObservableProperty]
-        private string theme;
+        this.PropertyChanged += GeneralSettingsViewModel_PropertyChanged;
+    }
 
-        public GeneralSettingsViewModel()
+    private void GeneralSettingsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        switch(e.PropertyName)
         {
-            this.PropertyChanged += GeneralSettingsViewModel_PropertyChanged;
-        }
+            case nameof(GeneralSettingsViewModel.Theme):
+                {
+                    App.Current.UserAppTheme =
+                        Theme == "System" ?
+                        Application.Current.PlatformAppTheme :
+                        Enum.Parse<AppTheme>(Theme);
+                    break;
+                }
 
-        private void GeneralSettingsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch(e.PropertyName)
-            {
-                case nameof(GeneralSettingsViewModel.Theme):
-                    {
-                        App.Current.UserAppTheme =
-                            Theme == "System" ?
-                            Application.Current.PlatformAppTheme :
-                            Enum.Parse<AppTheme>(Theme);
-                        break;
-                    }
-
-                default:
-                    {
-                        // Do nothing!
-                        break;
-                    }
-            }
+            default:
+                {
+                    // Do nothing!
+                    break;
+                }
         }
     }
 }

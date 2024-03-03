@@ -1,8 +1,7 @@
-﻿namespace devoctomy.Passchamp.Client.ViewModels.Enums
+﻿namespace devoctomy.Passchamp.Client.ViewModels.Enums;
+
+public enum PageEditorMode
 {
-    public enum PageEditorMode
-    {
-        Create = 0,
-        Edit = 1
-    }
+    Create = 0,
+    Edit = 1
 }

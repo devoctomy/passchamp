@@ -1,16 +1,13 @@
 ﻿using devoctomy.Passchamp.Client.ViewModels.Base;
 
 
-namespace devoctomy.Passchamp.Client.Pages.Base
+namespace devoctomy.Passchamp.Client.Pages.Base;
+
+public interface IPage
 {
-    public interface IPage
-    {
-        public bool TransientViewModel { get; set; }
+    public bool TransientViewModel { get; set; }
 
-        public BaseViewModel ViewModel { get; }
+    public BaseViewModel ViewModel { get; }
 
-        public void ResetViewModel();
-
-
-    }
+    public void ResetViewModel();
 }

@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Maui;
 using devoctomy.Passchamp.Client.Config;
 using devoctomy.Passchamp.Client.Pages;
-using devoctomy.Passchamp.Client.ViewModels;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Client.Views;
 using devoctomy.Passchamp.Core.Config;
 using devoctomy.Passchamp.Core.Extensions;
-using devoctomy.Passchamp.Core.Graph.Services;
 using devoctomy.Passchamp.Maui.Extensions;
 using System.Diagnostics;
 

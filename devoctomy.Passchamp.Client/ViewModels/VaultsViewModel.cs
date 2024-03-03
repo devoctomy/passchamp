@@ -9,7 +9,6 @@ using devoctomy.Passchamp.Maui.Data;
 using devoctomy.Passchamp.Maui.Models;
 using devoctomy.Passchamp.Maui.Services;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Net;
 
 namespace devoctomy.Passchamp.Client.ViewModels;
