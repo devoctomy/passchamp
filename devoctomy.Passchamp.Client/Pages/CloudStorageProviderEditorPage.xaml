@@ -41,55 +41,59 @@
                 IsEnabled="{Binding OkCommandEnabled}">
             </ImageButton>
         </Grid>
-        <VerticalStackLayout Grid.Row="1">
-            <Label Text="Display Name" Style="{StaticResource MediumLabelStyle}"></Label>
-            <Entry
-                MaxLength="64"
-                Text="{Binding DisplayName, Mode=TwoWay}">
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-            <Label Text="Access Id" Style="{StaticResource MediumLabelStyle}"></Label>
-            <Entry
-                MaxLength="20"
-                Text="{Binding AccessId, Mode=TwoWay}">
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-            <Label Text="Secret Key" Style="{StaticResource MediumLabelStyle}"></Label>
-            <Entry
-                MaxLength="20"
-                Text="{Binding SecretKey, Mode=TwoWay}">
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-            <Label Text="Region" Style="{StaticResource MediumLabelStyle}"></Label>
-            <Picker
-                ItemsSource="{Binding Regions, Mode=OneWay}"
-                SelectedItem="{Binding Region, Mode=TwoWay}">
-                <Picker.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ValidateInputCommand}" />
-                </Picker.Behaviors>
-            </Picker>
-            <Label Text="Bucket" Style="{StaticResource MediumLabelStyle}"></Label>
-            <Entry
-                MaxLength="20"
-                Text="{Binding Bucket, Mode=TwoWay}">
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-            <Label Text="Path" Style="{StaticResource MediumLabelStyle}"></Label>
-            <Entry
-                MaxLength="20"
-                Text="{Binding Path, Mode=TwoWay}">
-                <Entry.Behaviors>
-                    <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-        </VerticalStackLayout>
+        <ScrollView
+            Orientation="Vertical"
+            Grid.Row="1">
+            <VerticalStackLayout Grid.Row="1">
+                <Label Text="Display Name" Style="{StaticResource MediumLabelStyle}"></Label>
+                <Entry
+                    MaxLength="64"
+                    Text="{Binding DisplayName, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="Access Id" Style="{StaticResource MediumLabelStyle}"></Label>
+                <Entry
+                    MaxLength="20"
+                    Text="{Binding AccessId, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="Secret Key" Style="{StaticResource MediumLabelStyle}"></Label>
+                <Entry
+                    MaxLength="20"
+                    Text="{Binding SecretKey, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="Region" Style="{StaticResource MediumLabelStyle}"></Label>
+                <Picker
+                    ItemsSource="{Binding Regions, Mode=OneWay}"
+                    SelectedItem="{Binding Region, Mode=TwoWay}">
+                    <Picker.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="SelectedIndexChanged" Command="{Binding ValidateInputCommand}" />
+                    </Picker.Behaviors>
+                </Picker>
+                <Label Text="Bucket" Style="{StaticResource MediumLabelStyle}"></Label>
+                <Entry
+                    MaxLength="20"
+                    Text="{Binding Bucket, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label Text="Path" Style="{StaticResource MediumLabelStyle}"></Label>
+                <Entry
+                    MaxLength="20"
+                    Text="{Binding Path, Mode=TwoWay}">
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior EventName="TextChanged" Command="{Binding ValidateInputCommand}" />
+                    </Entry.Behaviors>
+                </Entry>
+            </VerticalStackLayout>
+        </ScrollView>
     </Grid>
 </pages:BaseContentPage>
