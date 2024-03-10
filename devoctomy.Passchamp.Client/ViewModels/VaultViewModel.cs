@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using devoctomy.Passchamp.Client.Pages;
 using devoctomy.Passchamp.Client.ViewModels.Base;
 using devoctomy.Passchamp.Maui.Services;
 
@@ -68,6 +69,11 @@ public partial class VaultViewModel : BaseAppShellPageViewModel
         await Task.Yield();
     }
 
+    public override async Task Return(BaseViewModel viewModel)
+    {
+        await Application.Current.MainPage.Navigation.PopModalAsync(); // Handle page callbacks here
+    }
+
     [RelayCommand]
     private async Task LockVault(object param)
     {
@@ -77,8 +83,10 @@ public partial class VaultViewModel : BaseAppShellPageViewModel
     [RelayCommand]
     private async Task CreateCredential(object param)
     {
-        // show credential creation page
-        await Task.Yield();
+        // !!! Can we do this better?
+        var viewModel = new CredentialEditorViewModel(this);
+        var page = new CredentialEditorPage(viewModel);
+        await Application.Current.MainPage.Navigation.PushModalAsync(page, true);
     }
 
     [RelayCommand]

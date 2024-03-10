@@ -66,6 +66,9 @@
 	  <MauiXaml Update="Pages\AboutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\CredentialEditorPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\EnterMasterPassphrasePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

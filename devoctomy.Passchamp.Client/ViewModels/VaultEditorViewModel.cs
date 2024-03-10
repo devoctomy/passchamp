@@ -15,8 +15,6 @@ public partial class VaultEditorViewModel : BaseViewModel
     public VaultInfoViewModel InfoViewModel { get; set; }
     public VaultSecurityViewModel SecurityViewModel { get; set; }
     public VaultSyncViewModel SyncViewModel { get; set; }
-    public IAsyncRelayCommand BackCommand { get; private set; }
-    public IAsyncRelayCommand OkCommand { get; private set; }
 
     private readonly ICloudStorageProviderConfigLoaderService _cloudStorageProviderConfigLoaderService;
 
@@ -24,8 +22,6 @@ public partial class VaultEditorViewModel : BaseViewModel
         BaseViewModel returnViewModel,
         ICloudStorageProviderConfigLoaderService cloudStorageProviderConfigLoaderService)
     {
-        AttachCommandHandlers();
-
         ReturnViewModel = returnViewModel;
         _cloudStorageProviderConfigLoaderService = cloudStorageProviderConfigLoaderService;
     }
@@ -41,18 +37,14 @@ public partial class VaultEditorViewModel : BaseViewModel
         CloudStorageProviderConfigRefs = new ObservableCollection<CloudStorageProviderConfigRef>(_cloudStorageProviderConfigLoaderService.Refs);
     }
 
-    private void AttachCommandHandlers()
-    {
-        BackCommand = new AsyncRelayCommand(BackCommandHandler);
-        OkCommand = new AsyncRelayCommand(OkCommandHandler);
-    }
-
-    private async Task BackCommandHandler()
+    [RelayCommand]
+    private async Task Back()
     {
         await ReturnViewModel.Return(null);
     }
 
-    private async Task OkCommandHandler()
+    [RelayCommand]
+    private async Task Ok()
     {
         await ReturnViewModel.Return(this);
     }
