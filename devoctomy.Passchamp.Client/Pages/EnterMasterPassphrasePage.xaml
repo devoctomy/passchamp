@@ -4,6 +4,7 @@
                        x:Class="devoctomy.Passchamp.Client.Pages.EnterMasterPassphrasePage"
                        xmlns:pages="clr-namespace:devoctomy.Passchamp.Client.Pages.Base"
                        xmlns:vm="clr-namespace:devoctomy.Passchamp.Client.ViewModels;assembly=devoctomy.Passchamp.Client"
+                       xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                        Title="Enter Passphrase"
                        x:DataType="vm:EnterMasterPassphraseViewModel"
                        x:TypeArguments="vm:EnterMasterPassphraseViewModel">
@@ -37,7 +38,13 @@
         </Grid>
         <VerticalStackLayout Grid.Row="1">
             <Label Text="Master Passphrase" Style="{StaticResource MediumLabelStyle}" HorizontalTextAlignment="Start"></Label>
-            <Entry x:Name="MasterPassphraseEntry" IsPassword="True" Text="{Binding MasterPassphrase, Mode=TwoWay}"></Entry>
+            <Entry x:Name="MasterPassphraseEntry" IsPassword="True" Text="{Binding MasterPassphrase, Mode=TwoWay}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        EventName="Completed"
+                        Command="{Binding MasterPassphraseCompleteCommand}" />
+                </Entry.Behaviors>
+            </Entry>
         </VerticalStackLayout>
     </Grid>
 </pages:BaseContentPage>

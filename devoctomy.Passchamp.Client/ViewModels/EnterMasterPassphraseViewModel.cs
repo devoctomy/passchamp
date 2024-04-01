@@ -35,6 +35,12 @@ public partial class EnterMasterPassphraseViewModel : BaseViewModel
         await ReturnViewModel.Return(null);
     }
 
+    [RelayCommand]
+    private async Task MasterPassphraseComplete(object param)
+    {
+        await ReturnViewModel.Return(this);
+    }
+
     public override Task OnAppearingAsync()
     {
         return base.OnAppearingAsync();
