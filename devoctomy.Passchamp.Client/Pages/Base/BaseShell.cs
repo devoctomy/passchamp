@@ -1,4 +1,5 @@
 ﻿using devoctomy.Passchamp.Client.ViewModels.Base;
+using devoctomy.Passchamp.Maui.IO;
 using System.Diagnostics;
 
 namespace devoctomy.Passchamp.Client.Pages.Base;
@@ -60,5 +61,14 @@ public abstract class BaseShell : Shell
     {
         base.OnNavigated(args);
         _viewModel.Navigated(args);
+    }
+
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+#if ANDROID
+        var pathResolver = (Maui.Pathforms.Android.IO.PathResolver)MauiProgram.MauiApp.Services.GetService<IPathResolverService>();
+        pathResolver.Initialise(this.Handler.MauiContext);
+#endif
     }
 }
